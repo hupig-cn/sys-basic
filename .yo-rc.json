@@ -1,0 +1,41 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.weisen.www.code.yjf.basic",
+      "nativeLanguage": "zh-cn"
+    },
+    "jhipsterVersion": "6.0.1",
+    "applicationType": "microservice",
+    "baseName": "basic",
+    "packageName": "com.weisen.www.code.yjf.basic",
+    "packageFolder": "com/weisen/www/code/yjf/basic",
+    "serverPort": "8081",
+    "authenticationType": "uaa",
+    "uaaBaseName": "login",
+    "cacheProvider": "hazelcast",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "YzBmYjA3MmVhZDExZTk2NzdjNWZlYmZiZjM2MDViY2Y3ZDliNzI3ODRmOGUyYTk4YjNjYzhiNzZkMzIzNTEyYWQ3ZTAyYzcxMWVlYzhjYmQzNjg3MDc0ZDJkZDkyNGE3MzM4MTk0ZGY0ZjMzMDkwM2U3N2U1ZDUyZmQwNDlkNjQ=",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "clientPackageManager": "npm",
+    "nativeLanguage": "zh-cn",
+    "languages": [
+      "zh-cn"
+    ],
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}
