@@ -24,8 +24,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/weisen")
-@Api(tags = "后台广告管理")
+@RequestMapping("/weisen/advertisement")
+@Api(tags = "广告管理")
 public class Rewrite_AdvertisementResource {
 
     private Rewrite_AdvertisementService rewrite_AdvertisementService;
@@ -41,7 +41,7 @@ public class Rewrite_AdvertisementResource {
      * @param
      * @return
      */
-    @GetMapping("/public/app-homepage-advertisement")
+    @GetMapping("/app-homepage-advertisement")
     @ApiOperation(value = "APP首页轮播图显示")
     @Timed
     public ResponseEntity<Result> appHomepageAdvertisement() {
@@ -56,7 +56,7 @@ public class Rewrite_AdvertisementResource {
      * @param Rewrite_AdvertisementDTO
      * @return
      */
-    @PostMapping("/admin/create-advertisement")
+    @PostMapping("/create-advertisement")
     @ApiOperation(value = "新增广告管理")
     @Timed
     public ResponseEntity<Result> createAdvertisement(@Valid @RequestBody Rewrite_AdvertisementDTO rewrite_AdvertisementDTO) {
@@ -76,7 +76,7 @@ public class Rewrite_AdvertisementResource {
      * @param Rewrite_AdvertisementDTO
      * @return
      */
-    @PostMapping("/admin/update-advertisement")
+    @PostMapping("/update-advertisement")
     @ApiOperation(value = "修改广告管理")
     @Timed
     public ResponseEntity<Result> updateAdvertisement(@Valid @RequestBody Rewrite_AdvertisementDTO rewrite_AdvertisementDTO) {
@@ -96,7 +96,7 @@ public class Rewrite_AdvertisementResource {
      * @param Rewrite_AdvertisementOperationDTO
      * @return
      */
-    @PostMapping("/admin/operation-advertisement")
+    @PostMapping("/operation-advertisement")
     @ApiOperation(value = "操作广告管理(启用、禁用、删除)")
     @Timed
     public ResponseEntity<Result> operationAdvertisement(@Valid @RequestBody Rewrite_AdvertisementOperationDTO rewrite_AdvertisementOperationDTO) {
@@ -118,7 +118,7 @@ public class Rewrite_AdvertisementResource {
      * @param Rewrite_AdvertisementOperationDTO
      * @return
      */
-    @PostMapping("/admin/batch-delete-advertisement")
+    @PostMapping("/batch-delete-advertisement")
     @ApiOperation(value = "批量广告管理")
     @Timed
     public ResponseEntity<Result> batchDeleteAdvertisement(@RequestBody List<Long> deleteIds) {
@@ -138,7 +138,7 @@ public class Rewrite_AdvertisementResource {
      * @param Rewrite_AdvertisementOperationDTO
      * @return
      */
-    @PostMapping("/admin/get-one-advertisement")
+    @PostMapping("/get-one-advertisement")
     @ApiOperation(value = "查询单条广告管理")
     @Timed
     public ResponseEntity<Result> getOneAdvertisement(@Valid @RequestBody Rewrite_AdvertisementOperationDTO rewrite_AdvertisementOperationDTO) {
@@ -158,7 +158,7 @@ public class Rewrite_AdvertisementResource {
      * @param Rewrite_AdvertisementOperationDTO
      * @return
      */
-    @PostMapping("/admin/find-advertisement-list-by-name")
+    @PostMapping("/find-advertisement-list-by-name")
     @ApiOperation(value = "查询广告管理列表")
     @Timed
     public ResponseEntity<Result> findAdvertisementListByName(@Valid @RequestBody Rewrite_AdvertisementPageDTO rewrite_AdvertisementPageDTO) {
