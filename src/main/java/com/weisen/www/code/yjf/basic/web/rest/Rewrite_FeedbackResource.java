@@ -13,18 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.weisen.www.code.yjf.basic.service.Rewrite_FeedbackService;
-import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_AdvertisementDTO;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_FeedbackDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 import io.github.jhipster.web.util.ResponseUtil;
 import io.micrometer.core.annotation.Timed;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-/**
- * REST controller for managing {@link com.weisen.www.code.yjf.basic.domain.Feedback}.
- */
 @RestController
-@RequestMapping("/weisen")
+@RequestMapping("/weisen/feedback")
+@Api(tags = "001-反馈管理")
 public class Rewrite_FeedbackResource {
 
     private final Logger log = LoggerFactory.getLogger(Rewrite_FeedbackResource.class);
@@ -36,21 +35,21 @@ public class Rewrite_FeedbackResource {
     }
     
     /**
-     * 反馈管理
+     * 创建反馈信息
      * @author Carson
      * @date 2019-03-16 14:28:25
-     * @param Rewrite_AdvertisementDTO
+     * @param rewrite_FeedbackDTO
      * @return
      */
-    @PostMapping("/create-advertisement")
-    @ApiOperation(value = "反馈管理")
+    @PostMapping("/create-feedback")
+    @ApiOperation(value = "创建反馈信息")
     @Timed
-    public ResponseEntity<Result> createAdvertisement(@Valid @RequestBody Rewrite_AdvertisementDTO rewrite_AdvertisementDTO) {
+    public ResponseEntity<Result> createFeedback(@Valid @RequestBody Rewrite_FeedbackDTO rewrite_FeedbackDTO) {
     	Result result = null;
-    	if(null != rewrite_AdvertisementDTO.getId()) {
+    	if(null != rewrite_FeedbackDTO.getId()) {
     		result = Result.fail("非法传参，ID必须为空");
     	}else {
-    		result = rewrite_FeedbackService.createAdvertisement(rewrite_AdvertisementDTO);
+    		result = rewrite_FeedbackService.createFeedback(rewrite_FeedbackDTO);
     	}
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
