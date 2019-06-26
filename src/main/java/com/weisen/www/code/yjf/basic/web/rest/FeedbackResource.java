@@ -89,6 +89,8 @@ public class FeedbackResource {
      * {@code GET  /feedbacks} : get all the feedbacks.
      *
      * @param pageable the pagination information.
+     * @param queryParams a {@link MultiValueMap} query parameters.
+     * @param uriBuilder a {@link UriComponentsBuilder} URI builder.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of feedbacks in body.
      */
     @GetMapping("/feedbacks")

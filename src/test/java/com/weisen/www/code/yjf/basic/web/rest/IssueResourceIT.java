@@ -344,7 +344,7 @@ public class IssueResourceIT {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
-        // Validate the database is empty
+        // Validate the database contains one less item
         List<Issue> issueList = issueRepository.findAll();
         assertThat(issueList).hasSize(databaseSizeBeforeDelete - 1);
     }

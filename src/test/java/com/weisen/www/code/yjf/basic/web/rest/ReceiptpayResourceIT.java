@@ -395,7 +395,7 @@ public class ReceiptpayResourceIT {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
-        // Validate the database is empty
+        // Validate the database contains one less item
         List<Receiptpay> receiptpayList = receiptpayRepository.findAll();
         assertThat(receiptpayList).hasSize(databaseSizeBeforeDelete - 1);
     }

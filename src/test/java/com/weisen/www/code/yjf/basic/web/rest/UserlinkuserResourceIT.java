@@ -364,7 +364,7 @@ public class UserlinkuserResourceIT {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
-        // Validate the database is empty
+        // Validate the database contains one less item
         List<Userlinkuser> userlinkuserList = userlinkuserRepository.findAll();
         assertThat(userlinkuserList).hasSize(databaseSizeBeforeDelete - 1);
     }

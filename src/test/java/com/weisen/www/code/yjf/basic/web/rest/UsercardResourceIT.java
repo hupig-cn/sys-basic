@@ -354,7 +354,7 @@ public class UsercardResourceIT {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
-        // Validate the database is empty
+        // Validate the database contains one less item
         List<Usercard> usercardList = usercardRepository.findAll();
         assertThat(usercardList).hasSize(databaseSizeBeforeDelete - 1);
     }

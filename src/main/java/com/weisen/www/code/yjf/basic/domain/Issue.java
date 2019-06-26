@@ -1,13 +1,10 @@
 package com.weisen.www.code.yjf.basic.domain;
-
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * A Issue.
@@ -26,7 +23,7 @@ public class Issue implements Serializable {
     @Column(name = "answer")
     private String answer;
 
-    @Column(name = "jhi_type")
+    @Column(name = "type")
     private String type;
 
     @Column(name = "state")

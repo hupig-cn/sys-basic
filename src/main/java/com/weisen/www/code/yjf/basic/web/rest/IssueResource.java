@@ -89,6 +89,8 @@ public class IssueResource {
      * {@code GET  /issues} : get all the issues.
      *
      * @param pageable the pagination information.
+     * @param queryParams a {@link MultiValueMap} query parameters.
+     * @param uriBuilder a {@link UriComponentsBuilder} URI builder.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of issues in body.
      */
     @GetMapping("/issues")

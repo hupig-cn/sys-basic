@@ -89,6 +89,8 @@ public class LinkuserResource {
      * {@code GET  /linkusers} : get all the linkusers.
      *
      * @param pageable the pagination information.
+     * @param queryParams a {@link MultiValueMap} query parameters.
+     * @param uriBuilder a {@link UriComponentsBuilder} URI builder.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of linkusers in body.
      */
     @GetMapping("/linkusers")

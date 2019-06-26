@@ -375,7 +375,7 @@ public class UserorderResourceIT {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
-        // Validate the database is empty
+        // Validate the database contains one less item
         List<Userorder> userorderList = userorderRepository.findAll();
         assertThat(userorderList).hasSize(databaseSizeBeforeDelete - 1);
     }

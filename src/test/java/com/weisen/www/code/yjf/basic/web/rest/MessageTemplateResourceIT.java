@@ -324,7 +324,7 @@ public class MessageTemplateResourceIT {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
-        // Validate the database is empty
+        // Validate the database contains one less item
         List<MessageTemplate> messageTemplateList = messageTemplateRepository.findAll();
         assertThat(messageTemplateList).hasSize(databaseSizeBeforeDelete - 1);
     }

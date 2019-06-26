@@ -77,6 +77,11 @@
 
     </changeSet>
 
+    <changeSet id="20190609225504-1-relations" author="jhipster">
+
+    </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+
     <!--
         Load sample data generated with Faker.js
         - This data can be easily edited using a CSV editor (or even MS Excel) and
@@ -89,8 +94,7 @@
         <loadData
                   file="config/liquibase/data/userassets.csv"
                   separator=";"
-                  tableName="userassets"
-                  context="dev">
+                  tableName="userassets">
             <column name="id" type="numeric"/>
             <column name="userid" type="string"/>
             <column name="couponid" type="string"/>
@@ -106,11 +110,8 @@
             <column name="modifiernum" type="numeric"/>
             <column name="logicdelete" type="boolean"/>
             <column name="other" type="string"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>
 
-    <changeSet id="20190609225504-1-relations" author="jhipster">
-
-    </changeSet>
-    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

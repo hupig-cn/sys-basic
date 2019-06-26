@@ -354,7 +354,7 @@ public class CouponResourceIT {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
-        // Validate the database is empty
+        // Validate the database contains one less item
         List<Coupon> couponList = couponRepository.findAll();
         assertThat(couponList).hasSize(databaseSizeBeforeDelete - 1);
     }
