@@ -15,26 +15,38 @@
     <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
 
     <!--
-        Added the entity Withdrawal.
+        Added the entity Userorder.
     -->
-    <changeSet id="20190609225507-1" author="jhipster">
-        <createTable tableName="withdrawal">
+    <changeSet id="20190626021602-1" author="jhipster">
+        <createTable tableName="userorder">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="ordercode" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="orderstatus" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="sum" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="userid" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="withdrawalamount" type="varchar(255)">
+            <column name="payee" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="withdrawaltype" type="varchar(255)">
+            <column name="payway" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="gatheringway" type="varchar(255)">
+            <column name="payresult" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 

@@ -1,6 +1,6 @@
 package com.weisen.www.code.yjf.basic.service;
 
-import com.weisen.www.code.yjf.basic.service.dto.WithdrawalDTO;
+import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,37 +8,37 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 /**
- * Service Interface for managing Withdrawal.
+ * Service Interface for managing Receiptpay.
  */
-public interface WithdrawalService {
+public interface ReceiptpayService {
 
     /**
-     * Save a withdrawal.
+     * Save a receiptpay.
      *
-     * @param withdrawalDTO the entity to save
+     * @param receiptpayDTO the entity to save
      * @return the persisted entity
      */
-    WithdrawalDTO save(WithdrawalDTO withdrawalDTO);
+    ReceiptpayDTO save(ReceiptpayDTO receiptpayDTO);
 
     /**
-     * Get all the withdrawals.
+     * Get all the receiptpays.
      *
      * @param pageable the pagination information
      * @return the list of entities
      */
-    Page<WithdrawalDTO> findAll(Pageable pageable);
+    Page<ReceiptpayDTO> findAll(Pageable pageable);
 
 
     /**
-     * Get the "id" withdrawal.
+     * Get the "id" receiptpay.
      *
      * @param id the id of the entity
      * @return the entity
      */
-    Optional<WithdrawalDTO> findOne(Long id);
+    Optional<ReceiptpayDTO> findOne(Long id);
 
     /**
-     * Delete the "id" withdrawal.
+     * Delete the "id" receiptpay.
      *
      * @param id the id of the entity
      */

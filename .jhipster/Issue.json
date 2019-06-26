@@ -1,20 +1,20 @@
 {
-    "name": "Withdrawal",
+    "name": "Issue",
     "fields": [
         {
-            "fieldName": "userid",
+            "fieldName": "answer",
             "fieldType": "String"
         },
         {
-            "fieldName": "withdrawalamount",
+            "fieldName": "type",
             "fieldType": "String"
         },
         {
-            "fieldName": "withdrawaltype",
+            "fieldName": "state",
             "fieldType": "String"
         },
         {
-            "fieldName": "gatheringway",
+            "fieldName": "problem",
             "fieldType": "String"
         },
         {
@@ -47,8 +47,8 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190609225507",
-    "entityTableName": "withdrawal",
+    "changelogDate": "20190626021601",
+    "entityTableName": "issue",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
     "service": "serviceImpl",

@@ -7,15 +7,16 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * A Withdrawal.
+ * A Receiptpay.
  */
 @Entity
-@Table(name = "withdrawal")
+@Table(name = "receiptpay")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Withdrawal implements Serializable {
+public class Receiptpay implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -23,17 +24,32 @@ public class Withdrawal implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "dealtype")
+    private String dealtype;
+
     @Column(name = "userid")
     private String userid;
 
-    @Column(name = "withdrawalamount")
-    private String withdrawalamount;
+    @Column(name = "sourcer")
+    private String sourcer;
 
-    @Column(name = "withdrawaltype")
-    private String withdrawaltype;
+    @Column(name = "benefit")
+    private String benefit;
 
-    @Column(name = "gatheringway")
-    private String gatheringway;
+    @Column(name = "amount", precision = 10, scale = 2)
+    private BigDecimal amount;
+
+    @Column(name = "bonus", precision = 10, scale = 2)
+    private BigDecimal bonus;
+
+    @Column(name = "happendate")
+    private String happendate;
+
+    @Column(name = "freezedate")
+    private String freezedate;
+
+    @Column(name = "dealstate")
+    private String dealstate;
 
     @Column(name = "creator")
     private String creator;
@@ -65,11 +81,24 @@ public class Withdrawal implements Serializable {
         this.id = id;
     }
 
+    public String getDealtype() {
+        return dealtype;
+    }
+
+    public Receiptpay dealtype(String dealtype) {
+        this.dealtype = dealtype;
+        return this;
+    }
+
+    public void setDealtype(String dealtype) {
+        this.dealtype = dealtype;
+    }
+
     public String getUserid() {
         return userid;
     }
 
-    public Withdrawal userid(String userid) {
+    public Receiptpay userid(String userid) {
         this.userid = userid;
         return this;
     }
@@ -78,50 +107,102 @@ public class Withdrawal implements Serializable {
         this.userid = userid;
     }
 
-    public String getWithdrawalamount() {
-        return withdrawalamount;
+    public String getSourcer() {
+        return sourcer;
     }
 
-    public Withdrawal withdrawalamount(String withdrawalamount) {
-        this.withdrawalamount = withdrawalamount;
+    public Receiptpay sourcer(String sourcer) {
+        this.sourcer = sourcer;
         return this;
     }
 
-    public void setWithdrawalamount(String withdrawalamount) {
-        this.withdrawalamount = withdrawalamount;
+    public void setSourcer(String sourcer) {
+        this.sourcer = sourcer;
     }
 
-    public String getWithdrawaltype() {
-        return withdrawaltype;
+    public String getBenefit() {
+        return benefit;
     }
 
-    public Withdrawal withdrawaltype(String withdrawaltype) {
-        this.withdrawaltype = withdrawaltype;
+    public Receiptpay benefit(String benefit) {
+        this.benefit = benefit;
         return this;
     }
 
-    public void setWithdrawaltype(String withdrawaltype) {
-        this.withdrawaltype = withdrawaltype;
+    public void setBenefit(String benefit) {
+        this.benefit = benefit;
     }
 
-    public String getGatheringway() {
-        return gatheringway;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public Withdrawal gatheringway(String gatheringway) {
-        this.gatheringway = gatheringway;
+    public Receiptpay amount(BigDecimal amount) {
+        this.amount = amount;
         return this;
     }
 
-    public void setGatheringway(String gatheringway) {
-        this.gatheringway = gatheringway;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public BigDecimal getBonus() {
+        return bonus;
+    }
+
+    public Receiptpay bonus(BigDecimal bonus) {
+        this.bonus = bonus;
+        return this;
+    }
+
+    public void setBonus(BigDecimal bonus) {
+        this.bonus = bonus;
+    }
+
+    public String getHappendate() {
+        return happendate;
+    }
+
+    public Receiptpay happendate(String happendate) {
+        this.happendate = happendate;
+        return this;
+    }
+
+    public void setHappendate(String happendate) {
+        this.happendate = happendate;
+    }
+
+    public String getFreezedate() {
+        return freezedate;
+    }
+
+    public Receiptpay freezedate(String freezedate) {
+        this.freezedate = freezedate;
+        return this;
+    }
+
+    public void setFreezedate(String freezedate) {
+        this.freezedate = freezedate;
+    }
+
+    public String getDealstate() {
+        return dealstate;
+    }
+
+    public Receiptpay dealstate(String dealstate) {
+        this.dealstate = dealstate;
+        return this;
+    }
+
+    public void setDealstate(String dealstate) {
+        this.dealstate = dealstate;
     }
 
     public String getCreator() {
         return creator;
     }
 
-    public Withdrawal creator(String creator) {
+    public Receiptpay creator(String creator) {
         this.creator = creator;
         return this;
     }
@@ -134,7 +215,7 @@ public class Withdrawal implements Serializable {
         return createdate;
     }
 
-    public Withdrawal createdate(String createdate) {
+    public Receiptpay createdate(String createdate) {
         this.createdate = createdate;
         return this;
     }
@@ -147,7 +228,7 @@ public class Withdrawal implements Serializable {
         return modifier;
     }
 
-    public Withdrawal modifier(String modifier) {
+    public Receiptpay modifier(String modifier) {
         this.modifier = modifier;
         return this;
     }
@@ -160,7 +241,7 @@ public class Withdrawal implements Serializable {
         return modifierdate;
     }
 
-    public Withdrawal modifierdate(String modifierdate) {
+    public Receiptpay modifierdate(String modifierdate) {
         this.modifierdate = modifierdate;
         return this;
     }
@@ -173,7 +254,7 @@ public class Withdrawal implements Serializable {
         return modifiernum;
     }
 
-    public Withdrawal modifiernum(Long modifiernum) {
+    public Receiptpay modifiernum(Long modifiernum) {
         this.modifiernum = modifiernum;
         return this;
     }
@@ -186,7 +267,7 @@ public class Withdrawal implements Serializable {
         return logicdelete;
     }
 
-    public Withdrawal logicdelete(Boolean logicdelete) {
+    public Receiptpay logicdelete(Boolean logicdelete) {
         this.logicdelete = logicdelete;
         return this;
     }
@@ -199,7 +280,7 @@ public class Withdrawal implements Serializable {
         return other;
     }
 
-    public Withdrawal other(String other) {
+    public Receiptpay other(String other) {
         this.other = other;
         return this;
     }
@@ -217,11 +298,11 @@ public class Withdrawal implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Withdrawal withdrawal = (Withdrawal) o;
-        if (withdrawal.getId() == null || getId() == null) {
+        Receiptpay receiptpay = (Receiptpay) o;
+        if (receiptpay.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), withdrawal.getId());
+        return Objects.equals(getId(), receiptpay.getId());
     }
 
     @Override
@@ -231,12 +312,17 @@ public class Withdrawal implements Serializable {
 
     @Override
     public String toString() {
-        return "Withdrawal{" +
+        return "Receiptpay{" +
             "id=" + getId() +
+            ", dealtype='" + getDealtype() + "'" +
             ", userid='" + getUserid() + "'" +
-            ", withdrawalamount='" + getWithdrawalamount() + "'" +
-            ", withdrawaltype='" + getWithdrawaltype() + "'" +
-            ", gatheringway='" + getGatheringway() + "'" +
+            ", sourcer='" + getSourcer() + "'" +
+            ", benefit='" + getBenefit() + "'" +
+            ", amount=" + getAmount() +
+            ", bonus=" + getBonus() +
+            ", happendate='" + getHappendate() + "'" +
+            ", freezedate='" + getFreezedate() + "'" +
+            ", dealstate='" + getDealstate() + "'" +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +

@@ -1,20 +1,40 @@
 {
-    "name": "Withdrawal",
+    "name": "Receiptpay",
     "fields": [
+        {
+            "fieldName": "dealtype",
+            "fieldType": "String"
+        },
         {
             "fieldName": "userid",
             "fieldType": "String"
         },
         {
-            "fieldName": "withdrawalamount",
+            "fieldName": "sourcer",
             "fieldType": "String"
         },
         {
-            "fieldName": "withdrawaltype",
+            "fieldName": "benefit",
             "fieldType": "String"
         },
         {
-            "fieldName": "gatheringway",
+            "fieldName": "amount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "bonus",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "happendate",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "freezedate",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "dealstate",
             "fieldType": "String"
         },
         {
@@ -47,8 +67,8 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190609225507",
-    "entityTableName": "withdrawal",
+    "changelogDate": "20190626021603",
+    "entityTableName": "receiptpay",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
     "service": "serviceImpl",

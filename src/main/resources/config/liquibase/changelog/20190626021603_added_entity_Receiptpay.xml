@@ -15,26 +15,46 @@
     <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
 
     <!--
-        Added the entity Withdrawal.
+        Added the entity Receiptpay.
     -->
-    <changeSet id="20190609225507-1" author="jhipster">
-        <createTable tableName="withdrawal">
+    <changeSet id="20190626021603-1" author="jhipster">
+        <createTable tableName="receiptpay">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="dealtype" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="userid" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="withdrawalamount" type="varchar(255)">
+            <column name="sourcer" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="withdrawaltype" type="varchar(255)">
+            <column name="benefit" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="gatheringway" type="varchar(255)">
+            <column name="amount" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="bonus" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="happendate" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="freezedate" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="dealstate" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 

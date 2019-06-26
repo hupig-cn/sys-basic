@@ -7,15 +7,16 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * A Withdrawal.
+ * A Userorder.
  */
 @Entity
-@Table(name = "withdrawal")
+@Table(name = "userorder")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Withdrawal implements Serializable {
+public class Userorder implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -23,17 +24,26 @@ public class Withdrawal implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "ordercode")
+    private String ordercode;
+
+    @Column(name = "orderstatus")
+    private String orderstatus;
+
+    @Column(name = "sum", precision = 10, scale = 2)
+    private BigDecimal sum;
+
     @Column(name = "userid")
     private String userid;
 
-    @Column(name = "withdrawalamount")
-    private String withdrawalamount;
+    @Column(name = "payee")
+    private String payee;
 
-    @Column(name = "withdrawaltype")
-    private String withdrawaltype;
+    @Column(name = "payway")
+    private String payway;
 
-    @Column(name = "gatheringway")
-    private String gatheringway;
+    @Column(name = "payresult")
+    private String payresult;
 
     @Column(name = "creator")
     private String creator;
@@ -65,11 +75,50 @@ public class Withdrawal implements Serializable {
         this.id = id;
     }
 
+    public String getOrdercode() {
+        return ordercode;
+    }
+
+    public Userorder ordercode(String ordercode) {
+        this.ordercode = ordercode;
+        return this;
+    }
+
+    public void setOrdercode(String ordercode) {
+        this.ordercode = ordercode;
+    }
+
+    public String getOrderstatus() {
+        return orderstatus;
+    }
+
+    public Userorder orderstatus(String orderstatus) {
+        this.orderstatus = orderstatus;
+        return this;
+    }
+
+    public void setOrderstatus(String orderstatus) {
+        this.orderstatus = orderstatus;
+    }
+
+    public BigDecimal getSum() {
+        return sum;
+    }
+
+    public Userorder sum(BigDecimal sum) {
+        this.sum = sum;
+        return this;
+    }
+
+    public void setSum(BigDecimal sum) {
+        this.sum = sum;
+    }
+
     public String getUserid() {
         return userid;
     }
 
-    public Withdrawal userid(String userid) {
+    public Userorder userid(String userid) {
         this.userid = userid;
         return this;
     }
@@ -78,50 +127,50 @@ public class Withdrawal implements Serializable {
         this.userid = userid;
     }
 
-    public String getWithdrawalamount() {
-        return withdrawalamount;
+    public String getPayee() {
+        return payee;
     }
 
-    public Withdrawal withdrawalamount(String withdrawalamount) {
-        this.withdrawalamount = withdrawalamount;
+    public Userorder payee(String payee) {
+        this.payee = payee;
         return this;
     }
 
-    public void setWithdrawalamount(String withdrawalamount) {
-        this.withdrawalamount = withdrawalamount;
+    public void setPayee(String payee) {
+        this.payee = payee;
     }
 
-    public String getWithdrawaltype() {
-        return withdrawaltype;
+    public String getPayway() {
+        return payway;
     }
 
-    public Withdrawal withdrawaltype(String withdrawaltype) {
-        this.withdrawaltype = withdrawaltype;
+    public Userorder payway(String payway) {
+        this.payway = payway;
         return this;
     }
 
-    public void setWithdrawaltype(String withdrawaltype) {
-        this.withdrawaltype = withdrawaltype;
+    public void setPayway(String payway) {
+        this.payway = payway;
     }
 
-    public String getGatheringway() {
-        return gatheringway;
+    public String getPayresult() {
+        return payresult;
     }
 
-    public Withdrawal gatheringway(String gatheringway) {
-        this.gatheringway = gatheringway;
+    public Userorder payresult(String payresult) {
+        this.payresult = payresult;
         return this;
     }
 
-    public void setGatheringway(String gatheringway) {
-        this.gatheringway = gatheringway;
+    public void setPayresult(String payresult) {
+        this.payresult = payresult;
     }
 
     public String getCreator() {
         return creator;
     }
 
-    public Withdrawal creator(String creator) {
+    public Userorder creator(String creator) {
         this.creator = creator;
         return this;
     }
@@ -134,7 +183,7 @@ public class Withdrawal implements Serializable {
         return createdate;
     }
 
-    public Withdrawal createdate(String createdate) {
+    public Userorder createdate(String createdate) {
         this.createdate = createdate;
         return this;
     }
@@ -147,7 +196,7 @@ public class Withdrawal implements Serializable {
         return modifier;
     }
 
-    public Withdrawal modifier(String modifier) {
+    public Userorder modifier(String modifier) {
         this.modifier = modifier;
         return this;
     }
@@ -160,7 +209,7 @@ public class Withdrawal implements Serializable {
         return modifierdate;
     }
 
-    public Withdrawal modifierdate(String modifierdate) {
+    public Userorder modifierdate(String modifierdate) {
         this.modifierdate = modifierdate;
         return this;
     }
@@ -173,7 +222,7 @@ public class Withdrawal implements Serializable {
         return modifiernum;
     }
 
-    public Withdrawal modifiernum(Long modifiernum) {
+    public Userorder modifiernum(Long modifiernum) {
         this.modifiernum = modifiernum;
         return this;
     }
@@ -186,7 +235,7 @@ public class Withdrawal implements Serializable {
         return logicdelete;
     }
 
-    public Withdrawal logicdelete(Boolean logicdelete) {
+    public Userorder logicdelete(Boolean logicdelete) {
         this.logicdelete = logicdelete;
         return this;
     }
@@ -199,7 +248,7 @@ public class Withdrawal implements Serializable {
         return other;
     }
 
-    public Withdrawal other(String other) {
+    public Userorder other(String other) {
         this.other = other;
         return this;
     }
@@ -217,11 +266,11 @@ public class Withdrawal implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Withdrawal withdrawal = (Withdrawal) o;
-        if (withdrawal.getId() == null || getId() == null) {
+        Userorder userorder = (Userorder) o;
+        if (userorder.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), withdrawal.getId());
+        return Objects.equals(getId(), userorder.getId());
     }
 
     @Override
@@ -231,12 +280,15 @@ public class Withdrawal implements Serializable {
 
     @Override
     public String toString() {
-        return "Withdrawal{" +
+        return "Userorder{" +
             "id=" + getId() +
+            ", ordercode='" + getOrdercode() + "'" +
+            ", orderstatus='" + getOrderstatus() + "'" +
+            ", sum=" + getSum() +
             ", userid='" + getUserid() + "'" +
-            ", withdrawalamount='" + getWithdrawalamount() + "'" +
-            ", withdrawaltype='" + getWithdrawaltype() + "'" +
-            ", gatheringway='" + getGatheringway() + "'" +
+            ", payee='" + getPayee() + "'" +
+            ", payway='" + getPayway() + "'" +
+            ", payresult='" + getPayresult() + "'" +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +

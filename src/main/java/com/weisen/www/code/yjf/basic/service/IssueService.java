@@ -1,6 +1,6 @@
 package com.weisen.www.code.yjf.basic.service;
 
-import com.weisen.www.code.yjf.basic.service.dto.WithdrawalDTO;
+import com.weisen.www.code.yjf.basic.service.dto.IssueDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,37 +8,37 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 /**
- * Service Interface for managing Withdrawal.
+ * Service Interface for managing Issue.
  */
-public interface WithdrawalService {
+public interface IssueService {
 
     /**
-     * Save a withdrawal.
+     * Save a issue.
      *
-     * @param withdrawalDTO the entity to save
+     * @param issueDTO the entity to save
      * @return the persisted entity
      */
-    WithdrawalDTO save(WithdrawalDTO withdrawalDTO);
+    IssueDTO save(IssueDTO issueDTO);
 
     /**
-     * Get all the withdrawals.
+     * Get all the issues.
      *
      * @param pageable the pagination information
      * @return the list of entities
      */
-    Page<WithdrawalDTO> findAll(Pageable pageable);
+    Page<IssueDTO> findAll(Pageable pageable);
 
 
     /**
-     * Get the "id" withdrawal.
+     * Get the "id" issue.
      *
      * @param id the id of the entity
      * @return the entity
      */
-    Optional<WithdrawalDTO> findOne(Long id);
+    Optional<IssueDTO> findOne(Long id);
 
     /**
-     * Delete the "id" withdrawal.
+     * Delete the "id" issue.
      *
      * @param id the id of the entity
      */

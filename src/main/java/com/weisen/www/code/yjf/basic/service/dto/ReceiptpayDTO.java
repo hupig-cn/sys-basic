@@ -1,21 +1,32 @@
 package com.weisen.www.code.yjf.basic.service.dto;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * A DTO for the Withdrawal entity.
+ * A DTO for the Receiptpay entity.
  */
-public class WithdrawalDTO implements Serializable {
+public class ReceiptpayDTO implements Serializable {
 
     private Long id;
 
+    private String dealtype;
+
     private String userid;
 
-    private String withdrawalamount;
+    private String sourcer;
 
-    private String withdrawaltype;
+    private String benefit;
 
-    private String gatheringway;
+    private BigDecimal amount;
+
+    private BigDecimal bonus;
+
+    private String happendate;
+
+    private String freezedate;
+
+    private String dealstate;
 
     private String creator;
 
@@ -40,6 +51,14 @@ public class WithdrawalDTO implements Serializable {
         this.id = id;
     }
 
+    public String getDealtype() {
+        return dealtype;
+    }
+
+    public void setDealtype(String dealtype) {
+        this.dealtype = dealtype;
+    }
+
     public String getUserid() {
         return userid;
     }
@@ -48,28 +67,60 @@ public class WithdrawalDTO implements Serializable {
         this.userid = userid;
     }
 
-    public String getWithdrawalamount() {
-        return withdrawalamount;
+    public String getSourcer() {
+        return sourcer;
     }
 
-    public void setWithdrawalamount(String withdrawalamount) {
-        this.withdrawalamount = withdrawalamount;
+    public void setSourcer(String sourcer) {
+        this.sourcer = sourcer;
     }
 
-    public String getWithdrawaltype() {
-        return withdrawaltype;
+    public String getBenefit() {
+        return benefit;
     }
 
-    public void setWithdrawaltype(String withdrawaltype) {
-        this.withdrawaltype = withdrawaltype;
+    public void setBenefit(String benefit) {
+        this.benefit = benefit;
     }
 
-    public String getGatheringway() {
-        return gatheringway;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setGatheringway(String gatheringway) {
-        this.gatheringway = gatheringway;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public BigDecimal getBonus() {
+        return bonus;
+    }
+
+    public void setBonus(BigDecimal bonus) {
+        this.bonus = bonus;
+    }
+
+    public String getHappendate() {
+        return happendate;
+    }
+
+    public void setHappendate(String happendate) {
+        this.happendate = happendate;
+    }
+
+    public String getFreezedate() {
+        return freezedate;
+    }
+
+    public void setFreezedate(String freezedate) {
+        this.freezedate = freezedate;
+    }
+
+    public String getDealstate() {
+        return dealstate;
+    }
+
+    public void setDealstate(String dealstate) {
+        this.dealstate = dealstate;
     }
 
     public String getCreator() {
@@ -137,11 +188,11 @@ public class WithdrawalDTO implements Serializable {
             return false;
         }
 
-        WithdrawalDTO withdrawalDTO = (WithdrawalDTO) o;
-        if (withdrawalDTO.getId() == null || getId() == null) {
+        ReceiptpayDTO receiptpayDTO = (ReceiptpayDTO) o;
+        if (receiptpayDTO.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), withdrawalDTO.getId());
+        return Objects.equals(getId(), receiptpayDTO.getId());
     }
 
     @Override
@@ -151,12 +202,17 @@ public class WithdrawalDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "WithdrawalDTO{" +
+        return "ReceiptpayDTO{" +
             "id=" + getId() +
+            ", dealtype='" + getDealtype() + "'" +
             ", userid='" + getUserid() + "'" +
-            ", withdrawalamount='" + getWithdrawalamount() + "'" +
-            ", withdrawaltype='" + getWithdrawaltype() + "'" +
-            ", gatheringway='" + getGatheringway() + "'" +
+            ", sourcer='" + getSourcer() + "'" +
+            ", benefit='" + getBenefit() + "'" +
+            ", amount=" + getAmount() +
+            ", bonus=" + getBonus() +
+            ", happendate='" + getHappendate() + "'" +
+            ", freezedate='" + getFreezedate() + "'" +
+            ", dealstate='" + getDealstate() + "'" +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +

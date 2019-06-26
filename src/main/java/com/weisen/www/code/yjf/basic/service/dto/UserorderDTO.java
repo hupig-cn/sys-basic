@@ -1,21 +1,28 @@
 package com.weisen.www.code.yjf.basic.service.dto;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * A DTO for the Withdrawal entity.
+ * A DTO for the Userorder entity.
  */
-public class WithdrawalDTO implements Serializable {
+public class UserorderDTO implements Serializable {
 
     private Long id;
 
+    private String ordercode;
+
+    private String orderstatus;
+
+    private BigDecimal sum;
+
     private String userid;
 
-    private String withdrawalamount;
+    private String payee;
 
-    private String withdrawaltype;
+    private String payway;
 
-    private String gatheringway;
+    private String payresult;
 
     private String creator;
 
@@ -40,6 +47,30 @@ public class WithdrawalDTO implements Serializable {
         this.id = id;
     }
 
+    public String getOrdercode() {
+        return ordercode;
+    }
+
+    public void setOrdercode(String ordercode) {
+        this.ordercode = ordercode;
+    }
+
+    public String getOrderstatus() {
+        return orderstatus;
+    }
+
+    public void setOrderstatus(String orderstatus) {
+        this.orderstatus = orderstatus;
+    }
+
+    public BigDecimal getSum() {
+        return sum;
+    }
+
+    public void setSum(BigDecimal sum) {
+        this.sum = sum;
+    }
+
     public String getUserid() {
         return userid;
     }
@@ -48,28 +79,28 @@ public class WithdrawalDTO implements Serializable {
         this.userid = userid;
     }
 
-    public String getWithdrawalamount() {
-        return withdrawalamount;
+    public String getPayee() {
+        return payee;
     }
 
-    public void setWithdrawalamount(String withdrawalamount) {
-        this.withdrawalamount = withdrawalamount;
+    public void setPayee(String payee) {
+        this.payee = payee;
     }
 
-    public String getWithdrawaltype() {
-        return withdrawaltype;
+    public String getPayway() {
+        return payway;
     }
 
-    public void setWithdrawaltype(String withdrawaltype) {
-        this.withdrawaltype = withdrawaltype;
+    public void setPayway(String payway) {
+        this.payway = payway;
     }
 
-    public String getGatheringway() {
-        return gatheringway;
+    public String getPayresult() {
+        return payresult;
     }
 
-    public void setGatheringway(String gatheringway) {
-        this.gatheringway = gatheringway;
+    public void setPayresult(String payresult) {
+        this.payresult = payresult;
     }
 
     public String getCreator() {
@@ -137,11 +168,11 @@ public class WithdrawalDTO implements Serializable {
             return false;
         }
 
-        WithdrawalDTO withdrawalDTO = (WithdrawalDTO) o;
-        if (withdrawalDTO.getId() == null || getId() == null) {
+        UserorderDTO userorderDTO = (UserorderDTO) o;
+        if (userorderDTO.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), withdrawalDTO.getId());
+        return Objects.equals(getId(), userorderDTO.getId());
     }
 
     @Override
@@ -151,12 +182,15 @@ public class WithdrawalDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "WithdrawalDTO{" +
+        return "UserorderDTO{" +
             "id=" + getId() +
+            ", ordercode='" + getOrdercode() + "'" +
+            ", orderstatus='" + getOrderstatus() + "'" +
+            ", sum=" + getSum() +
             ", userid='" + getUserid() + "'" +
-            ", withdrawalamount='" + getWithdrawalamount() + "'" +
-            ", withdrawaltype='" + getWithdrawaltype() + "'" +
-            ", gatheringway='" + getGatheringway() + "'" +
+            ", payee='" + getPayee() + "'" +
+            ", payway='" + getPayway() + "'" +
+            ", payresult='" + getPayresult() + "'" +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +

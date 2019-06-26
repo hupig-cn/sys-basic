@@ -1,20 +1,32 @@
 {
-    "name": "Withdrawal",
+    "name": "Userorder",
     "fields": [
+        {
+            "fieldName": "ordercode",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "orderstatus",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "sum",
+            "fieldType": "BigDecimal"
+        },
         {
             "fieldName": "userid",
             "fieldType": "String"
         },
         {
-            "fieldName": "withdrawalamount",
+            "fieldName": "payee",
             "fieldType": "String"
         },
         {
-            "fieldName": "withdrawaltype",
+            "fieldName": "payway",
             "fieldType": "String"
         },
         {
-            "fieldName": "gatheringway",
+            "fieldName": "payresult",
             "fieldType": "String"
         },
         {
@@ -47,8 +59,8 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190609225507",
-    "entityTableName": "withdrawal",
+    "changelogDate": "20190626021602",
+    "entityTableName": "userorder",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
     "service": "serviceImpl",

@@ -10,12 +10,12 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A Withdrawal.
+ * A Issue.
  */
 @Entity
-@Table(name = "withdrawal")
+@Table(name = "issue")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Withdrawal implements Serializable {
+public class Issue implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -23,17 +23,17 @@ public class Withdrawal implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "userid")
-    private String userid;
+    @Column(name = "answer")
+    private String answer;
 
-    @Column(name = "withdrawalamount")
-    private String withdrawalamount;
+    @Column(name = "jhi_type")
+    private String type;
 
-    @Column(name = "withdrawaltype")
-    private String withdrawaltype;
+    @Column(name = "state")
+    private String state;
 
-    @Column(name = "gatheringway")
-    private String gatheringway;
+    @Column(name = "problem")
+    private String problem;
 
     @Column(name = "creator")
     private String creator;
@@ -65,63 +65,63 @@ public class Withdrawal implements Serializable {
         this.id = id;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getAnswer() {
+        return answer;
     }
 
-    public Withdrawal userid(String userid) {
-        this.userid = userid;
+    public Issue answer(String answer) {
+        this.answer = answer;
         return this;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
-    public String getWithdrawalamount() {
-        return withdrawalamount;
+    public String getType() {
+        return type;
     }
 
-    public Withdrawal withdrawalamount(String withdrawalamount) {
-        this.withdrawalamount = withdrawalamount;
+    public Issue type(String type) {
+        this.type = type;
         return this;
     }
 
-    public void setWithdrawalamount(String withdrawalamount) {
-        this.withdrawalamount = withdrawalamount;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getWithdrawaltype() {
-        return withdrawaltype;
+    public String getState() {
+        return state;
     }
 
-    public Withdrawal withdrawaltype(String withdrawaltype) {
-        this.withdrawaltype = withdrawaltype;
+    public Issue state(String state) {
+        this.state = state;
         return this;
     }
 
-    public void setWithdrawaltype(String withdrawaltype) {
-        this.withdrawaltype = withdrawaltype;
+    public void setState(String state) {
+        this.state = state;
     }
 
-    public String getGatheringway() {
-        return gatheringway;
+    public String getProblem() {
+        return problem;
     }
 
-    public Withdrawal gatheringway(String gatheringway) {
-        this.gatheringway = gatheringway;
+    public Issue problem(String problem) {
+        this.problem = problem;
         return this;
     }
 
-    public void setGatheringway(String gatheringway) {
-        this.gatheringway = gatheringway;
+    public void setProblem(String problem) {
+        this.problem = problem;
     }
 
     public String getCreator() {
         return creator;
     }
 
-    public Withdrawal creator(String creator) {
+    public Issue creator(String creator) {
         this.creator = creator;
         return this;
     }
@@ -134,7 +134,7 @@ public class Withdrawal implements Serializable {
         return createdate;
     }
 
-    public Withdrawal createdate(String createdate) {
+    public Issue createdate(String createdate) {
         this.createdate = createdate;
         return this;
     }
@@ -147,7 +147,7 @@ public class Withdrawal implements Serializable {
         return modifier;
     }
 
-    public Withdrawal modifier(String modifier) {
+    public Issue modifier(String modifier) {
         this.modifier = modifier;
         return this;
     }
@@ -160,7 +160,7 @@ public class Withdrawal implements Serializable {
         return modifierdate;
     }
 
-    public Withdrawal modifierdate(String modifierdate) {
+    public Issue modifierdate(String modifierdate) {
         this.modifierdate = modifierdate;
         return this;
     }
@@ -173,7 +173,7 @@ public class Withdrawal implements Serializable {
         return modifiernum;
     }
 
-    public Withdrawal modifiernum(Long modifiernum) {
+    public Issue modifiernum(Long modifiernum) {
         this.modifiernum = modifiernum;
         return this;
     }
@@ -186,7 +186,7 @@ public class Withdrawal implements Serializable {
         return logicdelete;
     }
 
-    public Withdrawal logicdelete(Boolean logicdelete) {
+    public Issue logicdelete(Boolean logicdelete) {
         this.logicdelete = logicdelete;
         return this;
     }
@@ -199,7 +199,7 @@ public class Withdrawal implements Serializable {
         return other;
     }
 
-    public Withdrawal other(String other) {
+    public Issue other(String other) {
         this.other = other;
         return this;
     }
@@ -217,11 +217,11 @@ public class Withdrawal implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Withdrawal withdrawal = (Withdrawal) o;
-        if (withdrawal.getId() == null || getId() == null) {
+        Issue issue = (Issue) o;
+        if (issue.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), withdrawal.getId());
+        return Objects.equals(getId(), issue.getId());
     }
 
     @Override
@@ -231,12 +231,12 @@ public class Withdrawal implements Serializable {
 
     @Override
     public String toString() {
-        return "Withdrawal{" +
+        return "Issue{" +
             "id=" + getId() +
-            ", userid='" + getUserid() + "'" +
-            ", withdrawalamount='" + getWithdrawalamount() + "'" +
-            ", withdrawaltype='" + getWithdrawaltype() + "'" +
-            ", gatheringway='" + getGatheringway() + "'" +
+            ", answer='" + getAnswer() + "'" +
+            ", type='" + getType() + "'" +
+            ", state='" + getState() + "'" +
+            ", problem='" + getProblem() + "'" +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +

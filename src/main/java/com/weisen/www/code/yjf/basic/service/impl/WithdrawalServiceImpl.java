@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
- * Service Implementation for managing {@link Withdrawal}.
+ * Service Implementation for managing Withdrawal.
  */
 @Service
 @Transactional
@@ -36,8 +36,8 @@ public class WithdrawalServiceImpl implements WithdrawalService {
     /**
      * Save a withdrawal.
      *
-     * @param withdrawalDTO the entity to save.
-     * @return the persisted entity.
+     * @param withdrawalDTO the entity to save
+     * @return the persisted entity
      */
     @Override
     public WithdrawalDTO save(WithdrawalDTO withdrawalDTO) {
@@ -50,8 +50,8 @@ public class WithdrawalServiceImpl implements WithdrawalService {
     /**
      * Get all the withdrawals.
      *
-     * @param pageable the pagination information.
-     * @return the list of entities.
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -65,8 +65,8 @@ public class WithdrawalServiceImpl implements WithdrawalService {
     /**
      * Get one withdrawal by id.
      *
-     * @param id the id of the entity.
-     * @return the entity.
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -79,11 +79,10 @@ public class WithdrawalServiceImpl implements WithdrawalService {
     /**
      * Delete the withdrawal by id.
      *
-     * @param id the id of the entity.
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete Withdrawal : {}", id);
-        withdrawalRepository.deleteById(id);
+        log.debug("Request to delete Withdrawal : {}", id);        withdrawalRepository.deleteById(id);
     }
 }

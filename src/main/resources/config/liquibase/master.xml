@@ -25,6 +25,11 @@
     <include file="config/liquibase/changelog/20190609225510_added_entity_Percentage.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190612180307_added_entity_Paymethod.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190624024320_added_entity_Advertisement.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190626021600_added_entity_Area.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190626021601_added_entity_Issue.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190626021602_added_entity_Userorder.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190626021603_added_entity_Receiptpay.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190626021604_added_entity_MessageTemplate.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

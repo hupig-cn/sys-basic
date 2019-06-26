@@ -3,19 +3,19 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A DTO for the Withdrawal entity.
+ * A DTO for the Issue entity.
  */
-public class WithdrawalDTO implements Serializable {
+public class IssueDTO implements Serializable {
 
     private Long id;
 
-    private String userid;
+    private String answer;
 
-    private String withdrawalamount;
+    private String type;
 
-    private String withdrawaltype;
+    private String state;
 
-    private String gatheringway;
+    private String problem;
 
     private String creator;
 
@@ -40,36 +40,36 @@ public class WithdrawalDTO implements Serializable {
         this.id = id;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getAnswer() {
+        return answer;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
-    public String getWithdrawalamount() {
-        return withdrawalamount;
+    public String getType() {
+        return type;
     }
 
-    public void setWithdrawalamount(String withdrawalamount) {
-        this.withdrawalamount = withdrawalamount;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getWithdrawaltype() {
-        return withdrawaltype;
+    public String getState() {
+        return state;
     }
 
-    public void setWithdrawaltype(String withdrawaltype) {
-        this.withdrawaltype = withdrawaltype;
+    public void setState(String state) {
+        this.state = state;
     }
 
-    public String getGatheringway() {
-        return gatheringway;
+    public String getProblem() {
+        return problem;
     }
 
-    public void setGatheringway(String gatheringway) {
-        this.gatheringway = gatheringway;
+    public void setProblem(String problem) {
+        this.problem = problem;
     }
 
     public String getCreator() {
@@ -137,11 +137,11 @@ public class WithdrawalDTO implements Serializable {
             return false;
         }
 
-        WithdrawalDTO withdrawalDTO = (WithdrawalDTO) o;
-        if (withdrawalDTO.getId() == null || getId() == null) {
+        IssueDTO issueDTO = (IssueDTO) o;
+        if (issueDTO.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), withdrawalDTO.getId());
+        return Objects.equals(getId(), issueDTO.getId());
     }
 
     @Override
@@ -151,12 +151,12 @@ public class WithdrawalDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "WithdrawalDTO{" +
+        return "IssueDTO{" +
             "id=" + getId() +
-            ", userid='" + getUserid() + "'" +
-            ", withdrawalamount='" + getWithdrawalamount() + "'" +
-            ", withdrawaltype='" + getWithdrawaltype() + "'" +
-            ", gatheringway='" + getGatheringway() + "'" +
+            ", answer='" + getAnswer() + "'" +
+            ", type='" + getType() + "'" +
+            ", state='" + getState() + "'" +
+            ", problem='" + getProblem() + "'" +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +
