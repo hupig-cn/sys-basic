@@ -1,0 +1,72 @@
+{
+    "name": "Userassets",
+    "fields": [
+        {
+            "fieldName": "userid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "couponid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "couponnum",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "balance",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "usablebalance",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "frozenbalance",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "integral",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "creator",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdate",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifier",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifierdate",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiernum",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "logicdelete",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "other",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20190609225504",
+    "entityTableName": "userassets",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "basic",
+    "applications": "*",
+    "microserviceName": "basic"
+}
