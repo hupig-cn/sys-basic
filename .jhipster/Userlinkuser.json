@@ -1,0 +1,68 @@
+{
+    "name": "Userlinkuser",
+    "fields": [
+        {
+            "fieldName": "userid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "recommendid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "partner",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "province",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "city",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "county",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "creator",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdate",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifier",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifierdate",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiernum",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "logicdelete",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "other",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20190626235024",
+    "entityTableName": "userlinkuser",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "basic",
+    "applications": "*",
+    "microserviceName": "basic"
+}
