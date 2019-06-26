@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
- * Service Implementation for managing Area.
+ * Service Implementation for managing {@link Area}.
  */
 @Service
 @Transactional
@@ -36,8 +36,8 @@ public class AreaServiceImpl implements AreaService {
     /**
      * Save a area.
      *
-     * @param areaDTO the entity to save
-     * @return the persisted entity
+     * @param areaDTO the entity to save.
+     * @return the persisted entity.
      */
     @Override
     public AreaDTO save(AreaDTO areaDTO) {
@@ -50,8 +50,8 @@ public class AreaServiceImpl implements AreaService {
     /**
      * Get all the areas.
      *
-     * @param pageable the pagination information
-     * @return the list of entities
+     * @param pageable the pagination information.
+     * @return the list of entities.
      */
     @Override
     @Transactional(readOnly = true)
@@ -65,8 +65,8 @@ public class AreaServiceImpl implements AreaService {
     /**
      * Get one area by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     * @param id the id of the entity.
+     * @return the entity.
      */
     @Override
     @Transactional(readOnly = true)
@@ -79,10 +79,11 @@ public class AreaServiceImpl implements AreaService {
     /**
      * Delete the area by id.
      *
-     * @param id the id of the entity
+     * @param id the id of the entity.
      */
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete Area : {}", id);        areaRepository.deleteById(id);
+        log.debug("Request to delete Area : {}", id);
+        areaRepository.deleteById(id);
     }
 }

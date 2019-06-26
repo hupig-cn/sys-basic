@@ -1,16 +1,21 @@
 package com.weisen.www.code.yjf.basic.web.rest;
+
 import com.weisen.www.code.yjf.basic.service.WithdrawalService;
 import com.weisen.www.code.yjf.basic.web.rest.errors.BadRequestAlertException;
-import com.weisen.www.code.yjf.basic.web.rest.util.HeaderUtil;
-import com.weisen.www.code.yjf.basic.web.rest.util.PaginationUtil;
 import com.weisen.www.code.yjf.basic.service.dto.WithdrawalDTO;
+
+import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * REST controller for managing Withdrawal.
+ * REST controller for managing {@link com.weisen.www.code.yjf.basic.domain.Withdrawal}.
  */
 @RestController
 @RequestMapping("/api")
@@ -31,6 +36,9 @@ public class WithdrawalResource {
 
     private static final String ENTITY_NAME = "basicWithdrawal";
 
+    @Value("${jhipster.clientApp.name}")
+    private String applicationName;
+
     private final WithdrawalService withdrawalService;
 
     public WithdrawalResource(WithdrawalService withdrawalService) {
@@ -38,11 +46,11 @@ public class WithdrawalResource {
     }
 
     /**
-     * POST  /withdrawals : Create a new withdrawal.
+     * {@code POST  /withdrawals} : Create a new withdrawal.
      *
-     * @param withdrawalDTO the withdrawalDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new withdrawalDTO, or with status 400 (Bad Request) if the withdrawal has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @param withdrawalDTO the withdrawalDTO to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new withdrawalDTO, or with status {@code 400 (Bad Request)} if the withdrawal has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/withdrawals")
     public ResponseEntity<WithdrawalDTO> createWithdrawal(@RequestBody WithdrawalDTO withdrawalDTO) throws URISyntaxException {
@@ -52,18 +60,18 @@ public class WithdrawalResource {
         }
         WithdrawalDTO result = withdrawalService.save(withdrawalDTO);
         return ResponseEntity.created(new URI("/api/withdrawals/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
     /**
-     * PUT  /withdrawals : Updates an existing withdrawal.
+     * {@code PUT  /withdrawals} : Updates an existing withdrawal.
      *
-     * @param withdrawalDTO the withdrawalDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated withdrawalDTO,
-     * or with status 400 (Bad Request) if the withdrawalDTO is not valid,
-     * or with status 500 (Internal Server Error) if the withdrawalDTO couldn't be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @param withdrawalDTO the withdrawalDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated withdrawalDTO,
+     * or with status {@code 400 (Bad Request)} if the withdrawalDTO is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the withdrawalDTO couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/withdrawals")
     public ResponseEntity<WithdrawalDTO> updateWithdrawal(@RequestBody WithdrawalDTO withdrawalDTO) throws URISyntaxException {
@@ -73,29 +81,31 @@ public class WithdrawalResource {
         }
         WithdrawalDTO result = withdrawalService.save(withdrawalDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, withdrawalDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, withdrawalDTO.getId().toString()))
             .body(result);
     }
 
     /**
-     * GET  /withdrawals : get all the withdrawals.
+     * {@code GET  /withdrawals} : get all the withdrawals.
      *
-     * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of withdrawals in body
+     * @param pageable the pagination information.
+     * @param queryParams a {@link MultiValueMap} query parameters.
+     * @param uriBuilder a {@link UriComponentsBuilder} URI builder.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of withdrawals in body.
      */
     @GetMapping("/withdrawals")
-    public ResponseEntity<List<WithdrawalDTO>> getAllWithdrawals(Pageable pageable) {
+    public ResponseEntity<List<WithdrawalDTO>> getAllWithdrawals(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
         log.debug("REST request to get a page of Withdrawals");
         Page<WithdrawalDTO> page = withdrawalService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/withdrawals");
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
-     * GET  /withdrawals/:id : get the "id" withdrawal.
+     * {@code GET  /withdrawals/:id} : get the "id" withdrawal.
      *
-     * @param id the id of the withdrawalDTO to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the withdrawalDTO, or with status 404 (Not Found)
+     * @param id the id of the withdrawalDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the withdrawalDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/withdrawals/{id}")
     public ResponseEntity<WithdrawalDTO> getWithdrawal(@PathVariable Long id) {
@@ -105,15 +115,15 @@ public class WithdrawalResource {
     }
 
     /**
-     * DELETE  /withdrawals/:id : delete the "id" withdrawal.
+     * {@code DELETE  /withdrawals/:id} : delete the "id" withdrawal.
      *
-     * @param id the id of the withdrawalDTO to delete
-     * @return the ResponseEntity with status 200 (OK)
+     * @param id the id of the withdrawalDTO to delete.
+     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/withdrawals/{id}")
     public ResponseEntity<Void> deleteWithdrawal(@PathVariable Long id) {
         log.debug("REST request to delete Withdrawal : {}", id);
         withdrawalService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 }

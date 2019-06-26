@@ -8,23 +8,23 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 /**
- * Service Interface for managing Withdrawal.
+ * Service Interface for managing {@link com.weisen.www.code.yjf.basic.domain.Withdrawal}.
  */
 public interface WithdrawalService {
 
     /**
      * Save a withdrawal.
      *
-     * @param withdrawalDTO the entity to save
-     * @return the persisted entity
+     * @param withdrawalDTO the entity to save.
+     * @return the persisted entity.
      */
     WithdrawalDTO save(WithdrawalDTO withdrawalDTO);
 
     /**
      * Get all the withdrawals.
      *
-     * @param pageable the pagination information
-     * @return the list of entities
+     * @param pageable the pagination information.
+     * @return the list of entities.
      */
     Page<WithdrawalDTO> findAll(Pageable pageable);
 
@@ -32,15 +32,15 @@ public interface WithdrawalService {
     /**
      * Get the "id" withdrawal.
      *
-     * @param id the id of the entity
-     * @return the entity
+     * @param id the id of the entity.
+     * @return the entity.
      */
     Optional<WithdrawalDTO> findOne(Long id);
 
     /**
      * Delete the "id" withdrawal.
      *
-     * @param id the id of the entity
+     * @param id the id of the entity.
      */
     void delete(Long id);
 }

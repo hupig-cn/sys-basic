@@ -6,7 +6,7 @@ import com.weisen.www.code.yjf.basic.service.dto.WithdrawalDTO;
 import org.mapstruct.*;
 
 /**
- * Mapper for the entity Withdrawal and its DTO WithdrawalDTO.
+ * Mapper for the entity {@link Withdrawal} and its DTO {@link WithdrawalDTO}.
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface WithdrawalMapper extends EntityMapper<WithdrawalDTO, Withdrawal> {

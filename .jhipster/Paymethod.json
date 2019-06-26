@@ -55,7 +55,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190612180307",
+    "changelogDate": "20190626231424",
     "entityTableName": "paymethod",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

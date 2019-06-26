@@ -43,7 +43,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190609225510",
+    "changelogDate": "20190626231427",
     "entityTableName": "percentage",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

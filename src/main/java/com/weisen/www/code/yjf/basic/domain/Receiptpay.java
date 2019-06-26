@@ -1,6 +1,4 @@
 package com.weisen.www.code.yjf.basic.domain;
-
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -8,7 +6,6 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Objects;
 
 /**
  * A Receiptpay.
@@ -19,7 +16,7 @@ import java.util.Objects;
 public class Receiptpay implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,10 +33,10 @@ public class Receiptpay implements Serializable {
     @Column(name = "benefit")
     private String benefit;
 
-    @Column(name = "amount", precision = 10, scale = 2)
+    @Column(name = "amount", precision = 21, scale = 2)
     private BigDecimal amount;
 
-    @Column(name = "bonus", precision = 10, scale = 2)
+    @Column(name = "bonus", precision = 21, scale = 2)
     private BigDecimal bonus;
 
     @Column(name = "happendate")
@@ -295,19 +292,15 @@ public class Receiptpay implements Serializable {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Receiptpay)) {
             return false;
         }
-        Receiptpay receiptpay = (Receiptpay) o;
-        if (receiptpay.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), receiptpay.getId());
+        return id != null && id.equals(((Receiptpay) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return 31;
     }
 
     @Override

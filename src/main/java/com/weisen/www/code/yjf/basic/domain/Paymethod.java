@@ -1,13 +1,10 @@
 package com.weisen.www.code.yjf.basic.domain;
-
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * A Paymethod.
@@ -26,7 +23,7 @@ public class Paymethod implements Serializable {
     @Column(name = "os")
     private String os;
 
-    @Column(name = "jhi_online")
+    @Column(name = "online")
     private Boolean online;
 
     @Column(name = "switchs")

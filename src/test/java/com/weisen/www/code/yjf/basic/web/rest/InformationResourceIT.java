@@ -374,7 +374,7 @@ public class InformationResourceIT {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
-        // Validate the database is empty
+        // Validate the database contains one less item
         List<Information> informationList = informationRepository.findAll();
         assertThat(informationList).hasSize(databaseSizeBeforeDelete - 1);
     }

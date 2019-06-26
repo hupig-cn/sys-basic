@@ -1,13 +1,10 @@
 package com.weisen.www.code.yjf.basic.domain;
-
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * A Area.
@@ -18,7 +15,7 @@ import java.util.Objects;
 public class Area implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,19 +24,19 @@ public class Area implements Serializable {
     private String name;
 
     @Column(name = "pid")
-    private Integer pid;
-
-    @Column(name = "status")
-    private Integer status;
+    private String pid;
 
     @Column(name = "pname")
     private String pname;
 
     @Column(name = "gid")
-    private Integer gid;
+    private String gid;
 
     @Column(name = "gname")
     private String gname;
+
+    @Column(name = "status")
+    private Integer status;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -63,30 +60,17 @@ public class Area implements Serializable {
         this.name = name;
     }
 
-    public Integer getPid() {
+    public String getPid() {
         return pid;
     }
 
-    public Area pid(Integer pid) {
+    public Area pid(String pid) {
         this.pid = pid;
         return this;
     }
 
-    public void setPid(Integer pid) {
+    public void setPid(String pid) {
         this.pid = pid;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public Area status(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 
     public String getPname() {
@@ -102,16 +86,16 @@ public class Area implements Serializable {
         this.pname = pname;
     }
 
-    public Integer getGid() {
+    public String getGid() {
         return gid;
     }
 
-    public Area gid(Integer gid) {
+    public Area gid(String gid) {
         this.gid = gid;
         return this;
     }
 
-    public void setGid(Integer gid) {
+    public void setGid(String gid) {
         this.gid = gid;
     }
 
@@ -127,6 +111,19 @@ public class Area implements Serializable {
     public void setGname(String gname) {
         this.gname = gname;
     }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public Area status(Integer status) {
+        this.status = status;
+        return this;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -134,19 +131,15 @@ public class Area implements Serializable {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Area)) {
             return false;
         }
-        Area area = (Area) o;
-        if (area.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), area.getId());
+        return id != null && id.equals(((Area) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return 31;
     }
 
     @Override
@@ -154,11 +147,11 @@ public class Area implements Serializable {
         return "Area{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", pid=" + getPid() +
-            ", status=" + getStatus() +
+            ", pid='" + getPid() + "'" +
             ", pname='" + getPname() + "'" +
-            ", gid=" + getGid() +
+            ", gid='" + getGid() + "'" +
             ", gname='" + getGname() + "'" +
+            ", status=" + getStatus() +
             "}";
     }
 }

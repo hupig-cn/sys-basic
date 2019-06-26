@@ -374,7 +374,7 @@ public class UserassetsResourceIT {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
-        // Validate the database is empty
+        // Validate the database contains one less item
         List<Userassets> userassetsList = userassetsRepository.findAll();
         assertThat(userassetsList).hasSize(databaseSizeBeforeDelete - 1);
     }

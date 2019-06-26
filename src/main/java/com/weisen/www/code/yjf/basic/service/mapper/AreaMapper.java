@@ -6,7 +6,7 @@ import com.weisen.www.code.yjf.basic.service.dto.AreaDTO;
 import org.mapstruct.*;
 
 /**
- * Mapper for the entity Area and its DTO AreaDTO.
+ * Mapper for the entity {@link Area} and its DTO {@link AreaDTO}.
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface AreaMapper extends EntityMapper<AreaDTO, Area> {

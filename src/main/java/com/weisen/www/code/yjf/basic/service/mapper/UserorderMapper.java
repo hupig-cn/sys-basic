@@ -6,7 +6,7 @@ import com.weisen.www.code.yjf.basic.service.dto.UserorderDTO;
 import org.mapstruct.*;
 
 /**
- * Mapper for the entity Userorder and its DTO UserorderDTO.
+ * Mapper for the entity {@link Userorder} and its DTO {@link UserorderDTO}.
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface UserorderMapper extends EntityMapper<UserorderDTO, Userorder> {

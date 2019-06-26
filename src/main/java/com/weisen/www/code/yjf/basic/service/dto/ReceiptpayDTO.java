@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * A DTO for the Receiptpay entity.
+ * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Receiptpay} entity.
  */
 public class ReceiptpayDTO implements Serializable {
 

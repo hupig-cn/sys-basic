@@ -89,6 +89,8 @@ public class UsercardResource {
      * {@code GET  /usercards} : get all the usercards.
      *
      * @param pageable the pagination information.
+     * @param queryParams a {@link MultiValueMap} query parameters.
+     * @param uriBuilder a {@link UriComponentsBuilder} URI builder.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of usercards in body.
      */
     @GetMapping("/usercards")

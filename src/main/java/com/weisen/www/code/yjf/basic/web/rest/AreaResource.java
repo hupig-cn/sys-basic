@@ -1,16 +1,21 @@
 package com.weisen.www.code.yjf.basic.web.rest;
+
 import com.weisen.www.code.yjf.basic.service.AreaService;
 import com.weisen.www.code.yjf.basic.web.rest.errors.BadRequestAlertException;
-import com.weisen.www.code.yjf.basic.web.rest.util.HeaderUtil;
-import com.weisen.www.code.yjf.basic.web.rest.util.PaginationUtil;
 import com.weisen.www.code.yjf.basic.service.dto.AreaDTO;
+
+import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * REST controller for managing Area.
+ * REST controller for managing {@link com.weisen.www.code.yjf.basic.domain.Area}.
  */
 @RestController
 @RequestMapping("/api")
@@ -31,6 +36,9 @@ public class AreaResource {
 
     private static final String ENTITY_NAME = "basicArea";
 
+    @Value("${jhipster.clientApp.name}")
+    private String applicationName;
+
     private final AreaService areaService;
 
     public AreaResource(AreaService areaService) {
@@ -38,11 +46,11 @@ public class AreaResource {
     }
 
     /**
-     * POST  /areas : Create a new area.
+     * {@code POST  /areas} : Create a new area.
      *
-     * @param areaDTO the areaDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new areaDTO, or with status 400 (Bad Request) if the area has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @param areaDTO the areaDTO to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new areaDTO, or with status {@code 400 (Bad Request)} if the area has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/areas")
     public ResponseEntity<AreaDTO> createArea(@RequestBody AreaDTO areaDTO) throws URISyntaxException {
@@ -52,18 +60,18 @@ public class AreaResource {
         }
         AreaDTO result = areaService.save(areaDTO);
         return ResponseEntity.created(new URI("/api/areas/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
     /**
-     * PUT  /areas : Updates an existing area.
+     * {@code PUT  /areas} : Updates an existing area.
      *
-     * @param areaDTO the areaDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated areaDTO,
-     * or with status 400 (Bad Request) if the areaDTO is not valid,
-     * or with status 500 (Internal Server Error) if the areaDTO couldn't be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @param areaDTO the areaDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated areaDTO,
+     * or with status {@code 400 (Bad Request)} if the areaDTO is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the areaDTO couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/areas")
     public ResponseEntity<AreaDTO> updateArea(@RequestBody AreaDTO areaDTO) throws URISyntaxException {
@@ -73,29 +81,31 @@ public class AreaResource {
         }
         AreaDTO result = areaService.save(areaDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, areaDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, areaDTO.getId().toString()))
             .body(result);
     }
 
     /**
-     * GET  /areas : get all the areas.
+     * {@code GET  /areas} : get all the areas.
      *
-     * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of areas in body
+     * @param pageable the pagination information.
+     * @param queryParams a {@link MultiValueMap} query parameters.
+     * @param uriBuilder a {@link UriComponentsBuilder} URI builder.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of areas in body.
      */
     @GetMapping("/areas")
-    public ResponseEntity<List<AreaDTO>> getAllAreas(Pageable pageable) {
+    public ResponseEntity<List<AreaDTO>> getAllAreas(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
         log.debug("REST request to get a page of Areas");
         Page<AreaDTO> page = areaService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/areas");
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
-     * GET  /areas/:id : get the "id" area.
+     * {@code GET  /areas/:id} : get the "id" area.
      *
-     * @param id the id of the areaDTO to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the areaDTO, or with status 404 (Not Found)
+     * @param id the id of the areaDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the areaDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/areas/{id}")
     public ResponseEntity<AreaDTO> getArea(@PathVariable Long id) {
@@ -105,15 +115,15 @@ public class AreaResource {
     }
 
     /**
-     * DELETE  /areas/:id : delete the "id" area.
+     * {@code DELETE  /areas/:id} : delete the "id" area.
      *
-     * @param id the id of the areaDTO to delete
-     * @return the ResponseEntity with status 200 (OK)
+     * @param id the id of the areaDTO to delete.
+     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/areas/{id}")
     public ResponseEntity<Void> deleteArea(@PathVariable Long id) {
         log.debug("REST request to delete Area : {}", id);
         areaService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 }
