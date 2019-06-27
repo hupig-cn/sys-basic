@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
- * Service Implementation for managing Issue.
+ * Service Implementation for managing {@link Issue}.
  */
 @Service
 @Transactional
@@ -36,8 +36,8 @@ public class IssueServiceImpl implements IssueService {
     /**
      * Save a issue.
      *
-     * @param issueDTO the entity to save
-     * @return the persisted entity
+     * @param issueDTO the entity to save.
+     * @return the persisted entity.
      */
     @Override
     public IssueDTO save(IssueDTO issueDTO) {
@@ -50,8 +50,8 @@ public class IssueServiceImpl implements IssueService {
     /**
      * Get all the issues.
      *
-     * @param pageable the pagination information
-     * @return the list of entities
+     * @param pageable the pagination information.
+     * @return the list of entities.
      */
     @Override
     @Transactional(readOnly = true)
@@ -65,8 +65,8 @@ public class IssueServiceImpl implements IssueService {
     /**
      * Get one issue by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     * @param id the id of the entity.
+     * @return the entity.
      */
     @Override
     @Transactional(readOnly = true)
@@ -79,10 +79,11 @@ public class IssueServiceImpl implements IssueService {
     /**
      * Delete the issue by id.
      *
-     * @param id the id of the entity
+     * @param id the id of the entity.
      */
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete Issue : {}", id);        issueRepository.deleteById(id);
+        log.debug("Request to delete Issue : {}", id);
+        issueRepository.deleteById(id);
     }
 }

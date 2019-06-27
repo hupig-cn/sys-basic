@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A DTO for the Area entity.
+ * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Area} entity.
  */
 public class AreaDTO implements Serializable {
 
@@ -11,15 +11,15 @@ public class AreaDTO implements Serializable {
 
     private String name;
 
-    private Integer pid;
-
-    private Integer status;
+    private String pid;
 
     private String pname;
 
-    private Integer gid;
+    private String gid;
 
     private String gname;
+
+    private Integer status;
 
 
     public Long getId() {
@@ -38,20 +38,12 @@ public class AreaDTO implements Serializable {
         this.name = name;
     }
 
-    public Integer getPid() {
+    public String getPid() {
         return pid;
     }
 
-    public void setPid(Integer pid) {
+    public void setPid(String pid) {
         this.pid = pid;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 
     public String getPname() {
@@ -62,11 +54,11 @@ public class AreaDTO implements Serializable {
         this.pname = pname;
     }
 
-    public Integer getGid() {
+    public String getGid() {
         return gid;
     }
 
-    public void setGid(Integer gid) {
+    public void setGid(String gid) {
         this.gid = gid;
     }
 
@@ -76,6 +68,14 @@ public class AreaDTO implements Serializable {
 
     public void setGname(String gname) {
         this.gname = gname;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     @Override
@@ -104,11 +104,11 @@ public class AreaDTO implements Serializable {
         return "AreaDTO{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", pid=" + getPid() +
-            ", status=" + getStatus() +
+            ", pid='" + getPid() + "'" +
             ", pname='" + getPname() + "'" +
-            ", gid=" + getGid() +
+            ", gid='" + getGid() + "'" +
             ", gname='" + getGname() + "'" +
+            ", status=" + getStatus() +
             "}";
     }
 }

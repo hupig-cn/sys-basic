@@ -6,7 +6,7 @@ import com.weisen.www.code.yjf.basic.service.dto.IssueDTO;
 import org.mapstruct.*;
 
 /**
- * Mapper for the entity Issue and its DTO IssueDTO.
+ * Mapper for the entity {@link Issue} and its DTO {@link IssueDTO}.
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface IssueMapper extends EntityMapper<IssueDTO, Issue> {

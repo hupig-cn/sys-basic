@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
- * Service Implementation for managing Receiptpay.
+ * Service Implementation for managing {@link Receiptpay}.
  */
 @Service
 @Transactional
@@ -36,8 +36,8 @@ public class ReceiptpayServiceImpl implements ReceiptpayService {
     /**
      * Save a receiptpay.
      *
-     * @param receiptpayDTO the entity to save
-     * @return the persisted entity
+     * @param receiptpayDTO the entity to save.
+     * @return the persisted entity.
      */
     @Override
     public ReceiptpayDTO save(ReceiptpayDTO receiptpayDTO) {
@@ -50,8 +50,8 @@ public class ReceiptpayServiceImpl implements ReceiptpayService {
     /**
      * Get all the receiptpays.
      *
-     * @param pageable the pagination information
-     * @return the list of entities
+     * @param pageable the pagination information.
+     * @return the list of entities.
      */
     @Override
     @Transactional(readOnly = true)
@@ -65,8 +65,8 @@ public class ReceiptpayServiceImpl implements ReceiptpayService {
     /**
      * Get one receiptpay by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     * @param id the id of the entity.
+     * @return the entity.
      */
     @Override
     @Transactional(readOnly = true)
@@ -79,10 +79,11 @@ public class ReceiptpayServiceImpl implements ReceiptpayService {
     /**
      * Delete the receiptpay by id.
      *
-     * @param id the id of the entity
+     * @param id the id of the entity.
      */
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete Receiptpay : {}", id);        receiptpayRepository.deleteById(id);
+        log.debug("Request to delete Receiptpay : {}", id);
+        receiptpayRepository.deleteById(id);
     }
 }

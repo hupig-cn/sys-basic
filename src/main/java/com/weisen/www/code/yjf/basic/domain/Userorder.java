@@ -1,6 +1,4 @@
 package com.weisen.www.code.yjf.basic.domain;
-
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -8,7 +6,6 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Objects;
 
 /**
  * A Userorder.
@@ -19,7 +16,7 @@ import java.util.Objects;
 public class Userorder implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,7 +27,7 @@ public class Userorder implements Serializable {
     @Column(name = "orderstatus")
     private String orderstatus;
 
-    @Column(name = "sum", precision = 10, scale = 2)
+    @Column(name = "sum", precision = 21, scale = 2)
     private BigDecimal sum;
 
     @Column(name = "userid")
@@ -263,19 +260,15 @@ public class Userorder implements Serializable {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Userorder)) {
             return false;
         }
-        Userorder userorder = (Userorder) o;
-        if (userorder.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), userorder.getId());
+        return id != null && id.equals(((Userorder) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return 31;
     }
 
     @Override

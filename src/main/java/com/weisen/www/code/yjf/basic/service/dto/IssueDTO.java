@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A DTO for the Issue entity.
+ * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Issue} entity.
  */
 public class IssueDTO implements Serializable {
 

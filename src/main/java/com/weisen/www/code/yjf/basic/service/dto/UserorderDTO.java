@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * A DTO for the Userorder entity.
+ * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Userorder} entity.
  */
 public class UserorderDTO implements Serializable {
 

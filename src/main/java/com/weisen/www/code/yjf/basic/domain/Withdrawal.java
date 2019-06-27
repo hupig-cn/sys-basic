@@ -1,13 +1,10 @@
 package com.weisen.www.code.yjf.basic.domain;
-
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * A Withdrawal.
@@ -18,7 +15,7 @@ import java.util.Objects;
 public class Withdrawal implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -214,19 +211,15 @@ public class Withdrawal implements Serializable {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Withdrawal)) {
             return false;
         }
-        Withdrawal withdrawal = (Withdrawal) o;
-        if (withdrawal.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), withdrawal.getId());
+        return id != null && id.equals(((Withdrawal) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return 31;
     }
 
     @Override

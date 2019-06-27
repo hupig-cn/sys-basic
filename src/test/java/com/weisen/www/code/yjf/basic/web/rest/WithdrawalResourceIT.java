@@ -46,6 +46,9 @@ public class WithdrawalResourceIT {
     private static final String DEFAULT_WITHDRAWALTYPE = "AAAAAAAAAA";
     private static final String UPDATED_WITHDRAWALTYPE = "BBBBBBBBBB";
 
+    private static final String DEFAULT_GATHERINGWAY = "AAAAAAAAAA";
+    private static final String UPDATED_GATHERINGWAY = "BBBBBBBBBB";
+
     private static final String DEFAULT_CREATOR = "AAAAAAAAAA";
     private static final String UPDATED_CREATOR = "BBBBBBBBBB";
 
@@ -118,6 +121,7 @@ public class WithdrawalResourceIT {
             .userid(DEFAULT_USERID)
             .withdrawalamount(DEFAULT_WITHDRAWALAMOUNT)
             .withdrawaltype(DEFAULT_WITHDRAWALTYPE)
+            .gatheringway(DEFAULT_GATHERINGWAY)
             .creator(DEFAULT_CREATOR)
             .createdate(DEFAULT_CREATEDATE)
             .modifier(DEFAULT_MODIFIER)
@@ -138,6 +142,7 @@ public class WithdrawalResourceIT {
             .userid(UPDATED_USERID)
             .withdrawalamount(UPDATED_WITHDRAWALAMOUNT)
             .withdrawaltype(UPDATED_WITHDRAWALTYPE)
+            .gatheringway(UPDATED_GATHERINGWAY)
             .creator(UPDATED_CREATOR)
             .createdate(UPDATED_CREATEDATE)
             .modifier(UPDATED_MODIFIER)
@@ -172,6 +177,7 @@ public class WithdrawalResourceIT {
         assertThat(testWithdrawal.getUserid()).isEqualTo(DEFAULT_USERID);
         assertThat(testWithdrawal.getWithdrawalamount()).isEqualTo(DEFAULT_WITHDRAWALAMOUNT);
         assertThat(testWithdrawal.getWithdrawaltype()).isEqualTo(DEFAULT_WITHDRAWALTYPE);
+        assertThat(testWithdrawal.getGatheringway()).isEqualTo(DEFAULT_GATHERINGWAY);
         assertThat(testWithdrawal.getCreator()).isEqualTo(DEFAULT_CREATOR);
         assertThat(testWithdrawal.getCreatedate()).isEqualTo(DEFAULT_CREATEDATE);
         assertThat(testWithdrawal.getModifier()).isEqualTo(DEFAULT_MODIFIER);
@@ -216,6 +222,7 @@ public class WithdrawalResourceIT {
             .andExpect(jsonPath("$.[*].userid").value(hasItem(DEFAULT_USERID.toString())))
             .andExpect(jsonPath("$.[*].withdrawalamount").value(hasItem(DEFAULT_WITHDRAWALAMOUNT.toString())))
             .andExpect(jsonPath("$.[*].withdrawaltype").value(hasItem(DEFAULT_WITHDRAWALTYPE.toString())))
+            .andExpect(jsonPath("$.[*].gatheringway").value(hasItem(DEFAULT_GATHERINGWAY.toString())))
             .andExpect(jsonPath("$.[*].creator").value(hasItem(DEFAULT_CREATOR.toString())))
             .andExpect(jsonPath("$.[*].createdate").value(hasItem(DEFAULT_CREATEDATE.toString())))
             .andExpect(jsonPath("$.[*].modifier").value(hasItem(DEFAULT_MODIFIER.toString())))
@@ -239,6 +246,7 @@ public class WithdrawalResourceIT {
             .andExpect(jsonPath("$.userid").value(DEFAULT_USERID.toString()))
             .andExpect(jsonPath("$.withdrawalamount").value(DEFAULT_WITHDRAWALAMOUNT.toString()))
             .andExpect(jsonPath("$.withdrawaltype").value(DEFAULT_WITHDRAWALTYPE.toString()))
+            .andExpect(jsonPath("$.gatheringway").value(DEFAULT_GATHERINGWAY.toString()))
             .andExpect(jsonPath("$.creator").value(DEFAULT_CREATOR.toString()))
             .andExpect(jsonPath("$.createdate").value(DEFAULT_CREATEDATE.toString()))
             .andExpect(jsonPath("$.modifier").value(DEFAULT_MODIFIER.toString()))
@@ -272,6 +280,7 @@ public class WithdrawalResourceIT {
             .userid(UPDATED_USERID)
             .withdrawalamount(UPDATED_WITHDRAWALAMOUNT)
             .withdrawaltype(UPDATED_WITHDRAWALTYPE)
+            .gatheringway(UPDATED_GATHERINGWAY)
             .creator(UPDATED_CREATOR)
             .createdate(UPDATED_CREATEDATE)
             .modifier(UPDATED_MODIFIER)
@@ -293,6 +302,7 @@ public class WithdrawalResourceIT {
         assertThat(testWithdrawal.getUserid()).isEqualTo(UPDATED_USERID);
         assertThat(testWithdrawal.getWithdrawalamount()).isEqualTo(UPDATED_WITHDRAWALAMOUNT);
         assertThat(testWithdrawal.getWithdrawaltype()).isEqualTo(UPDATED_WITHDRAWALTYPE);
+        assertThat(testWithdrawal.getGatheringway()).isEqualTo(UPDATED_GATHERINGWAY);
         assertThat(testWithdrawal.getCreator()).isEqualTo(UPDATED_CREATOR);
         assertThat(testWithdrawal.getCreatedate()).isEqualTo(UPDATED_CREATEDATE);
         assertThat(testWithdrawal.getModifier()).isEqualTo(UPDATED_MODIFIER);
@@ -334,7 +344,7 @@ public class WithdrawalResourceIT {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
-        // Validate the database is empty
+        // Validate the database contains one less item
         List<Withdrawal> withdrawalList = withdrawalRepository.findAll();
         assertThat(withdrawalList).hasSize(databaseSizeBeforeDelete - 1);
     }

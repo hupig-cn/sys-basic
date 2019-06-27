@@ -89,6 +89,8 @@ public class CouponResource {
      * {@code GET  /coupons} : get all the coupons.
      *
      * @param pageable the pagination information.
+     * @param queryParams a {@link MultiValueMap} query parameters.
+     * @param uriBuilder a {@link UriComponentsBuilder} URI builder.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of coupons in body.
      */
     @GetMapping("/coupons")

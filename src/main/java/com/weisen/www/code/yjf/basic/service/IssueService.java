@@ -8,23 +8,23 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 /**
- * Service Interface for managing Issue.
+ * Service Interface for managing {@link com.weisen.www.code.yjf.basic.domain.Issue}.
  */
 public interface IssueService {
 
     /**
      * Save a issue.
      *
-     * @param issueDTO the entity to save
-     * @return the persisted entity
+     * @param issueDTO the entity to save.
+     * @return the persisted entity.
      */
     IssueDTO save(IssueDTO issueDTO);
 
     /**
      * Get all the issues.
      *
-     * @param pageable the pagination information
-     * @return the list of entities
+     * @param pageable the pagination information.
+     * @return the list of entities.
      */
     Page<IssueDTO> findAll(Pageable pageable);
 
@@ -32,15 +32,15 @@ public interface IssueService {
     /**
      * Get the "id" issue.
      *
-     * @param id the id of the entity
-     * @return the entity
+     * @param id the id of the entity.
+     * @return the entity.
      */
     Optional<IssueDTO> findOne(Long id);
 
     /**
      * Delete the "id" issue.
      *
-     * @param id the id of the entity
+     * @param id the id of the entity.
      */
     void delete(Long id);
 }

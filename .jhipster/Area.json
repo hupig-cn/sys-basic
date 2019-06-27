@@ -7,11 +7,7 @@
         },
         {
             "fieldName": "pid",
-            "fieldType": "Integer"
-        },
-        {
-            "fieldName": "status",
-            "fieldType": "Integer"
+            "fieldType": "String"
         },
         {
             "fieldName": "pname",
@@ -19,15 +15,19 @@
         },
         {
             "fieldName": "gid",
-            "fieldType": "Integer"
+            "fieldType": "String"
         },
         {
             "fieldName": "gname",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "Integer"
         }
     ],
     "relationships": [],
-    "changelogDate": "20190626021600",
+    "changelogDate": "20190626235032",
     "entityTableName": "area",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
