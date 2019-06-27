@@ -9,5 +9,7 @@ import com.weisen.www.code.yjf.basic.util.Result;
 public interface Rewrite_FeedbackService {
 	
 	Result createFeedback(Rewrite_FeedbackDTO rewrite_FeedbackDTO);
+	
+	Result findFeedbackList();
 
 }

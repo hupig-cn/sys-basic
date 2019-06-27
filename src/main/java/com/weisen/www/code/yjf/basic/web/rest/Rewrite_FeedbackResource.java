@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +52,21 @@ public class Rewrite_FeedbackResource {
     	}else {
     		result = rewrite_FeedbackService.createFeedback(rewrite_FeedbackDTO);
     	}
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+    
+    /**
+     * 查询反馈信息列表
+     * @author Carson
+     * @date 2019-03-16 14:28:25
+     * @param Rewrite_AdvertisementOperationDTO
+     * @return
+     */
+    @GetMapping("/find-feedback-list/{start}&{end}")
+    @ApiOperation(value = "查询反馈信息列表")
+    @Timed
+    public ResponseEntity<Result> findFeedbackList() {
+    	Result result = rewrite_FeedbackService.findFeedbackList();
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
