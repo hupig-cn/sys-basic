@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface Rewrite_000_LinkaccountRepository extends JpaRepository<Linkaccount, Long> {
 
-    @Query(value = "select count(id) from Linkaccount where token = ?1 and accounttype = 'ALIPAY'")
-    int countByAlipayAccount(String token);
+    @Query(value = "select count(id) from Linkaccount where token = ?1 and accounttype = ?2")
+    int countByAccountType(String token, String accountType);
 }
