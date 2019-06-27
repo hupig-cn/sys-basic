@@ -1,27 +1,22 @@
-package com.weisen.www.code.yjf.basic.service.dto;
+package com.weisen.www.code.yjf.basic.service.rewrite.dto;
+
+import com.weisen.www.code.yjf.basic.service.dto.WithdrawalDTO;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A DTO for the Information entity.
+ * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Withdrawal} entity.
  */
-public class InformationDTO implements Serializable {
+public class Rewrite_WithdrawalDTO implements Serializable {
 
     private Long id;
 
-    private String type;
+    private String userid;
 
-    private String senduserid;
+    private String withdrawalamount;
 
-    private String readuserid;
-
-    private String senddate;
-
-    private String title;
-
-    private String content;
-
-    private String state;
+    private String withdrawaltype;
 
     private String creator;
 
@@ -37,7 +32,7 @@ public class InformationDTO implements Serializable {
 
     private String other;
 
-    private String weight;
+    private String gatheringway;
 
 
     public Long getId() {
@@ -48,60 +43,28 @@ public class InformationDTO implements Serializable {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getUserid() {
+        return userid;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 
-    public String getSenduserid() {
-        return senduserid;
+    public String getWithdrawalamount() {
+        return withdrawalamount;
     }
 
-    public void setSenduserid(String senduserid) {
-        this.senduserid = senduserid;
+    public void setWithdrawalamount(String withdrawalamount) {
+        this.withdrawalamount = withdrawalamount;
     }
 
-    public String getReaduserid() {
-        return readuserid;
+    public String getWithdrawaltype() {
+        return withdrawaltype;
     }
 
-    public void setReaduserid(String readuserid) {
-        this.readuserid = readuserid;
-    }
-
-    public String getSenddate() {
-        return senddate;
-    }
-
-    public void setSenddate(String senddate) {
-        this.senddate = senddate;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
+    public void setWithdrawaltype(String withdrawaltype) {
+        this.withdrawaltype = withdrawaltype;
     }
 
     public String getCreator() {
@@ -160,12 +123,12 @@ public class InformationDTO implements Serializable {
         this.other = other;
     }
 
-    public String getWeight() {
-        return weight;
+    public String getGatheringway() {
+        return gatheringway;
     }
 
-    public void setWeight(String weight) {
-        this.weight = weight;
+    public void setGatheringway(String gatheringway) {
+        this.gatheringway = gatheringway;
     }
 
     @Override
@@ -177,11 +140,11 @@ public class InformationDTO implements Serializable {
             return false;
         }
 
-        InformationDTO informationDTO = (InformationDTO) o;
-        if (informationDTO.getId() == null || getId() == null) {
+        WithdrawalDTO withdrawalDTO = (WithdrawalDTO) o;
+        if (withdrawalDTO.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), informationDTO.getId());
+        return Objects.equals(getId(), withdrawalDTO.getId());
     }
 
     @Override
@@ -191,15 +154,11 @@ public class InformationDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "InformationDTO{" +
+        return "WithdrawalDTO{" +
             "id=" + getId() +
-            ", type='" + getType() + "'" +
-            ", senduserid='" + getSenduserid() + "'" +
-            ", readuserid='" + getReaduserid() + "'" +
-            ", senddate='" + getSenddate() + "'" +
-            ", title='" + getTitle() + "'" +
-            ", content='" + getContent() + "'" +
-            ", state='" + getState() + "'" +
+            ", userid='" + getUserid() + "'" +
+            ", withdrawalamount='" + getWithdrawalamount() + "'" +
+            ", withdrawaltype='" + getWithdrawaltype() + "'" +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +
@@ -207,7 +166,7 @@ public class InformationDTO implements Serializable {
             ", modifiernum=" + getModifiernum() +
             ", logicdelete='" + isLogicdelete() + "'" +
             ", other='" + getOther() + "'" +
-            ", weight='" + getWeight() + "'" +
+            ", gatheringway='" + getGatheringway() + "'" +
             "}";
     }
 }

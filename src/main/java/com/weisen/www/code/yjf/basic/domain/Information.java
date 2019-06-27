@@ -1,10 +1,13 @@
 package com.weisen.www.code.yjf.basic.domain;
+
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A Information.
@@ -15,12 +18,12 @@ import java.io.Serializable;
 public class Information implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "type")
+    @Column(name = "jhi_type")
     private String type;
 
     @Column(name = "senduserid")
@@ -61,6 +64,9 @@ public class Information implements Serializable {
 
     @Column(name = "other")
     private String other;
+
+    @Column(name = "weight")
+    private String weight;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -252,6 +258,19 @@ public class Information implements Serializable {
     public void setOther(String other) {
         this.other = other;
     }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public Information weight(String weight) {
+        this.weight = weight;
+        return this;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -259,15 +278,19 @@ public class Information implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Information)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        return id != null && id.equals(((Information) o).id);
+        Information information = (Information) o;
+        if (information.getId() == null || getId() == null) {
+            return false;
+        }
+        return Objects.equals(getId(), information.getId());
     }
 
     @Override
     public int hashCode() {
-        return 31;
+        return Objects.hashCode(getId());
     }
 
     @Override
@@ -288,6 +311,7 @@ public class Information implements Serializable {
             ", modifiernum=" + getModifiernum() +
             ", logicdelete='" + isLogicdelete() + "'" +
             ", other='" + getOther() + "'" +
+            ", weight='" + getWeight() + "'" +
             "}";
     }
 }

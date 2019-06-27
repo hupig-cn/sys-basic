@@ -1,15 +1,12 @@
-package com.weisen.www.code.yjf.basic.service.mapper;
+package com.weisen.www.code.yjf.basic.service.rewrite.mapper;
 
-import com.weisen.www.code.yjf.basic.domain.*;
+import com.weisen.www.code.yjf.basic.domain.Information;
 import com.weisen.www.code.yjf.basic.service.dto.InformationDTO;
+import com.weisen.www.code.yjf.basic.service.mapper.EntityMapper;
+import org.mapstruct.Mapper;
 
-import org.mapstruct.*;
-
-/**
- * Mapper for the entity Information and its DTO InformationDTO.
- */
 @Mapper(componentModel = "spring", uses = {})
-public interface InformationMapper extends EntityMapper<InformationDTO, Information> {
+public interface Rewrite_InformationMapper extends EntityMapper<InformationDTO, Information> {
 
 
 

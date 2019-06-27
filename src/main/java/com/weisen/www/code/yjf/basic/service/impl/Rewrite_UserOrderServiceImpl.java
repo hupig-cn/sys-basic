@@ -59,21 +59,21 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     // 获取待付款订单
     @Override
     public List<UserorderDTO> getUnpaidOrder(Long userId) {
-        List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndstateAndOrderstatus(userId.toString(), OrderConstant.UN_PAID);
+        List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndOrderstatus(userId.toString(), OrderConstant.UN_PAID);
         return userorderMapper.toDto(list);
     }
 
     // 获取已支付订单
     @Override
     public List<UserorderDTO> getPaidOrder(Long userId) {
-        List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndstateAndOrderstatus(userId.toString(), OrderConstant.PAID);
+        List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndOrderstatus(userId.toString(), OrderConstant.PAID);
         return userorderMapper.toDto(list);
     }
 
     // 获取退款订单
     @Override
     public List<UserorderDTO> getRefundOrder(Long userId) {
-        List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndstateAndOrderstatus(userId.toString(), OrderConstant.REFUNDED);
+        List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndOrderstatus(userId.toString(), OrderConstant.REFUNDED);
         return userorderMapper.toDto(list);
     }
 

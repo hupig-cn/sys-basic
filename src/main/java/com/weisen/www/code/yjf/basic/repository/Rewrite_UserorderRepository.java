@@ -13,6 +13,6 @@ public interface Rewrite_UserorderRepository extends JpaRepository<Userorder, Lo
     List<Userorder> findAllByUserid(String userId);
 
     //根据用户id和订单状态查询订单
-    List<Userorder> findAllByUseridAndstateAndOrderstatus(String userId,String orderstatus);
+    List<Userorder> findAllByUseridAndOrderstatus(String userId,String orderstatus);
 
 }

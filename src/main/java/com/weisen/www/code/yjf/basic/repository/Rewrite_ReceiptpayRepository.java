@@ -1,18 +1,17 @@
 package com.weisen.www.code.yjf.basic.repository;
 
-import java.util.List;
-
+import com.weisen.www.code.yjf.basic.domain.Receiptpay;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.weisen.www.code.yjf.basic.domain.Receiptpay;
+import java.util.List;
 
 @Repository
 public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, Long> {
 
 	// 查询用户的明细
-	List<Receiptpay> getReceiptpayByUserid();
+	List<Receiptpay> getReceiptpayByUserid(String userid);
 
 	// 根据用户id，时间范围,交易类型 查询明细
 	@Query(value = "select id,dealtype,userid,sourcer,benefit,amount,bonus,happendate,freezedate,dealstate,"

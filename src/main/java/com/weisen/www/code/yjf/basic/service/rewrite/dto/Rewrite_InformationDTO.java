@@ -1,17 +1,18 @@
-package com.weisen.www.code.yjf.basic.service.dto;
+package com.weisen.www.code.yjf.basic.service.rewrite.dto;
+
+import com.weisen.www.code.yjf.basic.service.dto.InformationDTO;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A DTO for the Information entity.
+ * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Information} entity.
  */
-public class InformationDTO implements Serializable {
+public class Rewrite_InformationDTO implements Serializable {
 
     private Long id;
 
     private String type;
-
-    private String senduserid;
 
     private String readuserid;
 
@@ -29,15 +30,7 @@ public class InformationDTO implements Serializable {
 
     private String modifier;
 
-    private String modifierdate;
-
-    private Long modifiernum;
-
-    private Boolean logicdelete;
-
     private String other;
-
-    private String weight;
 
 
     public Long getId() {
@@ -56,13 +49,7 @@ public class InformationDTO implements Serializable {
         this.type = type;
     }
 
-    public String getSenduserid() {
-        return senduserid;
-    }
 
-    public void setSenduserid(String senduserid) {
-        this.senduserid = senduserid;
-    }
 
     public String getReaduserid() {
         return readuserid;
@@ -128,29 +115,6 @@ public class InformationDTO implements Serializable {
         this.modifier = modifier;
     }
 
-    public String getModifierdate() {
-        return modifierdate;
-    }
-
-    public void setModifierdate(String modifierdate) {
-        this.modifierdate = modifierdate;
-    }
-
-    public Long getModifiernum() {
-        return modifiernum;
-    }
-
-    public void setModifiernum(Long modifiernum) {
-        this.modifiernum = modifiernum;
-    }
-
-    public Boolean isLogicdelete() {
-        return logicdelete;
-    }
-
-    public void setLogicdelete(Boolean logicdelete) {
-        this.logicdelete = logicdelete;
-    }
 
     public String getOther() {
         return other;
@@ -158,14 +122,6 @@ public class InformationDTO implements Serializable {
 
     public void setOther(String other) {
         this.other = other;
-    }
-
-    public String getWeight() {
-        return weight;
-    }
-
-    public void setWeight(String weight) {
-        this.weight = weight;
     }
 
     @Override
@@ -189,25 +145,19 @@ public class InformationDTO implements Serializable {
         return Objects.hashCode(getId());
     }
 
-    @Override
     public String toString() {
-        return "InformationDTO{" +
-            "id=" + getId() +
-            ", type='" + getType() + "'" +
-            ", senduserid='" + getSenduserid() + "'" +
-            ", readuserid='" + getReaduserid() + "'" +
-            ", senddate='" + getSenddate() + "'" +
-            ", title='" + getTitle() + "'" +
-            ", content='" + getContent() + "'" +
-            ", state='" + getState() + "'" +
-            ", creator='" + getCreator() + "'" +
-            ", createdate='" + getCreatedate() + "'" +
-            ", modifier='" + getModifier() + "'" +
-            ", modifierdate='" + getModifierdate() + "'" +
-            ", modifiernum=" + getModifiernum() +
-            ", logicdelete='" + isLogicdelete() + "'" +
-            ", other='" + getOther() + "'" +
-            ", weight='" + getWeight() + "'" +
-            "}";
+        return "Rewrite_InformationDTO{" +
+            "id=" + id +
+            ", type='" + type + '\'' +
+            ", readuserid='" + readuserid + '\'' +
+            ", senddate='" + senddate + '\'' +
+            ", title='" + title + '\'' +
+            ", content='" + content + '\'' +
+            ", state='" + state + '\'' +
+            ", creator='" + creator + '\'' +
+            ", createdate='" + createdate + '\'' +
+            ", modifier='" + modifier + '\'' +
+            ", other='" + other + '\'' +
+            '}';
     }
 }

@@ -155,7 +155,8 @@ entity Information {// 消息表
     modifierdate String,// 修改日期
     modifiernum Long,// 修改次数
     logicdelete Boolean,// 删除
-    other String// 备注
+    other String,// 备注
+    weight String//权重
 }
 
 entity Feedback {// 反馈表
@@ -259,6 +260,15 @@ entity Messagetemplate {
     modifiernum Long,// 修改次数
     logicdelete Boolean,// 删除
     other String// 备注
+}
+
+entity Coderecord{
+    code String,//验证码
+    type String,//类型
+    phone String,//电话号码
+    createDate String,//创建时间
+    updateDate String,//修改时间
+    num Integer//次数
 }
 
 // Set pagination options
