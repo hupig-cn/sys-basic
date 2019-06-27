@@ -5,5 +5,4 @@ import com.weisen.www.code.yjf.basic.util.Result;
 public interface Rewrite_000_AlipayService {
 
 	Result scaning(String authCode);
-
 }

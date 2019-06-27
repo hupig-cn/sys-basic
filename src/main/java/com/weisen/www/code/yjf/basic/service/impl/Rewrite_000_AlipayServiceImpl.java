@@ -1,11 +1,11 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
 import com.alipay.api.response.AlipaySystemOauthTokenResponse;
-import com.weisen.www.code.yjf.basic.config.Constants;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_000_LinkaccountRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_000_AlipayService;
 import com.weisen.www.code.yjf.basic.util.AlipayUtil;
 import com.weisen.www.code.yjf.basic.util.Result;
+import com.weisen.www.code.yjf.basic.util.Rewrite_Constant;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +27,7 @@ public class Rewrite_000_AlipayServiceImpl implements Rewrite_000_AlipayService 
         }
         String userId = userInfo.getUserId();
         //获取用户是否存在
-        int alipayCount = linkaccountRepository.countByAccountType(userId, Constants.ACCOUNTTYPE_ALIPAY);
+        int alipayCount = linkaccountRepository.countByAccountType(userId, Rewrite_Constant.ACCOUNTTYPE_ALIPAY);
         return alipayCount > 0 ? Result.fail("用户已注册") : Result.suc(userId, "用户未注册");
     }
 

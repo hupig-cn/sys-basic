@@ -32,7 +32,7 @@ public class AlipayUtil {
         return userInfo;
     }
 
-    public static final String alipay(String outTradeNo, String subject, String totalAmount, String orderId) {
+    public static final String alipay(String outTradeNo, String subject, String totalAmount, Long orderId) {
         String form = "";
         try {
             AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
@@ -54,4 +54,5 @@ public class AlipayUtil {
         }
         return form;
     }
+
 }

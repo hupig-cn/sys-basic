@@ -5,12 +5,19 @@ import com.weisen.www.code.yjf.basic.service.Rewrite_000_UserorderService;
 import com.weisen.www.code.yjf.basic.util.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/public/alipay")
 @Api(tags = "000-支付宝操作接口")
 public class Rewrite_AlipayApiResource {
+
+    private final Logger log = LoggerFactory.getLogger(Rewrite_AlipayApiResource.class);
 
     private Rewrite_000_AlipayService alipayService;
 
@@ -33,6 +40,7 @@ public class Rewrite_AlipayApiResource {
     @GetMapping("/checkUserExist")
     @ApiOperation(value = "回调获取支付宝会员信息是否存在")
     public Result checkUserExist (@RequestParam(value = "auth_code") String authCode) {
+        log.debug("回调获取支付宝会员信息是否存在:{}", authCode);
         return alipayService.scaning(authCode);
     }
 
@@ -43,13 +51,27 @@ public class Rewrite_AlipayApiResource {
      */
     @GetMapping("/payOrder")
     @ApiOperation(value = "支付订单")
-    public Result payOrder (String orderId) {
+    public Result payOrder (Long orderId) {
+        log.debug("支付订单:{}", orderId);
         return userorderService.alipay(orderId);
     }
 
+    /**
+     * 支付异步回调
+     * @param request
+     * @param response
+     * @return
+     */
     @PostMapping("/notify")
     @ApiOperation(value = "回调地址")
-    public String notifyMessage () {
-        return "Ok";
+    public void notifyMessage (HttpServletRequest request, HttpServletResponse response) {
+        log.debug("回调地址");
+        userorderService.notifyMessage(request, response);
+    }
+
+    @PostMapping("/queryOrder")
+    @ApiOperation(value = "回调地址")
+    public Result queryOrder (String orderId) {
+        return Result.suc("");
     }
 }
