@@ -354,7 +354,7 @@ public class UserlocationResourceIT {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
-        // Validate the database is empty
+        // Validate the database contains one less item
         List<Userlocation> userlocationList = userlocationRepository.findAll();
         assertThat(userlocationList).hasSize(databaseSizeBeforeDelete - 1);
     }

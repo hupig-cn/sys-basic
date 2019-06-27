@@ -15,6 +15,8 @@ public class WithdrawalDTO implements Serializable {
 
     private String withdrawaltype;
 
+    private String gatheringway;
+
     private String creator;
 
     private String createdate;
@@ -60,6 +62,14 @@ public class WithdrawalDTO implements Serializable {
 
     public void setWithdrawaltype(String withdrawaltype) {
         this.withdrawaltype = withdrawaltype;
+    }
+
+    public String getGatheringway() {
+        return gatheringway;
+    }
+
+    public void setGatheringway(String gatheringway) {
+        this.gatheringway = gatheringway;
     }
 
     public String getCreator() {
@@ -146,6 +156,7 @@ public class WithdrawalDTO implements Serializable {
             ", userid='" + getUserid() + "'" +
             ", withdrawalamount='" + getWithdrawalamount() + "'" +
             ", withdrawaltype='" + getWithdrawaltype() + "'" +
+            ", gatheringway='" + getGatheringway() + "'" +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +

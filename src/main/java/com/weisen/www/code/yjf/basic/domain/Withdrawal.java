@@ -1,13 +1,10 @@
 package com.weisen.www.code.yjf.basic.domain;
-
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * A Withdrawal.
@@ -31,6 +28,9 @@ public class Withdrawal implements Serializable {
 
     @Column(name = "withdrawaltype")
     private String withdrawaltype;
+
+    @Column(name = "gatheringway")
+    private String gatheringway;
 
     @Column(name = "creator")
     private String creator;
@@ -99,6 +99,19 @@ public class Withdrawal implements Serializable {
 
     public void setWithdrawaltype(String withdrawaltype) {
         this.withdrawaltype = withdrawaltype;
+    }
+
+    public String getGatheringway() {
+        return gatheringway;
+    }
+
+    public Withdrawal gatheringway(String gatheringway) {
+        this.gatheringway = gatheringway;
+        return this;
+    }
+
+    public void setGatheringway(String gatheringway) {
+        this.gatheringway = gatheringway;
     }
 
     public String getCreator() {
@@ -216,6 +229,7 @@ public class Withdrawal implements Serializable {
             ", userid='" + getUserid() + "'" +
             ", withdrawalamount='" + getWithdrawalamount() + "'" +
             ", withdrawaltype='" + getWithdrawaltype() + "'" +
+            ", gatheringway='" + getGatheringway() + "'" +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +

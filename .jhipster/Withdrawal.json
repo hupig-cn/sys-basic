@@ -14,6 +14,10 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "gatheringway",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "creator",
             "fieldType": "String"
         },
@@ -43,7 +47,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190609225507",
+    "changelogDate": "20190627002758",
     "entityTableName": "withdrawal",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

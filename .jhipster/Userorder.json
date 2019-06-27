@@ -1,0 +1,72 @@
+{
+    "name": "Userorder",
+    "fields": [
+        {
+            "fieldName": "ordercode",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "orderstatus",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "sum",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "userid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "payee",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "payway",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "payresult",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "creator",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdate",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifier",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifierdate",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiernum",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "logicdelete",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "other",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20190627002805",
+    "entityTableName": "userorder",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "basic",
+    "applications": "*",
+    "microserviceName": "basic"
+}
