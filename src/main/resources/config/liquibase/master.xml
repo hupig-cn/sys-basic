@@ -14,23 +14,23 @@
     <property name="uuidType" value="varchar(36)" dbms="h2, mysql, mariadb"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190626235020_added_entity_Linkuser.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190626235021_added_entity_Linkaccount.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190626235022_added_entity_Usercard.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190626235023_added_entity_Userlocation.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190626235024_added_entity_Userlinkuser.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190626235025_added_entity_Userassets.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190626235026_added_entity_Coupon.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190626235027_added_entity_Withdrawal.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190626235028_added_entity_Paymethod.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190626235029_added_entity_Information.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190626235030_added_entity_Feedback.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190626235031_added_entity_Percentage.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190626235032_added_entity_Area.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190626235033_added_entity_Issue.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190626235034_added_entity_Userorder.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190626235035_added_entity_Receiptpay.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190626235036_added_entity_Messagetemplate.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190627002751_added_entity_Linkuser.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190627002752_added_entity_Linkaccount.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190627002753_added_entity_Usercard.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190627002754_added_entity_Userlocation.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190627002755_added_entity_Userlinkuser.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190627002756_added_entity_Userassets.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190627002757_added_entity_Coupon.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190627002758_added_entity_Withdrawal.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190627002759_added_entity_Paymethod.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190627002800_added_entity_Information.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190627002801_added_entity_Feedback.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190627002802_added_entity_Percentage.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190627002803_added_entity_Area.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190627002804_added_entity_Issue.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190627002805_added_entity_Userorder.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190627002806_added_entity_Receiptpay.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190627002807_added_entity_Messagetemplate.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
