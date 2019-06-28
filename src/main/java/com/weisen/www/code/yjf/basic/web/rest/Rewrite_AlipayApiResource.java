@@ -51,7 +51,7 @@ public class Rewrite_AlipayApiResource {
      */
     @GetMapping("/payOrder")
     @ApiOperation(value = "支付订单")
-    public Result payOrder (Long orderId) {
+    public Result payOrder (@RequestParam(value = "orderId") Long orderId) {
         log.debug("支付订单:{}", orderId);
         return userorderService.alipay(orderId);
     }
@@ -63,15 +63,21 @@ public class Rewrite_AlipayApiResource {
      * @return
      */
     @PostMapping("/notify")
-    @ApiOperation(value = "回调地址")
+    @ApiOperation(value = "异步地址")
     public void notifyMessage (HttpServletRequest request, HttpServletResponse response) {
         log.debug("回调地址");
         userorderService.notifyMessage(request, response);
     }
 
+    /**
+     * 支付同步回调
+     * @param orderId
+     * @return
+     */
     @PostMapping("/queryOrder")
-    @ApiOperation(value = "回调地址")
-    public Result queryOrder (String orderId) {
-        return Result.suc("");
+    @ApiOperation(value = "同步地址")
+    public Result queryOrder (@RequestParam(value = "orderId") String orderId) {
+        log.debug("同步地址");
+        return userorderService.queryOrder(orderId);
     }
 }

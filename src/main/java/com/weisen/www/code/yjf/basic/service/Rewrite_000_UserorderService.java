@@ -10,4 +10,6 @@ public interface Rewrite_000_UserorderService {
     Result alipay (Long orderId);
 
     void notifyMessage (HttpServletRequest request, HttpServletResponse response);
+
+    Result queryOrder (String orderId);
 }
