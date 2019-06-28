@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_ReceiptpayService;
+import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_PriceDTO;
 import com.weisen.www.code.yjf.basic.service.mapper.ReceiptpayMapper;
 import com.weisen.www.code.yjf.basic.service.util.ProfitConstant;
@@ -45,22 +46,15 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 		for (Receiptpay list : receiptpay) {
 			price = price.add(list.getAmount());
 		}
-		Rewrite_PriceDTO rewrite_PriceDTO = new Rewrite_PriceDTO();
-		rewrite_PriceDTO.setPrice(price.toString());
+		Rewrite_PriceDTO rewrite_PriceDTO = new Rewrite_PriceDTO(price.toString());
 		return rewrite_PriceDTO;
-	}
-
-	// 获取商家余额(就相当于查询用户余额)
-	@Override
-	public Rewrite_PriceDTO selcetBalance(Long userId) {
-		
-		return null;
 	}
 
 	// 获取昨日收款 （商家）
 	@Override
 	public Rewrite_PriceDTO selectYesterday(Long userId) {
-		String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()-1000*60*60*24));
+		String today = new SimpleDateFormat("yyyy-MM-dd")
+				.format(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24));
 		String startTime = today + " 00:00:00";
 		String endTime = today + " 23:59:59";
 		List<Receiptpay> receiptpay = rewrite_ReceiptpayRepository.getReceiptpayByUseridAndTime(userId.toString(),
@@ -69,9 +63,16 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 		for (Receiptpay list : receiptpay) {
 			price = price.add(list.getAmount());
 		}
-		Rewrite_PriceDTO rewrite_PriceDTO = new Rewrite_PriceDTO();
-		rewrite_PriceDTO.setPrice(price.toString());
+		Rewrite_PriceDTO rewrite_PriceDTO = new Rewrite_PriceDTO(price.toString());
 		return rewrite_PriceDTO;
+	}
+	
+	// 获取提现记录
+	@Override
+	public List<ReceiptpayDTO> selcetMoneyRecord(Long userId) {
+		List<Receiptpay> receiptpay = rewrite_ReceiptpayRepository.getReceiptpayByUseridAndDealtype(userId.toString(),
+				ProfitConstant.FIVE);
+		return receiptpayMapper.toDto(receiptpay);
 	}
 
 }
