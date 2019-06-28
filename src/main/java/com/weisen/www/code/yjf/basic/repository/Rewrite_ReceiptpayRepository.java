@@ -12,6 +12,8 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
 
 	// 查询用户的明细
 	List<Receiptpay> getReceiptpayByUserid(String userid);
+	
+	List<Receiptpay> getReceiptpayByUseridAndDealtype(String userid,String dealtype);
 
 	// 根据用户id，时间范围,交易类型 查询明细
 	@Query(value = "select id,dealtype,userid,sourcer,benefit,amount,bonus,happendate,freezedate,dealstate,"

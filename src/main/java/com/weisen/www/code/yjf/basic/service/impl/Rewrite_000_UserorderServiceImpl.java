@@ -59,7 +59,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
         }
         //2.判断订单状态
         Userorder userorder = optional.get();
-        if (userorder.getOrderstatus() != Rewrite_Constant.ORDER_WAIT_PAY) {
+        if (!userorder.getOrderstatus().equals(Rewrite_Constant.ORDER_WAIT_PAY)) {
             return Result.fail("当前订单不能支付");
         }
         //3.准备调起支付宝
@@ -73,6 +73,22 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
             return Result.fail("支付宝支付错误");
         }
         return Result.suc("调用支付宝成功", form);
+    }
+
+    @Override
+    public Result queryOrder(String orderId) {
+        if (StringUtils.isBlank(orderId)) {
+            return Result.fail("订单号不能为空");
+        }
+        Optional<Userorder> optional = userorderRepository.findById(Long.valueOf(orderId));
+        if (!optional.isPresent()) {
+            return Result.fail("订单不存在");
+        }
+        Userorder userorder = optional.get();
+        if (!userorder.getOrderstatus().equals(Rewrite_Constant.ORDER_WAIT_DELIVER)) {
+            return Result.fail("当前订单状态有误");
+        }
+        return Result.suc("支付成功");
     }
 
     @Override
