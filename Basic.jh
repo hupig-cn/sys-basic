@@ -220,6 +220,8 @@ entity Userorder {// 订单表
 	payee String,// 收款人
 	payway String,// 支付方式
 	payresult String,// 支付结果
+	concession Integer,// 让利比例5%，10%，15%
+	rebate Integer,// 返积分比例15%，30%，50%
 	creator String,// 创建者
 	createdate String,// 创建日期
 	modifier String,// 修改者

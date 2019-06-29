@@ -24,6 +24,10 @@ public class UserorderDTO implements Serializable {
 
     private String payresult;
 
+    private Integer concession;
+
+    private Integer rebate;
+
     private String creator;
 
     private String createdate;
@@ -101,6 +105,22 @@ public class UserorderDTO implements Serializable {
 
     public void setPayresult(String payresult) {
         this.payresult = payresult;
+    }
+
+    public Integer getConcession() {
+        return concession;
+    }
+
+    public void setConcession(Integer concession) {
+        this.concession = concession;
+    }
+
+    public Integer getRebate() {
+        return rebate;
+    }
+
+    public void setRebate(Integer rebate) {
+        this.rebate = rebate;
     }
 
     public String getCreator() {
@@ -191,6 +211,8 @@ public class UserorderDTO implements Serializable {
             ", payee='" + getPayee() + "'" +
             ", payway='" + getPayway() + "'" +
             ", payresult='" + getPayresult() + "'" +
+            ", concession=" + getConcession() +
+            ", rebate=" + getRebate() +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +

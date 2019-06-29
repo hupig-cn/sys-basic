@@ -59,6 +59,12 @@ public class UserorderResourceIT {
     private static final String DEFAULT_PAYRESULT = "AAAAAAAAAA";
     private static final String UPDATED_PAYRESULT = "BBBBBBBBBB";
 
+    private static final Integer DEFAULT_CONCESSION = 1;
+    private static final Integer UPDATED_CONCESSION = 2;
+
+    private static final Integer DEFAULT_REBATE = 1;
+    private static final Integer UPDATED_REBATE = 2;
+
     private static final String DEFAULT_CREATOR = "AAAAAAAAAA";
     private static final String UPDATED_CREATOR = "BBBBBBBBBB";
 
@@ -135,6 +141,8 @@ public class UserorderResourceIT {
             .payee(DEFAULT_PAYEE)
             .payway(DEFAULT_PAYWAY)
             .payresult(DEFAULT_PAYRESULT)
+            .concession(DEFAULT_CONCESSION)
+            .rebate(DEFAULT_REBATE)
             .creator(DEFAULT_CREATOR)
             .createdate(DEFAULT_CREATEDATE)
             .modifier(DEFAULT_MODIFIER)
@@ -159,6 +167,8 @@ public class UserorderResourceIT {
             .payee(UPDATED_PAYEE)
             .payway(UPDATED_PAYWAY)
             .payresult(UPDATED_PAYRESULT)
+            .concession(UPDATED_CONCESSION)
+            .rebate(UPDATED_REBATE)
             .creator(UPDATED_CREATOR)
             .createdate(UPDATED_CREATEDATE)
             .modifier(UPDATED_MODIFIER)
@@ -197,6 +207,8 @@ public class UserorderResourceIT {
         assertThat(testUserorder.getPayee()).isEqualTo(DEFAULT_PAYEE);
         assertThat(testUserorder.getPayway()).isEqualTo(DEFAULT_PAYWAY);
         assertThat(testUserorder.getPayresult()).isEqualTo(DEFAULT_PAYRESULT);
+        assertThat(testUserorder.getConcession()).isEqualTo(DEFAULT_CONCESSION);
+        assertThat(testUserorder.getRebate()).isEqualTo(DEFAULT_REBATE);
         assertThat(testUserorder.getCreator()).isEqualTo(DEFAULT_CREATOR);
         assertThat(testUserorder.getCreatedate()).isEqualTo(DEFAULT_CREATEDATE);
         assertThat(testUserorder.getModifier()).isEqualTo(DEFAULT_MODIFIER);
@@ -245,6 +257,8 @@ public class UserorderResourceIT {
             .andExpect(jsonPath("$.[*].payee").value(hasItem(DEFAULT_PAYEE.toString())))
             .andExpect(jsonPath("$.[*].payway").value(hasItem(DEFAULT_PAYWAY.toString())))
             .andExpect(jsonPath("$.[*].payresult").value(hasItem(DEFAULT_PAYRESULT.toString())))
+            .andExpect(jsonPath("$.[*].concession").value(hasItem(DEFAULT_CONCESSION)))
+            .andExpect(jsonPath("$.[*].rebate").value(hasItem(DEFAULT_REBATE)))
             .andExpect(jsonPath("$.[*].creator").value(hasItem(DEFAULT_CREATOR.toString())))
             .andExpect(jsonPath("$.[*].createdate").value(hasItem(DEFAULT_CREATEDATE.toString())))
             .andExpect(jsonPath("$.[*].modifier").value(hasItem(DEFAULT_MODIFIER.toString())))
@@ -272,6 +286,8 @@ public class UserorderResourceIT {
             .andExpect(jsonPath("$.payee").value(DEFAULT_PAYEE.toString()))
             .andExpect(jsonPath("$.payway").value(DEFAULT_PAYWAY.toString()))
             .andExpect(jsonPath("$.payresult").value(DEFAULT_PAYRESULT.toString()))
+            .andExpect(jsonPath("$.concession").value(DEFAULT_CONCESSION))
+            .andExpect(jsonPath("$.rebate").value(DEFAULT_REBATE))
             .andExpect(jsonPath("$.creator").value(DEFAULT_CREATOR.toString()))
             .andExpect(jsonPath("$.createdate").value(DEFAULT_CREATEDATE.toString()))
             .andExpect(jsonPath("$.modifier").value(DEFAULT_MODIFIER.toString()))
@@ -309,6 +325,8 @@ public class UserorderResourceIT {
             .payee(UPDATED_PAYEE)
             .payway(UPDATED_PAYWAY)
             .payresult(UPDATED_PAYRESULT)
+            .concession(UPDATED_CONCESSION)
+            .rebate(UPDATED_REBATE)
             .creator(UPDATED_CREATOR)
             .createdate(UPDATED_CREATEDATE)
             .modifier(UPDATED_MODIFIER)
@@ -334,6 +352,8 @@ public class UserorderResourceIT {
         assertThat(testUserorder.getPayee()).isEqualTo(UPDATED_PAYEE);
         assertThat(testUserorder.getPayway()).isEqualTo(UPDATED_PAYWAY);
         assertThat(testUserorder.getPayresult()).isEqualTo(UPDATED_PAYRESULT);
+        assertThat(testUserorder.getConcession()).isEqualTo(UPDATED_CONCESSION);
+        assertThat(testUserorder.getRebate()).isEqualTo(UPDATED_REBATE);
         assertThat(testUserorder.getCreator()).isEqualTo(UPDATED_CREATOR);
         assertThat(testUserorder.getCreatedate()).isEqualTo(UPDATED_CREATEDATE);
         assertThat(testUserorder.getModifier()).isEqualTo(UPDATED_MODIFIER);
@@ -375,7 +395,7 @@ public class UserorderResourceIT {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
-        // Validate the database contains one less item
+        // Validate the database is empty
         List<Userorder> userorderList = userorderRepository.findAll();
         assertThat(userorderList).hasSize(databaseSizeBeforeDelete - 1);
     }
