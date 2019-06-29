@@ -153,9 +153,11 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
         Percentage percentageRecommend = percentageRepository.findByName(Rewrite_Constant.PERCENTAGE_RECOMMEND, Rewrite_Constant.PERCENTAGE_TYPE_CASH);
         Percentage percentagePartner = percentageRepository.findByName(Rewrite_Constant.PERCENTAGE_PARTNER, Rewrite_Constant.PERCENTAGE_TYPE_CASH);
         Percentage percentageBenefit = percentageRepository.findByName(Rewrite_Constant.PERCENTAGE_BENEFIT, Rewrite_Constant.PERCENTAGE_TYPE_CASH);
+        //创建商家的收支明细
+        createMerchantReceiptpay(userorder, percentageBenefit);
         BigDecimal sumBigDecimal = userorder.getSum();
         //计算收益手续费
-        BigDecimal benefitPercentage = BigDecimal.ONE.subtract(new BigDecimal(percentageBenefit.getValue()));
+        BigDecimal benefitPercentage = BigDecimal.ONE.subtract(new BigDecimal(percentageBenefit.getValue()).divide(BigDecimal.valueOf(100)));
         //获取推荐人
         Userlinkuser userlinkuser = userlinkuserRepository.findByUserId(userorder.getId());
         //计算推荐收益
@@ -185,11 +187,49 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
         receiptpaySelf.setUserid(userorder.getUserid());
         receiptpaySelf.setSourcer(Rewrite_Constant.SOURCE_ALIPAY);
         receiptpaySelf.setBenefit(userorder.getPayee());
+        //获取到的积分
+        if (userorder.getRebate() != null) {
+            //现在的积分 = 原本的积分 + 商家积分百分比 * 支付金额
+            Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
+            String originIntegral = userassets.getIntegral();
+            BigDecimal rebateBigDecimal = new BigDecimal(userorder.getRebate()).divide(BigDecimal.valueOf(100));
+            BigDecimal integralBigDecimal = userorder.getSum().multiply(rebateBigDecimal);
+            integralBigDecimal = integralBigDecimal.add(new BigDecimal(originIntegral));
+            userassets.setIntegral(integralBigDecimal.toString());
+        }
         receiptpaySelf.setAmount(userorder.getSum());
         receiptpaySelf.setHappendate("发生时间");
         receiptpaySelf.setDealstate(Rewrite_Constant.DEALSTATE_NORMAL);
         receiptpaySelf.setCreator("SYSTEM");
         receiptpaySelf.setCreatedate("创建时间");
+    }
+
+    /**
+     * 创建商家的收支明细记录
+     * @param userorder
+     */
+    private void createMerchantReceiptpay (Userorder userorder, Percentage percentageBenefit) {
+        Userassets userassets = userassetsRepository.findByUserId(userorder.getPayee());
+        //更新余额
+        BigDecimal balanceBigDecimal = new BigDecimal(userassets.getBalance());
+        //让利百分比
+        BigDecimal afterConcessionBigDecimal = new BigDecimal(100 - userorder.getConcession()).divide(BigDecimal.valueOf(100));
+        //提现手续费
+        BigDecimal benefitPercentage = BigDecimal.ONE.subtract(new BigDecimal(percentageBenefit.getValue()).divide(BigDecimal.valueOf(100)));
+        //收到的金额
+        BigDecimal receiveBigDecimal = userorder.getSum().multiply(afterConcessionBigDecimal).multiply(benefitPercentage);
+        balanceBigDecimal = balanceBigDecimal.add(receiveBigDecimal);
+        userassets.setBalance(balanceBigDecimal.toString());
+        Receiptpay receiptpayMerchant = new Receiptpay();
+        receiptpayMerchant.setDealtype(Rewrite_Constant.DEALTYPE_RECEIVABLES);
+        receiptpayMerchant.setUserid(userorder.getPayee());
+        receiptpayMerchant.setSourcer(Rewrite_Constant.SOURCE_ALIPAY);
+        receiptpayMerchant.setBenefit(userorder.getUserid());
+        receiptpayMerchant.setAmount(userorder.getSum());
+        receiptpayMerchant.setHappendate("发生时间");
+        receiptpayMerchant.setDealstate(Rewrite_Constant.DEALSTATE_NORMAL);
+        receiptpayMerchant.setCreator("SYSTEM");
+        receiptpayMerchant.setCreatedate("创建时间");
     }
 
     /**
