@@ -76,4 +76,7 @@ public class Rewrite_Constant {
     public static final String PERCENTAGE_TYPE_CASH = "cash";
     public static final String PERCENTAGE_TYPE_INTEGRAL = "integral";
     public static final String PERCENTAGE_TYPE_COUPON = "coupon";
+
+    public static final String ORDER_PREFIX_ONLINE = "S";
+    public static final String ORDER_PREFIX_OFFLINE = "F";
 }

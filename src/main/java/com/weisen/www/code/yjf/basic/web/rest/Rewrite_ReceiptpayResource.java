@@ -1,7 +1,10 @@
 package com.weisen.www.code.yjf.basic.web.rest;
 
+import java.util.List;
 import java.util.Optional;
 
+import com.weisen.www.code.yjf.basic.domain.Receiptpay;
+import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,6 +55,19 @@ public class Rewrite_ReceiptpayResource {
     public ResponseEntity<Result> selectYesterday(@PathVariable Long userId) {
     	Rewrite_PriceDTO rewrite_PriceDTO = rewrite_ReceiptpayService.selectYesterday(userId);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(Result.suc("成功",rewrite_PriceDTO)));
+    }
+
+    /**
+     * 获取提现记录
+     * @param userId
+     * @return
+     */
+    @GetMapping("/selcetMoneyRecord/{userId}")
+    @ApiOperation(value = "获取提现记录")
+    @Timed
+    public ResponseEntity<Result> selcetMoneyRecord(@PathVariable Long userId) {
+        List<ReceiptpayDTO> receiptpay = rewrite_ReceiptpayService.selcetMoneyRecord(userId);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(Result.suc("成功",receiptpay)));
     }
 	
 }

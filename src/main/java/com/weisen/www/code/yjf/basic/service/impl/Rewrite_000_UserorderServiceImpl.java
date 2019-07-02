@@ -5,6 +5,8 @@ import com.weisen.www.code.yjf.basic.config.AlipayConstants;
 import com.weisen.www.code.yjf.basic.domain.*;
 import com.weisen.www.code.yjf.basic.repository.*;
 import com.weisen.www.code.yjf.basic.service.Rewrite_000_UserorderService;
+import com.weisen.www.code.yjf.basic.service.dto.CreateOrderDTO;
+import com.weisen.www.code.yjf.basic.service.util.FinalUtil;
 import com.weisen.www.code.yjf.basic.util.AlipayUtil;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.Rewrite_Constant;
@@ -73,6 +75,23 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
             return Result.fail("支付宝支付错误");
         }
         return Result.suc("调用支付宝成功", form);
+    }
+
+    @Override
+    public Result alipay(String merchantId, String userId, Integer concession, Integer rebate, String amount) {
+        //1.先创建订单信息
+        Userorder userorder = new Userorder();
+        String orderCode = FinalUtil.createTradeNo(Rewrite_Constant.ORDER_PREFIX_OFFLINE);
+        userorder.setUserid(userId);
+        userorder.setSum(new BigDecimal(amount));//设置金额
+        userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_PAY);//设置待支付
+        userorder.setOrdercode(orderCode);
+        userorder.setPayee(merchantId);
+        userorder.setConcession(concession);
+        userorder.setRebate(rebate);
+        userorder.setCreatedate("创建时间");
+        userorderRepository.save(userorder);
+        return alipay(userorder.getId());
     }
 
     @Override
@@ -256,5 +275,16 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
         receiptpay.setCreator("SYSTEM");
         receiptpay.setCreatedate("创建时间");
         receiptpayRepository.save(receiptpay);
+    }
+
+    @Override
+    public Result createOrder(CreateOrderDTO createOrderDTO) {
+        String orderCode = FinalUtil.createTradeNo(createOrderDTO.getType());
+        Userorder userorder = new Userorder();
+        userorder.setUserid(createOrderDTO.getUserId());
+        userorder.setOrdercode(orderCode);
+        userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_PAY);
+        userorder.setSum(new BigDecimal(createOrderDTO.getSum()));
+        return null;
     }
 }

@@ -5,6 +5,7 @@ import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitInformati
 import com.weisen.www.code.yjf.basic.service.rewrite.submit_dto.Rewrite_InformationDetailsDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
+@Api(tags = "000-消息")
 public class Rewrite_InformationResource {
 
     private final Logger log = LoggerFactory.getLogger(Rewrite_InformationResource.class);

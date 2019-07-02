@@ -4,6 +4,7 @@ import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_CoderecordService;
 import com.weisen.www.code.yjf.basic.service.rewrite.submit_dto.Rewrite_submitCoderecordDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
+@Api(tags = "000-验证码")
 public class Rewrite_CoderecordResource {
 
     private final Logger log = LoggerFactory.getLogger(Rewrite_CoderecordResource.class);
