@@ -1,4 +1,6 @@
 package com.weisen.www.code.yjf.basic.domain;
+
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -6,6 +8,7 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * A Userorder.
@@ -41,6 +44,12 @@ public class Userorder implements Serializable {
 
     @Column(name = "payresult")
     private String payresult;
+
+    @Column(name = "concession")
+    private Integer concession;
+
+    @Column(name = "rebate")
+    private Integer rebate;
 
     @Column(name = "creator")
     private String creator;
@@ -163,6 +172,32 @@ public class Userorder implements Serializable {
         this.payresult = payresult;
     }
 
+    public Integer getConcession() {
+        return concession;
+    }
+
+    public Userorder concession(Integer concession) {
+        this.concession = concession;
+        return this;
+    }
+
+    public void setConcession(Integer concession) {
+        this.concession = concession;
+    }
+
+    public Integer getRebate() {
+        return rebate;
+    }
+
+    public Userorder rebate(Integer rebate) {
+        this.rebate = rebate;
+        return this;
+    }
+
+    public void setRebate(Integer rebate) {
+        this.rebate = rebate;
+    }
+
     public String getCreator() {
         return creator;
     }
@@ -282,6 +317,8 @@ public class Userorder implements Serializable {
             ", payee='" + getPayee() + "'" +
             ", payway='" + getPayway() + "'" +
             ", payresult='" + getPayresult() + "'" +
+            ", concession=" + getConcession() +
+            ", rebate=" + getRebate() +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +

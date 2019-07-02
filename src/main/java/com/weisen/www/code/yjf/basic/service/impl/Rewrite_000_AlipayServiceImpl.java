@@ -1,6 +1,7 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
 import com.alipay.api.response.AlipaySystemOauthTokenResponse;
+import com.weisen.www.code.yjf.basic.domain.Linkaccount;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_000_LinkaccountRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_000_AlipayService;
 import com.weisen.www.code.yjf.basic.util.AlipayUtil;
@@ -20,15 +21,25 @@ public class Rewrite_000_AlipayServiceImpl implements Rewrite_000_AlipayService 
     }
 
     @Override
-    public Result scaning(String authCode) {
+    public Result scaning(String authCode, String userId) {
         AlipaySystemOauthTokenResponse userInfo = AlipayUtil.getUserInfo(authCode);
         if (userInfo == null) {
             return Result.fail("获取支付宝会员信息失败");
         }
-        String userId = userInfo.getUserId();
+        String alipayUserId = userInfo.getUserId();
         //获取用户是否存在
-        int alipayCount = linkaccountRepository.countByAccountType(userId, Rewrite_Constant.ACCOUNTTYPE_ALIPAY);
-        return alipayCount > 0 ? Result.fail("用户已注册") : Result.suc(userId, "用户未注册");
+        int alipayCount = linkaccountRepository.countByAccountType(alipayUserId, Rewrite_Constant.ACCOUNTTYPE_ALIPAY);
+        boolean checkFlag = alipayCount > 0;
+        if (null != userId && !checkFlag) { //绑定支付宝账号
+            Linkaccount linkaccount = new Linkaccount();
+            linkaccount.setUserid(userId);
+            linkaccount.setAccounttype(Rewrite_Constant.ACCOUNTTYPE_ALIPAY);
+            linkaccount.setToken(alipayUserId);
+            linkaccount.setCreator(userId);
+            linkaccount.setCreatedate("创建时间");
+            linkaccountRepository.save(linkaccount);
+        }
+        return checkFlag ? Result.fail("用户已注册") : Result.suc(alipayUserId, "用户可以注册");
     }
 
 }

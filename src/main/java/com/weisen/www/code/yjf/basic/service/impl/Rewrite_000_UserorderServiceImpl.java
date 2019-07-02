@@ -5,6 +5,8 @@ import com.weisen.www.code.yjf.basic.config.AlipayConstants;
 import com.weisen.www.code.yjf.basic.domain.*;
 import com.weisen.www.code.yjf.basic.repository.*;
 import com.weisen.www.code.yjf.basic.service.Rewrite_000_UserorderService;
+import com.weisen.www.code.yjf.basic.service.dto.CreateOrderDTO;
+import com.weisen.www.code.yjf.basic.service.util.FinalUtil;
 import com.weisen.www.code.yjf.basic.util.AlipayUtil;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.Rewrite_Constant;
@@ -59,7 +61,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
         }
         //2.判断订单状态
         Userorder userorder = optional.get();
-        if (userorder.getOrderstatus() != Rewrite_Constant.ORDER_WAIT_PAY) {
+        if (!userorder.getOrderstatus().equals(Rewrite_Constant.ORDER_WAIT_PAY)) {
             return Result.fail("当前订单不能支付");
         }
         //3.准备调起支付宝
@@ -73,6 +75,39 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
             return Result.fail("支付宝支付错误");
         }
         return Result.suc("调用支付宝成功", form);
+    }
+
+    @Override
+    public Result alipay(String merchantId, String userId, Integer concession, Integer rebate, String amount) {
+        //1.先创建订单信息
+        Userorder userorder = new Userorder();
+        String orderCode = FinalUtil.createTradeNo(Rewrite_Constant.ORDER_PREFIX_OFFLINE);
+        userorder.setUserid(userId);
+        userorder.setSum(new BigDecimal(amount));//设置金额
+        userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_PAY);//设置待支付
+        userorder.setOrdercode(orderCode);
+        userorder.setPayee(merchantId);
+        userorder.setConcession(concession);
+        userorder.setRebate(rebate);
+        userorder.setCreatedate("创建时间");
+        userorderRepository.save(userorder);
+        return alipay(userorder.getId());
+    }
+
+    @Override
+    public Result queryOrder(String orderId) {
+        if (StringUtils.isBlank(orderId)) {
+            return Result.fail("订单号不能为空");
+        }
+        Optional<Userorder> optional = userorderRepository.findById(Long.valueOf(orderId));
+        if (!optional.isPresent()) {
+            return Result.fail("订单不存在");
+        }
+        Userorder userorder = optional.get();
+        if (!userorder.getOrderstatus().equals(Rewrite_Constant.ORDER_WAIT_DELIVER)) {
+            return Result.fail("当前订单状态有误");
+        }
+        return Result.suc("支付成功");
     }
 
     @Override
@@ -137,9 +172,11 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
         Percentage percentageRecommend = percentageRepository.findByName(Rewrite_Constant.PERCENTAGE_RECOMMEND, Rewrite_Constant.PERCENTAGE_TYPE_CASH);
         Percentage percentagePartner = percentageRepository.findByName(Rewrite_Constant.PERCENTAGE_PARTNER, Rewrite_Constant.PERCENTAGE_TYPE_CASH);
         Percentage percentageBenefit = percentageRepository.findByName(Rewrite_Constant.PERCENTAGE_BENEFIT, Rewrite_Constant.PERCENTAGE_TYPE_CASH);
+        //创建商家的收支明细
+        createMerchantReceiptpay(userorder, percentageBenefit);
         BigDecimal sumBigDecimal = userorder.getSum();
         //计算收益手续费
-        BigDecimal benefitPercentage = BigDecimal.ONE.subtract(new BigDecimal(percentageBenefit.getValue()));
+        BigDecimal benefitPercentage = BigDecimal.ONE.subtract(new BigDecimal(percentageBenefit.getValue()).divide(BigDecimal.valueOf(100)));
         //获取推荐人
         Userlinkuser userlinkuser = userlinkuserRepository.findByUserId(userorder.getId());
         //计算推荐收益
@@ -169,11 +206,49 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
         receiptpaySelf.setUserid(userorder.getUserid());
         receiptpaySelf.setSourcer(Rewrite_Constant.SOURCE_ALIPAY);
         receiptpaySelf.setBenefit(userorder.getPayee());
+        //获取到的积分
+        if (userorder.getRebate() != null) {
+            //现在的积分 = 原本的积分 + 商家积分百分比 * 支付金额
+            Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
+            String originIntegral = userassets.getIntegral();
+            BigDecimal rebateBigDecimal = new BigDecimal(userorder.getRebate()).divide(BigDecimal.valueOf(100));
+            BigDecimal integralBigDecimal = userorder.getSum().multiply(rebateBigDecimal);
+            integralBigDecimal = integralBigDecimal.add(new BigDecimal(originIntegral));
+            userassets.setIntegral(integralBigDecimal.toString());
+        }
         receiptpaySelf.setAmount(userorder.getSum());
         receiptpaySelf.setHappendate("发生时间");
         receiptpaySelf.setDealstate(Rewrite_Constant.DEALSTATE_NORMAL);
         receiptpaySelf.setCreator("SYSTEM");
         receiptpaySelf.setCreatedate("创建时间");
+    }
+
+    /**
+     * 创建商家的收支明细记录
+     * @param userorder
+     */
+    private void createMerchantReceiptpay (Userorder userorder, Percentage percentageBenefit) {
+        Userassets userassets = userassetsRepository.findByUserId(userorder.getPayee());
+        //更新余额
+        BigDecimal balanceBigDecimal = new BigDecimal(userassets.getBalance());
+        //让利百分比
+        BigDecimal afterConcessionBigDecimal = new BigDecimal(100 - userorder.getConcession()).divide(BigDecimal.valueOf(100));
+        //提现手续费
+        BigDecimal benefitPercentage = BigDecimal.ONE.subtract(new BigDecimal(percentageBenefit.getValue()).divide(BigDecimal.valueOf(100)));
+        //收到的金额
+        BigDecimal receiveBigDecimal = userorder.getSum().multiply(afterConcessionBigDecimal).multiply(benefitPercentage);
+        balanceBigDecimal = balanceBigDecimal.add(receiveBigDecimal);
+        userassets.setBalance(balanceBigDecimal.toString());
+        Receiptpay receiptpayMerchant = new Receiptpay();
+        receiptpayMerchant.setDealtype(Rewrite_Constant.DEALTYPE_RECEIVABLES);
+        receiptpayMerchant.setUserid(userorder.getPayee());
+        receiptpayMerchant.setSourcer(Rewrite_Constant.SOURCE_ALIPAY);
+        receiptpayMerchant.setBenefit(userorder.getUserid());
+        receiptpayMerchant.setAmount(userorder.getSum());
+        receiptpayMerchant.setHappendate("发生时间");
+        receiptpayMerchant.setDealstate(Rewrite_Constant.DEALSTATE_NORMAL);
+        receiptpayMerchant.setCreator("SYSTEM");
+        receiptpayMerchant.setCreatedate("创建时间");
     }
 
     /**
@@ -200,5 +275,16 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
         receiptpay.setCreator("SYSTEM");
         receiptpay.setCreatedate("创建时间");
         receiptpayRepository.save(receiptpay);
+    }
+
+    @Override
+    public Result createOrder(CreateOrderDTO createOrderDTO) {
+        String orderCode = FinalUtil.createTradeNo(createOrderDTO.getType());
+        Userorder userorder = new Userorder();
+        userorder.setUserid(createOrderDTO.getUserId());
+        userorder.setOrdercode(orderCode);
+        userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_PAY);
+        userorder.setSum(new BigDecimal(createOrderDTO.getSum()));
+        return null;
     }
 }
