@@ -27,8 +27,8 @@ public class Rewrite_000_CreateUserResource {
 	 */
 	@PostMapping("/createUserByScan")
 	@ApiOperation(value = "支付宝或者微信扫描二维码创建用户接口")
-	public Result createUserByScan (String userId, String token, String accounttype) {
-		return createUserService.createUserByScan(userId, token, accounttype);
+	public Result createUserByScan (String userId, String token, String accounttype, String recommendId, String coordinate) {
+		return createUserService.createUserByScan(userId, token, accounttype, recommendId, coordinate);
 	}
 	
 	/**
@@ -37,7 +37,7 @@ public class Rewrite_000_CreateUserResource {
 	 */
 	@PostMapping("/createUserByPhone")
 	@ApiOperation(value = "app注册手机创建用户接口")
-	public Result createUserByPhone (String userId, String phone) {
-		return createUserService.createUserByPhone(userId, phone);
+	public Result createUserByPhone (String userId, String phone, String coordinate) {
+		return createUserService.createUserByPhone(userId, phone, coordinate);
 	}
 }

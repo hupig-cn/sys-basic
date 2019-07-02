@@ -30,18 +30,18 @@ public class Rewrite_AlipayApiResource {
 	}
 
 	/**
-     * 扫码时创建用户流程
+     * 扫码时创建用户流程<br>
      * 1.扫码判断用户是否存在，若存在，直接跳出该流程；若不存在，执行以下步骤<br>
-     * 2.前端从{basic服务}中的checkUserExist接口获取的userId作为账号调用{login服务}创建用户，密码随机生成
-     * 3.前端从{login服务}创建用户之后获取userId，调用{basic服务}中的createUserByScan接口创建用户，判断改接口返回数据，若suc则结束
+     * 2.前端从{basic服务}中的checkUserExist接口获取的userId作为账号调用{login服务}创建用户，密码随机生成<br>
+     * 3.前端从{login服务}创建用户之后获取userId，调用{basic服务}中的createUserByScan接口创建用户，判断改接口返回数据，若suc则结束<br>
      * @param authCode
      * @return
      */
-    @GetMapping("/checkUserExist")
+    @GetMapping("/callback")
     @ApiOperation(value = "回调获取支付宝会员信息是否存在")
-    public Result checkUserExist (@RequestParam(value = "auth_code") String authCode) {
+    public Result callback (@RequestParam(value = "auth_code") String authCode, String userId) {
         log.debug("回调获取支付宝会员信息是否存在:{}", authCode);
-        return alipayService.scaning(authCode);
+        return alipayService.scaning(authCode, userId);
     }
 
     /**
@@ -49,11 +49,22 @@ public class Rewrite_AlipayApiResource {
      * @param orderId
      * @return
      */
-    @GetMapping("/payOrder")
+    @PostMapping("/payOrder")
     @ApiOperation(value = "支付订单")
     public Result payOrder (@RequestParam(value = "orderId") Long orderId) {
         log.debug("支付订单:{}", orderId);
         return userorderService.alipay(orderId);
+    }
+
+    /**
+     * 支付宝付款(线下)
+     * @param merchantId
+     * @return
+     */
+    @PostMapping("/payOrderOffline")
+    @ApiOperation(value = "支付订单")
+    public Result payOrderOffline (String merchantId, String userId, Integer concession, Integer rebate, String amount) {
+        return userorderService.alipay(merchantId, userId, concession, rebate, amount);
     }
 
     /**
