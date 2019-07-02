@@ -23,7 +23,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-@Api("提现")
+@Api(tags = "001-提现")
 public class Rewrite_WithdrawalResource {
 
     private final Logger log = LoggerFactory.getLogger(Rewrite_WithdrawalResource.class);
