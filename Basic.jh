@@ -79,8 +79,6 @@ entity Userlinkuser {// 用户关系表
 
 entity Userassets {// 用户资产表
     userid String,// 用户id
-    couponid String,// 优惠卷id
-    couponnum String,// 优惠卷数量
     balance String,// 总余额
     usablebalance String,// 可用余额
     frozenbalance String,// 冻结余额-收益
