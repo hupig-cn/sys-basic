@@ -275,6 +275,20 @@ entity Coderecord{
     num Integer//次数
 }
 
+entity Advertisement {
+     name String required, //广告名称
+     introduction String, //广告位介绍
+     pictureFormat String, //图片格式
+     pictureLink String, //图片链接
+     sort Integer, //排序
+     link String, //跳转链接
+     linkType Integer,
+     type Integer, //链接类型
+     state Integer required max(1), //状态
+     createdDate Instant required,
+     lastModifiedDate Instant required
+}
+
 // Set pagination options
 paginate all with infinite-scroll
 
