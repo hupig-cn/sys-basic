@@ -2,16 +2,14 @@ package com.weisen.www.code.yjf.basic.web.rest;
 
 import com.weisen.www.code.yjf.basic.service.Rewrite_UserOrderService;
 import com.weisen.www.code.yjf.basic.service.dto.UserorderDTO;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_AnOrder;
 import com.weisen.www.code.yjf.basic.util.Result;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.micrometer.core.annotation.Timed;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -104,6 +102,19 @@ public class Rewrite_UserOrderResource {
     public ResponseEntity<Result> getAllOrder(@PathVariable Long userId) {
         List<UserorderDTO> userorder = rewrite_UserOrderService.getAllOrder(userId);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(Result.suc("成功",userorder)));
+    }
+
+    /**
+     * 用户下单
+     * @param rewrite_AnOrder
+     * @return
+     */
+    @GetMapping("/placeAnOrder")
+    @ApiOperation(value = "用户下单")
+    @Timed
+    public ResponseEntity<Result> placeAnOrder(@RequestBody Rewrite_AnOrder rewrite_AnOrder) {
+        Result result = rewrite_UserOrderService.placeAnOrder(rewrite_AnOrder);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(Result.suc("成功",result)));
     }
 
 
