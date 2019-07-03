@@ -5,6 +5,7 @@ import com.weisen.www.code.yjf.basic.service.rewrite.submit_dto.Rewrite_submitCo
 import com.weisen.www.code.yjf.basic.util.Result;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,12 +39,14 @@ public class Rewrite_CoderecordResource {
     }
 
     @PostMapping("/send-code")
+    @ApiOperation(value = "发送验证码")
     public ResponseEntity<?> sendCode(@RequestBody Rewrite_submitCoderecordDTO coderecordDTO) {
         Result result = coderecordService.sendCode(coderecordDTO);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
     @PostMapping("/check-code")
+    @ApiOperation("检验验证码")
     public ResponseEntity<?> checkCode(@RequestBody Rewrite_submitCoderecordDTO coderecordDTO){
         Result result = coderecordService.checkCode(coderecordDTO);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
