@@ -20,7 +20,7 @@ import java.util.Optional;
  * REST controller for managing {@link com.weisen.www.code.yjf.basic.domain.Coderecord}.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/public")
 @Api(tags = "000-验证码")
 public class Rewrite_CoderecordResource {
 
