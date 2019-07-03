@@ -4,8 +4,11 @@ import com.weisen.www.code.yjf.basic.domain.Userorder;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserorderRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_UserOrderService;
 import com.weisen.www.code.yjf.basic.service.dto.UserorderDTO;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_AnOrder;
 import com.weisen.www.code.yjf.basic.service.mapper.UserorderMapper;
 import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
+import com.weisen.www.code.yjf.basic.util.Result;
+import com.weisen.www.code.yjf.basic.util.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -107,5 +110,28 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     public List<UserorderDTO> getAllOrder(Long userId) {
         List<Userorder> userorder = rewrite_UserorderRepository.findAllByUserid(userId.toString());
         return userorderMapper.toDto(userorder);
+    }
+
+    //用户下单
+    @Override
+    public Result placeAnOrder(Rewrite_AnOrder rewrite_AnOrder) {
+        if(null == rewrite_AnOrder.getUserId()){
+
+        }else if(null == rewrite_AnOrder.getPrice()){
+
+        } ////
+
+        Userorder userorder = new Userorder();
+        userorder.setOrdercode(OrderConstant.getOrderCode(rewrite_AnOrder.getUserId()));
+        userorder.setOrderstatus(OrderConstant.UN_PAID);  // 待支付
+        userorder.setSum(rewrite_AnOrder.getPrice());
+        userorder.setUserid(rewrite_AnOrder.getUserId());
+        userorder.setPayway(rewrite_AnOrder.getPayWay());
+        userorder.setPayresult("");  // ??
+        userorder.setCreator(null);
+        userorder.setCreatedate(TimeUtil.getDate());
+        rewrite_UserorderRepository.save(userorder);
+
+        return Result.suc("成功", userorder.getId());
     }
 }

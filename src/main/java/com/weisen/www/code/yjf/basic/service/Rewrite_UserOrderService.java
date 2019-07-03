@@ -2,6 +2,8 @@ package com.weisen.www.code.yjf.basic.service;
 
 import com.weisen.www.code.yjf.basic.domain.Userorder;
 import com.weisen.www.code.yjf.basic.service.dto.UserorderDTO;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_AnOrder;
+import com.weisen.www.code.yjf.basic.util.Result;
 
 import java.util.List;
 
@@ -25,5 +27,8 @@ public interface Rewrite_UserOrderService {
 
     // 获取全部订单
     List<UserorderDTO> getAllOrder(Long userId);
+
+    //用户下单
+    Result placeAnOrder(Rewrite_AnOrder rewrite_AnOrder);
 
 }
