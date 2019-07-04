@@ -15,6 +15,8 @@ public class LinkaccountDTO implements Serializable {
 
     private String token;
 
+    private String password;
+
     private String creator;
 
     private String createdate;
@@ -60,6 +62,14 @@ public class LinkaccountDTO implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getCreator() {
@@ -146,6 +156,7 @@ public class LinkaccountDTO implements Serializable {
             ", userid='" + getUserid() + "'" +
             ", accounttype='" + getAccounttype() + "'" +
             ", token='" + getToken() + "'" +
+            ", password='" + getPassword() + "'" +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +
