@@ -1,9 +1,8 @@
 package com.weisen.www.code.yjf.basic.web.rest;
 
 import com.weisen.www.code.yjf.basic.service.CoderecordService;
-import com.weisen.www.code.yjf.basic.web.rest.errors.BadRequestAlertException;
 import com.weisen.www.code.yjf.basic.service.dto.CoderecordDTO;
-
+import com.weisen.www.code.yjf.basic.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -13,20 +12,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
 /**
- * REST controller for managing {@link com.weisen.www.code.yjf.basic.domain.Coderecord}.
+ * REST controller for managing Coderecord.
  */
 @RestController
 @RequestMapping("/api")
@@ -89,8 +86,6 @@ public class CoderecordResource {
      * {@code GET  /coderecords} : get all the coderecords.
      *
      * @param pageable the pagination information.
-     * @param queryParams a {@link MultiValueMap} query parameters.
-     * @param uriBuilder a {@link UriComponentsBuilder} URI builder.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of coderecords in body.
      */
     @GetMapping("/coderecords")

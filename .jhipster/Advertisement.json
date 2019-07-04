@@ -61,10 +61,10 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190704095702",
+    "changelogDate": "20190624024320",
     "entityTableName": "advertisement",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
+    "pagination": "no",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
- * Service Implementation for managing {@link Coderecord}.
+ * Service Implementation for managing Coderecord.
  */
 @Service
 @Transactional
@@ -36,8 +36,8 @@ public class CoderecordServiceImpl implements CoderecordService {
     /**
      * Save a coderecord.
      *
-     * @param coderecordDTO the entity to save.
-     * @return the persisted entity.
+     * @param coderecordDTO the entity to save
+     * @return the persisted entity
      */
     @Override
     public CoderecordDTO save(CoderecordDTO coderecordDTO) {
@@ -50,8 +50,8 @@ public class CoderecordServiceImpl implements CoderecordService {
     /**
      * Get all the coderecords.
      *
-     * @param pageable the pagination information.
-     * @return the list of entities.
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -65,8 +65,8 @@ public class CoderecordServiceImpl implements CoderecordService {
     /**
      * Get one coderecord by id.
      *
-     * @param id the id of the entity.
-     * @return the entity.
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -79,7 +79,7 @@ public class CoderecordServiceImpl implements CoderecordService {
     /**
      * Delete the coderecord by id.
      *
-     * @param id the id of the entity.
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {

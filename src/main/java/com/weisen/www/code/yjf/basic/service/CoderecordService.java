@@ -8,23 +8,23 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 /**
- * Service Interface for managing {@link com.weisen.www.code.yjf.basic.domain.Coderecord}.
+ * Service Interface for managing Coderecord.
  */
 public interface CoderecordService {
 
     /**
      * Save a coderecord.
      *
-     * @param coderecordDTO the entity to save.
-     * @return the persisted entity.
+     * @param coderecordDTO the entity to save
+     * @return the persisted entity
      */
     CoderecordDTO save(CoderecordDTO coderecordDTO);
 
     /**
      * Get all the coderecords.
      *
-     * @param pageable the pagination information.
-     * @return the list of entities.
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     Page<CoderecordDTO> findAll(Pageable pageable);
 
@@ -32,15 +32,15 @@ public interface CoderecordService {
     /**
      * Get the "id" coderecord.
      *
-     * @param id the id of the entity.
-     * @return the entity.
+     * @param id the id of the entity
+     * @return the entity
      */
     Optional<CoderecordDTO> findOne(Long id);
 
     /**
      * Delete the "id" coderecord.
      *
-     * @param id the id of the entity.
+     * @param id the id of the entity
      */
     void delete(Long id);
 }

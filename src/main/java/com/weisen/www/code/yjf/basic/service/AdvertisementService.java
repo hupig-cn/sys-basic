@@ -2,9 +2,7 @@ package com.weisen.www.code.yjf.basic.service;
 
 import com.weisen.www.code.yjf.basic.service.dto.AdvertisementDTO;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,10 +21,9 @@ public interface AdvertisementService {
     /**
      * Get all the advertisements.
      *
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
-    Page<AdvertisementDTO> findAll(Pageable pageable);
+    List<AdvertisementDTO> findAll();
 
 
     /**

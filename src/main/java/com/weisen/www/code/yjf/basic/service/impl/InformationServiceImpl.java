@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
- * Service Implementation for managing {@link Information}.
+ * Service Implementation for managing Information.
  */
 @Service
 @Transactional
@@ -36,8 +36,8 @@ public class InformationServiceImpl implements InformationService {
     /**
      * Save a information.
      *
-     * @param informationDTO the entity to save.
-     * @return the persisted entity.
+     * @param informationDTO the entity to save
+     * @return the persisted entity
      */
     @Override
     public InformationDTO save(InformationDTO informationDTO) {
@@ -50,8 +50,8 @@ public class InformationServiceImpl implements InformationService {
     /**
      * Get all the information.
      *
-     * @param pageable the pagination information.
-     * @return the list of entities.
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -65,8 +65,8 @@ public class InformationServiceImpl implements InformationService {
     /**
      * Get one information by id.
      *
-     * @param id the id of the entity.
-     * @return the entity.
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -79,7 +79,7 @@ public class InformationServiceImpl implements InformationService {
     /**
      * Delete the information by id.
      *
-     * @param id the id of the entity.
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {

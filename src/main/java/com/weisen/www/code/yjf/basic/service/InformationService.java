@@ -8,23 +8,23 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 /**
- * Service Interface for managing {@link com.weisen.www.code.yjf.basic.domain.Information}.
+ * Service Interface for managing Information.
  */
 public interface InformationService {
 
     /**
      * Save a information.
      *
-     * @param informationDTO the entity to save.
-     * @return the persisted entity.
+     * @param informationDTO the entity to save
+     * @return the persisted entity
      */
     InformationDTO save(InformationDTO informationDTO);
 
     /**
      * Get all the information.
      *
-     * @param pageable the pagination information.
-     * @return the list of entities.
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     Page<InformationDTO> findAll(Pageable pageable);
 
@@ -32,15 +32,15 @@ public interface InformationService {
     /**
      * Get the "id" information.
      *
-     * @param id the id of the entity.
-     * @return the entity.
+     * @param id the id of the entity
+     * @return the entity
      */
     Optional<InformationDTO> findOne(Long id);
 
     /**
      * Delete the "id" information.
      *
-     * @param id the id of the entity.
+     * @param id the id of the entity
      */
     void delete(Long id);
 }

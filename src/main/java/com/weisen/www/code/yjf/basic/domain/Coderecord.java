@@ -1,10 +1,13 @@
 package com.weisen.www.code.yjf.basic.domain;
+
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A Coderecord.
@@ -15,7 +18,7 @@ import java.io.Serializable;
 public class Coderecord implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,7 +26,7 @@ public class Coderecord implements Serializable {
     @Column(name = "code")
     private String code;
 
-    @Column(name = "type")
+    @Column(name = "jhi_type")
     private String type;
 
     @Column(name = "phone")
@@ -131,15 +134,19 @@ public class Coderecord implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Coderecord)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        return id != null && id.equals(((Coderecord) o).id);
+        Coderecord coderecord = (Coderecord) o;
+        if (coderecord.getId() == null || getId() == null) {
+            return false;
+        }
+        return Objects.equals(getId(), coderecord.getId());
     }
 
     @Override
     public int hashCode() {
-        return 31;
+        return Objects.hashCode(getId());
     }
 
     @Override

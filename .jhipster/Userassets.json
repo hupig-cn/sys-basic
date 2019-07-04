@@ -6,6 +6,14 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "couponid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "couponnum",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "balance",
             "fieldType": "String"
         },
@@ -51,7 +59,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190704095649",
+    "changelogDate": "20190627002756",
     "entityTableName": "userassets",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

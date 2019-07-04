@@ -6,7 +6,7 @@ import com.weisen.www.code.yjf.basic.service.dto.CoderecordDTO;
 import org.mapstruct.*;
 
 /**
- * Mapper for the entity {@link Coderecord} and its DTO {@link CoderecordDTO}.
+ * Mapper for the entity Coderecord and its DTO CoderecordDTO.
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface CoderecordMapper extends EntityMapper<CoderecordDTO, Coderecord> {

@@ -40,6 +40,12 @@ public class UserassetsResourceIT {
     private static final String DEFAULT_USERID = "AAAAAAAAAA";
     private static final String UPDATED_USERID = "BBBBBBBBBB";
 
+    private static final String DEFAULT_COUPONID = "AAAAAAAAAA";
+    private static final String UPDATED_COUPONID = "BBBBBBBBBB";
+
+    private static final String DEFAULT_COUPONNUM = "AAAAAAAAAA";
+    private static final String UPDATED_COUPONNUM = "BBBBBBBBBB";
+
     private static final String DEFAULT_BALANCE = "AAAAAAAAAA";
     private static final String UPDATED_BALANCE = "BBBBBBBBBB";
 
@@ -122,6 +128,8 @@ public class UserassetsResourceIT {
     public static Userassets createEntity(EntityManager em) {
         Userassets userassets = new Userassets()
             .userid(DEFAULT_USERID)
+            .couponid(DEFAULT_COUPONID)
+            .couponnum(DEFAULT_COUPONNUM)
             .balance(DEFAULT_BALANCE)
             .usablebalance(DEFAULT_USABLEBALANCE)
             .frozenbalance(DEFAULT_FROZENBALANCE)
@@ -144,6 +152,8 @@ public class UserassetsResourceIT {
     public static Userassets createUpdatedEntity(EntityManager em) {
         Userassets userassets = new Userassets()
             .userid(UPDATED_USERID)
+            .couponid(UPDATED_COUPONID)
+            .couponnum(UPDATED_COUPONNUM)
             .balance(UPDATED_BALANCE)
             .usablebalance(UPDATED_USABLEBALANCE)
             .frozenbalance(UPDATED_FROZENBALANCE)
@@ -180,6 +190,8 @@ public class UserassetsResourceIT {
         assertThat(userassetsList).hasSize(databaseSizeBeforeCreate + 1);
         Userassets testUserassets = userassetsList.get(userassetsList.size() - 1);
         assertThat(testUserassets.getUserid()).isEqualTo(DEFAULT_USERID);
+        assertThat(testUserassets.getCouponid()).isEqualTo(DEFAULT_COUPONID);
+        assertThat(testUserassets.getCouponnum()).isEqualTo(DEFAULT_COUPONNUM);
         assertThat(testUserassets.getBalance()).isEqualTo(DEFAULT_BALANCE);
         assertThat(testUserassets.getUsablebalance()).isEqualTo(DEFAULT_USABLEBALANCE);
         assertThat(testUserassets.getFrozenbalance()).isEqualTo(DEFAULT_FROZENBALANCE);
@@ -226,6 +238,8 @@ public class UserassetsResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(userassets.getId().intValue())))
             .andExpect(jsonPath("$.[*].userid").value(hasItem(DEFAULT_USERID.toString())))
+            .andExpect(jsonPath("$.[*].couponid").value(hasItem(DEFAULT_COUPONID.toString())))
+            .andExpect(jsonPath("$.[*].couponnum").value(hasItem(DEFAULT_COUPONNUM.toString())))
             .andExpect(jsonPath("$.[*].balance").value(hasItem(DEFAULT_BALANCE.toString())))
             .andExpect(jsonPath("$.[*].usablebalance").value(hasItem(DEFAULT_USABLEBALANCE.toString())))
             .andExpect(jsonPath("$.[*].frozenbalance").value(hasItem(DEFAULT_FROZENBALANCE.toString())))
@@ -251,6 +265,8 @@ public class UserassetsResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(userassets.getId().intValue()))
             .andExpect(jsonPath("$.userid").value(DEFAULT_USERID.toString()))
+            .andExpect(jsonPath("$.couponid").value(DEFAULT_COUPONID.toString()))
+            .andExpect(jsonPath("$.couponnum").value(DEFAULT_COUPONNUM.toString()))
             .andExpect(jsonPath("$.balance").value(DEFAULT_BALANCE.toString()))
             .andExpect(jsonPath("$.usablebalance").value(DEFAULT_USABLEBALANCE.toString()))
             .andExpect(jsonPath("$.frozenbalance").value(DEFAULT_FROZENBALANCE.toString()))
@@ -286,6 +302,8 @@ public class UserassetsResourceIT {
         em.detach(updatedUserassets);
         updatedUserassets
             .userid(UPDATED_USERID)
+            .couponid(UPDATED_COUPONID)
+            .couponnum(UPDATED_COUPONNUM)
             .balance(UPDATED_BALANCE)
             .usablebalance(UPDATED_USABLEBALANCE)
             .frozenbalance(UPDATED_FROZENBALANCE)
@@ -309,6 +327,8 @@ public class UserassetsResourceIT {
         assertThat(userassetsList).hasSize(databaseSizeBeforeUpdate);
         Userassets testUserassets = userassetsList.get(userassetsList.size() - 1);
         assertThat(testUserassets.getUserid()).isEqualTo(UPDATED_USERID);
+        assertThat(testUserassets.getCouponid()).isEqualTo(UPDATED_COUPONID);
+        assertThat(testUserassets.getCouponnum()).isEqualTo(UPDATED_COUPONNUM);
         assertThat(testUserassets.getBalance()).isEqualTo(UPDATED_BALANCE);
         assertThat(testUserassets.getUsablebalance()).isEqualTo(UPDATED_USABLEBALANCE);
         assertThat(testUserassets.getFrozenbalance()).isEqualTo(UPDATED_FROZENBALANCE);
