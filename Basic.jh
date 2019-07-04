@@ -22,6 +22,7 @@ entity Linkaccount {// 用户绑定账号表
     userid String,// 用户id
     accounttype String,// 账号类型，微信，支付宝等
     token String,// 账号
+    password String,//密码
     creator String,// 绑定者
     createdate String,// 绑定日期
     modifier String,// 修改者

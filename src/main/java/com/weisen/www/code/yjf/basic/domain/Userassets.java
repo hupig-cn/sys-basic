@@ -23,12 +23,6 @@ public class Userassets implements Serializable {
     @Column(name = "userid")
     private String userid;
 
-    @Column(name = "couponid")
-    private String couponid;
-
-    @Column(name = "couponnum")
-    private String couponnum;
-
     @Column(name = "balance")
     private String balance;
 
@@ -82,32 +76,6 @@ public class Userassets implements Serializable {
 
     public void setUserid(String userid) {
         this.userid = userid;
-    }
-
-    public String getCouponid() {
-        return couponid;
-    }
-
-    public Userassets couponid(String couponid) {
-        this.couponid = couponid;
-        return this;
-    }
-
-    public void setCouponid(String couponid) {
-        this.couponid = couponid;
-    }
-
-    public String getCouponnum() {
-        return couponnum;
-    }
-
-    public Userassets couponnum(String couponnum) {
-        this.couponnum = couponnum;
-        return this;
-    }
-
-    public void setCouponnum(String couponnum) {
-        this.couponnum = couponnum;
     }
 
     public String getBalance() {
@@ -275,8 +243,6 @@ public class Userassets implements Serializable {
         return "Userassets{" +
             "id=" + getId() +
             ", userid='" + getUserid() + "'" +
-            ", couponid='" + getCouponid() + "'" +
-            ", couponnum='" + getCouponnum() + "'" +
             ", balance='" + getBalance() + "'" +
             ", usablebalance='" + getUsablebalance() + "'" +
             ", frozenbalance='" + getFrozenbalance() + "'" +

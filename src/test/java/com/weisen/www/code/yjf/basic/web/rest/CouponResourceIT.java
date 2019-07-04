@@ -37,6 +37,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = {SecurityBeanOverrideConfiguration.class, BasicApp.class})
 public class CouponResourceIT {
 
+    private static final String DEFAULT_USERID = "AAAAAAAAAA";
+    private static final String UPDATED_USERID = "BBBBBBBBBB";
+
+    private static final String DEFAULT_SUM = "AAAAAAAAAA";
+    private static final String UPDATED_SUM = "BBBBBBBBBB";
+
     private static final String DEFAULT_COUPONTYPE = "AAAAAAAAAA";
     private static final String UPDATED_COUPONTYPE = "BBBBBBBBBB";
 
@@ -121,6 +127,8 @@ public class CouponResourceIT {
      */
     public static Coupon createEntity(EntityManager em) {
         Coupon coupon = new Coupon()
+            .userid(DEFAULT_USERID)
+            .sum(DEFAULT_SUM)
             .coupontype(DEFAULT_COUPONTYPE)
             .lineon(DEFAULT_LINEON)
             .lineunder(DEFAULT_LINEUNDER)
@@ -143,6 +151,8 @@ public class CouponResourceIT {
      */
     public static Coupon createUpdatedEntity(EntityManager em) {
         Coupon coupon = new Coupon()
+            .userid(UPDATED_USERID)
+            .sum(UPDATED_SUM)
             .coupontype(UPDATED_COUPONTYPE)
             .lineon(UPDATED_LINEON)
             .lineunder(UPDATED_LINEUNDER)
@@ -179,6 +189,8 @@ public class CouponResourceIT {
         List<Coupon> couponList = couponRepository.findAll();
         assertThat(couponList).hasSize(databaseSizeBeforeCreate + 1);
         Coupon testCoupon = couponList.get(couponList.size() - 1);
+        assertThat(testCoupon.getUserid()).isEqualTo(DEFAULT_USERID);
+        assertThat(testCoupon.getSum()).isEqualTo(DEFAULT_SUM);
         assertThat(testCoupon.getCoupontype()).isEqualTo(DEFAULT_COUPONTYPE);
         assertThat(testCoupon.isLineon()).isEqualTo(DEFAULT_LINEON);
         assertThat(testCoupon.isLineunder()).isEqualTo(DEFAULT_LINEUNDER);
@@ -225,6 +237,8 @@ public class CouponResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(coupon.getId().intValue())))
+            .andExpect(jsonPath("$.[*].userid").value(hasItem(DEFAULT_USERID.toString())))
+            .andExpect(jsonPath("$.[*].sum").value(hasItem(DEFAULT_SUM.toString())))
             .andExpect(jsonPath("$.[*].coupontype").value(hasItem(DEFAULT_COUPONTYPE.toString())))
             .andExpect(jsonPath("$.[*].lineon").value(hasItem(DEFAULT_LINEON.booleanValue())))
             .andExpect(jsonPath("$.[*].lineunder").value(hasItem(DEFAULT_LINEUNDER.booleanValue())))
@@ -250,6 +264,8 @@ public class CouponResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(coupon.getId().intValue()))
+            .andExpect(jsonPath("$.userid").value(DEFAULT_USERID.toString()))
+            .andExpect(jsonPath("$.sum").value(DEFAULT_SUM.toString()))
             .andExpect(jsonPath("$.coupontype").value(DEFAULT_COUPONTYPE.toString()))
             .andExpect(jsonPath("$.lineon").value(DEFAULT_LINEON.booleanValue()))
             .andExpect(jsonPath("$.lineunder").value(DEFAULT_LINEUNDER.booleanValue()))
@@ -285,6 +301,8 @@ public class CouponResourceIT {
         // Disconnect from session so that the updates on updatedCoupon are not directly saved in db
         em.detach(updatedCoupon);
         updatedCoupon
+            .userid(UPDATED_USERID)
+            .sum(UPDATED_SUM)
             .coupontype(UPDATED_COUPONTYPE)
             .lineon(UPDATED_LINEON)
             .lineunder(UPDATED_LINEUNDER)
@@ -308,6 +326,8 @@ public class CouponResourceIT {
         List<Coupon> couponList = couponRepository.findAll();
         assertThat(couponList).hasSize(databaseSizeBeforeUpdate);
         Coupon testCoupon = couponList.get(couponList.size() - 1);
+        assertThat(testCoupon.getUserid()).isEqualTo(UPDATED_USERID);
+        assertThat(testCoupon.getSum()).isEqualTo(UPDATED_SUM);
         assertThat(testCoupon.getCoupontype()).isEqualTo(UPDATED_COUPONTYPE);
         assertThat(testCoupon.isLineon()).isEqualTo(UPDATED_LINEON);
         assertThat(testCoupon.isLineunder()).isEqualTo(UPDATED_LINEUNDER);

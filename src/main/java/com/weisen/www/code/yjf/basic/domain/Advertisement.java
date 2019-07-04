@@ -1,6 +1,4 @@
 package com.weisen.www.code.yjf.basic.domain;
-
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -9,7 +7,6 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Objects;
 
 /**
  * A Advertisement.
@@ -38,16 +35,16 @@ public class Advertisement implements Serializable {
     @Column(name = "picture_link")
     private String pictureLink;
 
-    @Column(name = "jhi_sort")
+    @Column(name = "sort")
     private Integer sort;
 
-    @Column(name = "jhi_link")
+    @Column(name = "link")
     private String link;
 
     @Column(name = "link_type")
     private Integer linkType;
 
-    @Column(name = "jhi_type")
+    @Column(name = "type")
     private Integer type;
 
     @NotNull

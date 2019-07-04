@@ -11,10 +11,6 @@ public class UserassetsDTO implements Serializable {
 
     private String userid;
 
-    private String couponid;
-
-    private String couponnum;
-
     private String balance;
 
     private String usablebalance;
@@ -52,22 +48,6 @@ public class UserassetsDTO implements Serializable {
 
     public void setUserid(String userid) {
         this.userid = userid;
-    }
-
-    public String getCouponid() {
-        return couponid;
-    }
-
-    public void setCouponid(String couponid) {
-        this.couponid = couponid;
-    }
-
-    public String getCouponnum() {
-        return couponnum;
-    }
-
-    public void setCouponnum(String couponnum) {
-        this.couponnum = couponnum;
     }
 
     public String getBalance() {
@@ -184,8 +164,6 @@ public class UserassetsDTO implements Serializable {
         return "UserassetsDTO{" +
             "id=" + getId() +
             ", userid='" + getUserid() + "'" +
-            ", couponid='" + getCouponid() + "'" +
-            ", couponnum='" + getCouponnum() + "'" +
             ", balance='" + getBalance() + "'" +
             ", usablebalance='" + getUsablebalance() + "'" +
             ", frozenbalance='" + getFrozenbalance() + "'" +

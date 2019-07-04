@@ -6,7 +6,7 @@ import com.weisen.www.code.yjf.basic.service.dto.InformationDTO;
 import org.mapstruct.*;
 
 /**
- * Mapper for the entity Information and its DTO InformationDTO.
+ * Mapper for the entity {@link Information} and its DTO {@link InformationDTO}.
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface InformationMapper extends EntityMapper<InformationDTO, Information> {
