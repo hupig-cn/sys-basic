@@ -20,6 +20,12 @@ public class Coupon implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "userid")
+    private String userid;
+
+    @Column(name = "sum")
+    private String sum;
+
     @Column(name = "coupontype")
     private String coupontype;
 
@@ -63,6 +69,32 @@ public class Coupon implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public Coupon userid(String userid) {
+        this.userid = userid;
+        return this;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public String getSum() {
+        return sum;
+    }
+
+    public Coupon sum(String sum) {
+        this.sum = sum;
+        return this;
+    }
+
+    public void setSum(String sum) {
+        this.sum = sum;
     }
 
     public String getCoupontype() {
@@ -242,6 +274,8 @@ public class Coupon implements Serializable {
     public String toString() {
         return "Coupon{" +
             "id=" + getId() +
+            ", userid='" + getUserid() + "'" +
+            ", sum='" + getSum() + "'" +
             ", coupontype='" + getCoupontype() + "'" +
             ", lineon='" + isLineon() + "'" +
             ", lineunder='" + isLineunder() + "'" +

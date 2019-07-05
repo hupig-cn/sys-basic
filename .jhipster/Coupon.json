@@ -2,6 +2,14 @@
     "name": "Coupon",
     "fields": [
         {
+            "fieldName": "userid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "sum",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "coupontype",
             "fieldType": "String"
         },
@@ -51,7 +59,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190627002757",
+    "changelogDate": "20190702100216",
     "entityTableName": "coupon",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
