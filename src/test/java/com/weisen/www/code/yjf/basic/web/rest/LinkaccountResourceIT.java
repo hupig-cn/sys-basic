@@ -46,6 +46,9 @@ public class LinkaccountResourceIT {
     private static final String DEFAULT_TOKEN = "AAAAAAAAAA";
     private static final String UPDATED_TOKEN = "BBBBBBBBBB";
 
+    private static final String DEFAULT_PASSWORD = "AAAAAAAAAA";
+    private static final String UPDATED_PASSWORD = "BBBBBBBBBB";
+
     private static final String DEFAULT_CREATOR = "AAAAAAAAAA";
     private static final String UPDATED_CREATOR = "BBBBBBBBBB";
 
@@ -118,6 +121,7 @@ public class LinkaccountResourceIT {
             .userid(DEFAULT_USERID)
             .accounttype(DEFAULT_ACCOUNTTYPE)
             .token(DEFAULT_TOKEN)
+            .password(DEFAULT_PASSWORD)
             .creator(DEFAULT_CREATOR)
             .createdate(DEFAULT_CREATEDATE)
             .modifier(DEFAULT_MODIFIER)
@@ -138,6 +142,7 @@ public class LinkaccountResourceIT {
             .userid(UPDATED_USERID)
             .accounttype(UPDATED_ACCOUNTTYPE)
             .token(UPDATED_TOKEN)
+            .password(UPDATED_PASSWORD)
             .creator(UPDATED_CREATOR)
             .createdate(UPDATED_CREATEDATE)
             .modifier(UPDATED_MODIFIER)
@@ -172,6 +177,7 @@ public class LinkaccountResourceIT {
         assertThat(testLinkaccount.getUserid()).isEqualTo(DEFAULT_USERID);
         assertThat(testLinkaccount.getAccounttype()).isEqualTo(DEFAULT_ACCOUNTTYPE);
         assertThat(testLinkaccount.getToken()).isEqualTo(DEFAULT_TOKEN);
+        assertThat(testLinkaccount.getPassword()).isEqualTo(DEFAULT_PASSWORD);
         assertThat(testLinkaccount.getCreator()).isEqualTo(DEFAULT_CREATOR);
         assertThat(testLinkaccount.getCreatedate()).isEqualTo(DEFAULT_CREATEDATE);
         assertThat(testLinkaccount.getModifier()).isEqualTo(DEFAULT_MODIFIER);
@@ -216,6 +222,7 @@ public class LinkaccountResourceIT {
             .andExpect(jsonPath("$.[*].userid").value(hasItem(DEFAULT_USERID.toString())))
             .andExpect(jsonPath("$.[*].accounttype").value(hasItem(DEFAULT_ACCOUNTTYPE.toString())))
             .andExpect(jsonPath("$.[*].token").value(hasItem(DEFAULT_TOKEN.toString())))
+            .andExpect(jsonPath("$.[*].password").value(hasItem(DEFAULT_PASSWORD.toString())))
             .andExpect(jsonPath("$.[*].creator").value(hasItem(DEFAULT_CREATOR.toString())))
             .andExpect(jsonPath("$.[*].createdate").value(hasItem(DEFAULT_CREATEDATE.toString())))
             .andExpect(jsonPath("$.[*].modifier").value(hasItem(DEFAULT_MODIFIER.toString())))
@@ -239,6 +246,7 @@ public class LinkaccountResourceIT {
             .andExpect(jsonPath("$.userid").value(DEFAULT_USERID.toString()))
             .andExpect(jsonPath("$.accounttype").value(DEFAULT_ACCOUNTTYPE.toString()))
             .andExpect(jsonPath("$.token").value(DEFAULT_TOKEN.toString()))
+            .andExpect(jsonPath("$.password").value(DEFAULT_PASSWORD.toString()))
             .andExpect(jsonPath("$.creator").value(DEFAULT_CREATOR.toString()))
             .andExpect(jsonPath("$.createdate").value(DEFAULT_CREATEDATE.toString()))
             .andExpect(jsonPath("$.modifier").value(DEFAULT_MODIFIER.toString()))
@@ -272,6 +280,7 @@ public class LinkaccountResourceIT {
             .userid(UPDATED_USERID)
             .accounttype(UPDATED_ACCOUNTTYPE)
             .token(UPDATED_TOKEN)
+            .password(UPDATED_PASSWORD)
             .creator(UPDATED_CREATOR)
             .createdate(UPDATED_CREATEDATE)
             .modifier(UPDATED_MODIFIER)
@@ -293,6 +302,7 @@ public class LinkaccountResourceIT {
         assertThat(testLinkaccount.getUserid()).isEqualTo(UPDATED_USERID);
         assertThat(testLinkaccount.getAccounttype()).isEqualTo(UPDATED_ACCOUNTTYPE);
         assertThat(testLinkaccount.getToken()).isEqualTo(UPDATED_TOKEN);
+        assertThat(testLinkaccount.getPassword()).isEqualTo(UPDATED_PASSWORD);
         assertThat(testLinkaccount.getCreator()).isEqualTo(UPDATED_CREATOR);
         assertThat(testLinkaccount.getCreatedate()).isEqualTo(UPDATED_CREATEDATE);
         assertThat(testLinkaccount.getModifier()).isEqualTo(UPDATED_MODIFIER);

@@ -15,7 +15,6 @@
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190627002751_added_entity_Linkuser.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190627002752_added_entity_Linkaccount.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190627002753_added_entity_Usercard.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190627002754_added_entity_Userlocation.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190627002755_added_entity_Userlinkuser.xml" relativeToChangelogFile="false"/>
