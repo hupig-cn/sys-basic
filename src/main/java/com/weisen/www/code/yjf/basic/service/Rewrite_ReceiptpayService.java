@@ -1,9 +1,10 @@
 package com.weisen.www.code.yjf.basic.service;
 
-import java.util.List;
-
 import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_PriceDTO;
+import com.weisen.www.code.yjf.basic.util.Result;
+
+import java.util.List;
 
 public interface Rewrite_ReceiptpayService {
 
@@ -15,5 +16,8 @@ public interface Rewrite_ReceiptpayService {
 
     // 获取昨日收款
     Rewrite_PriceDTO selectYesterday(Long userId);
+
+    //创建收支明细
+    Result createReceiptpay(String userId,String type,String sourcer,String sourcerId,String amout);
 
 }

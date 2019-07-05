@@ -1,15 +1,5 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_ReceiptpayService;
@@ -17,6 +7,16 @@ import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_PriceDTO;
 import com.weisen.www.code.yjf.basic.service.mapper.ReceiptpayMapper;
 import com.weisen.www.code.yjf.basic.service.util.ProfitConstant;
+import com.weisen.www.code.yjf.basic.util.Result;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -66,8 +66,21 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 		Rewrite_PriceDTO rewrite_PriceDTO = new Rewrite_PriceDTO(price.toString());
 		return rewrite_PriceDTO;
 	}
-	
-	// 获取提现记录
+
+    /**
+     * 创建收支明细
+     * @param userId
+     * @param type
+     * @param sourcer
+     * @param sourcerId
+     * @param amout
+     * @return
+     */
+    public Result createReceiptpay(String userId, String type, String sourcer, String sourcerId, String amout) {
+        return null;
+    }
+
+    // 获取提现记录
 	@Override
 	public List<ReceiptpayDTO> selcetMoneyRecord(Long userId) {
 		List<Receiptpay> receiptpay = rewrite_ReceiptpayRepository.getReceiptpayByUseridAndDealtype(userId.toString(),

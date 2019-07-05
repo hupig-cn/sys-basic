@@ -3,18 +3,26 @@ package com.weisen.www.code.yjf.basic.config;
 public class AlipayConstants {
 
     private AlipayConstants () {}
-
-    public static final String GATEWAY = "https://openapi.alipay.com/gateway.do";
+    //沙箱url
+    public static final String GATEWAY = "https://openapi.alipaydev.com/gateway.do";
 
     public static final String FORMAT = "json";
-
+    //APPid
+    //线上
     public static final String APP_ID = "2019061965597545";
-
+    //沙箱
+//    public static final String APP_ID = "2016101100661893";
+    //APP私钥
+    //线上
     public static final String APP_PRIVATE_KEY = "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCLVdCrn6BPzn/05I57J2lcnac0jIlKbXSfdEAJTApM6f7hQudq+vWbECnT6KJwQJpIve19rFGy3CgP94ostSJU/bv4yGWlMxxx7XQ3eV2BXowj2mnD35Xlbrl0Q0UJNV3kPmRs3QvFQZ0YWcRpP9avprVhUpK9f6bsn76WYTLlHaBxX4Bjfixl13bfgfWZQ+ooZchnwMwyIlXVH9vdd7d6k+cph9EtZnyBGf8CUTOmpSNpUOk+BmU8cR5bHv/bnirYJmUYjNxZHC7J+TqrkRz/HbkPxXr5iqc6sZfMvx5URaHSeN1MKuEUYhmzMNSaHa9kF7gSkeuKOaB7HZ1j2ENNAgMBAAECggEAQ0okRl4Gq8QMY5ZlgPBdn867S1N7kigeJEueCV9hshdnch4/aJjeOA6sRJyaph9s4yhmI0UvB3PvHRbs8f5gIC+RseoFvKxcVmDYuVmxYKLqhv4aCfBWkcDRa2Z5VqMhPvMqyLBP2OmBFptzkWi1I4sdGW0pVL7rPGdBQZqbW64jF2gPfQ6u08M0yZJMnhhCwlT1fEQL19TLvaaguUzDaVLnnmAxXABsoT/M5iawOFYTlQFaNGXL5FYxwD2nm8Ko3nxupn8+sL7c4Hkb5TtvAgMxtfx5fjiB3ECiCQ8oI4JErmU71PzNnVTtxQFIHJ9DbTqZACmzT3GsBiRryq+JuQKBgQDmkpNGs3iC+eSH9diaTQGMd6OD+5zXmseMAjhq47lLmRO4OecOCQFZBc+GUGM5lqHRX36cZTUirt/EGLq57k/40LYGt6qDDc/3DB4ip4L6ZhVLwjeRDKR7x7Il1EEx2CQcwhiUmR8TDcf+YAz+QGUB4QE6DYKAAhskMiZtAuVmkwKBgQCas3dzckX7c4khs7gHD7fR3lC9MIQcOcg2bqLt0EUzrnW92VJOaGeXppv4PADJntpYTmd1OgIpFuShd3kYFhXYl/xKOwwTYKOC9B0HLEKkvubH+zZWB7yUAsIduUNFzvxkZbnvSaXzLuDOpYlrX4iyVCyvZtw9kFQ6xRqRh0b6nwKBgQC+7CItihDBC6FTf5wS8K7WnH52nFNcKJsRcQk8YUKeuaudgby0X3qRN4GGq2vuVK+7ikJxyFA+XuWFICEGMrJfyprfZxg3GqnY3Fzbvy9ynjMGH1UZs4lDwbDfKCmv11TXx1TJPx1/DotLNEeuBK5e5uy4IFWuH5BP4YL2A07nJwKBgHpP+tmkOACfUIT8+ztaChQ8mcl7WniWlt2yi89LI+vAvAbmlFS5523XpOmXR2gh2LCJDPN6ccra9tlTBMMucwdU43wtQ1buyVj4eRr6u5ZV+VGUJVnPtCGyLJgjqjS/en5Gj8PJjxO+tK+t4gCrAAE+3DWyNd/XBUGSJXd6ZXwxAoGBAIUeYi8B7DOqkeMFfZQ99kba3TVlBO47IeNv77ExWgGFkVPBt0u/xG7h0qcUwtw4mH3JBTboidrlSxJ+82fspjTybcDhxR+bqeWoUiZA1INF7dshBE3aPsVjBu5oKC7azSXALsQNRbEwr/9YjHqcY3FusKCP5xuOUusw5lQk++7k";
+//    public static final String APP_PRIVATE_KEY = "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCuvWx0YXk27EbA4gkbh1ovJib77Hsl4yueznpGZVTvPeBw0OzOl7KUofZVrvE6RFH7a/jEGmgKUhF58iwjk+C6XDiRe5dBcS3KyUjNsDkyuTpmdBRIG5mN8IzeV92BvQRTvCY1LSVTrbb5mZ09S/Agxq2omXbc8TdyEdaj5hzpUprMXL7x/tHdn8iHLAfOcEEExuxQd08N+PyDjoVJ/ga0JffIsmZMiVO2SoXGZjq3QbP+3EyYu9CP7u37mwgl3LQe8Oc3nwd1iQGbnPHWbNkHQfQmrWzZsUdr8bkgYXWCzAdVvpG2Te9/zwZhMG0OLFi0HrxiK9uEfYMw7KEEIarnAgMBAAECggEAKrKio7WFtwP5LfyNmSpzwP2jnP9mABYIfJ+bhUQRgvwtsaN7mee7fVIuLTW4QDKdjcAOY2zIa20uVAv2+SKTUTZjpDj89sK/G8QfhBNBhsF4IbzPj+cemG5lHZd+ysrzGbrp4yiK7G2QPmFo6Kd7n6asnHwTbV2L3NW7CwWZnvFl90/y2IPqUTBHUA+VUt6v3QrrM6XzFwmphPEf+wUpn61EkBlyYw/pTHZIsZz7SnPKDZa8/sZ7h0dpSBXbJPKBS15FA/K9Z5tqH41g2GKdbBA6D1uAV07XjyoWql97vI1m2VQYfWccIH8ICygbzpNe7WEmintC/ctDXvScNuwicQKBgQDzrBKgA1o/amEpgUbMUJ3YEslz3vd3afVfHVblvP/c1yKkdXw5OEH3BNBmHjZQrLS/0VUSqVvdvnZlinhwsD0qmQf2S762QJjTaTBPtc7ETuyt2B8wCLKEifTRaqdcdk7ha7LfGdLy5vH2Na4lTm+F+YAm4NMvRXyyoRu6yq1d6wKBgQC3lJK6DZRhg+yrOx1SN2Mq5FNX6zLPWBm7BxcXy5NmDaDQ23nqwtdbumdmy9+FqHmid6BxYd/92jdVQ0Tgwit5kjG0Cw2JN1rgGxe9wUkaNVlt1LedOyfEezQXb80/UZgcLt3J7Ue2CombiHL7c+nAdgGaRmSjiGgpYGbcgy0b9QKBgQDCbCJ0QBiLDtM1rauSrCQ1WlAYvufPBOE+IgfKyPGSAKnodMFIWoXvlYy+Xg7ScerKPjlV6YGePTD0tfaBW22ChpXew/MIMiR+Uqi0gQjYg2y/DPlddyMRM43+Zc3hrZgkrq0K6+zv2Kto2s33gEzlpfzFiI+YYSYs1PVuJfcMPwKBgBT8gxmJ2+CZ+EBK7bssYcXRfEWcuZ5CcA6VbOpnd14/SJcXwAQ6aewujwuNWuwoql8MVecgTT7z50dz/TfEervXHp96c/2vuk/MSRaENhss5iBMJQFwdcdcXkQfn9MRPNZb9TbUTVJeOgTxwFNGmP5LfztnuLGJMn8oahnjVRDRAoGBAIIUIP/PiS1ERd6nITNNWr2dhxn/oU8Es2a1D+bXWDZ0krNvXGSzYC6HlMisooUQ/5synZifaqB5vyegDF4+foKxeI7+Unn3Fme/fVCwxMqTFHuiWo2oogWA31/p4xOrIULfWvXNsWp3a3nlm24NKIdN272uY/AOEcd6XlCPMYah";
 
     public static final String CHARSET = "utf-8";
-
+    //支付宝公钥
+    //线上
     public static final String ALIPAY_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoNq9VjM1JuXtO0DyqINqZdGxUg7s/0EPeUC/ez3KOZlpJ3ekWhwsh0V5KAOG2QmUJ6uJUR8pBRjqBEZzgDAAVWw30e+lT9OT6r6kmmb5BqLfUROU+DCUSyeGy8JIkTR/u5eoTHnP4jOTwLZNks89F29Ju1076As9y5c+Z6fh1LxxM/zYZQkjCk58kYEWJjIKmE3Ds0OU+yYaNLrjdLdRAlmPp+u2vLj00Iw7PH8ADx4aDT1Dt6vrqADv75IALbAtY/jgiq6QYuyFY6FzRL6qA+glrIH172Nru8O/i9Qei2J885kDtnEzS3TRYtR/uvHSjgdQlUBZLcAKdJ8GDWyGoQIDAQAB";
+    //沙箱
+//    public static final String ALIPAY_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgYMwW2r7xgnI+aUhTPvLawSn1ANbX50gv3SKHr18FlMShp87HIqkaG850mpQQ9f4LwyRFsXoy5U5v1GpkzIffPqfG4m6ApaWLKPZhuVdlsHvmgGGgVicTgnf7nJJWkXidODrgU5JKbiK/QsO8+nxwjEwcZXvgx3umXBm40kQPILaXrC5a+zbkwuSkRPxoQ5xsQ2ScBGFQjalzElp+5E+k1tZrRwiEg7C/JhWrj2EJrNJWby2wEdGGW1fGjdnh1BLsh626JDsVhL2lxRvbCYSXQ4AiYVeyyT8L2LGK9wGmt4kVQimLSl7RA02tlBxKx2YIwapwXOq1uwSrG4ljg55lwIDAQAB";
 
     public static final String SIGN_TYPE = "RSA2";
 
@@ -25,5 +33,5 @@ public class AlipayConstants {
     public static final String RETURN_URL = "http://kalle2017.iok.la/api/public/alipay/return";
 
     //测试支付完成后返回地址
-    public static final String NOTIFY_URL = "http://kalle2017.iok.la/api/public/alipay/notify";
+    public static final String NOTIFY_URL = "http://selfcode.wicp.io:8088/api/public/alipay/notify";
 }
