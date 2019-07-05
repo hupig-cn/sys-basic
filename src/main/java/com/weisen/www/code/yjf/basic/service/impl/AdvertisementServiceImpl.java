@@ -8,13 +8,12 @@ import com.weisen.www.code.yjf.basic.service.mapper.AdvertisementMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link Advertisement}.
@@ -51,15 +50,15 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     /**
      * Get all the advertisements.
      *
+     * @param pageable the pagination information.
      * @return the list of entities.
      */
     @Override
     @Transactional(readOnly = true)
-    public List<AdvertisementDTO> findAll() {
+    public Page<AdvertisementDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Advertisements");
-        return advertisementRepository.findAll().stream()
-            .map(advertisementMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+        return advertisementRepository.findAll(pageable)
+            .map(advertisementMapper::toDto);
     }
 
 

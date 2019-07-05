@@ -9,6 +9,10 @@ public class CouponDTO implements Serializable {
 
     private Long id;
 
+    private String userid;
+
+    private String sum;
+
     private String coupontype;
 
     private Boolean lineon;
@@ -40,6 +44,22 @@ public class CouponDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public String getSum() {
+        return sum;
+    }
+
+    public void setSum(String sum) {
+        this.sum = sum;
     }
 
     public String getCoupontype() {
@@ -163,6 +183,8 @@ public class CouponDTO implements Serializable {
     public String toString() {
         return "CouponDTO{" +
             "id=" + getId() +
+            ", userid='" + getUserid() + "'" +
+            ", sum='" + getSum() + "'" +
             ", coupontype='" + getCoupontype() + "'" +
             ", lineon='" + isLineon() + "'" +
             ", lineunder='" + isLineunder() + "'" +

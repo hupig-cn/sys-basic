@@ -79,6 +79,9 @@ public class InformationResourceIT {
     private static final String DEFAULT_OTHER = "AAAAAAAAAA";
     private static final String UPDATED_OTHER = "BBBBBBBBBB";
 
+    private static final String DEFAULT_WEIGHT = "AAAAAAAAAA";
+    private static final String UPDATED_WEIGHT = "BBBBBBBBBB";
+
     @Autowired
     private InformationRepository informationRepository;
 
@@ -140,7 +143,8 @@ public class InformationResourceIT {
             .modifierdate(DEFAULT_MODIFIERDATE)
             .modifiernum(DEFAULT_MODIFIERNUM)
             .logicdelete(DEFAULT_LOGICDELETE)
-            .other(DEFAULT_OTHER);
+            .other(DEFAULT_OTHER)
+            .weight(DEFAULT_WEIGHT);
         return information;
     }
     /**
@@ -164,7 +168,8 @@ public class InformationResourceIT {
             .modifierdate(UPDATED_MODIFIERDATE)
             .modifiernum(UPDATED_MODIFIERNUM)
             .logicdelete(UPDATED_LOGICDELETE)
-            .other(UPDATED_OTHER);
+            .other(UPDATED_OTHER)
+            .weight(UPDATED_WEIGHT);
         return information;
     }
 
@@ -203,6 +208,7 @@ public class InformationResourceIT {
         assertThat(testInformation.getModifiernum()).isEqualTo(DEFAULT_MODIFIERNUM);
         assertThat(testInformation.isLogicdelete()).isEqualTo(DEFAULT_LOGICDELETE);
         assertThat(testInformation.getOther()).isEqualTo(DEFAULT_OTHER);
+        assertThat(testInformation.getWeight()).isEqualTo(DEFAULT_WEIGHT);
     }
 
     @Test
@@ -250,7 +256,8 @@ public class InformationResourceIT {
             .andExpect(jsonPath("$.[*].modifierdate").value(hasItem(DEFAULT_MODIFIERDATE.toString())))
             .andExpect(jsonPath("$.[*].modifiernum").value(hasItem(DEFAULT_MODIFIERNUM.intValue())))
             .andExpect(jsonPath("$.[*].logicdelete").value(hasItem(DEFAULT_LOGICDELETE.booleanValue())))
-            .andExpect(jsonPath("$.[*].other").value(hasItem(DEFAULT_OTHER.toString())));
+            .andExpect(jsonPath("$.[*].other").value(hasItem(DEFAULT_OTHER.toString())))
+            .andExpect(jsonPath("$.[*].weight").value(hasItem(DEFAULT_WEIGHT.toString())));
     }
     
     @Test
@@ -277,7 +284,8 @@ public class InformationResourceIT {
             .andExpect(jsonPath("$.modifierdate").value(DEFAULT_MODIFIERDATE.toString()))
             .andExpect(jsonPath("$.modifiernum").value(DEFAULT_MODIFIERNUM.intValue()))
             .andExpect(jsonPath("$.logicdelete").value(DEFAULT_LOGICDELETE.booleanValue()))
-            .andExpect(jsonPath("$.other").value(DEFAULT_OTHER.toString()));
+            .andExpect(jsonPath("$.other").value(DEFAULT_OTHER.toString()))
+            .andExpect(jsonPath("$.weight").value(DEFAULT_WEIGHT.toString()));
     }
 
     @Test
@@ -314,7 +322,8 @@ public class InformationResourceIT {
             .modifierdate(UPDATED_MODIFIERDATE)
             .modifiernum(UPDATED_MODIFIERNUM)
             .logicdelete(UPDATED_LOGICDELETE)
-            .other(UPDATED_OTHER);
+            .other(UPDATED_OTHER)
+            .weight(UPDATED_WEIGHT);
         InformationDTO informationDTO = informationMapper.toDto(updatedInformation);
 
         restInformationMockMvc.perform(put("/api/information")
@@ -340,6 +349,7 @@ public class InformationResourceIT {
         assertThat(testInformation.getModifiernum()).isEqualTo(UPDATED_MODIFIERNUM);
         assertThat(testInformation.isLogicdelete()).isEqualTo(UPDATED_LOGICDELETE);
         assertThat(testInformation.getOther()).isEqualTo(UPDATED_OTHER);
+        assertThat(testInformation.getWeight()).isEqualTo(UPDATED_WEIGHT);
     }
 
     @Test
