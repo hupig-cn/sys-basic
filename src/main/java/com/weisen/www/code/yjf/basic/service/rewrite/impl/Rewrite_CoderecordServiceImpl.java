@@ -75,7 +75,6 @@ public class Rewrite_CoderecordServiceImpl implements Rewrite_CoderecordService 
         } else {
             //存在
             //判断是否是当天的验证码,是则传入旧时间去update,并且将次数设置为1
-            //            if()
             //判断次数是否超过当天的次数,超过则不发送验证码,并且提示超过了.
             //判断修改时间是否超过一分钟,一分钟内不允许重复发送
             //判断修改时间是否超过了三分钟,超过三分钟
@@ -87,14 +86,15 @@ public class Rewrite_CoderecordServiceImpl implements Rewrite_CoderecordService 
             else if (!DateUtils.checkNowByMinthToBoolean(codeRecord.getUpdateDate(), Long.valueOf(1000 * 60 * 1))) {
                 return Result.fail("一分钟内请勿重复发送");
             }  else if (!DateUtils.checkNowByMinthToBoolean(codeRecord.getUpdateDate(), Long.valueOf(1000 * 60 * 3))) {
+                return Result.fail("验证码三分钟内有效,请使用已接收到的验证码");
                 //超过三分钟限制
-                s = SmsUtils.SmsSendByAli(coderecordDTO.getPhone(), codeRecord.getCode(), TemplateCode);
-                if ("OK".equals(s))
-                    s = "发送成功";
-                //释放String引用
-                TemplateCode = null;
-                type = null;
-                return Result.suc(s);
+//                s = SmsUtils.SmsSendByAli(coderecordDTO.getPhone(), codeRecord.getCode(), TemplateCode);
+//                if ("OK".equals(s))
+//                    s = "发送成功";
+//                //释放String引用
+//                TemplateCode = null;
+//                type = null;
+//                return Result.suc(s);
             } else {
                 integer = rewrite_coderecordRepository.updateCodeByNumber(codeRecord.getId(), codeRecord.getNum(), code, DateUtils.getDateForNow());
             }

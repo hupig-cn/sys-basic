@@ -2,6 +2,7 @@ package com.weisen.www.code.yjf.basic.web.rest;
 
 import com.weisen.www.code.yjf.basic.service.Rewrite_000_AlipayService;
 import com.weisen.www.code.yjf.basic.service.Rewrite_000_UserorderService;
+import com.weisen.www.code.yjf.basic.service.rewrite.submit_dto.Rewrite_AliPaySubmitDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,7 +23,7 @@ public class Rewrite_AlipayApiResource {
     private Rewrite_000_AlipayService alipayService;
 
     private Rewrite_000_UserorderService userorderService;
-    
+
 	public Rewrite_AlipayApiResource(Rewrite_000_AlipayService alipayService,
             Rewrite_000_UserorderService userorderService) {
 		this.alipayService = alipayService;
@@ -63,8 +64,9 @@ public class Rewrite_AlipayApiResource {
      */
     @PostMapping("/payOrderOffline")
     @ApiOperation(value = "支付订单")
-    public Result payOrderOffline (String merchantId, String userId, Integer concession, Integer rebate, String amount) {
-        return userorderService.alipay(merchantId, userId, concession, rebate, amount);
+    public Result payOrderOffline (@RequestBody Rewrite_AliPaySubmitDTO rewrite_aliPaySubmitDTO) {
+        return userorderService.alipay(rewrite_aliPaySubmitDTO.getMerchantId()
+            , rewrite_aliPaySubmitDTO.getUserId(), rewrite_aliPaySubmitDTO.getConcession(), rewrite_aliPaySubmitDTO.getRebate(), rewrite_aliPaySubmitDTO.getAmount());
     }
 
     /**
