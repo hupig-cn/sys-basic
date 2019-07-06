@@ -29,6 +29,9 @@ public class Linkaccount implements Serializable {
     @Column(name = "token")
     private String token;
 
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "creator")
     private String creator;
 
@@ -96,6 +99,19 @@ public class Linkaccount implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Linkaccount password(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getCreator() {
@@ -213,6 +229,7 @@ public class Linkaccount implements Serializable {
             ", userid='" + getUserid() + "'" +
             ", accounttype='" + getAccounttype() + "'" +
             ", token='" + getToken() + "'" +
+            ", password='" + getPassword() + "'" +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +
