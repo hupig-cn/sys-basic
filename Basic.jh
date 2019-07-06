@@ -1,8 +1,27 @@
+entity Linkuser {// 用户附加信息表
+    userid String,// 用户id
+    phone String,// 手机号
+    name String,// 真实姓名
+    idcard String,// 身份证号
+    sex String,// 性别
+    address String,// 地址
+    province String,// 所在省
+    city String,// 所在市
+    county String,// 所在县
+    loginnum Integer,// 登录次数
+    creator String,// 创建者
+    createdate String,// 创建日期
+    modifier String,// 修改者
+    modifierdate String,// 修改日期
+    modifiernum Long,// 修改次数
+    logicdelete Boolean,// 删除
+    other String// 备注
+}
+
 entity Linkaccount {// 用户绑定账号表
     userid String,// 用户id
     accounttype String,// 账号类型，微信，支付宝等
     token String,// 账号
-    password String,//密码
     creator String,// 绑定者
     createdate String,// 绑定日期
     modifier String,// 修改者
@@ -10,6 +29,262 @@ entity Linkaccount {// 用户绑定账号表
     modifiernum Long,// 修改次数
     logicdelete Boolean,// 删除
     other String// 备注
+}
+
+entity Usercard {// 用户卡包表
+    userid String,// 用户id
+    cardtype String,// 卡片类型
+    belong String,// 所属，农业银行，工商银行
+    bank String,// 开户行
+    cardnum String,// 卡号
+    creator String,// 创建者
+    createdate String,// 创建日期
+    modifier String,// 修改者
+    modifierdate String,// 修改日期
+    modifiernum Long,// 修改次数
+    logicdelete Boolean,// 删除
+    other String// 备注
+}
+
+entity Userlocation {// 用户位置信息表
+    userid String,// 用户id
+    coordinate String,// 用户最后坐标
+    province String,// 用户最后所在省
+    city String,// 用户最后所在市
+    county String,// 用户最后所在县
+    creator String,// 创建者
+    createdate String,// 创建日期
+    modifier String,// 修改者
+    modifierdate String,// 用户最后更新位置的时间
+    modifiernum Long,// 修改次数
+    logicdelete Boolean,// 删除
+    other String// 备注
+}
+
+entity Userlinkuser {// 用户关系表
+    userid String,// 用户id
+    recommendid String,// 推荐人id
+    partner Boolean,// 是否是合伙人
+    province Boolean,// 是否是省代
+    city Boolean,// 是否是市代
+    county Boolean,// 是否是县代
+    creator String,// 创建者
+    createdate String,// 创建日期
+    modifier String,// 修改者
+    modifierdate String,// 修改日期
+    modifiernum Long,// 修改次数
+    logicdelete Boolean,// 删除
+    other String// 备注
+}
+
+entity Userassets {// 用户资产表
+    userid String,// 用户id
+    balance String,// 总余额
+    usablebalance String,// 可用余额
+    frozenbalance String,// 冻结余额-收益
+    integral String,// 用户积分
+    creator String,// 创建者
+    createdate String,// 创建日期
+    modifier String,// 修改者
+    modifierdate String,// 修改日期
+    modifiernum Long,// 修改次数
+    logicdelete Boolean,// 删除
+    other String// 备注
+}
+
+entity Coupon {// 优惠卷表
+    userid String, // 用户id
+    sum String, // 数值
+    coupontype String,// 优惠卷类型
+    lineon Boolean,// 可以线上支付
+    lineunder Boolean,// 可以线下支付
+    integral Boolean,// 可以产生积分
+    profit Boolean,// 可以产生收益
+    creator String,// 创建者
+    createdate String,// 创建日期
+    modifier String,// 修改者
+    modifierdate String,// 修改日期
+    modifiernum Long,// 修改次数
+    logicdelete Boolean,// 删除
+    other String// 备注
+}
+
+
+
+entity Withdrawal {// 提现表
+    userid String,// 提现用户id
+    withdrawalamount String,// 提现金额
+    withdrawaltype String,// 提现状态
+    gatheringway String ,// 提现方式
+    creator String,// 创建者
+    createdate String,// 申请时间
+    modifier String,// 修改者
+    modifierdate String,// 修改日期
+    modifiernum Long,// 修改次数
+    logicdelete Boolean,// 删除
+    other String// 备注
+}
+
+entity Paymethod {// 支付方式表
+    os String,// 付款终端
+    online Boolean,// 收款位置
+    switchs Boolean,// 开关
+    payname String,// 支付方式
+    order String,// 显示顺序
+    messages String,// 提示信息
+    creator String,// 创建者
+    createdate String,// 申请时间
+    modifier String,// 修改者
+    modifierdate String,// 修改日期
+    modifiernum Long,// 修改次数
+    logicdelete Boolean,// 删除
+    other String// 备注
+}
+
+entity Information {// 消息表
+    type String,// 消息类型
+    senduserid String,// 发送用户id
+    readuserid String,// 接收用户id
+    senddate String,// 发送时间
+    title String,// 消息标题
+    content String,// 消息内容
+    state String,// 消息状态
+    creator String,// 创建者
+    createdate String,// 创建日期
+    modifier String,// 修改者
+    modifierdate String,// 修改日期
+    modifiernum Long,// 修改次数
+    logicdelete Boolean,// 删除
+    other String,// 备注
+    weight String//权重
+}
+
+entity Feedback {// 反馈表
+    name String,// 反馈人
+    feedbackdate String,// 反馈时间
+    title String,// 反馈标题
+    content String,// 反馈内容
+    state String,// 反馈状态
+    imageurl String,// 反馈截图
+    creator String,// 创建者
+    createdate String,// 创建日期
+    modifier String,// 修改者
+    modifierdate String,// 修改日期
+    modifiernum Long,// 修改次数
+    logicdelete Boolean,// 删除
+    other String// 备注
+}
+
+entity Percentage {// 收益分成配置表
+    name String,// 名称，推荐人分成、合伙人分成
+    type String,// 分成类型，现金，积分，优惠卷
+    value String,// 分成比例
+    creator String,// 创建者
+    createdate String,// 创建日期
+    modifier String,// 修改者
+    modifierdate String,// 修改日期
+    modifiernum Long,// 修改次数
+    logicdelete Boolean,// 删除
+    other String// 备注
+}
+
+entity Area {// 地区表
+   id String,// 主键
+   name String,// 城市名称
+   pid String,// 上级城市id
+   pname String,// 上级城市名称
+   gid String,// 最高级城市id
+   gname String,// 最高级城市名称
+   status Integer// 状态
+}
+
+entity Issue {// 问题表
+	answer String,// 回答内容
+	type String,// 问题类型
+	state String,// 状态
+	problem String,// 问题
+	creator String,// 创建者
+	createdate String,// 创建日期
+	modifier String,// 修改者
+	modifierdate String,// 修改日期
+	modifiernum Long,// 修改次数
+	logicdelete Boolean,// 删除
+	other String// 备注
+}
+
+entity Userorder {// 订单表
+	ordercode String,// 订单编号
+	orderstatus String,// 订单状态
+	sum BigDecimal,// 总价
+	userid String,// 下单用户id
+	payee String,// 收款人
+	payway String,// 支付方式
+	payresult String,// 支付结果
+	concession Integer,// 让利比例5%，10%，15%
+	rebate Integer,// 返积分比例15%，30%，50%
+	creator String,// 创建者
+	createdate String,// 创建日期
+	modifier String,// 修改者
+	modifierdate String,// 修改日期
+	modifiernum Long,// 修改次数
+	logicdelete Boolean,// 删除
+	other String// 备注
+}
+
+entity Receiptpay {// 收支明细表
+	dealtype String,// 交易类型
+	userid String,// 用户
+	sourcer String,// 来源
+	benefit String,// 受益
+	amount BigDecimal,// 交易金额
+	bonus BigDecimal,// 红利
+	happendate String,// 产生时间
+	freezedate String,// 冻结时间
+	dealstate String,// 交易状态
+	creator String,// 创建者
+	createdate String,// 创建日期
+	modifier String,// 修改者
+	modifierdate String,// 修改日期
+	modifiernum Long,// 修改次数
+	logicdelete Boolean,// 删除
+	other String// 备注
+}
+
+entity Messagetemplate {
+    type String,// 模板类型
+    content String,// 模板类容
+    title String,// 标题
+    status String,// 状态
+	creator String,// 创建者
+    createdate String,// 创建日期
+    modifier String,// 修改者
+    modifierdate String,// 修改日期
+    modifiernum Long,// 修改次数
+    logicdelete Boolean,// 删除
+    other String// 备注
+}
+
+entity Coderecord{
+    code String,//验证码
+    type String,//类型
+    phone String,//电话号码
+    createDate String,//创建时间
+    updateDate String,//修改时间
+    num Integer//次数
+}
+
+entity Advertisement {
+     name String required, //广告名称
+     introduction String, //广告位介绍
+     pictureFormat String, //图片格式
+     pictureLink String, //图片链接
+     sort Integer, //排序
+     link String, //跳转链接
+     linkType Integer,
+     type Integer, //链接类型
+     state Integer required max(1), //状态
+     createdDate Instant required,
+     lastModifiedDate Instant required
 }
 
 // Set pagination options

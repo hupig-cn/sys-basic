@@ -14,10 +14,6 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "password",
-            "fieldType": "String"
-        },
-        {
             "fieldName": "creator",
             "fieldType": "String"
         },
@@ -47,7 +43,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190704151840",
+    "changelogDate": "20190705232329",
     "entityTableName": "linkaccount",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

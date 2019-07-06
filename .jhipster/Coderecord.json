@@ -27,7 +27,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190702100227",
+    "changelogDate": "20190705232345",
     "entityTableName": "coderecord",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
