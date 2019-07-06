@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 @Transactional
 public class Rewrite_UserassetsServiceImpl implements Rewrite_UserassetsService{
-	
+
 	private final Logger log = LoggerFactory.getLogger(Rewrite_UserassetsServiceImpl.class);
 
 	private final Rewrite_UserassetsRepository rewrite_UserassetsRepository;
@@ -37,7 +37,7 @@ public class Rewrite_UserassetsServiceImpl implements Rewrite_UserassetsService{
 		this.rewrite_CouponRepository = rewrite_CouponRepository;
 		this.couponMapper = couponMapper;
 	}
-	
+
 	//查询用户余额
 	@Override
 	public Rewrite_PriceDTO findUserBalance(Long userId) {
@@ -52,7 +52,8 @@ public class Rewrite_UserassetsServiceImpl implements Rewrite_UserassetsService{
     @Override
     public Rewrite_PriceDTO findUserInfo(Long userId) {
         Userassets userassets = rewrite_UserassetsRepository.findByUserid(userId.toString());
-        Rewrite_PriceDTO rewrite_PriceDTO = new Rewrite_PriceDTO();
+        //暂时延后的问题,后面需要修改
+        Rewrite_PriceDTO rewrite_PriceDTO = new Rewrite_PriceDTO("0");
         rewrite_PriceDTO.setBalance(userassets.getBalance());
         rewrite_PriceDTO.setIntegral(userassets.getIntegral());
         List<Coupon> coupon = rewrite_CouponRepository.findAllByUserid(userId.toString());
