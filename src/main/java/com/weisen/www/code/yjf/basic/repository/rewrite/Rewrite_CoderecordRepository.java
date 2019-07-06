@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface Rewrite_CoderecordRepository extends JpaRepository<Coderecord, Long> {
 
-    @Query(value = "select * from coderecord where phone = ?1 and jhi_type = ?2",nativeQuery = true)
+    @Query(value = "select * from coderecord where phone = ?1 and type = ?2",nativeQuery = true)
     Coderecord findCodeByPhoneAndAct(String phone, String act);
 
     @Query(value = "update coderecord set code = ?2 ,update_date = ?4,num = 1 where id = ?1 and update_date = ?3", nativeQuery = true)
@@ -23,6 +23,6 @@ public interface Rewrite_CoderecordRepository extends JpaRepository<Coderecord, 
     @Query(value = "update coderecord set code = ?3 ,num = num +1,update_date = ?4 where id = ?1 and num = ?2",nativeQuery = true)
     @Modifying
     Integer updateCodeByNumber(Long id, Integer num, String code, String time);
-    @Query(value = "select * from coderecord where phone = ?1 and jhi_type = ?2 and code = ?3 where TIMESTAMPDIFF(MINUTE,update_date,NOW()) > 3",nativeQuery = true)
+    @Query(value = "select * from coderecord where phone = ?1 and type = ?2 and code = ?3 where TIMESTAMPDIFF(MINUTE,update_date,NOW()) > 3",nativeQuery = true)
     Coderecord findCodeByPhoneAndActAndCode(String phone, String act, String code);
 }

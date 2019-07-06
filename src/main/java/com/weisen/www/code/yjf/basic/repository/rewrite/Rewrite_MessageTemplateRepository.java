@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface Rewrite_MessageTemplateRepository extends JpaRepository<Messagetemplate, Long> {
-    @Query(value = "select * from message_template where jhi_type = ?1",nativeQuery = true)
+    @Query(value = "select * from message_template where type = ?1",nativeQuery = true)
     Messagetemplate findTemplateByType(String type);
 }
