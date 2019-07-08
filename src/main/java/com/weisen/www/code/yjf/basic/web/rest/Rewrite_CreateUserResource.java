@@ -5,6 +5,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.weisen.www.code.yjf.basic.service.Rewrite_CreateUserService;
+import com.weisen.www.code.yjf.basic.service.dto.LinkuserDTO;
+import com.weisen.www.code.yjf.basic.service.dto.UserlinkuserDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.web.rest.errors.BadRequestAlertException;
 
@@ -58,8 +62,8 @@ public class Rewrite_CreateUserResource {
 	 */
 	@PostMapping("/public/user/createUserByPhone")
 	@ApiOperation(value = "手机app创建用户接口")
-	public Result createUserByPhone (String userId, String phone) {
-		return createUserService.createUserByPhone(userId, phone);
+	public Result createUserByPhone (@Valid @RequestBody LinkuserDTO linkuserDTO) {
+		return createUserService.createUserByPhone(linkuserDTO.getUserid(), linkuserDTO.getPhone());
 	}
 	
 	/**
@@ -68,7 +72,7 @@ public class Rewrite_CreateUserResource {
 	 */
 	@PostMapping("/public/user/createUserByScanning")
 	@ApiOperation(value = "手机扫描分享的推荐码，创建用户接口")
-	public Result createUserByScanning (String userId, String phone, String referrer) {
-		return createUserService.createUserByScanning(userId, phone, referrer);
+	public Result createUserByScanning (@Valid @RequestBody LinkuserDTO linkuserDTO) {
+		return createUserService.createUserByScanning(linkuserDTO.getUserid(), linkuserDTO.getPhone(), linkuserDTO.getCreator());
 	}
 }
