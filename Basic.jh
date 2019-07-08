@@ -264,15 +264,6 @@ entity Messagetemplate {
     other String// 备注
 }
 
-entity Coderecord{
-    code String,//验证码
-    type String,//类型
-    phone String,//电话号码
-    createDate String,//创建时间
-    updateDate String,//修改时间
-    num Integer//次数
-}
-
 entity Advertisement {
      name String required, //广告名称
      introduction String, //广告位介绍

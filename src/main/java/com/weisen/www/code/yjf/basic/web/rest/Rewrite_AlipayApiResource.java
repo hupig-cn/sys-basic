@@ -1,6 +1,6 @@
 package com.weisen.www.code.yjf.basic.web.rest;
 
-import com.weisen.www.code.yjf.basic.service.Rewrite_000_AlipayService;
+import com.weisen.www.code.yjf.basic.service.Rewrite_AlipayService;
 import com.weisen.www.code.yjf.basic.service.Rewrite_000_UserorderService;
 import com.weisen.www.code.yjf.basic.service.rewrite.submit_dto.Rewrite_AliPaySubmitDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
@@ -20,11 +20,11 @@ public class Rewrite_AlipayApiResource {
 
     private final Logger log = LoggerFactory.getLogger(Rewrite_AlipayApiResource.class);
 
-    private Rewrite_000_AlipayService alipayService;
+    private Rewrite_AlipayService alipayService;
 
     private Rewrite_000_UserorderService userorderService;
 
-	public Rewrite_AlipayApiResource(Rewrite_000_AlipayService alipayService,
+	public Rewrite_AlipayApiResource(Rewrite_AlipayService alipayService,
             Rewrite_000_UserorderService userorderService) {
 		this.alipayService = alipayService;
 		this.userorderService = userorderService;

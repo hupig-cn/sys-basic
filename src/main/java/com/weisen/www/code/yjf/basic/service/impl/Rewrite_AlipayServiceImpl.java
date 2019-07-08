@@ -2,8 +2,8 @@ package com.weisen.www.code.yjf.basic.service.impl;
 
 import com.alipay.api.response.AlipaySystemOauthTokenResponse;
 import com.weisen.www.code.yjf.basic.domain.Linkaccount;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_000_LinkaccountRepository;
-import com.weisen.www.code.yjf.basic.service.Rewrite_000_AlipayService;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkaccountRepository;
+import com.weisen.www.code.yjf.basic.service.Rewrite_AlipayService;
 import com.weisen.www.code.yjf.basic.util.AlipayUtil;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.Rewrite_Constant;
@@ -12,11 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class Rewrite_000_AlipayServiceImpl implements Rewrite_000_AlipayService {
+public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 
-    private Rewrite_000_LinkaccountRepository linkaccountRepository;
+    private Rewrite_LinkaccountRepository linkaccountRepository;
 
-    public Rewrite_000_AlipayServiceImpl(Rewrite_000_LinkaccountRepository linkaccountRepository) {
+    public Rewrite_AlipayServiceImpl(Rewrite_LinkaccountRepository linkaccountRepository) {
         this.linkaccountRepository = linkaccountRepository;
     }
 

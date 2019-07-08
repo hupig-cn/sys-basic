@@ -21,8 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.weisen.www.code.yjf.basic.service.Rewrite_000_CreateUserService;
-import com.weisen.www.code.yjf.basic.service.dto.CoderecordDTO;
+import com.weisen.www.code.yjf.basic.service.Rewrite_CreateUserService;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.web.rest.errors.BadRequestAlertException;
 
@@ -37,9 +36,9 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "000-用户创建操作接口")
 public class Rewrite_CreateUserResource {
 
-	private Rewrite_000_CreateUserService createUserService;
+	private Rewrite_CreateUserService createUserService;
 	
-	public Rewrite_CreateUserResource(Rewrite_000_CreateUserService createUserService) {
+	public Rewrite_CreateUserResource(Rewrite_CreateUserService createUserService) {
 		this.createUserService = createUserService;
 	}
 

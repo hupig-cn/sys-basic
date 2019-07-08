@@ -32,15 +32,15 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
 
     private Rewrite_000_UserorderRepository userorderRepository;
 
-    private Rewrite_000_UserlinkuserRepository userlinkuserRepository;
+    private Rewrite_UserlinkuserRepository userlinkuserRepository;
 
-    private Rewrite_000_PercentageRepository percentageRepository;
+    private Rewrite_PercentageRepository percentageRepository;
 
     private ReceiptpayRepository receiptpayRepository;
 
     private Rewrite_000_UserassetsRepository userassetsRepository;
 
-    public Rewrite_000_UserorderServiceImpl(Rewrite_000_UserorderRepository userorderRepository, Rewrite_000_UserlinkuserRepository userlinkuserRepository, Rewrite_000_PercentageRepository percentageRepository, ReceiptpayRepository receiptpayRepository, Rewrite_000_UserassetsRepository userassetsRepository) {
+    public Rewrite_000_UserorderServiceImpl(Rewrite_000_UserorderRepository userorderRepository, Rewrite_UserlinkuserRepository userlinkuserRepository, Rewrite_PercentageRepository percentageRepository, ReceiptpayRepository receiptpayRepository, Rewrite_000_UserassetsRepository userassetsRepository) {
         this.userorderRepository = userorderRepository;
         this.userlinkuserRepository = userlinkuserRepository;
         this.percentageRepository = percentageRepository;

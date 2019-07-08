@@ -5,12 +5,12 @@ import com.weisen.www.code.yjf.basic.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.weisen.www.code.yjf.basic.service.Rewrite_000_CreateUserService;
+import com.weisen.www.code.yjf.basic.service.Rewrite_CreateUserService;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 @Service
 @Transactional
-public class Rewrite_000_CreateUserServiceImpl implements Rewrite_000_CreateUserService {
+public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService {
 
 	private LinkuserRepository linkuserRepository;
 	
@@ -22,7 +22,7 @@ public class Rewrite_000_CreateUserServiceImpl implements Rewrite_000_CreateUser
 
 	private UserassetsRepository userassetsRepository;
 
-    public Rewrite_000_CreateUserServiceImpl(LinkuserRepository linkuserRepository, LinkaccountRepository linkaccountRepository,
+    public Rewrite_CreateUserServiceImpl(LinkuserRepository linkuserRepository, LinkaccountRepository linkaccountRepository,
                                              UserlinkuserRepository userlinkuserRepository, UserlocationRepository userlocationRepository,
                                              UserassetsRepository userassetsRepository) {
         this.linkuserRepository = linkuserRepository;
