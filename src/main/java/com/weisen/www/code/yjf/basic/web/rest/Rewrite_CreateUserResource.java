@@ -35,11 +35,11 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/api")
 @Api(tags = "000-用户创建操作接口")
-public class Rewrite_000_CreateUserResource {
+public class Rewrite_CreateUserResource {
 
 	private Rewrite_000_CreateUserService createUserService;
 	
-	public Rewrite_000_CreateUserResource(Rewrite_000_CreateUserService createUserService) {
+	public Rewrite_CreateUserResource(Rewrite_000_CreateUserService createUserService) {
 		this.createUserService = createUserService;
 	}
 
