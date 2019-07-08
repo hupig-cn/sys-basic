@@ -21,7 +21,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/weisen/receiptpay")
+@RequestMapping("/api/receiptpay")
 @Api(tags = "000-用户收支明细")
 public class Rewrite_ReceiptpayResource {
 	

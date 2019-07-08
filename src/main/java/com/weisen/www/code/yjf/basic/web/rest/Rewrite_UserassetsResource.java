@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/weisen/userassets")
+@RequestMapping("/api/userassets")
 @Api(tags = "000-用户资产")
 public class Rewrite_UserassetsResource {
 

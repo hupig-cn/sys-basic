@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/weisen/userorder")
+@RequestMapping("/api/userorder")
 @Api(tags = "000-用户订单")
 public class Rewrite_UserOrderResource {
 

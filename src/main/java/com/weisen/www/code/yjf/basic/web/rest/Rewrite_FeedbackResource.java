@@ -23,8 +23,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/weisen/feedback")
-@Api(tags = "001-反馈管理")
+@RequestMapping("/api/feedback")
+@Api(tags = "000-反馈管理")
 public class Rewrite_FeedbackResource {
 
     private final Logger log = LoggerFactory.getLogger(Rewrite_FeedbackResource.class);

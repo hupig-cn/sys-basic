@@ -23,7 +23,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-@Api(tags = "支付方式")
+@Api(tags = "000-支付方式")
 public class Rewrite_PaymethodResource {
 
     private final Logger log = LoggerFactory.getLogger(Rewrite_PaymethodResource.class);

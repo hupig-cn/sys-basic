@@ -20,8 +20,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/weisen/nearby-merchants")
-@Api(tags = "002-附近商家")
+@RequestMapping("/api/nearby-merchants")
+@Api(tags = "000-附近商家")
 public class Rewrite_NearbyMerchantsResource {
 
     private Rewrite_NearbyMerchantsService rewrite_NearbyMerchantsService;
