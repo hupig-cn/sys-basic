@@ -43,40 +43,32 @@ public class Rewrite_CreateUserResource {
 	}
 
 	/**
-	 * 支付宝或者微信扫描二维码创建用户接口
+	 * 支付宝或者微信扫描商家收款二维码创建用户接口
 	 * @return
 	 */
 	@PostMapping("/public/user/createUserByScan")
-	@ApiOperation(value = "支付宝或者微信扫描二维码创建用户接口")
+	@ApiOperation(value = "支付宝或者微信扫描商家收款二维码创建用户接口")
 	public Result createUserByScan (String userId, String token, String accounttype, String recommendId, String coordinate) {
 		return createUserService.createUserByScan(userId, token, accounttype, recommendId, coordinate);
 	}
 	
 	/**
-	 * app注册手机创建用户接口
+	 * 手机app创建用户接口
 	 * @return
 	 */
 	@PostMapping("/public/user/createUserByPhone")
-	@ApiOperation(value = "app注册手机创建用户接口")
-	public Result createUserByPhone (String userId, String phone, String coordinate) {
-		return createUserService.createUserByPhone(userId, phone, coordinate);
+	@ApiOperation(value = "手机app创建用户接口")
+	public Result createUserByPhone (String userId, String phone) {
+		return createUserService.createUserByPhone(userId, phone);
 	}
 	
-	//测试接口(增删改查)
-	@PostMapping("/test")
-    public String createTest(@RequestBody String name) {
-        return "调用了BASIC的增加接口";
-    }
-    @DeleteMapping("/test/{name}")
-    public String deleteTest(@PathVariable String name) {
-        return "调用了BASIC的删除接口";
-    }
-    @PutMapping("/test")
-    public String updateTest(@RequestBody String name) {
-        return "调用了BASIC的修改接口";
-    }
-    @GetMapping("/test/{name}")
-    public String getTest(@PathVariable String name) {
-        return "调用了BASIC的查询接口";
-    }
+	/**
+	 * 手机扫描分享的推荐码，创建用户接口
+	 * @return
+	 */
+	@PostMapping("/public/user/createUserByScanning")
+	@ApiOperation(value = "手机扫描分享的推荐码，创建用户接口")
+	public Result createUserByScanning (String userId, String phone, String referrer) {
+		return createUserService.createUserByScanning(userId, phone, referrer);
+	}
 }

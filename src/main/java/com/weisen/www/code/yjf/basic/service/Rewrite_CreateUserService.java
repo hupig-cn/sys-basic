@@ -6,5 +6,8 @@ public interface Rewrite_CreateUserService {
 
 	Result createUserByScan(String userId, String token, String accounttype, String recommendId, String coordinate);
 	
-	Result createUserByPhone(String userId, String phone, String coordinate);
+	Result createUserByPhone(String userId, String phone);
+	
+	Result createUserByScanning(String userId, String phone, String referrer);
+	
 }
