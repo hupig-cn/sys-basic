@@ -203,3 +203,5 @@ jhipster:
 # ===================================================================
 
 # application:
+
+filePath-image: /data/files
