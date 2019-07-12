@@ -59,6 +59,9 @@ public class UserorderResourceIT {
     private static final String DEFAULT_PAYRESULT = "AAAAAAAAAA";
     private static final String UPDATED_PAYRESULT = "BBBBBBBBBB";
 
+    private static final String DEFAULT_PAYTIME = "AAAAAAAAAA";
+    private static final String UPDATED_PAYTIME = "BBBBBBBBBB";
+
     private static final Integer DEFAULT_CONCESSION = 1;
     private static final Integer UPDATED_CONCESSION = 2;
 
@@ -141,6 +144,7 @@ public class UserorderResourceIT {
             .payee(DEFAULT_PAYEE)
             .payway(DEFAULT_PAYWAY)
             .payresult(DEFAULT_PAYRESULT)
+            .paytime(DEFAULT_PAYTIME)
             .concession(DEFAULT_CONCESSION)
             .rebate(DEFAULT_REBATE)
             .creator(DEFAULT_CREATOR)
@@ -167,6 +171,7 @@ public class UserorderResourceIT {
             .payee(UPDATED_PAYEE)
             .payway(UPDATED_PAYWAY)
             .payresult(UPDATED_PAYRESULT)
+            .paytime(UPDATED_PAYTIME)
             .concession(UPDATED_CONCESSION)
             .rebate(UPDATED_REBATE)
             .creator(UPDATED_CREATOR)
@@ -207,6 +212,7 @@ public class UserorderResourceIT {
         assertThat(testUserorder.getPayee()).isEqualTo(DEFAULT_PAYEE);
         assertThat(testUserorder.getPayway()).isEqualTo(DEFAULT_PAYWAY);
         assertThat(testUserorder.getPayresult()).isEqualTo(DEFAULT_PAYRESULT);
+        assertThat(testUserorder.getPaytime()).isEqualTo(DEFAULT_PAYTIME);
         assertThat(testUserorder.getConcession()).isEqualTo(DEFAULT_CONCESSION);
         assertThat(testUserorder.getRebate()).isEqualTo(DEFAULT_REBATE);
         assertThat(testUserorder.getCreator()).isEqualTo(DEFAULT_CREATOR);
@@ -257,6 +263,7 @@ public class UserorderResourceIT {
             .andExpect(jsonPath("$.[*].payee").value(hasItem(DEFAULT_PAYEE.toString())))
             .andExpect(jsonPath("$.[*].payway").value(hasItem(DEFAULT_PAYWAY.toString())))
             .andExpect(jsonPath("$.[*].payresult").value(hasItem(DEFAULT_PAYRESULT.toString())))
+            .andExpect(jsonPath("$.[*].paytime").value(hasItem(DEFAULT_PAYTIME.toString())))
             .andExpect(jsonPath("$.[*].concession").value(hasItem(DEFAULT_CONCESSION)))
             .andExpect(jsonPath("$.[*].rebate").value(hasItem(DEFAULT_REBATE)))
             .andExpect(jsonPath("$.[*].creator").value(hasItem(DEFAULT_CREATOR.toString())))
@@ -286,6 +293,7 @@ public class UserorderResourceIT {
             .andExpect(jsonPath("$.payee").value(DEFAULT_PAYEE.toString()))
             .andExpect(jsonPath("$.payway").value(DEFAULT_PAYWAY.toString()))
             .andExpect(jsonPath("$.payresult").value(DEFAULT_PAYRESULT.toString()))
+            .andExpect(jsonPath("$.paytime").value(DEFAULT_PAYTIME.toString()))
             .andExpect(jsonPath("$.concession").value(DEFAULT_CONCESSION))
             .andExpect(jsonPath("$.rebate").value(DEFAULT_REBATE))
             .andExpect(jsonPath("$.creator").value(DEFAULT_CREATOR.toString()))
@@ -325,6 +333,7 @@ public class UserorderResourceIT {
             .payee(UPDATED_PAYEE)
             .payway(UPDATED_PAYWAY)
             .payresult(UPDATED_PAYRESULT)
+            .paytime(UPDATED_PAYTIME)
             .concession(UPDATED_CONCESSION)
             .rebate(UPDATED_REBATE)
             .creator(UPDATED_CREATOR)
@@ -352,6 +361,7 @@ public class UserorderResourceIT {
         assertThat(testUserorder.getPayee()).isEqualTo(UPDATED_PAYEE);
         assertThat(testUserorder.getPayway()).isEqualTo(UPDATED_PAYWAY);
         assertThat(testUserorder.getPayresult()).isEqualTo(UPDATED_PAYRESULT);
+        assertThat(testUserorder.getPaytime()).isEqualTo(UPDATED_PAYTIME);
         assertThat(testUserorder.getConcession()).isEqualTo(UPDATED_CONCESSION);
         assertThat(testUserorder.getRebate()).isEqualTo(UPDATED_REBATE);
         assertThat(testUserorder.getCreator()).isEqualTo(UPDATED_CREATOR);

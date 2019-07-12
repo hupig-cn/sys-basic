@@ -30,6 +30,10 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "paytime",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "concession",
             "fieldType": "Integer"
         },
@@ -67,7 +71,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190705232342",
+    "changelogDate": "20190712100657",
     "entityTableName": "userorder",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

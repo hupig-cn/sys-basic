@@ -22,6 +22,18 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "paypassword",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "paycount",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "paylasttime",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "address",
             "fieldType": "String"
         },
@@ -71,7 +83,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190705232328",
+    "changelogDate": "20190712100643",
     "entityTableName": "linkuser",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

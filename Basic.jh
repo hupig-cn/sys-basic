@@ -4,6 +4,9 @@ entity Linkuser {// 用户附加信息表
     name String,// 真实姓名
     idcard String,// 身份证号
     sex String,// 性别
+    paypassword String, // 支付密码
+    paycount Integer, // 一天支付次数
+    paylasttime String , // 最后一次支付的时间
     address String,// 地址
     province String,// 所在省
     city String,// 所在市
@@ -220,6 +223,7 @@ entity Userorder {// 订单表
 	payee String,// 收款人
 	payway String,// 支付方式
 	payresult String,// 支付结果
+	paytime String , // 支付时间
 	concession Integer,// 让利比例5%，10%，15%
 	rebate Integer,// 返积分比例15%，30%，50%
 	creator String,// 创建者

@@ -19,6 +19,12 @@ public class LinkuserDTO implements Serializable {
 
     private String sex;
 
+    private String paypassword;
+
+    private Integer paycount;
+
+    private String paylasttime;
+
     private String address;
 
     private String province;
@@ -90,6 +96,30 @@ public class LinkuserDTO implements Serializable {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public String getPaypassword() {
+        return paypassword;
+    }
+
+    public void setPaypassword(String paypassword) {
+        this.paypassword = paypassword;
+    }
+
+    public Integer getPaycount() {
+        return paycount;
+    }
+
+    public void setPaycount(Integer paycount) {
+        this.paycount = paycount;
+    }
+
+    public String getPaylasttime() {
+        return paylasttime;
+    }
+
+    public void setPaylasttime(String paylasttime) {
+        this.paylasttime = paylasttime;
     }
 
     public String getAddress() {
@@ -218,6 +248,9 @@ public class LinkuserDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", idcard='" + getIdcard() + "'" +
             ", sex='" + getSex() + "'" +
+            ", paypassword='" + getPaypassword() + "'" +
+            ", paycount=" + getPaycount() +
+            ", paylasttime='" + getPaylasttime() + "'" +
             ", address='" + getAddress() + "'" +
             ", province='" + getProvince() + "'" +
             ", city='" + getCity() + "'" +

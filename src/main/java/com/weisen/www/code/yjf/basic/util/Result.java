@@ -92,4 +92,10 @@ public class Result implements Serializable {
 		this.data = data;
 	}
 	
+	
+	public static void main(String[] args) {
+		String s = "Gasd asda";
+		String str = s.toUpperCase();
+		System.out.println(str);
+	}
 }

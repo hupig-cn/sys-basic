@@ -35,6 +35,15 @@ public class Linkuser implements Serializable {
     @Column(name = "sex")
     private String sex;
 
+    @Column(name = "paypassword")
+    private String paypassword;
+
+    @Column(name = "paycount")
+    private Integer paycount;
+
+    @Column(name = "paylasttime")
+    private String paylasttime;
+
     @Column(name = "address")
     private String address;
 
@@ -143,6 +152,45 @@ public class Linkuser implements Serializable {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public String getPaypassword() {
+        return paypassword;
+    }
+
+    public Linkuser paypassword(String paypassword) {
+        this.paypassword = paypassword;
+        return this;
+    }
+
+    public void setPaypassword(String paypassword) {
+        this.paypassword = paypassword;
+    }
+
+    public Integer getPaycount() {
+        return paycount;
+    }
+
+    public Linkuser paycount(Integer paycount) {
+        this.paycount = paycount;
+        return this;
+    }
+
+    public void setPaycount(Integer paycount) {
+        this.paycount = paycount;
+    }
+
+    public String getPaylasttime() {
+        return paylasttime;
+    }
+
+    public Linkuser paylasttime(String paylasttime) {
+        this.paylasttime = paylasttime;
+        return this;
+    }
+
+    public void setPaylasttime(String paylasttime) {
+        this.paylasttime = paylasttime;
     }
 
     public String getAddress() {
@@ -327,6 +375,9 @@ public class Linkuser implements Serializable {
             ", name='" + getName() + "'" +
             ", idcard='" + getIdcard() + "'" +
             ", sex='" + getSex() + "'" +
+            ", paypassword='" + getPaypassword() + "'" +
+            ", paycount=" + getPaycount() +
+            ", paylasttime='" + getPaylasttime() + "'" +
             ", address='" + getAddress() + "'" +
             ", province='" + getProvince() + "'" +
             ", city='" + getCity() + "'" +

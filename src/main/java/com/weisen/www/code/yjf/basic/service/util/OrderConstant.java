@@ -17,6 +17,14 @@ public class OrderConstant {
 
     public static final String COMPLETED = "5"; // 已完成
 
+    public static final String ALI_PAY = "1"; // 阿里支付
+
+    public static final String WECHAT_PAY = "2"; // 微信支付
+
+    public static final String BALANCE_PAY = "3"; // 余额支付
+
+    public static final String INTEGRAL_PAY = "4"; // 积分支付
+
     //生成订单编号
     public static String getOrderCode(String id){
         String sources = "0123456789"; // 加上一些字母，就可以生成pc站的验证码了

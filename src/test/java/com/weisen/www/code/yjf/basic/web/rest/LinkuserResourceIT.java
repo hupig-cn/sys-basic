@@ -52,6 +52,15 @@ public class LinkuserResourceIT {
     private static final String DEFAULT_SEX = "AAAAAAAAAA";
     private static final String UPDATED_SEX = "BBBBBBBBBB";
 
+    private static final String DEFAULT_PAYPASSWORD = "AAAAAAAAAA";
+    private static final String UPDATED_PAYPASSWORD = "BBBBBBBBBB";
+
+    private static final Integer DEFAULT_PAYCOUNT = 1;
+    private static final Integer UPDATED_PAYCOUNT = 2;
+
+    private static final String DEFAULT_PAYLASTTIME = "AAAAAAAAAA";
+    private static final String UPDATED_PAYLASTTIME = "BBBBBBBBBB";
+
     private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
     private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
 
@@ -141,6 +150,9 @@ public class LinkuserResourceIT {
             .name(DEFAULT_NAME)
             .idcard(DEFAULT_IDCARD)
             .sex(DEFAULT_SEX)
+            .paypassword(DEFAULT_PAYPASSWORD)
+            .paycount(DEFAULT_PAYCOUNT)
+            .paylasttime(DEFAULT_PAYLASTTIME)
             .address(DEFAULT_ADDRESS)
             .province(DEFAULT_PROVINCE)
             .city(DEFAULT_CITY)
@@ -168,6 +180,9 @@ public class LinkuserResourceIT {
             .name(UPDATED_NAME)
             .idcard(UPDATED_IDCARD)
             .sex(UPDATED_SEX)
+            .paypassword(UPDATED_PAYPASSWORD)
+            .paycount(UPDATED_PAYCOUNT)
+            .paylasttime(UPDATED_PAYLASTTIME)
             .address(UPDATED_ADDRESS)
             .province(UPDATED_PROVINCE)
             .city(UPDATED_CITY)
@@ -209,6 +224,9 @@ public class LinkuserResourceIT {
         assertThat(testLinkuser.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testLinkuser.getIdcard()).isEqualTo(DEFAULT_IDCARD);
         assertThat(testLinkuser.getSex()).isEqualTo(DEFAULT_SEX);
+        assertThat(testLinkuser.getPaypassword()).isEqualTo(DEFAULT_PAYPASSWORD);
+        assertThat(testLinkuser.getPaycount()).isEqualTo(DEFAULT_PAYCOUNT);
+        assertThat(testLinkuser.getPaylasttime()).isEqualTo(DEFAULT_PAYLASTTIME);
         assertThat(testLinkuser.getAddress()).isEqualTo(DEFAULT_ADDRESS);
         assertThat(testLinkuser.getProvince()).isEqualTo(DEFAULT_PROVINCE);
         assertThat(testLinkuser.getCity()).isEqualTo(DEFAULT_CITY);
@@ -260,6 +278,9 @@ public class LinkuserResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].idcard").value(hasItem(DEFAULT_IDCARD.toString())))
             .andExpect(jsonPath("$.[*].sex").value(hasItem(DEFAULT_SEX.toString())))
+            .andExpect(jsonPath("$.[*].paypassword").value(hasItem(DEFAULT_PAYPASSWORD.toString())))
+            .andExpect(jsonPath("$.[*].paycount").value(hasItem(DEFAULT_PAYCOUNT)))
+            .andExpect(jsonPath("$.[*].paylasttime").value(hasItem(DEFAULT_PAYLASTTIME.toString())))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
             .andExpect(jsonPath("$.[*].province").value(hasItem(DEFAULT_PROVINCE.toString())))
             .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY.toString())))
@@ -290,6 +311,9 @@ public class LinkuserResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.idcard").value(DEFAULT_IDCARD.toString()))
             .andExpect(jsonPath("$.sex").value(DEFAULT_SEX.toString()))
+            .andExpect(jsonPath("$.paypassword").value(DEFAULT_PAYPASSWORD.toString()))
+            .andExpect(jsonPath("$.paycount").value(DEFAULT_PAYCOUNT))
+            .andExpect(jsonPath("$.paylasttime").value(DEFAULT_PAYLASTTIME.toString()))
             .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS.toString()))
             .andExpect(jsonPath("$.province").value(DEFAULT_PROVINCE.toString()))
             .andExpect(jsonPath("$.city").value(DEFAULT_CITY.toString()))
@@ -330,6 +354,9 @@ public class LinkuserResourceIT {
             .name(UPDATED_NAME)
             .idcard(UPDATED_IDCARD)
             .sex(UPDATED_SEX)
+            .paypassword(UPDATED_PAYPASSWORD)
+            .paycount(UPDATED_PAYCOUNT)
+            .paylasttime(UPDATED_PAYLASTTIME)
             .address(UPDATED_ADDRESS)
             .province(UPDATED_PROVINCE)
             .city(UPDATED_CITY)
@@ -358,6 +385,9 @@ public class LinkuserResourceIT {
         assertThat(testLinkuser.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testLinkuser.getIdcard()).isEqualTo(UPDATED_IDCARD);
         assertThat(testLinkuser.getSex()).isEqualTo(UPDATED_SEX);
+        assertThat(testLinkuser.getPaypassword()).isEqualTo(UPDATED_PAYPASSWORD);
+        assertThat(testLinkuser.getPaycount()).isEqualTo(UPDATED_PAYCOUNT);
+        assertThat(testLinkuser.getPaylasttime()).isEqualTo(UPDATED_PAYLASTTIME);
         assertThat(testLinkuser.getAddress()).isEqualTo(UPDATED_ADDRESS);
         assertThat(testLinkuser.getProvince()).isEqualTo(UPDATED_PROVINCE);
         assertThat(testLinkuser.getCity()).isEqualTo(UPDATED_CITY);

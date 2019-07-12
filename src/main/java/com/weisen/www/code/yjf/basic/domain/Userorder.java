@@ -42,6 +42,9 @@ public class Userorder implements Serializable {
     @Column(name = "payresult")
     private String payresult;
 
+    @Column(name = "paytime")
+    private String paytime;
+
     @Column(name = "concession")
     private Integer concession;
 
@@ -167,6 +170,19 @@ public class Userorder implements Serializable {
 
     public void setPayresult(String payresult) {
         this.payresult = payresult;
+    }
+
+    public String getPaytime() {
+        return paytime;
+    }
+
+    public Userorder paytime(String paytime) {
+        this.paytime = paytime;
+        return this;
+    }
+
+    public void setPaytime(String paytime) {
+        this.paytime = paytime;
     }
 
     public Integer getConcession() {
@@ -314,6 +330,7 @@ public class Userorder implements Serializable {
             ", payee='" + getPayee() + "'" +
             ", payway='" + getPayway() + "'" +
             ", payresult='" + getPayresult() + "'" +
+            ", paytime='" + getPaytime() + "'" +
             ", concession=" + getConcession() +
             ", rebate=" + getRebate() +
             ", creator='" + getCreator() + "'" +
