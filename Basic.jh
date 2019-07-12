@@ -278,6 +278,14 @@ entity Advertisement {
      lastModifiedDate Instant required
 }
 
+entity Files {
+    userid String,// 用户id
+    name String,// 文件名
+    size Integer,// 文件大小
+    file String,// 文件
+    fileContentType String// 文件类型
+}
+
 // Set pagination options
 paginate all with infinite-scroll
 
