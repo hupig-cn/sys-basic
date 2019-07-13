@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-@Api(tags = "地区信息")
+@Api(tags = "000-地区信息")
 public class Rewrite_AreaResource {
 
     private static final String ENTITY_NAME = "utilsboxArea";
