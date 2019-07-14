@@ -1,7 +1,9 @@
 package com.weisen.www.code.yjf.basic.service.rewrite;
 
-import com.weisen.www.code.yjf.basic.util.Result;
+import java.util.List;
+
+import com.weisen.www.code.yjf.basic.domain.Area;
 
 public interface Rewrite_AreaService {
-    Result findNextAreaByName(String name);
+	List<Area> findNextAreaByPname(String pname);
 }
