@@ -58,6 +58,14 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         if(!passwordEncoder.matches(password,linkuser.getPaypassword())){
             return  Result.fail("支付密码错误");
         }
+
+        // 我的资产
+        Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
+        int num = userorder.getSum().compareTo(new BigDecimal(Integer.valueOf(userassets.getUsablebalance())));
+
+        if( num > 0 ){
+            return  Result.fail("您的余额不足");
+        }
         //翻转订单状态
         userorder.setPayway(OrderConstant.BALANCE_PAY);
         userorder.setPaytime(TimeUtil.getDate());
@@ -72,11 +80,10 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);
 
-        // 我的资产
-        Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
+        userassets.setUsablebalance(new BigDecimal(Integer.valueOf(userassets.getUsablebalance())).subtract(userorder.getSum()).toString());
+        userassets.setBalance(new BigDecimal(Integer.valueOf(userassets.getBalance())).subtract(userorder.getSum()).toString());
 
-
-        return null;
+        return Result.suc("支付成功");
     }
 
     // 积分支付
