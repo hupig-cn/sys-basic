@@ -48,6 +48,7 @@ public class Rewrite_FeedbackServiceImpl implements Rewrite_FeedbackService {
 		feedback.setContent(rewrite_FeedbackDTO.getContent());
 		feedback.setState(rewrite_FeedbackDTO.getState());
 		feedback.setImageurl(rewrite_FeedbackDTO.getImageurl());
+		feedback.setCreator(rewrite_FeedbackDTO.getCreator());
 		feedback.setCreatedate(TimeUtil.getDate());
 		feedback.setModifierdate(TimeUtil.getDate());
 		feedback.setModifiernum(rewrite_FeedbackDTO.getModifiernum());
