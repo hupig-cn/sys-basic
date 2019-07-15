@@ -11,5 +11,5 @@ public class ProfitConstant {
 	public static final String CONSUME = "4"; // 消费
 	
 	public static final String FIVE = "5"; // 提现
-	
+
 }

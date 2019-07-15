@@ -3,7 +3,9 @@ package com.weisen.www.code.yjf.basic.service.impl;
 import com.weisen.www.code.yjf.basic.domain.*;
 import com.weisen.www.code.yjf.basic.repository.*;
 import com.weisen.www.code.yjf.basic.service.Rewrite_PayService;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_PayDTO;
 import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
+import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
 import jdk.nashorn.internal.runtime.options.Option;
@@ -42,20 +44,19 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         this.userassetsRepository = userassetsRepository;
         this.linkuserRepository = linkuserRepository;
     }
-
     // 余额支付
     @Override
-    public Result BalencePayment(Long orederId, String password) {
+    public Result BalencePayment(Rewrite_PayDTO rewrite_PayDTO) {
 
 //        Userorder userorder = userorderRepository.findById(orederId);
-        Optional<Userorder> option = userorderRepository.findById(orederId);
+        Optional<Userorder> option = userorderRepository.findById(rewrite_PayDTO.getOrderid());
         if(!option.isPresent()){
             return  Result.fail("订单不存在");
         }
         Userorder userorder = option.get();
         Linkuser linkuser = linkuserRepository.getOne(Long.valueOf(userorder.getUserid()));
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if(!passwordEncoder.matches(password,linkuser.getPaypassword())){
+        if(!passwordEncoder.matches(rewrite_PayDTO.getPassword(),linkuser.getPaypassword())){
             return  Result.fail("支付密码错误");
         }
 
@@ -75,20 +76,57 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         // 支出流水
         Receiptpay receiptpay = new Receiptpay();
         receiptpay.setAmount(userorder.getSum());
-        receiptpay.dealstate(null); //余额支出
+        receiptpay.dealstate(ReceiptpayConstant.BALANCE_PAY); //余额支出
         receiptpay.setUserid(userorder.getUserid());
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);
 
         userassets.setUsablebalance(new BigDecimal(Integer.valueOf(userassets.getUsablebalance())).subtract(userorder.getSum()).toString());
         userassets.setBalance(new BigDecimal(Integer.valueOf(userassets.getBalance())).subtract(userorder.getSum()).toString());
+        userassetsRepository.save(userassets);
 
         return Result.suc("支付成功");
     }
 
+
     // 积分支付
     @Override
-    public Result IntegralPayment(Long orederId, String password) {
-        return null;
+    public Result IntegralPayment(Rewrite_PayDTO rewrite_PayDTO) {
+        Optional<Userorder> option = userorderRepository.findById(rewrite_PayDTO.getOrderid());
+        if(!option.isPresent()){
+            return  Result.fail("订单不存在");
+        }
+        Userorder userorder = option.get();
+        Linkuser linkuser = linkuserRepository.getOne(Long.valueOf(userorder.getUserid()));
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if(!passwordEncoder.matches(rewrite_PayDTO.getPassword(),linkuser.getPaypassword())){
+            return  Result.fail("支付密码错误");
+        }
+
+        // 我的资产
+        Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
+        int num = Integer.valueOf(rewrite_PayDTO.getIntegral()).compareTo(Integer.valueOf(userassets.getIntegral()));
+
+        if( num > 0 ){
+            return  Result.fail("您的积分不足");
+        }
+        //翻转订单状态
+        userorder.setPayway(OrderConstant.BALANCE_PAY);
+        userorder.setPaytime(TimeUtil.getDate());
+        userorder.setOrderstatus(OrderConstant.PAID);
+        userorderRepository.saveAndFlush(userorder);
+
+        // 支出流水
+        Receiptpay receiptpay = new Receiptpay();
+        receiptpay.setAmount(userorder.getSum());
+        receiptpay.dealstate(ReceiptpayConstant.INTEGRAL_PAY); //积分支出
+        receiptpay.setUserid(userorder.getUserid());
+        receiptpay.setCreatedate(TimeUtil.getDate());
+        receiptpayRepository.save(receiptpay);
+
+        userassets.setIntegral(userassets.getIntegral().substring(Integer.valueOf(rewrite_PayDTO.getIntegral())));
+        userassetsRepository.save(userassets);
+
+        return Result.suc("支付成功");
     }
 }
