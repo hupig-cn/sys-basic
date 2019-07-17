@@ -22,7 +22,6 @@ public class Rewrite_FilesDTO implements Serializable {
 
     private String fileContentType;
 
-
     public Long getId() {
         return id;
     }
