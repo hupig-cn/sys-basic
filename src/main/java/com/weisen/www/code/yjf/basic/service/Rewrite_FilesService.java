@@ -17,7 +17,7 @@ public interface Rewrite_FilesService {
      * @return the persisted entity.
      */
 	String addsave(Rewrite_FilesDTO rewrite_FilesDTO);
-	
+
 	Rewrite_FilesDTO resave(Rewrite_FilesDTO rewrite_FilesDTO);
 
     /**
@@ -34,4 +34,6 @@ public interface Rewrite_FilesService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    List<Rewrite_FilesDTO> findList(Long[] ids);
 }

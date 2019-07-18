@@ -8,16 +8,15 @@ import com.weisen.www.code.yjf.basic.service.mapper.FilesMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
- * Service Implementation for managing {@link Files}.
+ * Service Implementation for managing Files.
  */
 @Service
 @Transactional
@@ -37,8 +36,8 @@ public class FilesServiceImpl implements FilesService {
     /**
      * Save a files.
      *
-     * @param filesDTO the entity to save.
-     * @return the persisted entity.
+     * @param filesDTO the entity to save
+     * @return the persisted entity
      */
     @Override
     public FilesDTO save(FilesDTO filesDTO) {
@@ -51,23 +50,23 @@ public class FilesServiceImpl implements FilesService {
     /**
      * Get all the files.
      *
-     * @return the list of entities.
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
-    public List<FilesDTO> findAll() {
+    public Page<FilesDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Files");
-        return filesRepository.findAll().stream()
-            .map(filesMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+        return filesRepository.findAll(pageable)
+            .map(filesMapper::toDto);
     }
 
 
     /**
      * Get one files by id.
      *
-     * @param id the id of the entity.
-     * @return the entity.
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -80,7 +79,7 @@ public class FilesServiceImpl implements FilesService {
     /**
      * Delete the files by id.
      *
-     * @param id the id of the entity.
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {

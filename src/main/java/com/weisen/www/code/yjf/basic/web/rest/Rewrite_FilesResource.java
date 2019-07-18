@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_submitBasicDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
  * REST controller for managing {@link com.weisen.www.code.yjf.basic.domain.Files}.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/public")
 @Api(tags = "000-文件操作接口")
 public class Rewrite_FilesResource {
 
@@ -41,7 +42,7 @@ public class Rewrite_FilesResource {
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-    
+
     private final Rewrite_FilesService rewrite_FilesService;
 
     public Rewrite_FilesResource(Rewrite_FilesService rewrite_FilesService) {
@@ -96,6 +97,12 @@ public class Rewrite_FilesResource {
     public Rewrite_FilesDTO getFiles(@PathVariable Long id) {
         log.debug("REST request to get Files : {}", id);
         Rewrite_FilesDTO rewrite_FilesDTO = rewrite_FilesService.findOne(id);
+        return rewrite_FilesDTO;
+    }
+    @PostMapping("/myfiles-list")
+	@ApiOperation(value = "下载多个文件")
+    public List<Rewrite_FilesDTO> getFilesList(@RequestBody Rewrite_submitBasicDTO basicDTO) {
+        List<Rewrite_FilesDTO> rewrite_FilesDTO = rewrite_FilesService.findList(basicDTO.getIds());
         return rewrite_FilesDTO;
     }
 
