@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
  * REST controller for managing {@link com.weisen.www.code.yjf.basic.domain.Files}.
  */
 @RestController
-@RequestMapping("/api/public")
+@RequestMapping("/api")
 @Api(tags = "000-文件操作接口")
 public class Rewrite_FilesResource {
 
@@ -92,14 +92,14 @@ public class Rewrite_FilesResource {
      * @param id the id of the filesDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the filesDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/myfiles/{id}")
+    @GetMapping("/public/myfiles/{id}")
 	@ApiOperation(value = "下载一个文件")
     public Rewrite_FilesDTO getFiles(@PathVariable Long id) {
         log.debug("REST request to get Files : {}", id);
         Rewrite_FilesDTO rewrite_FilesDTO = rewrite_FilesService.findOne(id);
         return rewrite_FilesDTO;
     }
-    @PostMapping("/myfiles-list")
+    @PostMapping("/public/myfiles-list")
 	@ApiOperation(value = "下载多个文件")
     public List<Rewrite_FilesDTO> getFilesList(@RequestBody Rewrite_submitBasicDTO basicDTO) {
         List<Rewrite_FilesDTO> rewrite_FilesDTO = rewrite_FilesService.findList(basicDTO.getIds());
