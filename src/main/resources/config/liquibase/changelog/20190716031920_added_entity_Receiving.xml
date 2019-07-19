@@ -15,10 +15,10 @@
     <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
 
     <!--
-        Added the entity Files.
+        Added the entity Receiving.
     -->
-    <changeSet id="20190711202842-1" author="jhipster">
-        <createTable tableName="files">
+    <changeSet id="20190716031920-1" author="jhipster">
+        <createTable tableName="receiving">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -26,19 +26,31 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="name" type="varchar(255)">
+            <column name="consignee" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="jhi_size" type="integer">
+            <column name="mobile" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="jhi_file" type="varchar(255)">
+            <column name="areaid" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="file_content_type" type="varchar(255)">
+            <column name="address" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="isdefault" type="boolean">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="createtime" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="updatetime" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 

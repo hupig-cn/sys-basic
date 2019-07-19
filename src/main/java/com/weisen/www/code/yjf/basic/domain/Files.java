@@ -1,10 +1,13 @@
 package com.weisen.www.code.yjf.basic.domain;
+
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A Files.
@@ -15,7 +18,7 @@ import java.io.Serializable;
 public class Files implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,10 +29,10 @@ public class Files implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "size")
+    @Column(name = "jhi_size")
     private Integer size;
 
-    @Column(name = "file")
+    @Column(name = "jhi_file")
     private String file;
 
     @Column(name = "file_content_type")
@@ -115,15 +118,19 @@ public class Files implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Files)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        return id != null && id.equals(((Files) o).id);
+        Files files = (Files) o;
+        if (files.getId() == null || getId() == null) {
+            return false;
+        }
+        return Objects.equals(getId(), files.getId());
     }
 
     @Override
     public int hashCode() {
-        return 31;
+        return Objects.hashCode(getId());
     }
 
     @Override

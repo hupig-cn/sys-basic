@@ -290,6 +290,16 @@ entity Files {
     fileContentType String// 文件类型
 }
 
+entity Receiving {
+    userid String,//用户id
+    consignee String,//收货人
+    mobile String,//电话号码
+    areaid String,//地区id
+    address String,//收货地址
+    isdefault Boolean,//是否默认
+    createtime String,//创建时间
+    updatetime String//修改时间
+}
 // Set pagination options
 paginate all with infinite-scroll
 
