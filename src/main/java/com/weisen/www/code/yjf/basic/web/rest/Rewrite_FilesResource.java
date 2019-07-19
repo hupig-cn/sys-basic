@@ -92,13 +92,23 @@ public class Rewrite_FilesResource {
      * @param id the id of the filesDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the filesDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/public/myfiles/{id}")
+    @GetMapping("/myfiles/{id}")
 	@ApiOperation(value = "下载一个文件")
     public Rewrite_FilesDTO getFiles(@PathVariable Long id) {
         log.debug("REST request to get Files : {}", id);
         Rewrite_FilesDTO rewrite_FilesDTO = rewrite_FilesService.findOne(id);
         return rewrite_FilesDTO;
     }
+
+    @GetMapping("/public/myfiles/{id}")
+    @ApiOperation(value = "下载一个文件")
+    public Rewrite_FilesDTO getFilesex(@PathVariable Long id) {
+        log.debug("REST request to get Files : {}", id);
+        Rewrite_FilesDTO rewrite_FilesDTO = rewrite_FilesService.findOne(id);
+        return rewrite_FilesDTO;
+    }
+
+
     @PostMapping("/public/myfiles-list")
 	@ApiOperation(value = "下载多个文件")
     public List<Rewrite_FilesDTO> getFilesList(@RequestBody Rewrite_submitBasicDTO basicDTO) {
