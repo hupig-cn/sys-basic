@@ -1,20 +1,28 @@
 package com.weisen.www.code.yjf.basic.web.rest;
 
-import com.weisen.www.code.yjf.basic.service.Rewrite_AlipayService;
-import com.weisen.www.code.yjf.basic.service.Rewrite_000_UserorderService;
-import com.weisen.www.code.yjf.basic.service.rewrite.submit_dto.Rewrite_AliPaySubmitDTO;
-import com.weisen.www.code.yjf.basic.util.Result;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.weisen.www.code.yjf.basic.service.Rewrite_000_UserorderService;
+import com.weisen.www.code.yjf.basic.service.Rewrite_AlipayService;
+import com.weisen.www.code.yjf.basic.service.rewrite.submit_dto.Rewrite_AliPaySubmitDTO;
+import com.weisen.www.code.yjf.basic.util.Result;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
-@RequestMapping("/api/public/alipay")
+@RequestMapping("/api")
 @Api(tags = "000-支付宝操作接口")
 public class Rewrite_AlipayApiResource {
 
@@ -38,11 +46,12 @@ public class Rewrite_AlipayApiResource {
      * @param authCode
      * @return
      */
-    @GetMapping("/callback")
-    @ApiOperation(value = "回调获取支付宝会员信息是否存在")
-    public Result callback (@RequestParam(value = "auth_code") String authCode, String userId) {
-        log.debug("回调获取支付宝会员信息是否存在:{}", authCode);
-        return alipayService.scaning(authCode, userId);
+    @GetMapping("/public/bindingAlipay/{userid}{authCode}")
+    @ApiOperation(value = "用户绑定支付宝")
+    public String callback (@PathVariable String userid, String authCode) {
+    	System.out.println(userid);
+    	System.out.println(authCode);
+        return alipayService.scaning(userid, authCode);
     }
 
     /**
