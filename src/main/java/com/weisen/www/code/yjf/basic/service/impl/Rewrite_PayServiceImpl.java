@@ -81,6 +81,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);
 
+        //更新我的资产
         userassets.setUsablebalance(new BigDecimal(Integer.valueOf(userassets.getUsablebalance())).subtract(userorder.getSum()).toString());
         userassets.setBalance(new BigDecimal(Integer.valueOf(userassets.getBalance())).subtract(userorder.getSum()).toString());
         userassetsRepository.save(userassets);
@@ -124,6 +125,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);
 
+        //更新我的资产
         userassets.setIntegral(userassets.getIntegral().substring(Integer.valueOf(rewrite_PayDTO.getIntegral())));
         userassetsRepository.save(userassets);
 
