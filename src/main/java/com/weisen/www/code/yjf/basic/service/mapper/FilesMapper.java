@@ -6,7 +6,7 @@ import com.weisen.www.code.yjf.basic.service.dto.FilesDTO;
 import org.mapstruct.*;
 
 /**
- * Mapper for the entity {@link Files} and its DTO {@link FilesDTO}.
+ * Mapper for the entity Files and its DTO FilesDTO.
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface FilesMapper extends EntityMapper<FilesDTO, Files> {

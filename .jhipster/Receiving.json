@@ -1,30 +1,42 @@
 {
-    "name": "Files",
+    "name": "Receiving",
     "fields": [
         {
             "fieldName": "userid",
             "fieldType": "String"
         },
         {
-            "fieldName": "name",
+            "fieldName": "consignee",
             "fieldType": "String"
         },
         {
-            "fieldName": "size",
-            "fieldType": "Integer"
-        },
-        {
-            "fieldName": "file",
+            "fieldName": "mobile",
             "fieldType": "String"
         },
         {
-            "fieldName": "fileContentType",
+            "fieldName": "areaid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "address",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "isdefault",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "createtime",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "updatetime",
             "fieldType": "String"
         }
     ],
     "relationships": [],
-    "changelogDate": "20190711202842",
-    "entityTableName": "files",
+    "changelogDate": "20190716031920",
+    "entityTableName": "receiving",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
     "service": "serviceImpl",

@@ -10,4 +10,7 @@ public interface Rewrite_UserlinkuserRepository extends JpaRepository<Userlinkus
 
     @Query(value = "from Userlinkuser where userid = ?1")
     Userlinkuser findByUserId(Long userId);
+    
+    Userlinkuser findByUserid(String userid);
+    
 }

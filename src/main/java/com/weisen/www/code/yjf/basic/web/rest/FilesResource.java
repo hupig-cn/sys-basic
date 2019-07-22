@@ -1,9 +1,8 @@
 package com.weisen.www.code.yjf.basic.web.rest;
 
 import com.weisen.www.code.yjf.basic.service.FilesService;
-import com.weisen.www.code.yjf.basic.web.rest.errors.BadRequestAlertException;
 import com.weisen.www.code.yjf.basic.service.dto.FilesDTO;
-
+import com.weisen.www.code.yjf.basic.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,7 +85,7 @@ public class FilesResource {
     @GetMapping("/files")
     public List<FilesDTO> getAllFiles() {
         log.debug("REST request to get all Files");
-        return filesService.findAll();
+        return new ArrayList<FilesDTO>();
     }
 
     /**

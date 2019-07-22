@@ -103,6 +103,10 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 		userlinkuser.setProvince(false);
 		userlinkuser.setCity(false);
 		userlinkuser.setCounty(false);
+		userlinkuser.setCreator(userId);
+		userlinkuser.setCreatedate(thisDate);
+		userlinkuser.setModifier(userId);
+		userlinkuser.setModifierdate(thisDate);
 		userlinkuserRepository.save(userlinkuser);// 推荐人
 		Information information = new Information();
 		information.setType("推荐消息");
