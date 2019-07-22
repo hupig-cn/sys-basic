@@ -46,12 +46,16 @@ public class Rewrite_AlipayApiResource {
      * @param authCode
      * @return
      */
-    @GetMapping("/public/bindingAlipay/{userid}{authCode}")
+    @GetMapping("/public/bindingAlipay")
     @ApiOperation(value = "用户绑定支付宝")
-    public String callback (@PathVariable String userid, String authCode) {
-    	System.out.println(userid);
-    	System.out.println(authCode);
+    public String callback (@RequestParam String userid, String authCode) {
         return alipayService.scaning(userid, authCode);
+    }
+    
+    @GetMapping("/public/queryAlipay")
+    @ApiOperation(value = "查询支付宝绑定状态")
+    public String queryAlipay (@RequestParam String userid) {
+        return alipayService.queryAlipay(userid);
     }
 
     /**

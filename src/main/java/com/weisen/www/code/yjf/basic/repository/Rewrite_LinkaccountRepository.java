@@ -10,4 +10,8 @@ public interface Rewrite_LinkaccountRepository extends JpaRepository<Linkaccount
 
     @Query(value = "select count(id) from Linkaccount where token = ?1 and accounttype = ?2")
     int countByAccountType(String token, String accountType);
+    
+    Linkaccount findFirstByAccounttypeAndToken(String accounttype,String token);
+    
+    Linkaccount findFirstByUseridAndAccounttype(String userid,String accounttype);
 }
