@@ -141,7 +141,7 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 		if (linkaccount!=null) {
 			return "用户存在";
 		}else {
-			return "alipayUserId";
+			return alipayUserId;
 		}
 	}
 }
