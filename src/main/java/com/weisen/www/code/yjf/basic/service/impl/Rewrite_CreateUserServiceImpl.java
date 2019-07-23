@@ -147,4 +147,45 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 		Coupon.setProfit(true);
 		couponRepository.save(Coupon);// 优惠卷
 	}
+	@Override
+	public String createUserByScanningMerchant(String userid, String merchantid, String token, String accounttype) {
+		//创建用户推荐信息
+		String thisDate = DateUtils.getDateForNow();
+		Userlinkuser userlinkuser = new Userlinkuser();
+		userlinkuser.setUserid(userid);
+		userlinkuser.setRecommendid(merchantid);
+		userlinkuser.setPartner(false);
+		userlinkuser.setProvince(false);
+		userlinkuser.setCity(false);
+		userlinkuser.setCounty(false);
+		userlinkuser.setCreator(userid);
+		userlinkuser.setCreatedate(thisDate);
+		userlinkuser.setModifier(userid);
+		userlinkuser.setModifierdate(thisDate);
+		userlinkuserRepository.save(userlinkuser);// 推荐人
+		//创建用户资产
+		Userassets userassets = new Userassets();
+		userassets.setUserid(userid);
+		userassets.setBalance("0");
+		userassets.setUsablebalance("0");
+		userassets.setFrozenbalance("0");
+		userassets.setIntegral("0");
+		userassets.setCreator(userid);
+		userassets.setCreatedate(thisDate);
+		userassets.setModifier(userid);
+		userassets.setModifierdate(thisDate);
+		userassetsRepository.save(userassets);// 用户资产
+		//创建账号绑定
+		Linkaccount linkaccount = new Linkaccount();
+		linkaccount.setUserid(userid);
+		linkaccount.setAccounttype(accounttype);
+		linkaccount.setToken(token);
+		linkaccount.setCreator(userid);
+		linkaccount.setCreatedate(thisDate);
+		linkaccount.setModifier(userid);
+		linkaccount.setModifierdate(thisDate);
+		linkaccount.setOther(accounttype);
+		linkaccountRepository.save(linkaccount);
+		return "创建成功";
+	}
 }

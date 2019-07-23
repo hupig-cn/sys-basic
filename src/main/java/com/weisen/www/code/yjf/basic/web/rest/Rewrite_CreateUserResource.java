@@ -41,38 +41,55 @@ import io.swagger.annotations.ApiOperation;
 public class Rewrite_CreateUserResource {
 
 	private Rewrite_CreateUserService createUserService;
-	
+
 	public Rewrite_CreateUserResource(Rewrite_CreateUserService createUserService) {
 		this.createUserService = createUserService;
 	}
 
 	/**
 	 * 支付宝或者微信扫描商家收款二维码创建用户接口
+	 * 
 	 * @return
 	 */
 	@PostMapping("/public/user/createUserByScan")
 	@ApiOperation(value = "支付宝或者微信扫描商家收款二维码创建用户接口")
-	public Result createUserByScan (String userId, String token, String accounttype, String recommendId, String coordinate) {
+	public Result createUserByScan(String userId, String token, String accounttype, String recommendId,
+			String coordinate) {
 		return createUserService.createUserByScan(userId, token, accounttype, recommendId, coordinate);
 	}
-	
+
 	/**
 	 * 手机app创建用户接口
+	 * 
 	 * @return
 	 */
 	@PostMapping("/public/user/createUserByPhone")
 	@ApiOperation(value = "手机app创建用户接口")
-	public Result createUserByPhone (@Valid @RequestBody LinkuserDTO linkuserDTO) {
+	public Result createUserByPhone(@Valid @RequestBody LinkuserDTO linkuserDTO) {
 		return createUserService.createUserByPhone(linkuserDTO.getUserid(), linkuserDTO.getPhone());
 	}
-	
+
 	/**
 	 * 手机扫描分享的推荐码，创建用户接口
+	 * 
 	 * @return
 	 */
 	@PostMapping("/public/user/createUserByScanning")
 	@ApiOperation(value = "手机扫描分享的推荐码，创建用户接口")
-	public Result createUserByScanning (@Valid @RequestBody LinkuserDTO linkuserDTO) {
-		return createUserService.createUserByScanning(linkuserDTO.getUserid(), linkuserDTO.getPhone(), linkuserDTO.getCreator());
+	public Result createUserByScanning(@Valid @RequestBody LinkuserDTO linkuserDTO) {
+		return createUserService.createUserByScanning(linkuserDTO.getUserid(), linkuserDTO.getPhone(),
+				linkuserDTO.getCreator());
+	}
+
+	/**
+	 * 手机扫描商家付款码被绑定到商户下，创建用户
+	 * 
+	 * @return
+	 */
+	@GetMapping("/public/user/createUserByScanningMerchant")
+	@ApiOperation(value = "手机扫描商家付款码被绑定到商户下，创建用户")
+	public String createUserByScanningMerchant(@RequestParam String userid, String merchantid, String token,
+			String accounttype) {
+		return createUserService.createUserByScanningMerchant(userid, merchantid, token, accounttype);
 	}
 }
