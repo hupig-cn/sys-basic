@@ -1,7 +1,6 @@
 package com.weisen.www.code.yjf.basic.service;
 
-import java.util.Optional;
-
+import com.weisen.www.code.yjf.basic.domain.Linkuser;
 import com.weisen.www.code.yjf.basic.service.dto.LinkuserDTO;
 
 /**
@@ -11,6 +10,6 @@ public interface Rewrite_LinkuserService {
 
     String authentication(LinkuserDTO linkuserDTO);
     
-    Optional<LinkuserDTO> findByUserid(String userid);
+    Linkuser findByUserid(String userid);
 
 }

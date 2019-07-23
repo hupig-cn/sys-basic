@@ -1,7 +1,5 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -38,19 +36,19 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
 		Linkuser linkuserI = rewrite_LinkuserRepository.findByIdcard(linkuserDTO.getIdcard());
 		if (linkuserI != null)
 			return "该身份证号码已被认证。";
-		Optional<Linkuser> linkuserII = rewrite_LinkuserRepository.findByUserid(linkuserDTO.getUserid());
-		if (linkuserII.get()==null)
+		Linkuser linkuserII = rewrite_LinkuserRepository.findByUserid(linkuserDTO.getUserid());
+		if (linkuserII==null)
 			return "认证失败。";			
-		linkuserII.get().setName(linkuserDTO.getName());
-		linkuserII.get().setIdcard(linkuserDTO.getIdcard());
-		rewrite_LinkuserRepository.save(linkuserII.get());
+		linkuserII.setName(linkuserDTO.getName());
+		linkuserII.setIdcard(linkuserDTO.getIdcard());
+		rewrite_LinkuserRepository.save(linkuserII);
 		return "认证成功";
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<LinkuserDTO> findByUserid(String userid) {
+	public Linkuser findByUserid(String userid) {
 		log.debug("Request to get Linkuser : {}", userid);
-		return rewrite_LinkuserRepository.findByUserid(userid).map(linkuserMapper::toDto);
+		return rewrite_LinkuserRepository.findByUserid(userid);
 	}
 }

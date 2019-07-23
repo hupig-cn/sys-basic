@@ -1,6 +1,7 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,8 +58,8 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 		String recommenddate = DateUtils.getDateForNow();
 		String id = "0";
 		if (linkaccount != null) {
-			Optional<Linkuser> linkuser = rewrite_LinkuserRepository.findByUserid(linkaccount.getUserid());
-			if (linkuser.get() != null && linkuser.get().getPhone() != null) {
+			Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(linkaccount.getUserid());
+			if (null != linkuser && null != linkuser.getPhone()) {
 				if (linkaccount.getUserid().equals(userid)) {
 					return "已绑定，请勿重复操作";
 				} else {
@@ -78,12 +79,13 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 					rewrite_UserlinkuserRepository.delete(userlinkuser);// 拿出推荐人
 				}
 			}
+			rewrite_LinkaccountRepository.delete(linkaccount);// 用完删除这个用户的支付宝账户
 		}
 		if (recommendr != null && !recommendr.equals("")) {
 			Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userid);
 			if (userlinkuser != null && userlinkuser.getRecommendid() != null) {// app有推荐人
 				if (userlinkuser.getOther() != null) {
-					if (Long.parseLong(userlinkuser.getModifierdate()) - Long.parseLong(recommenddate) > 0) {
+					if ((getToLong(userlinkuser.getModifierdate()) - getToLong(recommenddate)) > 0) {
 						userlinkuser.setRecommendid(recommendr);
 						userlinkuser.setModifierdate(recommenddate);
 						userlinkuser.setOther("支付宝");
@@ -121,6 +123,15 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 		return id;
 	}
 
+	private long getToLong(String DateTime) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			return sdf.parse(DateTime).getTime();
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
 	@Override
 	public String queryAlipay(String userid) {
 		Linkaccount mylinkaccount = rewrite_LinkaccountRepository.findFirstByUseridAndAccounttype(userid, "支付宝");
@@ -138,9 +149,9 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 		}
 		String alipayUserId = userInfo.getUserId();
 		Linkaccount linkaccount = rewrite_LinkaccountRepository.findFirstByAccounttypeAndToken("支付宝", alipayUserId);// 判断系统是否有这个支付宝
-		if (linkaccount!=null) {
+		if (linkaccount != null) {
 			return "用户存在";
-		}else {
+		} else {
 			return alipayUserId;
 		}
 	}

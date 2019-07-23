@@ -1,9 +1,5 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
-import java.util.Optional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +16,6 @@ import com.weisen.www.code.yjf.basic.service.Rewrite_UserlinkuserService;
 @Transactional
 public class Rewrite_UserlinkuserServiceImpl implements Rewrite_UserlinkuserService {
 
-	private final Logger log = LoggerFactory.getLogger(Rewrite_UserlinkuserServiceImpl.class);
-
 	private final Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository;
 
 	private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
@@ -37,10 +31,10 @@ public class Rewrite_UserlinkuserServiceImpl implements Rewrite_UserlinkuserServ
 	public String findRecommendName(String userid) {
 		Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userid);
 		if (userlinkuser != null && userlinkuser.getRecommendid() != null) {
-			Optional<Linkuser> linkuser = rewrite_LinkuserRepository
+			Linkuser linkuser = rewrite_LinkuserRepository
 					.findByUserid(userlinkuser.getRecommendid().toString());
-			if (linkuser != null && linkuser.get().getPhone() != null) {
-				return linkuser.get().getPhone();
+			if (linkuser != null && linkuser.getPhone() != null) {
+				return linkuser.getPhone();
 			}
 		}
 		return "无";
