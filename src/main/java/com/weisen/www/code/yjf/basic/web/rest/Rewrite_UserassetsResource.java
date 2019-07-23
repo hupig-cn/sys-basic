@@ -59,7 +59,7 @@ public class Rewrite_UserassetsResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(Result.suc("成功",rewrite_PriceDTO)));
     }
     
-    @GetMapping("/findUserAssets/{userId}")
+    @GetMapping("/findUserAssets/{userid}")
     @ApiOperation(value = "查询用户的可用余额 积分 优惠券")
     public UserassetsDTO findUserAssets(@PathVariable String userid) {
     	return rewrite_UserassetsService.findUserAssets(userid);
