@@ -32,6 +32,9 @@ public class Userassets implements Serializable {
     @Column(name = "frozenbalance")
     private String frozenbalance;
 
+    @Column(name = "couponsum")
+    private String couponsum;
+
     @Column(name = "integral")
     private String integral;
 
@@ -115,6 +118,19 @@ public class Userassets implements Serializable {
 
     public void setFrozenbalance(String frozenbalance) {
         this.frozenbalance = frozenbalance;
+    }
+
+    public String getCouponsum() {
+        return couponsum;
+    }
+
+    public Userassets couponsum(String couponsum) {
+        this.couponsum = couponsum;
+        return this;
+    }
+
+    public void setCouponsum(String couponsum) {
+        this.couponsum = couponsum;
     }
 
     public String getIntegral() {
@@ -246,6 +262,7 @@ public class Userassets implements Serializable {
             ", balance='" + getBalance() + "'" +
             ", usablebalance='" + getUsablebalance() + "'" +
             ", frozenbalance='" + getFrozenbalance() + "'" +
+            ", couponsum='" + getCouponsum() + "'" +
             ", integral='" + getIntegral() + "'" +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +

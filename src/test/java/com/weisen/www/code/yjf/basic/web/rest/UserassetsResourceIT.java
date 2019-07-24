@@ -49,6 +49,9 @@ public class UserassetsResourceIT {
     private static final String DEFAULT_FROZENBALANCE = "AAAAAAAAAA";
     private static final String UPDATED_FROZENBALANCE = "BBBBBBBBBB";
 
+    private static final String DEFAULT_COUPONSUM = "AAAAAAAAAA";
+    private static final String UPDATED_COUPONSUM = "BBBBBBBBBB";
+
     private static final String DEFAULT_INTEGRAL = "AAAAAAAAAA";
     private static final String UPDATED_INTEGRAL = "BBBBBBBBBB";
 
@@ -125,6 +128,7 @@ public class UserassetsResourceIT {
             .balance(DEFAULT_BALANCE)
             .usablebalance(DEFAULT_USABLEBALANCE)
             .frozenbalance(DEFAULT_FROZENBALANCE)
+            .couponsum(DEFAULT_COUPONSUM)
             .integral(DEFAULT_INTEGRAL)
             .creator(DEFAULT_CREATOR)
             .createdate(DEFAULT_CREATEDATE)
@@ -147,6 +151,7 @@ public class UserassetsResourceIT {
             .balance(UPDATED_BALANCE)
             .usablebalance(UPDATED_USABLEBALANCE)
             .frozenbalance(UPDATED_FROZENBALANCE)
+            .couponsum(UPDATED_COUPONSUM)
             .integral(UPDATED_INTEGRAL)
             .creator(UPDATED_CREATOR)
             .createdate(UPDATED_CREATEDATE)
@@ -183,6 +188,7 @@ public class UserassetsResourceIT {
         assertThat(testUserassets.getBalance()).isEqualTo(DEFAULT_BALANCE);
         assertThat(testUserassets.getUsablebalance()).isEqualTo(DEFAULT_USABLEBALANCE);
         assertThat(testUserassets.getFrozenbalance()).isEqualTo(DEFAULT_FROZENBALANCE);
+        assertThat(testUserassets.getCouponsum()).isEqualTo(DEFAULT_COUPONSUM);
         assertThat(testUserassets.getIntegral()).isEqualTo(DEFAULT_INTEGRAL);
         assertThat(testUserassets.getCreator()).isEqualTo(DEFAULT_CREATOR);
         assertThat(testUserassets.getCreatedate()).isEqualTo(DEFAULT_CREATEDATE);
@@ -229,6 +235,7 @@ public class UserassetsResourceIT {
             .andExpect(jsonPath("$.[*].balance").value(hasItem(DEFAULT_BALANCE.toString())))
             .andExpect(jsonPath("$.[*].usablebalance").value(hasItem(DEFAULT_USABLEBALANCE.toString())))
             .andExpect(jsonPath("$.[*].frozenbalance").value(hasItem(DEFAULT_FROZENBALANCE.toString())))
+            .andExpect(jsonPath("$.[*].couponsum").value(hasItem(DEFAULT_COUPONSUM.toString())))
             .andExpect(jsonPath("$.[*].integral").value(hasItem(DEFAULT_INTEGRAL.toString())))
             .andExpect(jsonPath("$.[*].creator").value(hasItem(DEFAULT_CREATOR.toString())))
             .andExpect(jsonPath("$.[*].createdate").value(hasItem(DEFAULT_CREATEDATE.toString())))
@@ -254,6 +261,7 @@ public class UserassetsResourceIT {
             .andExpect(jsonPath("$.balance").value(DEFAULT_BALANCE.toString()))
             .andExpect(jsonPath("$.usablebalance").value(DEFAULT_USABLEBALANCE.toString()))
             .andExpect(jsonPath("$.frozenbalance").value(DEFAULT_FROZENBALANCE.toString()))
+            .andExpect(jsonPath("$.couponsum").value(DEFAULT_COUPONSUM.toString()))
             .andExpect(jsonPath("$.integral").value(DEFAULT_INTEGRAL.toString()))
             .andExpect(jsonPath("$.creator").value(DEFAULT_CREATOR.toString()))
             .andExpect(jsonPath("$.createdate").value(DEFAULT_CREATEDATE.toString()))
@@ -289,6 +297,7 @@ public class UserassetsResourceIT {
             .balance(UPDATED_BALANCE)
             .usablebalance(UPDATED_USABLEBALANCE)
             .frozenbalance(UPDATED_FROZENBALANCE)
+            .couponsum(UPDATED_COUPONSUM)
             .integral(UPDATED_INTEGRAL)
             .creator(UPDATED_CREATOR)
             .createdate(UPDATED_CREATEDATE)
@@ -312,6 +321,7 @@ public class UserassetsResourceIT {
         assertThat(testUserassets.getBalance()).isEqualTo(UPDATED_BALANCE);
         assertThat(testUserassets.getUsablebalance()).isEqualTo(UPDATED_USABLEBALANCE);
         assertThat(testUserassets.getFrozenbalance()).isEqualTo(UPDATED_FROZENBALANCE);
+        assertThat(testUserassets.getCouponsum()).isEqualTo(UPDATED_COUPONSUM);
         assertThat(testUserassets.getIntegral()).isEqualTo(UPDATED_INTEGRAL);
         assertThat(testUserassets.getCreator()).isEqualTo(UPDATED_CREATOR);
         assertThat(testUserassets.getCreatedate()).isEqualTo(UPDATED_CREATEDATE);

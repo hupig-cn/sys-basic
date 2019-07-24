@@ -18,6 +18,10 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "couponsum",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "integral",
             "fieldType": "String"
         },
@@ -51,7 +55,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190712100648",
+    "changelogDate": "20190724130026",
     "entityTableName": "userassets",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

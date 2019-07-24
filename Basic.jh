@@ -85,9 +85,10 @@ entity Userassets {// 用户资产表
     balance String,// 总余额
     usablebalance String,// 可用余额
     frozenbalance String,// 冻结余额-收益
+    couponsum String, // 优惠券
     integral String,// 用户积分
     creator String,// 创建者
-    createdate String,// 创建日期
+    createdate String,// 创建日期git
     modifier String,// 修改者
     modifierdate String,// 修改日期
     modifiernum Long,// 修改次数

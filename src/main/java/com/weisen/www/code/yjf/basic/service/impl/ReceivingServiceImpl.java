@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
- * Service Implementation for managing Receiving.
+ * Service Implementation for managing {@link Receiving}.
  */
 @Service
 @Transactional
@@ -36,8 +36,8 @@ public class ReceivingServiceImpl implements ReceivingService {
     /**
      * Save a receiving.
      *
-     * @param receivingDTO the entity to save
-     * @return the persisted entity
+     * @param receivingDTO the entity to save.
+     * @return the persisted entity.
      */
     @Override
     public ReceivingDTO save(ReceivingDTO receivingDTO) {
@@ -50,8 +50,8 @@ public class ReceivingServiceImpl implements ReceivingService {
     /**
      * Get all the receivings.
      *
-     * @param pageable the pagination information
-     * @return the list of entities
+     * @param pageable the pagination information.
+     * @return the list of entities.
      */
     @Override
     @Transactional(readOnly = true)
@@ -65,8 +65,8 @@ public class ReceivingServiceImpl implements ReceivingService {
     /**
      * Get one receiving by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     * @param id the id of the entity.
+     * @return the entity.
      */
     @Override
     @Transactional(readOnly = true)
@@ -79,7 +79,7 @@ public class ReceivingServiceImpl implements ReceivingService {
     /**
      * Delete the receiving by id.
      *
-     * @param id the id of the entity
+     * @param id the id of the entity.
      */
     @Override
     public void delete(Long id) {

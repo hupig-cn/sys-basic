@@ -12,4 +12,10 @@ public class ReceiptpayConstant {
 
     public static final String INTEGRAL_PAY = "5"; // 积分支出
 
+    public static final String INTEGRAL_GET= "6"; // 积分收入
+
+    public static final String COUPON_PAY = "7"; // 优惠券支出
+
+    public static final String COUPON_GET = "8"; // 优惠券收入
+
 }

@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
- * Service Implementation for managing Files.
+ * Service Implementation for managing {@link Files}.
  */
 @Service
 @Transactional
@@ -36,8 +36,8 @@ public class FilesServiceImpl implements FilesService {
     /**
      * Save a files.
      *
-     * @param filesDTO the entity to save
-     * @return the persisted entity
+     * @param filesDTO the entity to save.
+     * @return the persisted entity.
      */
     @Override
     public FilesDTO save(FilesDTO filesDTO) {
@@ -50,8 +50,8 @@ public class FilesServiceImpl implements FilesService {
     /**
      * Get all the files.
      *
-     * @param pageable the pagination information
-     * @return the list of entities
+     * @param pageable the pagination information.
+     * @return the list of entities.
      */
     @Override
     @Transactional(readOnly = true)
@@ -65,8 +65,8 @@ public class FilesServiceImpl implements FilesService {
     /**
      * Get one files by id.
      *
-     * @param id the id of the entity
-     * @return the entity
+     * @param id the id of the entity.
+     * @return the entity.
      */
     @Override
     @Transactional(readOnly = true)
@@ -79,7 +79,7 @@ public class FilesServiceImpl implements FilesService {
     /**
      * Delete the files by id.
      *
-     * @param id the id of the entity
+     * @param id the id of the entity.
      */
     @Override
     public void delete(Long id) {

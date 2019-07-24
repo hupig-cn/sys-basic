@@ -8,23 +8,23 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 /**
- * Service Interface for managing Files.
+ * Service Interface for managing {@link com.weisen.www.code.yjf.basic.domain.Files}.
  */
 public interface FilesService {
 
     /**
      * Save a files.
      *
-     * @param filesDTO the entity to save
-     * @return the persisted entity
+     * @param filesDTO the entity to save.
+     * @return the persisted entity.
      */
     FilesDTO save(FilesDTO filesDTO);
 
     /**
      * Get all the files.
      *
-     * @param pageable the pagination information
-     * @return the list of entities
+     * @param pageable the pagination information.
+     * @return the list of entities.
      */
     Page<FilesDTO> findAll(Pageable pageable);
 
@@ -32,15 +32,15 @@ public interface FilesService {
     /**
      * Get the "id" files.
      *
-     * @param id the id of the entity
-     * @return the entity
+     * @param id the id of the entity.
+     * @return the entity.
      */
     Optional<FilesDTO> findOne(Long id);
 
     /**
      * Delete the "id" files.
      *
-     * @param id the id of the entity
+     * @param id the id of the entity.
      */
     void delete(Long id);
 }

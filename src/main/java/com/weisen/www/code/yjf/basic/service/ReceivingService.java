@@ -8,23 +8,23 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 /**
- * Service Interface for managing Receiving.
+ * Service Interface for managing {@link com.weisen.www.code.yjf.basic.domain.Receiving}.
  */
 public interface ReceivingService {
 
     /**
      * Save a receiving.
      *
-     * @param receivingDTO the entity to save
-     * @return the persisted entity
+     * @param receivingDTO the entity to save.
+     * @return the persisted entity.
      */
     ReceivingDTO save(ReceivingDTO receivingDTO);
 
     /**
      * Get all the receivings.
      *
-     * @param pageable the pagination information
-     * @return the list of entities
+     * @param pageable the pagination information.
+     * @return the list of entities.
      */
     Page<ReceivingDTO> findAll(Pageable pageable);
 
@@ -32,15 +32,15 @@ public interface ReceivingService {
     /**
      * Get the "id" receiving.
      *
-     * @param id the id of the entity
-     * @return the entity
+     * @param id the id of the entity.
+     * @return the entity.
      */
     Optional<ReceivingDTO> findOne(Long id);
 
     /**
      * Delete the "id" receiving.
      *
-     * @param id the id of the entity
+     * @param id the id of the entity.
      */
     void delete(Long id);
 }

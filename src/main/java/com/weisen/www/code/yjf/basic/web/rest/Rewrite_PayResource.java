@@ -50,6 +50,18 @@ public class Rewrite_PayResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
+    /**
+     * 优惠券
+     * @return
+     */
+    @PostMapping("/couponPayment")
+    @ApiOperation(value = "优惠券支付")
+    @Timed
+    public ResponseEntity<Result> couponPayment(@RequestBody Rewrite_PayDTO rewrite_PayDTO) {
+        Result result = rewrite_PayService.couponPayment(rewrite_PayDTO);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
 
 
 }

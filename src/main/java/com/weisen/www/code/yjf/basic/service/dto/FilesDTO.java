@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A DTO for the Files entity.
+ * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Files} entity.
  */
 public class FilesDTO implements Serializable {
 

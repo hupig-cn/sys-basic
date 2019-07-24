@@ -8,6 +8,26 @@ public class Rewrite_PayDTO {
 
     private String integral;
 
+    private String concession; // 让利比例
+
+    private String rebate; // 返积分比例
+
+    public String getConcession() {
+        return concession;
+    }
+
+    public void setConcession(String concession) {
+        this.concession = concession;
+    }
+
+    public String getRebate() {
+        return rebate;
+    }
+
+    public void setRebate(String rebate) {
+        this.rebate = rebate;
+    }
+
     public Long getOrderid() {
         return orderid;
     }

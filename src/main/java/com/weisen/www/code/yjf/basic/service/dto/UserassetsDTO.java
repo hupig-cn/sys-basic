@@ -17,6 +17,8 @@ public class UserassetsDTO implements Serializable {
 
     private String frozenbalance;
 
+    private String couponsum;
+
     private String integral;
 
     private String creator;
@@ -72,6 +74,14 @@ public class UserassetsDTO implements Serializable {
 
     public void setFrozenbalance(String frozenbalance) {
         this.frozenbalance = frozenbalance;
+    }
+
+    public String getCouponsum() {
+        return couponsum;
+    }
+
+    public void setCouponsum(String couponsum) {
+        this.couponsum = couponsum;
     }
 
     public String getIntegral() {
@@ -167,6 +177,7 @@ public class UserassetsDTO implements Serializable {
             ", balance='" + getBalance() + "'" +
             ", usablebalance='" + getUsablebalance() + "'" +
             ", frozenbalance='" + getFrozenbalance() + "'" +
+            ", couponsum='" + getCouponsum() + "'" +
             ", integral='" + getIntegral() + "'" +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +

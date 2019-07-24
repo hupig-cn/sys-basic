@@ -59,7 +59,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190712100649",
+    "changelogDate": "20190724130027",
     "entityTableName": "coupon",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

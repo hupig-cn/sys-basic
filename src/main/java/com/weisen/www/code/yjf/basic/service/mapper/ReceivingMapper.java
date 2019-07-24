@@ -6,7 +6,7 @@ import com.weisen.www.code.yjf.basic.service.dto.ReceivingDTO;
 import org.mapstruct.*;
 
 /**
- * Mapper for the entity Receiving and its DTO ReceivingDTO.
+ * Mapper for the entity {@link Receiving} and its DTO {@link ReceivingDTO}.
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface ReceivingMapper extends EntityMapper<ReceivingDTO, Receiving> {

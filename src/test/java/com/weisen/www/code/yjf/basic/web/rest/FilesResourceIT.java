@@ -189,7 +189,7 @@ public class FilesResourceIT {
             .andExpect(jsonPath("$.[*].file").value(hasItem(DEFAULT_FILE.toString())))
             .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getFiles() throws Exception {
