@@ -66,14 +66,25 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 					return "此支付宝已被他人绑定";
 				}
 			} else {
-				Userassets UserassetsI = rewrite_UserassetsRepository.findByUserid(userid);
-				Userassets UserassetsII = rewrite_UserassetsRepository.findByUserid(linkaccount.getUserid());
-				UserassetsI.setIntegral(String.valueOf(
-						(Integer.parseInt(UserassetsI.getIntegral()) + Integer.parseInt(UserassetsII.getIntegral()))));
-				id = UserassetsII.getUserid();
-				rewrite_UserassetsRepository.deleteById(UserassetsII.getId());// 用来合并资产
+				Userassets userassetsI = rewrite_UserassetsRepository.findByUserid(userid);
+				Userassets userassetsII = rewrite_UserassetsRepository.findByUserid(linkaccount.getUserid());
+				if (null == userassetsI) {
+					userassetsI = new Userassets();
+					userassetsI.setUserid(userid);
+					userassetsI.setBalance("0");
+					userassetsI.setUsablebalance("0");
+					userassetsI.setFrozenbalance("0");
+					userassetsI.setIntegral("0");
+					rewrite_UserassetsRepository.save(userassetsI);// 空的用户资产,先建立一个用户资产
+				}
+				if (null != userassetsII) {
+					userassetsI.setIntegral(String.valueOf((Integer.parseInt(userassetsI.getIntegral())
+							+ Integer.parseInt(userassetsII.getIntegral()))));
+					id = userassetsII.getUserid();
+					rewrite_UserassetsRepository.deleteById(userassetsII.getId());// 用来合并资产
+				}
 				Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(linkaccount.getUserid());
-				if (userlinkuser != null) {
+				if (null != userlinkuser) {
 					recommendr = userlinkuser.getRecommendid();
 					recommenddate = userlinkuser.getModifierdate();
 					rewrite_UserlinkuserRepository.delete(userlinkuser);// 拿出推荐人
