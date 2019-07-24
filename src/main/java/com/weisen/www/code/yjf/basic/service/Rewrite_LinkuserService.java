@@ -11,5 +11,7 @@ public interface Rewrite_LinkuserService {
     String authentication(LinkuserDTO linkuserDTO);
     
     Linkuser findByUserid(String userid);
+    
+    String queryRealName(String userid);
 
 }

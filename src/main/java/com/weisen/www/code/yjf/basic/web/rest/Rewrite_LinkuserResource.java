@@ -47,6 +47,12 @@ public class Rewrite_LinkuserResource {
 		log.debug("REST request to update Linkuser : {}", linkuserDTO);
 		return rewrite_LinkuserService.authentication(linkuserDTO);
 	}
+	
+	@GetMapping("/queryRealName/{userid}")
+	@ApiOperation(value = "查询实名信息")
+	public String queryRealName(@PathVariable String userid) {
+		return rewrite_LinkuserService.queryRealName(userid);
+	}
 
 	@GetMapping("/getlinkusers/{userid}")
 	@ApiOperation(value = "根据用户id获取用户附加信息")

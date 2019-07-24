@@ -51,4 +51,14 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
 		log.debug("Request to get Linkuser : {}", userid);
 		return rewrite_LinkuserRepository.findByUserid(userid);
 	}
+	@Override
+	public String queryRealName(String userid) {
+		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userid);
+		if (null!=linkuser) {
+			if (linkuser.getIdcard().length()==18&&linkuser.getName()!=null) {
+				return "已认证";
+			}
+		}
+		return "未认证";
+	}
 }
