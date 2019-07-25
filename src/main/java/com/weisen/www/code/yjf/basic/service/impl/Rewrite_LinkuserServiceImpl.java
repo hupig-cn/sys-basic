@@ -37,8 +37,8 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
 		if (linkuserI != null)
 			return "该身份证号码已被认证。";
 		Linkuser linkuserII = rewrite_LinkuserRepository.findByUserid(linkuserDTO.getUserid());
-		if (linkuserII==null)
-			return "认证失败。";			
+		if (linkuserII == null)
+			return "认证失败。";
 		linkuserII.setName(linkuserDTO.getName());
 		linkuserII.setIdcard(linkuserDTO.getIdcard());
 		rewrite_LinkuserRepository.save(linkuserII);
@@ -51,11 +51,12 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
 		log.debug("Request to get Linkuser : {}", userid);
 		return rewrite_LinkuserRepository.findByUserid(userid);
 	}
+
 	@Override
 	public String queryRealName(String userid) {
 		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userid);
-		if (null!=linkuser) {
-			if (linkuser.getIdcard().length()==18&&linkuser.getName()!=null) {
+		if (null != linkuser) {
+			if (linkuser.getIdcard().length() == 18 && linkuser.getName() != null) {
 				return "已认证";
 			}
 		}
