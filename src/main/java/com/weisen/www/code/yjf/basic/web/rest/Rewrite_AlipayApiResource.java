@@ -63,7 +63,7 @@ public class Rewrite_AlipayApiResource {
 	 * @param orderId
 	 * @return
 	 */
-	@PostMapping("/payOrder/{id}")
+	@GetMapping("/payOrder/{id}")
 	@ApiOperation(value = "支付订单")
 	public Result payOrder(@PathVariable("id") Long orderId) {
 		log.debug("支付订单:{}", orderId);
