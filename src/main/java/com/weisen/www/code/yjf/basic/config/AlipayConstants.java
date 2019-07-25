@@ -9,7 +9,7 @@ public class AlipayConstants {
     public static final String FORMAT = "json";
     //APPid
     //线上
-    public static final String APP_ID = "2019062565651444";
+    public static final String APP_ID = "2019061965597545";
     //沙箱
 //    public static final String APP_ID = "2016101100661893";
     //APP私钥
