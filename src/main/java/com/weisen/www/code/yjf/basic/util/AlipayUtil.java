@@ -20,9 +20,7 @@ public class AlipayUtil {
     public static final AlipaySystemOauthTokenResponse getUserInfo (String authCode) {
         AlipaySystemOauthTokenResponse userInfo = null;
         try {
-            AlipayClient alipayClient = new DefaultAlipayClient(
-            		"https://openapi.alipay.com/gateway.do", "2019061965597545", 
-            		APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
+            AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
             AlipaySystemOauthTokenRequest alipaySystemOauthTokenRequest = new AlipaySystemOauthTokenRequest();
             alipaySystemOauthTokenRequest.setCode(authCode);
             alipaySystemOauthTokenRequest.setGrantType("authorization_code");

@@ -48,7 +48,6 @@ public class AlipayConstants {
     public static final String PRODUCT_H5_CODE = "QUICK_WAP_WAY";
 
     public static final String RETURN_URL = "http://kalle2017.iok.la/api/public/alipay/return";
-
     //测试支付完成后返回地址
     public static final String NOTIFY_URL = "http://selfcode.wicp.io:8088/api/public/alipay/notify";
 }
