@@ -1,5 +1,6 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import com.weisen.www.code.yjf.basic.util.TimeUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -126,7 +127,18 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 		Linkuser linkuser = new Linkuser();
 		linkuser.setUserid(userId);
 		linkuser.setPhone(phone);
-		linkuserRepository.save(linkuser);// 用户附加信息
+        linkuserRepository.save(linkuser);// 用户附加信息
+
+        // 用户关系表
+        Userlinkuser userlinkuser = new Userlinkuser();
+        userlinkuser.setUserid(userId);
+        userlinkuser.setPartner(false);
+        userlinkuser.setProvince(false);
+        userlinkuser.setCity(false);
+        userlinkuser.setCounty(false);
+        userlinkuser.setCreatedate(TimeUtil.getDate());
+        userlinkuserRepository.save(userlinkuser);
+
 		Userlocation userlocation = new Userlocation();
 		userlocation.setUserid(userId);
 		userlocationRepository.save(userlocation);// 用户位置信息
