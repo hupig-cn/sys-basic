@@ -14,32 +14,32 @@ public class AlipayConstants {
 //    public static final String APP_ID = "2016101100661893";
     //APP私钥
     //线上
-    public static final String APP_PRIVATE_KEY = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDtdbi6YuS7eKLD\n" + 
-    		"oR+nUsnDbmx8jhETCSCDwNCwQvYGTS9fbvW3Pw6+K9F12hpCjMcpPrutmkh5wOgm\n" + 
-    		"xL2+RiWabZAfDPPESQztKr6JEnwh41UJdmxUM/FBaB+Sn7N3nOUa47YHcgqWk+wu\n" + 
-    		"1Y8lK2ukKfWO3v+naWORo6uCGgZVlgqtiqXxQY5T3CO0I0VX0tGGLvgTL32LtKRt\n" + 
-    		"i04wQkF49SiPj6T3K0/dvWfiqB1aAH31DeXvaTjThEUGkclmaF5mg/mWMwFHzyOA\n" + 
-    		"opkM/5JYL9bj6e8dmtaxjlLWlQLNz2xyKVLqAOw0V0prRo1Gi5q0olW8KLREYHZP\n" + 
-    		"pc6NKITRAgMBAAECggEAV9brTa9Vc2/trbZFkkzSrAOGCBE5ibQfnf1OdVVf0vbs\n" + 
-    		"Zj4SkQW3e2uUISdb/XA8ICq/nDltQ/SzK9wtYFxsfpK29HWDGwH20Si1sNjwqEyC\n" + 
-    		"4Ww4KHHKdeqBe2iuJ7oXGfpQFLL/7bGsdaq0OAi22dRXrNEa+x/GIFLOF+NuomuX\n" + 
-    		"AFSky62yndJdlYTYW2j4KYveYqjT7luII3gPUqrH/EZYkRc+0ee9XXcYXT4hyVfP\n" + 
-    		"2XqvZo7NOLbzrOjF0x/FMUgZLUVV/BUz4qN1PLSX2ZFZva/6cmFS2ZGoLya8y7DI\n" + 
-    		"W33VWtC3EaxndK7xGAxTqVy8Zzi5G0LYbENgFAhmXQKBgQD2lvI06xSjOXWp1Cq8\n" + 
-    		"hWUUnlhreNDmXhmYvyOHKRej+7S0gIyQHaAcXD2xRG7OWR50lTJRgClnKp6p+x2a\n" + 
-    		"PGllPWVWwco99lpqEreZjikddmMY4oViupmKujPXZuHHvZ0LEPq7l5m5k2OZlMIu\n" + 
-    		"1F/JwS99vMCuRx2gZZFWepPw4wKBgQD2hZUKOLhC/zrxyukAm+0lU1YERWSXwckk\n" + 
-    		"7fvI/AOnRFozH0P2I/PQU5c+Bawn+De3ZWKpUbYnY49L9CTMgWHXQ2ZaYBlG63/l\n" + 
-    		"mjvNc3orR2Sb+JFaG6ULWi1B40Gbvmp+kFmyl0MzZ/IFXinU/WWiR7jF20JM7guE\n" + 
-    		"M678ehpluwKBgB9uyl0Ygj70Oh114CS71FC2horckbRr1lN0OfEmuc67bSN9J23P\n" + 
-    		"ePNkhrCsCnvfPFScGBfvgFeYRTVhvzpD7SNsmhhfB4qydoAC9shqKK+KwcMQTPRy\n" + 
-    		"2NOoPKd+g9VUREp+1ZdIEd5n/VA8eCxEAhnTuFwMzXrpscsaZ1Zgta8FAoGAPqM6\n" + 
-    		"d1pqFzvask0oXus/mlhOZs9q+9RVU3jUnQDLvNh1QsAS+Jux+6EBsNSoJY/AOG0e\n" + 
-    		"YH9OlTuK0XW7U+sb/SI3A4efZJG58ZD62P0acZy2R5sk84xKp1PGZBNmPDhpvrbW\n" + 
-    		"07XzcUBcElkWr/Oiu1UV8dAATKO/cVvgfm5X/rkCgYEAi5362N7GU9KNe+Ux+Pe6\n" + 
-    		"f4kR916qsnCDdKAdL0YRHjP6wm2YBQ9qSnudmxD7ue17BiGuUqtIylYedYroedsi\n" + 
-    		"HEVRtCu5hHzajO1G6k33J/LNyZrY1xe8fbAn8kB/Cjdxd+zjp6Br533EK0PeeVeL\n" + 
-    		"WxjR8k9qb2HK4T6z3zWSLD4=";
+    public static final String APP_PRIVATE_KEY = "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC6UNqfYYEcwUyI\n" + 
+    		"TgI23Ravne4tD/w8Rm6XeIFaRx7qeo6VdmQdULLRFH+viLlu6hHYuNPiu1zF2CHK\n" + 
+    		"nl/E6neo5i/QPv69Ff43uT/UOfNnJ9BaH4/dMsrmJJEse6LwjxCVlUCIejd8TLbY\n" + 
+    		"pQoV4F4Z909VQex9Xyfewu/v1bKysNMEnd9TPpPUW4O6ZtOJkVkPmPfss3aWFfMb\n" + 
+    		"nhYF/CfPxr2hCEJLzwGlsd4F06y7Ei/5jd54K0dENAOHe4bY0x5N7GeHLKWLz/i9\n" + 
+    		"LRIfd6f6sQdyOrnZ5sFX7G0oK9AwnQ9fptGarZ4w2gtlHFhswaoyQ1MqgUOJuHPy\n" + 
+    		"7OBMp4cHAgMBAAECggEBAJ7CbsgIqZ/7Bl/POQvO8JnMlTtIt8IUsf/X60EmAS4E\n" + 
+    		"KKMrMrvYG8cVFIhalMfyJCrrs4Er7i2XsZOZyDlfIX+GRY/JXf95UhnhfIY2qzVn\n" + 
+    		"M57X7hqqQUJCPoINCBa7kYIkn8yrd8QvCk8osqNZgFXX6n3XotBh2PN0YEeZbJ/d\n" + 
+    		"nXkVMA+rrIvIdAzMH6UMXWi//s7186ArW4b9BaK9Nms2Ocm1Yy9rehuIdg8KcS4d\n" + 
+    		"cmiLMm4qKzC+O6+pDxKzi31cyfg3Ra7mrxu0yr4RXTtaNmkkz1ztC1Jyjx4UBkxA\n" + 
+    		"jBPmRygjfmNrrOwRq5L7ec9DvvL5Hf4QYZPgot1DM4ECgYEA+BRv5PAUXf6qrzO2\n" + 
+    		"/t7IYCeDOCA802byoE7u6g5TBiDB6ZcaQf8a6KR3KP6NMoJcJrE6FGxRDp+9MdzI\n" + 
+    		"nNG/ANZoXRyy1lqDB2AOI2TqPaQdj83GqJU4T83PXei9Srnoubz0yses2Vl5PyFf\n" + 
+    		"tT2u3uXduPgNS5HXRZmimdqsnNECgYEAwEOeP8Bj7vvdBcqWUn0lDGS7Z+WZhT+u\n" + 
+    		"s+s2ZxrMm6PGg+hEYbglGbATxVUFYXuOE/a4oMOQ54/m7Z8pYCw3iCC5+OZRHH2U\n" + 
+    		"dygJSK0Jpn94Oqg7/b/+l66v0fHoXhyVmbyAuSzXVaI11U5JdzWRqaytH7/1LwAx\n" + 
+    		"kjpmnH25fFcCgYAKLMxqF26+bDOT/AsFaR3O09AN/USBZzeMW7Bw6SV+mtlZO1lY\n" + 
+    		"W54+7H/2rnocGDyvWZWIQOkSMHsSEHwp8nBjGGgvaX3sTMoTA12RFhKFdLXBsC71\n" + 
+    		"uykUHNzkfSdGaVmiRJ3Fs2rjf0f5zuSeCmmhusvdSk9BSjoKIMMKjG2IAQKBgDBK\n" + 
+    		"i5v9qdwj/N7whJNRhZW4U24EOGxEk4/zW2XIUG4jU8Bb/ZkB1KfAFycwdLqIeyY+\n" + 
+    		"iR8wH9xZw6oZmR3j3Ure1XdT+jmKvVi0gKh1dgAQ8lThXrgcmkjlAppcBX5l9Zl4\n" + 
+    		"xGg+gBOtO5JJKKC9nsmcapuX7nCQvuK4sn9KAOXfAoGBAMRWTtjiHD/Mk/zJv2NY\n" + 
+    		"kw4RRWz5/S6WmznvOrIN5ZuFe1eNGnAsPOJSkJKgEpzXCGpzeS8182QivL6+VHOW\n" + 
+    		"mQ6+F0ELYij5AQjz9PXCIa5vcFK9STZo/L0+Ey0oEih0Jilm04pJj/d5l/k0j3bo\n" + 
+    		"0/qNMLyo7kH0XFbJAw47DuIa";
 
     public static final String CHARSET = "utf-8";
     //支付宝公钥
