@@ -1,7 +1,5 @@
 package com.weisen.www.code.yjf.basic.util;
 
-import com.weisen.www.code.yjf.basic.domain.Percentage;
-
 public class Rewrite_Constant {
 
 	public static boolean productionMode =true;
@@ -36,9 +34,9 @@ public class Rewrite_Constant {
     /**
      * 订单状态
      */
-    public static final String ORDER_WAIT_PAY = "wait_pay"; //待支付
-    public static final String ORDER_WAIT_DELIVER = "wait_deliver"; //待发货
-    public static final String ORDER_FINISHED = "finished"; //已完成
+    public static final String ORDER_WAIT_PAY = "1"; //待支付
+    public static final String ORDER_WAIT_DELIVER = "2"; //待发货
+    public static final String ORDER_FINISHED = "5"; //已完成
 
     /**
      * 交易类型
