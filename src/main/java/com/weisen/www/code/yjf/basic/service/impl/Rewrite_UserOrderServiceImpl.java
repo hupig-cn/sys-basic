@@ -120,13 +120,11 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
         }else if(null == rewrite_AnOrder.getPrice()){
 
         } ////
-
         Userorder userorder = new Userorder();
         userorder.setOrdercode(OrderConstant.getOrderCode(rewrite_AnOrder.getUserId()));
         userorder.setOrderstatus(OrderConstant.UN_PAID);  // 待支付
         userorder.setSum(rewrite_AnOrder.getPrice());
         userorder.setUserid(rewrite_AnOrder.getUserId());
-        userorder.setPayway(rewrite_AnOrder.getPayWay());
         userorder.setPayresult("");  // ??
         userorder.setCreator(null);
         userorder.setCreatedate(TimeUtil.getDate());
