@@ -36,6 +36,11 @@ public final class Constants {
     public static final Integer REGISTER_NUMBER = 3;
 
     public static final Integer CHANGE_PASSWORD_NUMBER = 3;
+    
+    // Validate pay password
+    public static final String SMS_PAY_PASSWORD_CODE_REGEXP = "\\d{6}";
+
+    public static final String SMS_PAY_PASSWORD_REGEXP = "\\d{6}";
 
     private Constants() {
     }

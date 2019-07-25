@@ -3,17 +3,13 @@ package com.weisen.www.code.yjf.basic.config;
 public class AlipayConstants {
 
     private AlipayConstants () {}
-    //沙箱url
+
     public static final String GATEWAY = "https://openapi.alipay.com/gateway.do";
 
     public static final String FORMAT = "json";
     //APPid
-    //线上
     public static final String APP_ID = "2019061965597545";
-    //沙箱
-//    public static final String APP_ID = "2016101100661893";
     //APP私钥
-    //线上
     public static final String APP_PRIVATE_KEY = "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC6UNqfYYEcwUyI\n" + 
     		"TgI23Ravne4tD/w8Rm6XeIFaRx7qeo6VdmQdULLRFH+viLlu6hHYuNPiu1zF2CHK\n" + 
     		"nl/E6neo5i/QPv69Ff43uT/UOfNnJ9BaH4/dMsrmJJEse6LwjxCVlUCIejd8TLbY\n" + 
@@ -43,7 +39,6 @@ public class AlipayConstants {
 
     public static final String CHARSET = "utf-8";
     //支付宝公钥
-    //线上
     public static final String ALIPAY_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoNq9VjM1JuXtO0DyqINqZdGxUg7s/0EPeUC/ez3KOZlpJ3ekWhwsh0V5KAOG2QmUJ6uJUR8pBRjqBEZzgDAAVWw30e+lT9OT6r6kmmb5BqLfUROU+DCUSyeGy8JIkTR/u5eoTHnP4jOTwLZNks89F29Ju1076As9y5c+Z6fh1LxxM/zYZQkjCk58kYEWJjIKmE3Ds0OU+yYaNLrjdLdRAlmPp+u2vLj00Iw7PH8ADx4aDT1Dt6vrqADv75IALbAtY/jgiq6QYuyFY6FzRL6qA+glrIH172Nru8O/i9Qei2J885kDtnEzS3TRYtR/uvHSjgdQlUBZLcAKdJ8GDWyGoQIDAQAB";
 
     public static final String SIGN_TYPE = "RSA2";
@@ -53,7 +48,6 @@ public class AlipayConstants {
     public static final String PRODUCT_H5_CODE = "QUICK_WAP_WAY";
 
     public static final String RETURN_URL = "http://kalle2017.iok.la/api/public/alipay/return";
-
     //测试支付完成后返回地址
     public static final String NOTIFY_URL = "http://app.yuanscore.com:9090/api/public/notify";
 }
