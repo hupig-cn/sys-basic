@@ -109,12 +109,12 @@ public class Rewrite_UserOrderResource {
      * @param rewrite_AnOrder
      * @return
      */
-    @GetMapping("/placeAnOrder")
+    @PostMapping("/placeAnOrder")
     @ApiOperation(value = "用户下单")
     @Timed
     public ResponseEntity<Result> placeAnOrder(@RequestBody Rewrite_AnOrder rewrite_AnOrder) {
         Result result = rewrite_UserOrderService.placeAnOrder(rewrite_AnOrder);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(Result.suc("成功",result)));
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
 

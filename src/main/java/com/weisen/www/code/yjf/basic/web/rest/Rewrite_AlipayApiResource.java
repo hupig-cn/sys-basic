@@ -1,24 +1,17 @@
 package com.weisen.www.code.yjf.basic.web.rest;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.weisen.www.code.yjf.basic.service.Rewrite_000_UserorderService;
 import com.weisen.www.code.yjf.basic.service.Rewrite_AlipayService;
 import com.weisen.www.code.yjf.basic.service.rewrite.submit_dto.Rewrite_AliPaySubmitDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api")
@@ -70,9 +63,9 @@ public class Rewrite_AlipayApiResource {
 	 * @param orderId
 	 * @return
 	 */
-	@PostMapping("/payOrder")
+	@GetMapping("/payOrder/{id}")
 	@ApiOperation(value = "支付订单")
-	public Result payOrder(@RequestParam(value = "orderId") Long orderId) {
+	public Result payOrder(@PathVariable("id") Long orderId) {
 		log.debug("支付订单:{}", orderId);
 		return userorderService.alipay(orderId);
 	}
