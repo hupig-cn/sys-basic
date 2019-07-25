@@ -305,6 +305,13 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         mPrice = am.add(mPrice);
         userassets.setIntegral(mPrice.toString());
         userassetsRepository.saveAndFlush(userassets);
+
+        Receiptpay receiptpay = new Receiptpay();
+        receiptpay.setAmount(mPrice);
+        receiptpay.dealstate(ReceiptpayConstant.INTEGRAL_GET); // 优惠券收入
+        receiptpay.setUserid(userId);
+        receiptpay.setCreatedate(TimeUtil.getDate());
+        receiptpayRepository.save(receiptpay);
     }
 
     // 优惠券处理
@@ -319,6 +326,13 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         mPrice = am.add(mPrice);
         userassets.setCouponsum(mPrice.toString());
         userassetsRepository.saveAndFlush(userassets);
+
+        Receiptpay receiptpay = new Receiptpay();
+        receiptpay.setAmount(mPrice);
+        receiptpay.dealstate(ReceiptpayConstant.COUPON_GET); // 优惠券收入
+        receiptpay.setUserid(userId);
+        receiptpay.setCreatedate(TimeUtil.getDate());
+        receiptpayRepository.save(receiptpay);
     }
 
 
