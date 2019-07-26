@@ -8,6 +8,7 @@ import com.alipay.api.request.AlipaySystemOauthTokenRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipaySystemOauthTokenResponse;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 
 import static com.weisen.www.code.yjf.basic.config.AlipayConstants.*;
@@ -36,6 +37,7 @@ public class AlipayUtil {
 
     public static final String alipay(String outTradeNo, String subject, BigDecimal totalAmount, Long orderId) {
         String form = "";
+        String result = "";
         try {
             AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
             AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();
@@ -52,15 +54,22 @@ public class AlipayUtil {
             alipayRequest.setReturnUrl(NOTIFY_URL); //回调地址
             alipayRequest.setNotifyUrl(RETURN_URL + orderId); //支付完成后返回地址
             alipayRequest.setBizModel(model);
+
             form =  alipayClient.pageExecute(alipayRequest,"get").getBody();
             System.out.println("回调开始");
             System.out.println(form);
+            try {
+                result = java.net.URLEncoder.encode(form, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            System.out.println(result);
             System.out.println("回调结束");
 //            form = alipayClient.pageExecute(alipayRequest).getBody(); //调用Alipay-SDK生成表单
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
-        return form;
+        return result;
     }
     
     public static final String alipay(String outTradeNo, String subject, BigDecimal totalAmount, String orderId) {
