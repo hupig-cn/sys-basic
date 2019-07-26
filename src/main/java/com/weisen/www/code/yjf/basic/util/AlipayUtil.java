@@ -48,6 +48,7 @@ public class AlipayUtil {
             model.setProductCode(PRODUCT_H5_CODE); //H5支付方式
             alipayRequest.setReturnUrl(NOTIFY_URL); //回调地址
             alipayRequest.setNotifyUrl(RETURN_URL + orderId); //支付完成后返回地址
+            alipayRequest.setBizModel(model);
             form = alipayClient.pageExecute(alipayRequest).getBody(); //调用Alipay-SDK生成表单
         } catch (AlipayApiException e) {
             e.printStackTrace();
