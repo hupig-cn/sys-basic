@@ -8,13 +8,16 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface Rewrite_000_UserorderService {
 
-    Result alipay (Long orderId);
+	Result alipay(Long orderId);
 
-    Result alipay (String merchantId, String userId, Integer concession, Integer rebate, String amount);
+	Result alipay(String merchantId, String userId, Integer concession, Integer rebate, String amount);
 
-    void notifyMessage (HttpServletRequest request, HttpServletResponse response);
+	void notifyMessage(HttpServletRequest request, HttpServletResponse response);
 
-    Result queryOrder (String orderId);
+	Result queryOrder(String orderId);
 
-    Result createOrder(CreateOrderDTO createOrderDTO);
+	Result createOrder(CreateOrderDTO createOrderDTO);
+
+	String merchantPayment(String userid, String money, String merchantid, Integer concession, Integer rebate);
+
 }

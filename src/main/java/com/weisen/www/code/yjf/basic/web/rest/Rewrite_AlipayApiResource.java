@@ -70,6 +70,13 @@ public class Rewrite_AlipayApiResource {
 		return userorderService.alipay(orderId);
 	}
 
+	@GetMapping("/public/merchantPayment")
+	@ApiOperation(value = "根据金额生成随机订单,用于支付宝")
+	public String merchantPayment(@RequestParam String userid, String money, String merchantid,
+			Integer concession, Integer rebate) {
+		return userorderService.merchantPayment(userid, money, merchantid, concession, rebate);
+	}
+
 	/**
 	 * 支付宝付款(线下)
 	 * 
