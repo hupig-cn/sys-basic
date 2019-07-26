@@ -85,18 +85,18 @@ public class Rewrite_ReceivingServiceImpl implements Rewrite_ReceivingService {
             //转换成相应的实体类在保存到数据库
             //保存创建时间
             Receiving receiving = rewrite_receivingMapper.toEntity(rewrite_receivingDTO);
-//            Receiving UserIdAndDefault = rewrite_receivingRepository.findByUserIdAndDefault(Long.valueOf(rewrite_receivingDTO.getUserid()));
-//            //判断当前用户是否存在默认地址
-//            //不存在则设置成默认地址
-//            if (!CheckUtils.checkObj(UserIdAndDefault))
-//                receiving.setIsdefault(true);
-//                //存在并且提交的数据为设置成默认地址则修改
-//            else {
-//                if (rewrite_receivingDTO.getIsdefault()) {
-//                    UserIdAndDefault.setIsdefault(false);
-//                    rewrite_receivingRepository.saveAndFlush(UserIdAndDefault);
-//                }
-//            }
+            Receiving UserIdAndDefault = rewrite_receivingRepository.findByUserIdAndDefault(Long.valueOf(rewrite_receivingDTO.getUserid()));
+            //判断当前用户是否存在默认地址
+            //不存在则设置成默认地址
+            if (!CheckUtils.checkObj(UserIdAndDefault))
+                receiving.setIsdefault(true);
+                //存在并且提交的数据为设置成默认地址则修改
+            else {
+                if (rewrite_receivingDTO.getIsdefault()) {
+                    UserIdAndDefault.setIsdefault(false);
+                    rewrite_receivingRepository.saveAndFlush(UserIdAndDefault);
+                }
+            }
             receiving.setCreatetime(DateUtils.getDateForNow());
             Receiving save = rewrite_receivingRepository.save(receiving);
             if (!CheckUtils.checkObj(save))

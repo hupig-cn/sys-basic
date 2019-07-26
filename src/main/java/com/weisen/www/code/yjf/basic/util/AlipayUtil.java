@@ -52,7 +52,11 @@ public class AlipayUtil {
             alipayRequest.setReturnUrl(NOTIFY_URL); //回调地址
             alipayRequest.setNotifyUrl(RETURN_URL + orderId); //支付完成后返回地址
             alipayRequest.setBizModel(model);
-            form = alipayClient.pageExecute(alipayRequest).getBody(); //调用Alipay-SDK生成表单
+            form =  alipayClient.pageExecute(alipayRequest,"get").getBody();
+            System.out.println("回调开始");
+            System.out.println(form);
+            System.out.println("回调结束");
+//            form = alipayClient.pageExecute(alipayRequest).getBody(); //调用Alipay-SDK生成表单
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
