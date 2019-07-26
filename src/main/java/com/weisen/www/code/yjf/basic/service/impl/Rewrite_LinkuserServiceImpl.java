@@ -56,7 +56,7 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
 	public String queryRealName(String userid) {
 		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userid);
 		if (null != linkuser) {
-			if (linkuser.getIdcard().length() == 18 && linkuser.getName() != null) {
+			if (null != linkuser.getIdcard() && "".equals(linkuser.getIdcard()) && linkuser.getIdcard().length() == 18 && null != linkuser.getName()) {
 				return "已认证";
 			}
 		}
