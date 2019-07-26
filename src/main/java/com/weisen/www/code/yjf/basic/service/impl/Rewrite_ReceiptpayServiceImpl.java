@@ -89,7 +89,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 
     // 查询商家各项详细收益
     @Override
-    public Result getProfitInfo(Long userId) {
+    public Rewrite_MercProfitDto getProfitInfo(Long userId) {
         Rewrite_PriceDTO rewrite_PriceDTO = rewrite_UserassetsService.findUserBalance(userId);
         Rewrite_PriceDTO pricere = selectYesterday(userId);
 
@@ -120,7 +120,56 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
         }
 
         Rewrite_MercProfitDto rewrite_MercProfitDto = new Rewrite_MercProfitDto(rewrite_PriceDTO.getBalance(),
-            pricere.getPrice(),price.toString(),lastprice.toString(),totalprice.toString());
+            new BigDecimal(pricere.getPrice()),price,lastprice,totalprice);
+        return rewrite_MercProfitDto;
+    }
+
+    // 查询用户的各项收益
+    @Override
+    public Result getUserPrifitInfo(Long userId) {
+        Rewrite_MercProfitDto rewrite_MercProfitDto = getProfitInfo(userId);
+
+        String today = new SimpleDateFormat("yyyy-MM").format(new Date());
+        String startTime =  today + "-01 00:00:00";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String endTime = TimeUtil.getPreMonth(sdf.format(new Date())) + "-01 00:00:00";
+        // 当月分销
+        List<Receiptpay> receiptpay = rewrite_ReceiptpayRepository.getReceiptpayByUseridAndTime(userId.toString(),
+            startTime, endTime, ReceiptpayConstant.BALANCE_INCOME_DIR);
+        BigDecimal price = new BigDecimal("0");
+        for (Receiptpay list : receiptpay) {
+            price = price.add(list.getAmount());
+        }
+        String lastTime =TimeUtil.getLastMonth(sdf.format(new Date())) + "-01 00:00:00";
+        //上个月
+        List<Receiptpay> lastreceiptpay = rewrite_ReceiptpayRepository.getReceiptpayByUseridAndTime(userId.toString(),
+            lastTime, startTime, ReceiptpayConstant.BALANCE_INCOME_DIR);
+        BigDecimal lastprice = new BigDecimal("0");
+        for (Receiptpay list : receiptpay) {
+            lastprice = lastprice.add(list.getAmount());
+        }
+        // 总销分销
+        List<Receiptpay> allreceiptpay = rewrite_ReceiptpayRepository.findAllByUseridAndDealtype(userId.toString(),ReceiptpayConstant.BALANCE_INCOME_DIR);
+        BigDecimal totalprice = new BigDecimal("0");
+        for (Receiptpay list : receiptpay) {
+            totalprice = totalprice.add(list.getAmount());
+        }
+        // 昨日
+        String retoday = new SimpleDateFormat("yyyy-MM-dd")
+            .format(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24));
+        String restartTime = retoday + " 00:00:00";
+        String reendTime = retoday + " 23:59:59";
+        List<Receiptpay> lareceiptpay = rewrite_ReceiptpayRepository.getReceiptpayByUseridAndTime(userId.toString(),
+            restartTime, reendTime, ReceiptpayConstant.BALANCE_INCOME_DIR);
+        BigDecimal laprice = new BigDecimal("0");
+        for (Receiptpay list : receiptpay) {
+            laprice = laprice.add(list.getAmount());
+        }
+
+        rewrite_MercProfitDto.setYestoday_income(rewrite_MercProfitDto.getYestoday_income().add(laprice));
+        rewrite_MercProfitDto.setThis_month(rewrite_MercProfitDto.getThis_month().add(price));
+        rewrite_MercProfitDto.setLast_month(rewrite_MercProfitDto.getLast_month().add(lastprice));
+        rewrite_MercProfitDto.setAmount(rewrite_MercProfitDto.getAmount().add(totalprice));
         return Result.suc("成功",rewrite_MercProfitDto);
     }
 
