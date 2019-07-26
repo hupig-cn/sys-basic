@@ -21,4 +21,7 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
 			+ "from receiptpay where userid=?1 and createdate > str_to_date(?2,'%Y-%m-%d %H:%i:%s') "
 			+ "and createdate < str_to_date(?3,'%Y-%m-%d %H:%i:%s') and dealtype = ?4", nativeQuery = true)
 	List<Receiptpay> getReceiptpayByUseridAndTime(String userId, String startTime, String endTime, String dealtype);
+
+	//总收益
+	List<Receiptpay> findAllByUseridAndDealtype(String userId,String dealtype);
 }

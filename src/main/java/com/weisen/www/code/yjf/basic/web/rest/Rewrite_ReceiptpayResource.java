@@ -69,5 +69,18 @@ public class Rewrite_ReceiptpayResource {
         List<ReceiptpayDTO> receiptpay = rewrite_ReceiptpayService.selcetMoneyRecord(userId);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(Result.suc("成功",receiptpay)));
     }
+
+    /**
+     * 查询商家各项详细收益
+     * @param userId
+     * @return
+     */
+    @GetMapping("/getProfitInfo/{userId}")
+    @ApiOperation(value = "查询商家各项详细收益")
+    @Timed
+    public ResponseEntity<Result> getProfitInfo(@PathVariable Long userId) {
+        Result result = rewrite_ReceiptpayService.getProfitInfo(userId);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
 	
 }

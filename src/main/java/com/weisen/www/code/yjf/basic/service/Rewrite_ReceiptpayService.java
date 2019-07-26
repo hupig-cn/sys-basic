@@ -20,4 +20,7 @@ public interface Rewrite_ReceiptpayService {
     //创建收支明细
     Result createReceiptpay(String userId,String type,String sourcer,String sourcerId,String amout);
 
+    // 查询商家各项详细收益
+    Result getProfitInfo(Long userId);
+
 }
