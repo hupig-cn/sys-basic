@@ -2,8 +2,11 @@ package com.weisen.www.code.yjf.basic.service.impl;
 
 import com.weisen.www.code.yjf.basic.domain.Userorder;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserorderRepository;
+import com.weisen.www.code.yjf.basic.service.Rewrite_ReceiptpayService;
 import com.weisen.www.code.yjf.basic.service.Rewrite_UserOrderService;
 import com.weisen.www.code.yjf.basic.service.dto.UserorderDTO;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_OrderCoDto;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_PriceDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_AnOrder;
 import com.weisen.www.code.yjf.basic.service.mapper.UserorderMapper;
 import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
@@ -30,9 +33,12 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
 
     private final UserorderMapper userorderMapper;
 
-    public Rewrite_UserOrderServiceImpl(Rewrite_UserorderRepository rewrite_UserorderRepository, UserorderMapper userorderMapper) {
+    private final Rewrite_ReceiptpayService rewrite_ReceiptpayService;
+
+    public Rewrite_UserOrderServiceImpl(Rewrite_UserorderRepository rewrite_UserorderRepository, UserorderMapper userorderMapper,Rewrite_ReceiptpayService rewrite_ReceiptpayService) {
         this.rewrite_UserorderRepository = rewrite_UserorderRepository;
         this.userorderMapper = userorderMapper;
+        this.rewrite_ReceiptpayService = rewrite_ReceiptpayService;
     }
 
     // 获取用户当日的订单量（区分端）
@@ -132,4 +138,18 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
 
         return Result.suc("成功", userorder.getId());
     }
+
+    // 收益+当日订单+各种订单状态
+    @Override
+    public Result somethingData(Long userId) {
+        int unpaid = getUnpaidOrder(userId).size();
+        int day_order = getTodayOrderNum(userId);
+        int paid = getPaidOrder(userId).size();
+        int refund = getRefundOrder(userId).size();
+        Rewrite_PriceDTO rewrite_PriceDTO = rewrite_ReceiptpayService.selectTodayIncome(userId);
+        Rewrite_OrderCoDto rewrite_OrderCoDto = new Rewrite_OrderCoDto(rewrite_PriceDTO.getPrice(),day_order,unpaid,paid,refund);
+        return Result.suc("成功",rewrite_OrderCoDto);
+    }
+
+
 }

@@ -31,4 +31,7 @@ public interface Rewrite_UserOrderService {
     //用户下单
     Result placeAnOrder(Rewrite_AnOrder rewrite_AnOrder);
 
+    // 收益+当日订单+各种订单状态
+    Result somethingData(Long userId);
+
 }

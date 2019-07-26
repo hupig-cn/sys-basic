@@ -45,21 +45,21 @@ public class Rewrite_ReceivingServiceImpl implements Rewrite_ReceivingService {
         else {
             List<Receiving> receivingByUserId = rewrite_receivingRepository.getReceivingByUserId(id);
             List<Rewrite_ReceivingDTO> rewrite_receivingDTOS = rewrite_receivingMapper.toDto(receivingByUserId);
-            rewrite_receivingDTOS.forEach(receiving -> {
-                    Optional<Area> byId = rewrite_areaRepository.findById(Long.valueOf(receiving.getAreaid()));
-                    Area area = byId.get();
-                    receiving.setProvince(area.getGname());
-                    receiving.setProvinceId(area.getGid());
-                    if (area.getGid() == area.getPid()) {
-                        receiving.setCity(null);
-                        receiving.setCityId(null);
-                    } else {
-                        receiving.setCity(area.getGname());
-                        receiving.setCityId(area.getGid());
-                    }
-                    receiving.setAreaName(area.getName());
-                }
-            );
+//            rewrite_receivingDTOS.forEach(receiving -> {
+//                    Optional<Area> byId = rewrite_areaRepository.findById(Long.valueOf(receiving.getAreaid()));
+//                    Area area = byId.get();
+//                    receiving.setProvince(area.getGname());
+//                    receiving.setProvinceId(area.getGid());
+//                    if (area.getGid() == area.getPid()) {
+//                        receiving.setCity(null);
+//                        receiving.setCityId(null);
+//                    } else {
+//                        receiving.setCity(area.getGname());
+//                        receiving.setCityId(area.getGid());
+//                    }
+//                    receiving.setAreaName(area.getName());
+//                }
+//            );
             return Result.suc("获取成功", rewrite_receivingDTOS);
         }
     }
@@ -75,28 +75,28 @@ public class Rewrite_ReceivingServiceImpl implements Rewrite_ReceivingService {
             return Result.fail("收货人不能为空");
         else if (!CheckUtils.checkLongByZero(rewrite_receivingDTO.getUserid()))
             return Result.fail("用户标识不能为空");
-        else if (!CheckUtils.checkString(rewrite_receivingDTO.getAreaid()))
-            return Result.fail("地区信息不能为空");
+//        else if (!CheckUtils.checkString(rewrite_receivingDTO.getAreaid()))
+//            return Result.fail("地区信息不能为空");
         else {
-            Optional<Area> byId = rewrite_areaRepository.findById(Long.valueOf(rewrite_receivingDTO.getAreaid()));
-            Area area = byId.get();
-            if (!CheckUtils.checkObj(area))
-                return Result.fail("地区信息错误");
+//            Optional<Area> byId = rewrite_areaRepository.findById(Long.valueOf(rewrite_receivingDTO.getAreaid()));
+//            Area area = byId.get();
+//            if (!CheckUtils.checkObj(area))
+//                return Result.fail("地区信息错误");
             //转换成相应的实体类在保存到数据库
             //保存创建时间
             Receiving receiving = rewrite_receivingMapper.toEntity(rewrite_receivingDTO);
-            Receiving UserIdAndDefault = rewrite_receivingRepository.findByUserIdAndDefault(Long.valueOf(rewrite_receivingDTO.getUserid()));
-            //判断当前用户是否存在默认地址
-            //不存在则设置成默认地址
-            if (!CheckUtils.checkObj(UserIdAndDefault))
-                receiving.setIsdefault(true);
-                //存在并且提交的数据为设置成默认地址则修改
-            else {
-                if (rewrite_receivingDTO.getIsdefault()) {
-                    UserIdAndDefault.setIsdefault(false);
-                    rewrite_receivingRepository.saveAndFlush(UserIdAndDefault);
-                }
-            }
+//            Receiving UserIdAndDefault = rewrite_receivingRepository.findByUserIdAndDefault(Long.valueOf(rewrite_receivingDTO.getUserid()));
+//            //判断当前用户是否存在默认地址
+//            //不存在则设置成默认地址
+//            if (!CheckUtils.checkObj(UserIdAndDefault))
+//                receiving.setIsdefault(true);
+//                //存在并且提交的数据为设置成默认地址则修改
+//            else {
+//                if (rewrite_receivingDTO.getIsdefault()) {
+//                    UserIdAndDefault.setIsdefault(false);
+//                    rewrite_receivingRepository.saveAndFlush(UserIdAndDefault);
+//                }
+//            }
             receiving.setCreatetime(DateUtils.getDateForNow());
             Receiving save = rewrite_receivingRepository.save(receiving);
             if (!CheckUtils.checkObj(save))
@@ -131,6 +131,17 @@ public class Rewrite_ReceivingServiceImpl implements Rewrite_ReceivingService {
                 receiving.setAreaid(rewrite_receivingDTO.getAreaid());
             if (CheckUtils.checkString(rewrite_receivingDTO.getAddress()))
                 receiving.setAddress(rewrite_receivingDTO.getAddress());
+            if (receiving.isIsdefault() != rewrite_receivingDTO.getIsdefault()) {
+                if (rewrite_receivingDTO.isIsdefault()) {
+                    Receiving byUserIdAndDefault = rewrite_receivingRepository.findByUserIdAndDefault(Long.valueOf(receiving.getUserid()));
+                    System.out.println(byUserIdAndDefault);
+                if (null != byUserIdAndDefault && byUserIdAndDefault.getId() != receiving.getId()) {
+                    byUserIdAndDefault.setIsdefault(false);
+                    rewrite_receivingRepository.saveAndFlush(byUserIdAndDefault);
+                }
+                }
+                receiving.setIsdefault(rewrite_receivingDTO.getIsdefault());
+            }
             Receiving save = rewrite_receivingRepository.saveAndFlush(receiving);
             if (!CheckUtils.checkObj(save))
                 return Result.fail("网络繁忙请稍后重试");
@@ -148,10 +159,11 @@ public class Rewrite_ReceivingServiceImpl implements Rewrite_ReceivingService {
         if (!CheckUtils.checkLongByZero(UserId))
             return Result.fail("用户标识错误");
         else {
-            Receiving receiving = rewrite_receivingRepository.findByUserIdAndDefault(UserId);
-            if (!CheckUtils.checkObj(receiving))
+//            Receiving receiving = rewrite_receivingRepository.findByUserIdAndDefault(UserId);
+            Receiving byUserIdAndDefault = rewrite_receivingRepository.findByUserIdAndDefault(UserId);
+            if (!CheckUtils.checkObj(byUserIdAndDefault))
                 return Result.fail("当前用户无默认收货地址");
-            return Result.suc("获取成功", receiving);
+            return Result.suc("获取成功", byUserIdAndDefault);
         }
     }
 
@@ -161,29 +173,47 @@ public class Rewrite_ReceivingServiceImpl implements Rewrite_ReceivingService {
      * @param id
      * @return
      */
-    public Result setDefaultAddress(Long id, Long userId) {
-        //判断当前用户修改的收货地址是否是默认收货地址
-        //是的话就不设置成默认收货地址
-        //不是则设置成默认收货地址,并且将默认收货地址修改成非默认
-        if (!CheckUtils.checkLongByZero(id))
-            return Result.fail("地址数据错误");
+//    public Result setDefaultAddress(Long id, Long userId) {
+//        //判断当前用户修改的收货地址是否是默认收货地址
+//        //是的话就不设置成默认收货地址
+//        //不是则设置成默认收货地址,并且将默认收货地址修改成非默认
+//        if (!CheckUtils.checkLongByZero(id))
+//            return Result.fail("地址数据错误");
+//        else {
+//            Optional<Receiving> byId = rewrite_receivingRepository.findById(id);
+//            Receiving receiving = byId.get();
+//            if (receiving.isIsdefault())
+//                receiving.setIsdefault(false);
+//            else {
+//                Receiving byUserIdAndDefault = rewrite_receivingRepository.findByUserIdAndDefault(Long.valueOf(receiving.getUserid()));
+//                byUserIdAndDefault.setIsdefault(false);
+//                Receiving save = rewrite_receivingRepository.saveAndFlush(byUserIdAndDefault);
+//                if (!CheckUtils.checkObj(save))
+//                    return Result.fail("网络繁忙请稍后重试");
+//                receiving.setIsdefault(true);
+//            }
+//            Receiving result = rewrite_receivingRepository.saveAndFlush(receiving);
+//            if (!CheckUtils.checkObj(result))
+//                return Result.fail("网络繁忙请稍后重试");
+//            return Result.suc("设置成功");
+//        }
+//    }
+
+    /**
+     * @param userid
+     * @param id
+     * @return
+     */
+    public Result getOneUserAddress(Long userid, Long id) {
+        if (!CheckUtils.checkLongByZero(userid))
+            return Result.fail("用户表示错误");
+        else if (!CheckUtils.checkLongByZero(id))
+            return Result.fail("收货信息表示错误");
         else {
-            Optional<Receiving> byId = rewrite_receivingRepository.findById(id);
-            Receiving receiving = byId.get();
-            if (receiving.isIsdefault())
-                receiving.setIsdefault(false);
-            else {
-                Receiving byUserIdAndDefault = rewrite_receivingRepository.findByUserIdAndDefault(Long.valueOf(receiving.getUserid()));
-                byUserIdAndDefault.setIsdefault(false);
-                Receiving save = rewrite_receivingRepository.saveAndFlush(byUserIdAndDefault);
-                if (!CheckUtils.checkObj(save))
-                    return Result.fail("网络繁忙请稍后重试");
-                receiving.setIsdefault(true);
-            }
-            Receiving result = rewrite_receivingRepository.saveAndFlush(receiving);
-            if (!CheckUtils.checkObj(result))
-                return Result.fail("网络繁忙请稍后重试");
-            return Result.suc("设置成功");
+            Receiving byUserIdAndId = rewrite_receivingRepository.findByUserIdAndId(userid, id);
+            if (!CheckUtils.checkObj(byUserIdAndId))
+                return Result.fail("网络繁忙");
+            return Result.suc("获取成功", byUserIdAndId);
         }
     }
 }

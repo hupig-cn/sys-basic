@@ -66,8 +66,8 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
         }
         //3.准备调起支付宝
         String outTradeNo = userorder.getOrdercode();
-        String subject = "";//订单名称字段暂时没有，等待加入
-        String totalAmount = userorder.getSum().toString();
+        String subject = "圆积分消费,祝你生活愉快,详情商品信息请在APP内查看";//订单名称字段暂时没有，等待加入
+        BigDecimal totalAmount = userorder.getSum();
         //4.支付宝返回
         String form = AlipayUtil.alipay(outTradeNo, subject, totalAmount, orderId);
         if (StringUtils.isBlank(form)) {

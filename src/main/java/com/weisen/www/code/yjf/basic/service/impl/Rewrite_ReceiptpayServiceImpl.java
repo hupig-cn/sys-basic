@@ -7,6 +7,7 @@ import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_PriceDTO;
 import com.weisen.www.code.yjf.basic.service.mapper.ReceiptpayMapper;
 import com.weisen.www.code.yjf.basic.service.util.ProfitConstant;
+import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
 import com.weisen.www.code.yjf.basic.util.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +42,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 		String startTime = today + " 00:00:00";
 		String endTime = today + " 23:59:59";
 		List<Receiptpay> receiptpay = rewrite_ReceiptpayRepository.getReceiptpayByUseridAndTime(userId.toString(),
-				startTime, endTime, ProfitConstant.SHOP_PROFIT);
+				startTime, endTime, ReceiptpayConstant.BALANCE_INCOME);
 		BigDecimal price = new BigDecimal("0");
 		for (Receiptpay list : receiptpay) {
 			price = price.add(list.getAmount());

@@ -117,6 +117,18 @@ public class Rewrite_UserOrderResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
+    /**
+     * 获取用户全部订单
+     * @param userId
+     * @return
+     */
+    @GetMapping("/somethingData/{userId}")
+    @ApiOperation(value = "收益+当日订单+各种订单状态")
+    @Timed
+    public ResponseEntity<Result> somethingData(@PathVariable Long userId) {
+        Result result = rewrite_UserOrderService.somethingData(userId);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
 
 
 
