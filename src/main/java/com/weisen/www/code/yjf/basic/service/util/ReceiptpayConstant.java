@@ -8,6 +8,8 @@ public class ReceiptpayConstant {
 
     public static final String BALANCE_INCOME = "3"; // 余额收入
 
+    public static final String BALANCE_INCOME_DIR = "9"; // 余额分销收入
+
     public static final String BALANCE_PAY = "4"; // 余额支出
 
     public static final String INTEGRAL_PAY = "5"; // 积分支出

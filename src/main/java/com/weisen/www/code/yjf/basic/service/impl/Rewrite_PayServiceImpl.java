@@ -206,7 +206,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             BigDecimal ma = new BigDecimal("5");
             ma = ma.divide(new BigDecimal("1000"));
             mBigPrice = mBigPrice.multiply(ma).setScale(2, BigDecimal.ROUND_HALF_UP);
-            craeteReceiptpay("1",userorder.getUserid(),userlinkuser.getRecommendid(),mBigPrice);
+            craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),userlinkuser.getRecommendid(),mBigPrice);
         }
         // 是否有合伙人
         String id = findPartner(userlinkuser.getRecommendid());
@@ -215,7 +215,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             BigDecimal ma = new BigDecimal("4");
             ma = ma.divide(new BigDecimal("1000"));
             mBigPrice = mBigPrice.multiply(ma).setScale(2, BigDecimal.ROUND_HALF_UP);
-            craeteReceiptpay("1",userorder.getUserid(),id,mBigPrice);
+            craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),id,mBigPrice);
         }
         // 上面支付者的分销分完了  下面如果有收款方 还需要再分一轮
         if(userorder.getPayee() != null){
@@ -225,7 +225,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             ma = ma.divide(new BigDecimal("100"));
             mBigPrice = mBigPrice.multiply(ma).setScale(2, BigDecimal.ROUND_HALF_UP);
             mBigPrice = am.subtract(mBigPrice);
-            craeteReceiptpay("1",userorder.getUserid(),userorder.getPayee(),mBigPrice);
+            craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME,userorder.getUserid(),userorder.getPayee(),mBigPrice);
 
             Userlinkuser payeeuserlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getUserid());
 
@@ -235,7 +235,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 BigDecimal kma = new BigDecimal("5");
                 kma = kma.divide(new BigDecimal("1000"));
                 mPrice = mPrice.multiply(kma).setScale(2, BigDecimal.ROUND_HALF_UP);
-                craeteReceiptpay("1",userorder.getUserid(),payeeuserlinkuser.getRecommendid(),mPrice);
+                craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),payeeuserlinkuser.getRecommendid(),mPrice);
             }
             // 是否有合伙人
             String kid = findPartner(payeeuserlinkuser.getRecommendid());
@@ -244,7 +244,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 BigDecimal kma = new BigDecimal("4");
                 kma = kma.divide(new BigDecimal("1000"));
                 mPrice = mPrice.multiply(kma).setScale(2, BigDecimal.ROUND_HALF_UP);
-                craeteReceiptpay("1",userorder.getUserid(),kid,mPrice);
+                craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),kid,mPrice);
             }
             // 如何付款用户没有推荐人，把给第一个付款的商家用户自动绑定
             if(userlinkuser.getRecommendid() ==null){
@@ -308,7 +308,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 
         Receiptpay receiptpay = new Receiptpay();
         receiptpay.setAmount(mPrice);
-        receiptpay.dealstate(ReceiptpayConstant.INTEGRAL_GET); // 优惠券收入
+        receiptpay.dealstate(ReceiptpayConstant.INTEGRAL_GET); // 积分收入
         receiptpay.setUserid(userId);
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);
