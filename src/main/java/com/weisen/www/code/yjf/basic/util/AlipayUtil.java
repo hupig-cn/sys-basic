@@ -8,6 +8,8 @@ import com.alipay.api.request.AlipaySystemOauthTokenRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipaySystemOauthTokenResponse;
 
+import java.math.BigDecimal;
+
 import static com.weisen.www.code.yjf.basic.config.AlipayConstants.*;
 
 public class AlipayUtil {
@@ -32,7 +34,7 @@ public class AlipayUtil {
         return userInfo;
     }
 
-    public static final String alipay(String outTradeNo, String subject, String totalAmount, Long orderId) {
+    public static final String alipay(String outTradeNo, String subject, BigDecimal totalAmount, Long orderId) {
         String form = "";
         try {
             AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
@@ -42,7 +44,8 @@ public class AlipayUtil {
             AlipayTradeWapPayModel model = new AlipayTradeWapPayModel();
             model.setOutTradeNo(outTradeNo); //商户订单号，商户网站中必须唯一，必填字段
             model.setSubject(subject); //订单名称
-            model.setTotalAmount(totalAmount); //订单金额，必填字段
+            System.out.println("已传入支付宝请求");
+            model.setTotalAmount(totalAmount.toString()); //订单金额，必填字段
             model.setBody(body); //商品描述，可选字段
             model.setTimeoutExpress(TIMEOUT_VALUE); //支付超时时间
             model.setProductCode(PRODUCT_H5_CODE); //H5支付方式

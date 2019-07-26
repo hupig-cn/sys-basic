@@ -22,7 +22,8 @@ public interface Rewrite_ReceivingRepository extends JpaRepository<Receiving, Lo
 
     @Query(value = "select count(*) from  receiving where userid = ?1", nativeQuery = true)
     Integer findByUserId(String userid);
-    @Query(value = "select * from  receiving where userid = ?1 and isdefault = 1", nativeQuery = true)
+
+    @Query(value = "select * from  receiving where userid = ?1 and isdefault IS TRUE ", nativeQuery = true)
     Receiving findByUserIdAndDefault(Long userId);
 
 }

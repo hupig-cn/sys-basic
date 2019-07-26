@@ -55,10 +55,19 @@ public class Rewrite_ReceivingResource {
         Result result = receivingService.getDefaultAddress(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
-    @PostMapping("/set-default-address")
-    @ApiOperation("设置为默认地址")
-    public ResponseEntity<?> setDefaultAddress(@RequestBody Rewrite_ReceivingDTO rewrite_receivingDTO){
-        Result result = receivingService.setDefaultAddress(rewrite_receivingDTO.getId(),rewrite_receivingDTO.getUserid());
+    @PostMapping("/get-address-detail")
+    @ApiOperation("获取收货地址详情")
+    public ResponseEntity<?> getAddress(@RequestBody Rewrite_ReceivingDTO rewrite_receivingDTO){
+        Result result = receivingService.getOneUserAddress(rewrite_receivingDTO.getUserid(),rewrite_receivingDTO.getId());
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
+
+
+
+//    @PostMapping("/set-default-address")
+//    @ApiOperation("设置为默认地址")
+//    public ResponseEntity<?> setDefaultAddress(@RequestBody Rewrite_ReceivingDTO rewrite_receivingDTO){
+//        Result result = receivingService.setDefaultAddress(rewrite_receivingDTO.getId(),rewrite_receivingDTO.getUserid());
+//        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+//    }
 }

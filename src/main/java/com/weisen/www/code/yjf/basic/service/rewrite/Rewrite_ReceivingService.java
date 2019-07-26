@@ -12,5 +12,7 @@ public interface Rewrite_ReceivingService {
 
     Result getDefaultAddress(Long id);
 
-    Result setDefaultAddress(Long id,Long userId);
+//    Result setDefaultAddress(Long id,Long userId);
+
+    Result getOneUserAddress(Long userid, Long id);
 }
