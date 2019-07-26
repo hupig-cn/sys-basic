@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
 import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_MercProfitDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,6 +69,32 @@ public class Rewrite_ReceiptpayResource {
     public ResponseEntity<Result> selcetMoneyRecord(@PathVariable Long userId) {
         List<ReceiptpayDTO> receiptpay = rewrite_ReceiptpayService.selcetMoneyRecord(userId);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(Result.suc("成功",receiptpay)));
+    }
+
+    /**
+     * 查询商家各项详细收益
+     * @param userId
+     * @return
+     */
+    @GetMapping("/getProfitInfo/{userId}")
+    @ApiOperation(value = "查询商家各项详细收益")
+    @Timed
+    public ResponseEntity<Result> getProfitInfo(@PathVariable Long userId) {
+        Rewrite_MercProfitDto rewrite_MercProfitDto = rewrite_ReceiptpayService.getProfitInfo(userId);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(Result.suc("成功",rewrite_MercProfitDto)));
+    }
+
+    /**
+     * 查询用户的各项收益
+     * @param userId
+     * @return
+     */
+    @GetMapping("/getUserPrifitInfo/{userId}")
+    @ApiOperation(value = "查询用户的各项收益")
+    @Timed
+    public ResponseEntity<Result> getUserPrifitInfo(@PathVariable Long userId) {
+        Result result = rewrite_ReceiptpayService.getUserPrifitInfo(userId);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 	
 }

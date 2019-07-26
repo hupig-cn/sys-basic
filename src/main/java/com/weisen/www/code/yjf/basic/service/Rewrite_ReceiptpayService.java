@@ -1,6 +1,7 @@
 package com.weisen.www.code.yjf.basic.service;
 
 import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_MercProfitDto;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_PriceDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
@@ -19,5 +20,11 @@ public interface Rewrite_ReceiptpayService {
 
     //创建收支明细
     Result createReceiptpay(String userId,String type,String sourcer,String sourcerId,String amout);
+
+    // 查询商家各项详细收益
+    Rewrite_MercProfitDto getProfitInfo(Long userId);
+
+    // 查询用户的各项收益
+    Result getUserPrifitInfo(Long userId);
 
 }
