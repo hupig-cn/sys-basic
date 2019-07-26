@@ -41,6 +41,10 @@ public final class Constants {
     public static final String SMS_PAY_PASSWORD_CODE_REGEXP = "\\d{6}";
 
     public static final String SMS_PAY_PASSWORD_REGEXP = "\\d{6}";
+    
+    public static final String SMS_PAY_PASSWORD = "pay_password";
+    
+    public static final Integer SMS_TYPE_PAY_PASSWORD = 5;
 
     private Constants() {
     }

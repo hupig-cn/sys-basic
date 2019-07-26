@@ -15,5 +15,7 @@ public interface Rewrite_LinkuserRepository extends JpaRepository<Linkuser, Long
 	Linkuser findByUserid(String userid);
 	
 	Linkuser findByIdcard(String idcard);
+	
+	Linkuser findByPhone(String phone);
 
 }
