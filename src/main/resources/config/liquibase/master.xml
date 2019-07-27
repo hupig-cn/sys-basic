@@ -35,7 +35,7 @@
     <include file="config/liquibase/changelog/20190727030730_added_entity_Advertisement.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727030731_added_entity_Files.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727030732_added_entity_Receiving.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190727104910_added_entity_Linkuser.xml" relativeToChangelogFile="false"/>
+    <!-- <include file="config/liquibase/changelog/20190727104910_added_entity_Linkuser.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727104911_added_entity_Linkaccount.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727104912_added_entity_Usercard.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727104913_added_entity_Userlocation.xml" relativeToChangelogFile="false"/>
@@ -55,7 +55,7 @@
     <include file="config/liquibase/changelog/20190727104927_added_entity_Messagetemplate.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727104928_added_entity_Advertisement.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727104929_added_entity_Files.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190727104930_added_entity_Receiving.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190727104930_added_entity_Receiving.xml" relativeToChangelogFile="false"/> -->
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

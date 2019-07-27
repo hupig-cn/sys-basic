@@ -38,9 +38,13 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
     private final Rewrite_000_UserassetsRepository userassetsRepository;
 
     private final LinkuserRepository linkuserRepository;
+    
+    private PasswordEncoder passwordEncoder;
+    
+    private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
 
     public Rewrite_PayServiceImpl(Rewrite_000_UserorderRepository userorderRepository, Rewrite_UserlinkuserRepository userlinkuserRepository, Rewrite_PercentageRepository percentageRepository, ReceiptpayRepository receiptpayRepository, Rewrite_000_UserassetsRepository userassetsRepository
-            ,LinkuserRepository linkuserRepository,Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository ) {
+            ,LinkuserRepository linkuserRepository,Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository, PasswordEncoder passwordEncoder, Rewrite_LinkuserRepository rewrite_LinkuserRepository ) {
         this.userorderRepository = userorderRepository;
         this.userlinkuserRepository = userlinkuserRepository;
         this.percentageRepository = percentageRepository;
@@ -48,6 +52,8 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         this.userassetsRepository = userassetsRepository;
         this.linkuserRepository = linkuserRepository;
         this.rewrite_UserlinkuserRepository = rewrite_UserlinkuserRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.rewrite_LinkuserRepository = rewrite_LinkuserRepository;
     }
     // 余额支付
     @Override
@@ -59,8 +65,10 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             return  Result.fail("订单不存在");
         }
         Userorder userorder = option.get();
-        Linkuser linkuser = linkuserRepository.getOne(Long.valueOf(userorder.getUserid()));
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userorder.getUserid());
+        System.out.println(rewrite_PayDTO.getPassword());
+        System.out.println(linkuser.getPaypassword());
+        System.out.println(passwordEncoder.matches(rewrite_PayDTO.getPassword(),linkuser.getPaypassword()));
         if(!passwordEncoder.matches(rewrite_PayDTO.getPassword(),linkuser.getPaypassword())){
             return  Result.fail("支付密码错误");
         }
@@ -105,7 +113,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             return  Result.fail("订单不存在");
         }
         Userorder userorder = option.get();
-        Linkuser linkuser = linkuserRepository.getOne(Long.valueOf(userorder.getUserid()));
+        Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userorder.getUserid());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if(!passwordEncoder.matches(rewrite_PayDTO.getPassword(),linkuser.getPaypassword())){
             return  Result.fail("支付密码错误");
@@ -148,7 +156,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             return  Result.fail("订单不存在");
         }
         Userorder userorder = option.get();
-        Linkuser linkuser = linkuserRepository.getOne(Long.valueOf(userorder.getUserid()));
+        Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userorder.getUserid());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if(!passwordEncoder.matches(rewrite_PayDTO.getPassword(),linkuser.getPaypassword())){
             return  Result.fail("支付密码错误");
