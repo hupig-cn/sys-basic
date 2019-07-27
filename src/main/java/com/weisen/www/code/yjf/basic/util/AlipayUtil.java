@@ -70,5 +70,35 @@ public class AlipayUtil {
         }
         return result;
     }
+    
+    public static final String alipay(String outTradeNo, String subject, BigDecimal totalAmount, String orderId) {
+        String form = "";
+        String result = "";
+        try {
+            AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
+            AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();
+            String body = ""; //请求体
+            //封装请求体信息
+            AlipayTradeWapPayModel model = new AlipayTradeWapPayModel();
+            model.setOutTradeNo(outTradeNo); //商户订单号，商户网站中必须唯一，必填字段
+            model.setSubject(subject); //订单名称
+            model.setTotalAmount(totalAmount.toString()); //订单金额，必填字段
+            model.setBody(body); //商品描述，可选字段
+            model.setTimeoutExpress(TIMEOUT_VALUE); //支付超时时间
+            model.setProductCode(PRODUCT_H5_CODE); //H5支付方式
+            alipayRequest.setReturnUrl(orderId); //回调地址
+            alipayRequest.setNotifyUrl(NOTIFY_URL); //支付完成后返回地址
+            alipayRequest.setBizModel(model);
+            form =  alipayClient.pageExecute(alipayRequest,"get").getBody();
+            try {
+                result = java.net.URLEncoder.encode(form, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
 }

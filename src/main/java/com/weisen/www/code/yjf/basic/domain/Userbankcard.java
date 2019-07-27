@@ -7,12 +7,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * A Withdrawal.
+ * A Userbankcard.
  */
 @Entity
-@Table(name = "withdrawal")
+@Table(name = "userbankcard")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Withdrawal implements Serializable {
+public class Userbankcard implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,20 +23,23 @@ public class Withdrawal implements Serializable {
     @Column(name = "userid")
     private String userid;
 
-    @Column(name = "withdrawalamount")
-    private String withdrawalamount;
+    @Column(name = "realname")
+    private String realname;
 
-    @Column(name = "withdrawaltype")
-    private String withdrawaltype;
+    @Column(name = "bankcard")
+    private String bankcard;
 
-    @Column(name = "gatheringway")
-    private String gatheringway;
+    @Column(name = "banktype")
+    private String banktype;
 
-    @Column(name = "payee")
-    private String payee;
+    @Column(name = "cardtype")
+    private String cardtype;
 
-    @Column(name = "creator")
-    private String creator;
+    @Column(name = "bankicon")
+    private String bankicon;
+
+    @Column(name = "bankphone")
+    private String bankphone;
 
     @Column(name = "createdate")
     private String createdate;
@@ -49,6 +52,9 @@ public class Withdrawal implements Serializable {
 
     @Column(name = "modifiernum")
     private Long modifiernum;
+
+    @Column(name = "state")
+    private String state;
 
     @Column(name = "logicdelete")
     private Boolean logicdelete;
@@ -69,7 +75,7 @@ public class Withdrawal implements Serializable {
         return userid;
     }
 
-    public Withdrawal userid(String userid) {
+    public Userbankcard userid(String userid) {
         this.userid = userid;
         return this;
     }
@@ -78,76 +84,89 @@ public class Withdrawal implements Serializable {
         this.userid = userid;
     }
 
-    public String getWithdrawalamount() {
-        return withdrawalamount;
+    public String getRealname() {
+        return realname;
     }
 
-    public Withdrawal withdrawalamount(String withdrawalamount) {
-        this.withdrawalamount = withdrawalamount;
+    public Userbankcard realname(String realname) {
+        this.realname = realname;
         return this;
     }
 
-    public void setWithdrawalamount(String withdrawalamount) {
-        this.withdrawalamount = withdrawalamount;
+    public void setRealname(String realname) {
+        this.realname = realname;
     }
 
-    public String getWithdrawaltype() {
-        return withdrawaltype;
+    public String getBankcard() {
+        return bankcard;
     }
 
-    public Withdrawal withdrawaltype(String withdrawaltype) {
-        this.withdrawaltype = withdrawaltype;
+    public Userbankcard bankcard(String bankcard) {
+        this.bankcard = bankcard;
         return this;
     }
 
-    public void setWithdrawaltype(String withdrawaltype) {
-        this.withdrawaltype = withdrawaltype;
+    public void setBankcard(String bankcard) {
+        this.bankcard = bankcard;
     }
 
-    public String getGatheringway() {
-        return gatheringway;
+    public String getBanktype() {
+        return banktype;
     }
 
-    public Withdrawal gatheringway(String gatheringway) {
-        this.gatheringway = gatheringway;
+    public Userbankcard banktype(String banktype) {
+        this.banktype = banktype;
         return this;
     }
 
-    public void setGatheringway(String gatheringway) {
-        this.gatheringway = gatheringway;
+    public void setBanktype(String banktype) {
+        this.banktype = banktype;
     }
 
-    public String getPayee() {
-        return payee;
+    public String getCardtype() {
+        return cardtype;
     }
 
-    public Withdrawal payee(String payee) {
-        this.payee = payee;
+    public Userbankcard cardtype(String cardtype) {
+        this.cardtype = cardtype;
         return this;
     }
 
-    public void setPayee(String payee) {
-        this.payee = payee;
+    public void setCardtype(String cardtype) {
+        this.cardtype = cardtype;
     }
 
-    public String getCreator() {
-        return creator;
+    public String getBankicon() {
+        return bankicon;
     }
 
-    public Withdrawal creator(String creator) {
-        this.creator = creator;
+    public Userbankcard bankicon(String bankicon) {
+        this.bankicon = bankicon;
         return this;
     }
 
-    public void setCreator(String creator) {
-        this.creator = creator;
+    public void setBankicon(String bankicon) {
+        this.bankicon = bankicon;
+    }
+
+    public String getBankphone() {
+        return bankphone;
+    }
+
+    public Userbankcard bankphone(String bankphone) {
+        this.bankphone = bankphone;
+        return this;
+    }
+
+    public void setBankphone(String bankphone) {
+        this.bankphone = bankphone;
     }
 
     public String getCreatedate() {
         return createdate;
     }
 
-    public Withdrawal createdate(String createdate) {
+    public Userbankcard createdate(String createdate) {
         this.createdate = createdate;
         return this;
     }
@@ -160,7 +179,7 @@ public class Withdrawal implements Serializable {
         return modifier;
     }
 
-    public Withdrawal modifier(String modifier) {
+    public Userbankcard modifier(String modifier) {
         this.modifier = modifier;
         return this;
     }
@@ -173,7 +192,7 @@ public class Withdrawal implements Serializable {
         return modifierdate;
     }
 
-    public Withdrawal modifierdate(String modifierdate) {
+    public Userbankcard modifierdate(String modifierdate) {
         this.modifierdate = modifierdate;
         return this;
     }
@@ -186,7 +205,7 @@ public class Withdrawal implements Serializable {
         return modifiernum;
     }
 
-    public Withdrawal modifiernum(Long modifiernum) {
+    public Userbankcard modifiernum(Long modifiernum) {
         this.modifiernum = modifiernum;
         return this;
     }
@@ -195,11 +214,24 @@ public class Withdrawal implements Serializable {
         this.modifiernum = modifiernum;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public Userbankcard state(String state) {
+        this.state = state;
+        return this;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     public Boolean isLogicdelete() {
         return logicdelete;
     }
 
-    public Withdrawal logicdelete(Boolean logicdelete) {
+    public Userbankcard logicdelete(Boolean logicdelete) {
         this.logicdelete = logicdelete;
         return this;
     }
@@ -212,7 +244,7 @@ public class Withdrawal implements Serializable {
         return other;
     }
 
-    public Withdrawal other(String other) {
+    public Userbankcard other(String other) {
         this.other = other;
         return this;
     }
@@ -227,10 +259,10 @@ public class Withdrawal implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Withdrawal)) {
+        if (!(o instanceof Userbankcard)) {
             return false;
         }
-        return id != null && id.equals(((Withdrawal) o).id);
+        return id != null && id.equals(((Userbankcard) o).id);
     }
 
     @Override
@@ -240,18 +272,20 @@ public class Withdrawal implements Serializable {
 
     @Override
     public String toString() {
-        return "Withdrawal{" +
+        return "Userbankcard{" +
             "id=" + getId() +
             ", userid='" + getUserid() + "'" +
-            ", withdrawalamount='" + getWithdrawalamount() + "'" +
-            ", withdrawaltype='" + getWithdrawaltype() + "'" +
-            ", gatheringway='" + getGatheringway() + "'" +
-            ", payee='" + getPayee() + "'" +
-            ", creator='" + getCreator() + "'" +
+            ", realname='" + getRealname() + "'" +
+            ", bankcard='" + getBankcard() + "'" +
+            ", banktype='" + getBanktype() + "'" +
+            ", cardtype='" + getCardtype() + "'" +
+            ", bankicon='" + getBankicon() + "'" +
+            ", bankphone='" + getBankphone() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +
             ", modifierdate='" + getModifierdate() + "'" +
             ", modifiernum=" + getModifiernum() +
+            ", state='" + getState() + "'" +
             ", logicdelete='" + isLogicdelete() + "'" +
             ", other='" + getOther() + "'" +
             "}";

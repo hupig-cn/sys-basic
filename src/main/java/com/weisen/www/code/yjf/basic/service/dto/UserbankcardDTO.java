@@ -3,23 +3,25 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Withdrawal} entity.
+ * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Userbankcard} entity.
  */
-public class WithdrawalDTO implements Serializable {
+public class UserbankcardDTO implements Serializable {
 
     private Long id;
 
     private String userid;
 
-    private String withdrawalamount;
+    private String realname;
 
-    private String withdrawaltype;
+    private String bankcard;
 
-    private String gatheringway;
+    private String banktype;
 
-    private String payee;
+    private String cardtype;
 
-    private String creator;
+    private String bankicon;
+
+    private String bankphone;
 
     private String createdate;
 
@@ -28,6 +30,8 @@ public class WithdrawalDTO implements Serializable {
     private String modifierdate;
 
     private Long modifiernum;
+
+    private String state;
 
     private Boolean logicdelete;
 
@@ -50,44 +54,52 @@ public class WithdrawalDTO implements Serializable {
         this.userid = userid;
     }
 
-    public String getWithdrawalamount() {
-        return withdrawalamount;
+    public String getRealname() {
+        return realname;
     }
 
-    public void setWithdrawalamount(String withdrawalamount) {
-        this.withdrawalamount = withdrawalamount;
+    public void setRealname(String realname) {
+        this.realname = realname;
     }
 
-    public String getWithdrawaltype() {
-        return withdrawaltype;
+    public String getBankcard() {
+        return bankcard;
     }
 
-    public void setWithdrawaltype(String withdrawaltype) {
-        this.withdrawaltype = withdrawaltype;
+    public void setBankcard(String bankcard) {
+        this.bankcard = bankcard;
     }
 
-    public String getGatheringway() {
-        return gatheringway;
+    public String getBanktype() {
+        return banktype;
     }
 
-    public void setGatheringway(String gatheringway) {
-        this.gatheringway = gatheringway;
+    public void setBanktype(String banktype) {
+        this.banktype = banktype;
     }
 
-    public String getPayee() {
-        return payee;
+    public String getCardtype() {
+        return cardtype;
     }
 
-    public void setPayee(String payee) {
-        this.payee = payee;
+    public void setCardtype(String cardtype) {
+        this.cardtype = cardtype;
     }
 
-    public String getCreator() {
-        return creator;
+    public String getBankicon() {
+        return bankicon;
     }
 
-    public void setCreator(String creator) {
-        this.creator = creator;
+    public void setBankicon(String bankicon) {
+        this.bankicon = bankicon;
+    }
+
+    public String getBankphone() {
+        return bankphone;
+    }
+
+    public void setBankphone(String bankphone) {
+        this.bankphone = bankphone;
     }
 
     public String getCreatedate() {
@@ -122,6 +134,14 @@ public class WithdrawalDTO implements Serializable {
         this.modifiernum = modifiernum;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     public Boolean isLogicdelete() {
         return logicdelete;
     }
@@ -147,11 +167,11 @@ public class WithdrawalDTO implements Serializable {
             return false;
         }
 
-        WithdrawalDTO withdrawalDTO = (WithdrawalDTO) o;
-        if (withdrawalDTO.getId() == null || getId() == null) {
+        UserbankcardDTO userbankcardDTO = (UserbankcardDTO) o;
+        if (userbankcardDTO.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), withdrawalDTO.getId());
+        return Objects.equals(getId(), userbankcardDTO.getId());
     }
 
     @Override
@@ -161,18 +181,20 @@ public class WithdrawalDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "WithdrawalDTO{" +
+        return "UserbankcardDTO{" +
             "id=" + getId() +
             ", userid='" + getUserid() + "'" +
-            ", withdrawalamount='" + getWithdrawalamount() + "'" +
-            ", withdrawaltype='" + getWithdrawaltype() + "'" +
-            ", gatheringway='" + getGatheringway() + "'" +
-            ", payee='" + getPayee() + "'" +
-            ", creator='" + getCreator() + "'" +
+            ", realname='" + getRealname() + "'" +
+            ", bankcard='" + getBankcard() + "'" +
+            ", banktype='" + getBanktype() + "'" +
+            ", cardtype='" + getCardtype() + "'" +
+            ", bankicon='" + getBankicon() + "'" +
+            ", bankphone='" + getBankphone() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +
             ", modifierdate='" + getModifierdate() + "'" +
             ", modifiernum=" + getModifiernum() +
+            ", state='" + getState() + "'" +
             ", logicdelete='" + isLogicdelete() + "'" +
             ", other='" + getOther() + "'" +
             "}";

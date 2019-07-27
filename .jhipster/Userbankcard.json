@@ -1,60 +1,32 @@
 {
-    "name": "Linkuser",
+    "name": "Userbankcard",
     "fields": [
         {
             "fieldName": "userid",
             "fieldType": "String"
         },
         {
-            "fieldName": "phone",
+            "fieldName": "realname",
             "fieldType": "String"
         },
         {
-            "fieldName": "name",
+            "fieldName": "bankcard",
             "fieldType": "String"
         },
         {
-            "fieldName": "idcard",
+            "fieldName": "banktype",
             "fieldType": "String"
         },
         {
-            "fieldName": "sex",
+            "fieldName": "cardtype",
             "fieldType": "String"
         },
         {
-            "fieldName": "paypassword",
+            "fieldName": "bankicon",
             "fieldType": "String"
         },
         {
-            "fieldName": "paycount",
-            "fieldType": "Integer"
-        },
-        {
-            "fieldName": "paylasttime",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "address",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "province",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "city",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "county",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "loginnum",
-            "fieldType": "Integer"
-        },
-        {
-            "fieldName": "creator",
+            "fieldName": "bankphone",
             "fieldType": "String"
         },
         {
@@ -74,6 +46,10 @@
             "fieldType": "Long"
         },
         {
+            "fieldName": "state",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "logicdelete",
             "fieldType": "Boolean"
         },
@@ -83,8 +59,8 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190727030712",
-    "entityTableName": "linkuser",
+    "changelogDate": "20190727030719",
+    "entityTableName": "userbankcard",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
     "service": "serviceImpl",

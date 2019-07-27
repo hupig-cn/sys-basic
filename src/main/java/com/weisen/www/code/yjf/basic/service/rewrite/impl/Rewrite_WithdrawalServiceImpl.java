@@ -1,17 +1,26 @@
 package com.weisen.www.code.yjf.basic.service.rewrite.impl;
 
+import com.weisen.www.code.yjf.basic.domain.Receiptpay;
+import com.weisen.www.code.yjf.basic.domain.Userassets;
 import com.weisen.www.code.yjf.basic.domain.Withdrawal;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_UserassetsRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_WithdrawalRepository;
 import com.weisen.www.code.yjf.basic.security.SecurityUtils;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithdrawalInfo;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_WithdrawalService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_WithdrawalDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_WithdrawalMapper;
+import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
+import com.weisen.www.code.yjf.basic.service.util.WithdrawalConstant;
 import com.weisen.www.code.yjf.basic.util.CheckUtils;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +31,20 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
     private final Rewrite_WithdrawalRepository rewrite_withdrawalRepository;
     private final Rewrite_WithdrawalMapper rewrite_withdrawalMapper;
 
-    public Rewrite_WithdrawalServiceImpl(Rewrite_WithdrawalRepository rewrite_withdrawalRepository, Rewrite_WithdrawalMapper rewrite_withdrawalMapper) {
+    private final Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository;
+
+    private final Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository;
+
+    private final Rewrite_UserassetsRepository rewrite_UserassetsRepository;
+
+    public Rewrite_WithdrawalServiceImpl(Rewrite_WithdrawalRepository rewrite_withdrawalRepository, Rewrite_WithdrawalMapper rewrite_withdrawalMapper,
+                                         Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository,Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository,
+                                         Rewrite_UserassetsRepository rewrite_UserassetsRepository) {
         this.rewrite_withdrawalRepository = rewrite_withdrawalRepository;
         this.rewrite_withdrawalMapper = rewrite_withdrawalMapper;
+        this.rewrite_ReceiptpayRepository = rewrite_ReceiptpayRepository;
+        this.rewrite_UserlinkuserRepository = rewrite_UserlinkuserRepository;
+        this.rewrite_UserassetsRepository = rewrite_UserassetsRepository;
     }
 
     /**
@@ -118,5 +138,32 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
             //用户资金扣除,生成收支明细
         }
         return Result.suc("审核通过");
+    }
+
+    // 获取用户提现信息
+    @Override
+    public Result getUserInfo(Long id) {
+        List<Receiptpay> rec= rewrite_ReceiptpayRepository.findAllByUseridAndDealtype(id.toString(), ReceiptpayConstant.BALANCE_INCOME_DIR);
+        Optional sum = rec.stream().map(x -> x.getAmount()).reduce(BigDecimal::add);
+
+        // 可提现
+//        List<Withdrawal> reday = rewrite_withdrawalRepository.findAllByUseridAndtyOrWithdrawaltype(id.toString(), WithdrawalConstant.READY);
+        // 冻结
+//        List<Withdrawal> FROZEN = rewrite_withdrawalRepository.findAllByUseridAndtyOrWithdrawaltype(id.toString(), WithdrawalConstant.READY);
+//        Optional sumFROZEN = FROZEN.stream().map(x -> new BigDecimal(x.getWithdrawalamount())).reduce(BigDecimal::add);
+        // 提现中
+        List<Withdrawal> IN_READY = rewrite_withdrawalRepository.findAllByUseridAndWithdrawaltype(id.toString(), WithdrawalConstant.READY);
+        Optional sumIN_READY= IN_READY.stream().map(x -> new BigDecimal(x.getWithdrawalamount())).reduce(BigDecimal::add);
+        // 已提现
+        List<Withdrawal> ALREADY = rewrite_withdrawalRepository.findAllByUseridAndWithdrawaltype(id.toString(), WithdrawalConstant.READY);
+        Optional sumALREADY = ALREADY.stream().map(x -> new BigDecimal(x.getWithdrawalamount())).reduce(BigDecimal::add);
+
+        long count = rewrite_UserlinkuserRepository.countAllByRecommendid(id.toString());
+
+        Userassets userassets = rewrite_UserassetsRepository.findByUserid(id.toString());
+
+        Rewrite_WithdrawalInfo rewrite_WithdrawalInfo = new Rewrite_WithdrawalInfo(sum.toString(),userassets.getFrozenbalance(),
+            sumIN_READY.toString(),userassets.getUsablebalance(),sumALREADY.toString(),String.valueOf(count));
+        return Result.suc("成功",rewrite_WithdrawalInfo);
     }
 }

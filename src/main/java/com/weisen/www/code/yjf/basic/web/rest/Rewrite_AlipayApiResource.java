@@ -70,6 +70,13 @@ public class Rewrite_AlipayApiResource {
 		return userorderService.alipay(orderId);
 	}
 
+	@GetMapping("/public/merchantPayment")
+	@ApiOperation(value = "根据金额生成随机订单,用于支付宝")
+	public String merchantPayment(@RequestParam String authCode, String money, String merchantid,
+			Integer concession, Integer rebate, String name) {
+		return userorderService.merchantPayment(authCode, money, merchantid, concession, rebate, name);
+	}
+
 	/**
 	 * 支付宝付款(线下)
 	 * 
@@ -91,7 +98,7 @@ public class Rewrite_AlipayApiResource {
 	 * @param response
 	 * @return
 	 */
-	@PostMapping("/public/notify")
+	@GetMapping("/public/notify")
 	@ApiOperation(value = "异步地址")
 	public void notifyMessage(HttpServletRequest request, HttpServletResponse response) {
 		log.debug("回调地址");
