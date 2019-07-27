@@ -106,15 +106,15 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 		}
 		if (recommendr != null && !recommendr.equals("")) {
 			Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userid);
-			if (userlinkuser != null && userlinkuser.getRecommendid() != null) {// app有推荐人
-				if (userlinkuser.getOther() != null) {
-					if ((getToLong(userlinkuser.getModifierdate()) - getToLong(recommenddate)) > 0) {
+			if (userlinkuser != null && userlinkuser.getRecommendid() != null && !"".equals(userlinkuser.getRecommendid())) {// app有推荐人
+				if (userlinkuser.getOther() != null && !"".equals(userlinkuser.getOther())) {
+					if ((getToLong(userlinkuser.getModifierdate()) > getToLong(recommenddate))) {
 						userlinkuser.setRecommendid(recommendr);
 						userlinkuser.setModifierdate(recommenddate);
 						userlinkuser.setOther("支付宝");
 					}
 				}
-			} else if (null != userlinkuser && null != userlinkuser.getRecommendid() && !"".equals(userlinkuser.getRecommendid())) {// app没有推荐人，但是有数据
+			} else if (userlinkuser != null && (userlinkuser.getRecommendid() == null || "".equals(userlinkuser.getRecommendid()))) {// app没有推荐人，但是有数据
 				userlinkuser.setRecommendid(recommendr);
 				userlinkuser.setModifierdate(recommenddate);
 				userlinkuser.setOther("支付宝");
