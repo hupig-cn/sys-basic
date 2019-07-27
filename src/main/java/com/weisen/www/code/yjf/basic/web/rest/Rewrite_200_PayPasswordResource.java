@@ -75,19 +75,12 @@ public class Rewrite_200_PayPasswordResource {
     public Result updatePassword (@RequestBody Rewrite_200_PayPasswordSetDTO payPasswordSetDTO) {
         log.debug("设置支付密码,{}", payPasswordSetDTO);
         String payPassword = "";
-        String code = "";
         if (null != payPasswordSetDTO) {
-            code = payPasswordSetDTO.getVertifyCode();
             payPassword = payPasswordSetDTO.getPayPassword();
-        }
-        if (StringUtils.isEmpty(code)) {
-            return Result.fail("短信验证码不能为空");
-        } else if (!Pattern.matches(Constants.SMS_PAY_PASSWORD_CODE_REGEXP, code)) {
-            return Result.fail("短信验证码格式不正确");
         }
         if (StringUtils.isEmpty(payPassword)) {
             return Result.fail("支付密码不能为空");
-        } else if (!Pattern.matches(Constants.SMS_PAY_PASSWORD_REGEXP, code)) {
+        } else if (!Pattern.matches(Constants.SMS_PAY_PASSWORD_REGEXP, payPassword)) {
             return Result.fail("支付密码必须为6位数字，请重新设置");
         }
         return payPasswordService.updatePassword(payPasswordSetDTO);
