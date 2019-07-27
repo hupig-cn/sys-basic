@@ -18,6 +18,6 @@ public interface Rewrite_000_UserorderService {
 
 	Result createOrder(CreateOrderDTO createOrderDTO);
 
-	String merchantPayment(String userid, String money, String merchantid, Integer concession, Integer rebate);
+	String merchantPayment(String authCode, String money, String merchantid, Integer concession, Integer rebate, String name);
 
 }

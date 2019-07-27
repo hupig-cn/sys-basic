@@ -161,7 +161,7 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 		String alipayUserId = userInfo.getUserId();
 		Linkaccount linkaccount = rewrite_LinkaccountRepository.findFirstByAccounttypeAndToken("支付宝", alipayUserId);// 判断系统是否有这个支付宝
 		if (linkaccount != null) {
-			return "用户存在"+linkaccount.getUserid();
+			return "用户存在";
 		} else {
 			return alipayUserId;
 		}
