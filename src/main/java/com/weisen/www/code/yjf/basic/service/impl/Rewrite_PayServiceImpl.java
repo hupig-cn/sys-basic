@@ -205,7 +205,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             BigDecimal mBigPrice = new BigDecimal(rewrite_DistributionDTO.getAmount());
             BigDecimal ma = new BigDecimal("5");
             ma = ma.divide(new BigDecimal("1000"));
-            mBigPrice = mBigPrice.multiply(ma).setScale(2, BigDecimal.ROUND_HALF_UP);
+            mBigPrice = mBigPrice.multiply(ma).setScale(3, BigDecimal.ROUND_HALF_UP);
             craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),userlinkuser.getRecommendid(),mBigPrice);
         }
         // 是否有合伙人
@@ -214,7 +214,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             BigDecimal mBigPrice = new BigDecimal(rewrite_DistributionDTO.getAmount());
             BigDecimal ma = new BigDecimal("4");
             ma = ma.divide(new BigDecimal("1000"));
-            mBigPrice = mBigPrice.multiply(ma).setScale(2, BigDecimal.ROUND_HALF_UP);
+            mBigPrice = mBigPrice.multiply(ma).setScale(3, BigDecimal.ROUND_HALF_UP);
             craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),id,mBigPrice);
         }
         // 上面支付者的分销分完了  下面如果有收款方 还需要再分一轮
@@ -223,7 +223,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             BigDecimal mBigPrice = new BigDecimal(rewrite_DistributionDTO.getAmount());
             BigDecimal ma = new BigDecimal(rewrite_DistributionDTO.getConcession());
             ma = ma.divide(new BigDecimal("100"));
-            mBigPrice = mBigPrice.multiply(ma).setScale(2, BigDecimal.ROUND_HALF_UP);
+            mBigPrice = mBigPrice.multiply(ma).setScale(3, BigDecimal.ROUND_HALF_UP);
             mBigPrice = am.subtract(mBigPrice);
             craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME,userorder.getUserid(),userorder.getPayee(),mBigPrice);
 
@@ -234,7 +234,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 BigDecimal mPrice = new BigDecimal(rewrite_DistributionDTO.getAmount());
                 BigDecimal kma = new BigDecimal("5");
                 kma = kma.divide(new BigDecimal("1000"));
-                mPrice = mPrice.multiply(kma).setScale(2, BigDecimal.ROUND_HALF_UP);
+                mPrice = mPrice.multiply(kma).setScale(3, BigDecimal.ROUND_HALF_UP);
                 craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),payeeuserlinkuser.getRecommendid(),mPrice);
             }
             // 是否有合伙人
@@ -243,7 +243,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 BigDecimal mPrice = new BigDecimal(rewrite_DistributionDTO.getAmount());
                 BigDecimal kma = new BigDecimal("4");
                 kma = kma.divide(new BigDecimal("1000"));
-                mPrice = mPrice.multiply(kma).setScale(2, BigDecimal.ROUND_HALF_UP);
+                mPrice = mPrice.multiply(kma).setScale(3, BigDecimal.ROUND_HALF_UP);
                 craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),kid,mPrice);
             }
             // 如何付款用户没有推荐人，把给第一个付款的商家用户自动绑定
@@ -252,13 +252,14 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 rewrite_UserlinkuserRepository.saveAndFlush(userlinkuser);
             }
 
-            //分配优惠券
-            handleCoupon("50",userorder.getUserid(),userorder.getSum());
+
             //分配积分，
             if(userorder.getPayee() != null){ // 线下
                 handleIntgerl(userorder.getRebate().toString(),userorder.getUserid(),userorder.getSum());
             }else{  // 线上
                 handleIntgerl("50",userorder.getUserid(),userorder.getSum());
+                //分配优惠券
+                handleCoupon("50",userorder.getUserid(),userorder.getSum());
             }
 
         }
@@ -278,6 +279,15 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpay.setLogicdelete(false);
         receiptpayRepository.save(receiptpay);
+
+        Userassets userassets = userassetsRepository.findByUserId(sourcerId);
+        BigDecimal balance = new BigDecimal(userassets.getBalance());
+        balance = balance.add(amount);
+        userassets.setBalance(balance.toString());
+        BigDecimal usebalance = new BigDecimal(userassets.getUsablebalance());
+        usebalance = usebalance.add(amount);
+        userassets.setUsablebalance(usebalance.toString());
+        userassetsRepository.saveAndFlush(userassets);
     }
 
     // 判断用户是否有上层合伙人
@@ -300,7 +310,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         kma = kma.divide(new BigDecimal("100"));
         mPrice = mPrice.multiply(kma).setScale(2, BigDecimal.ROUND_HALF_UP);
 
-        Userassets userassets = userassetsRepository.getOne(Long.valueOf(userId));
+        Userassets userassets = userassetsRepository.findByUserId(userId);
         BigDecimal am = new BigDecimal(userassets.getIntegral());
         mPrice = am.add(mPrice);
         userassets.setIntegral(mPrice.toString());
@@ -321,7 +331,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         kma = kma.divide(new BigDecimal("100"));
         mPrice = mPrice.multiply(kma).setScale(2, BigDecimal.ROUND_HALF_UP);
 
-        Userassets userassets = userassetsRepository.getOne(Long.valueOf(userId));
+        Userassets userassets = userassetsRepository.findByUserId(userId);
         BigDecimal am = new BigDecimal(userassets.getCouponsum());
         mPrice = am.add(mPrice);
         userassets.setCouponsum(mPrice.toString());

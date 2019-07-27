@@ -8,6 +8,7 @@ import com.weisen.www.code.yjf.basic.service.Rewrite_UserbankcardService;
 import com.weisen.www.code.yjf.basic.service.dto.UserbankcardDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_BankCardDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
+import com.weisen.www.code.yjf.basic.util.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -54,13 +55,23 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
     // 用户添加银行卡
     @Override
     public Result createBankCard(UserbankcardDTO userbankcardDTO) {
-        return null;
+        Userbankcard userbankcard = new Userbankcard();
+        userbankcard.setBankcard(userbankcardDTO.getBankcard());
+        userbankcard.setBankicon(userbankcardDTO.getBankicon());
+        userbankcard.setBankphone(userbankcardDTO.getBankphone());
+        userbankcard.setBanktype(userbankcardDTO.getBanktype());
+        userbankcard.setRealname(userbankcardDTO.getRealname());
+        userbankcard.setCreatedate(TimeUtil.getDate());
+        rewrite_UserbankcardRepository.save(userbankcard);
+
+        return Result.suc("success");
     }
 
     // 用户删除银行卡
     @Override
     public Result deleteBackCard(Long bankcardId) {
-        return null;
+        rewrite_UserbankcardRepository.deleteById(bankcardId);
+        return Result.suc("success");
     }
 
 
