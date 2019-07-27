@@ -5,6 +5,7 @@ import com.weisen.www.code.yjf.basic.service.UsercardService;
 import com.weisen.www.code.yjf.basic.service.dto.UsercardDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/usercard")
+@Api(tags = "000-银行卡附加信息")
 public class Rewrite_UsercardResource {
 
     private final Logger log = LoggerFactory.getLogger(UsercardResource.class);
