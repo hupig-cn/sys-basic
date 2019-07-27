@@ -1,5 +1,6 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import com.weisen.www.code.yjf.basic.domain.Withdrawaldetails;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserorderRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_WithdrawaldetailsRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_ReceiptpayService;
@@ -11,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -32,8 +35,11 @@ public class Rewrite_WithdrawaldetailsServiceImpl implements Rewrite_Withdrawald
 
     // 查询用户的提现明细列表
     @Override
-    public Result findUserWithdrawaldetails(Long userid) {
+    public Result findUserWithdrawaldetails(Long userid,int startNum,int pageSize) {
+        List<Withdrawaldetails> list = rewrite_WithdrawaldetailsRepository.
+            getAllUserInfo(userid.toString(),startNum * pageSize,pageSize);
 
+        int count = rewrite_WithdrawaldetailsRepository.getAllUserInfoCount(userid.toString());
 
 
         return null;
