@@ -1,5 +1,6 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import com.weisen.www.code.yjf.basic.domain.Usercard;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserorderRepository;
 import com.weisen.www.code.yjf.basic.repository.UsercardRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_ReceiptpayService;
@@ -24,14 +25,22 @@ public class Rewrite_UsercardServiceImpl implements Rewrite_UsercardService {
         this.usercardRepository = usercardRepository;
     }
 
-
+    // 创建银行卡信息
     @Override
     public Result createUserCard(UsercardDTO usercardDTO) {
-        return null;
+        Usercard usercard =  new Usercard();
+        usercard.setBank(usercardDTO.getBank());
+        usercard.setBankname(usercardDTO.getBankname());
+        usercard.setLogo(usercardDTO.getLogo());
+        usercardRepository.save(usercard);
+
+        return Result.suc("成功");
     }
 
+    // 查询所有银行卡信息
     @Override
     public Result findCardInfo() {
+
         return null;
     }
 }
