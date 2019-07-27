@@ -157,8 +157,9 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     	BigDecimal kma = new BigDecimal(0.1);
     	mPrice = mPrice.multiply(kma).setScale(3, BigDecimal.ROUND_HALF_UP);
     	System.out.println(mPrice);
+    	BigDecimal sum = mPrice;
     	mPrice = mPrice.add(mPrice);
-    	System.out.println(mPrice.toString("f3"));
+    	System.out.println(sum);
 	}
 
 }

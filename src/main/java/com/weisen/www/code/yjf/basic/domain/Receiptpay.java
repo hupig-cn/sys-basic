@@ -33,7 +33,7 @@ public class Receiptpay implements Serializable {
     @Column(name = "benefit")
     private String benefit;
 
-    @Column(name = "amount", precision = 21, scale = 2)
+    @Column(name = "amount", precision = 21, scale = 3)
     private BigDecimal amount;
 
     @Column(name = "bonus", precision = 21, scale = 2)
