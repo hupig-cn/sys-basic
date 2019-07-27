@@ -31,5 +31,5 @@ public interface Rewrite_WithdrawalRepository extends JpaRepository<Withdrawal, 
     List<Withdrawal> getWithdrawals(Integer pageNum, Integer pageSize);
 
     // 根据提现状态获取
-    List<Withdrawal> findAllByUseridAndtyOrWithdrawaltype(String userid,String withdrawaltype);
+    List<Withdrawal> findAllByUseridAndWithdrawaltype(String userid,String withdrawaltype);
 }
