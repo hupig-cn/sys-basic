@@ -24,6 +24,8 @@ public class OrderConstant {
     public static final String BALANCE_PAY = "3"; // 余额支付
 
     public static final String INTEGRAL_PAY = "4"; // 积分支付
+    
+    public static final String COUPON_PAY = "5"; // 优惠券支付
 
     //生成订单编号
     public static String getOrderCode(String id){

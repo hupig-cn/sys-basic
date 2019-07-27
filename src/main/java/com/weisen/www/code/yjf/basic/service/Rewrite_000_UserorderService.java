@@ -19,5 +19,9 @@ public interface Rewrite_000_UserorderService {
 	Result createOrder(CreateOrderDTO createOrderDTO);
 
 	String merchantPayment(String authCode, String money, String merchantid, Integer concession, Integer rebate, String name);
+	
+	Long merchantPaymentYue(String userid, String money, String merchantid, Integer concession, Integer rebate);
+	
+	Long merchantPaymentCoupon(String userid, String money, String merchantid, Integer concession, Integer rebate);
 
 }

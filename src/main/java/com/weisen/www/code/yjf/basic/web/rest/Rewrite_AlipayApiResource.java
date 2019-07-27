@@ -76,6 +76,20 @@ public class Rewrite_AlipayApiResource {
 			Integer concession, Integer rebate, String name) {
 		return userorderService.merchantPayment(authCode, money, merchantid, concession, rebate, name);
 	}
+	
+	@GetMapping("/public/merchantPayment-yue")
+	@ApiOperation(value = "根据金额生成随机订单,用于余额")
+	public Long merchantPaymentYue(@RequestParam String userid, String money, String merchantid,
+			Integer concession, Integer rebate) {
+		return userorderService.merchantPaymentYue(userid, money, merchantid, concession, rebate);
+	}
+	
+	@GetMapping("/public/merchantPayment-coupon")
+	@ApiOperation(value = "根据金额生成随机订单,用于优惠券")
+	public Long merchantPaymentCoupon(@RequestParam String userid, String money, String merchantid,
+			Integer concession, Integer rebate) {
+		return userorderService.merchantPaymentCoupon(userid, money, merchantid, concession, rebate);
+	}
 
 	/**
 	 * 支付宝付款(线下)

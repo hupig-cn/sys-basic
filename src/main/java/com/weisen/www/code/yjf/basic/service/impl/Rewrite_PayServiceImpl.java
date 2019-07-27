@@ -66,16 +66,13 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         }
         Userorder userorder = option.get();
         Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userorder.getUserid());
-        System.out.println(rewrite_PayDTO.getPassword());
-        System.out.println(linkuser.getPaypassword());
-        System.out.println(passwordEncoder.matches(rewrite_PayDTO.getPassword(),linkuser.getPaypassword()));
         if(!passwordEncoder.matches(rewrite_PayDTO.getPassword(),linkuser.getPaypassword())){
             return  Result.fail("支付密码错误");
         }
 
         // 我的资产
         Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
-        int num = userorder.getSum().compareTo(new BigDecimal(Integer.valueOf(userassets.getUsablebalance())));
+        int num = userorder.getSum().compareTo(new BigDecimal(Double.parseDouble(userassets.getUsablebalance())));
         if( num > 0 ){
             return  Result.fail("您的余额不足");
         }
@@ -94,8 +91,8 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpayRepository.save(receiptpay);
 
         //更新我的资产
-        userassets.setUsablebalance(new BigDecimal(Integer.valueOf(userassets.getUsablebalance())).subtract(userorder.getSum()).toString());
-        userassets.setBalance(new BigDecimal(Integer.valueOf(userassets.getBalance())).subtract(userorder.getSum()).toString());
+        userassets.setUsablebalance(new BigDecimal(Double.parseDouble(userassets.getUsablebalance())).subtract(userorder.getSum()).toString());
+        userassets.setBalance(new BigDecimal(Double.parseDouble(userassets.getBalance())).subtract(userorder.getSum()).toString());
         userassetsRepository.save(userassets);
 
         Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId(),userorder.getPayway(),rewrite_PayDTO.getConcession(),rewrite_PayDTO.getRebate());

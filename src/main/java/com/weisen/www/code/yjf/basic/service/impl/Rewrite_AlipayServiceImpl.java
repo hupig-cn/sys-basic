@@ -83,8 +83,8 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 					rewrite_UserassetsRepository.save(userassetsI);// 空的用户资产,先建立一个用户资产
 				}
 				if (null != userassetsII) {
-					userassetsI.setIntegral(String.valueOf((Integer.parseInt(userassetsI.getIntegral())
-							+ Integer.parseInt(userassetsII.getIntegral()))));
+					userassetsI.setIntegral(String.valueOf((Double.parseDouble(userassetsI.getIntegral())
+							+ Double.parseDouble(userassetsII.getIntegral()))));
 					id = userassetsII.getUserid();
 					rewrite_UserassetsRepository.deleteById(userassetsII.getId());// 用来合并资产
 				}

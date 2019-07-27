@@ -369,4 +369,44 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
 			return "订单生成错误";
 		}
 	}
+	
+	public Long merchantPaymentYue(String userid, String money, String merchantid, Integer concession,
+			Integer rebate) {
+		String thisDate = DateUtils.getDateForNow();
+		// 1.先创建订单信息
+		Userorder userorder = new Userorder();
+		userorder.setUserid(userid);
+		userorder.setSum(new BigDecimal(money));// 设置金额
+		userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_PAY);// 设置待支付
+		userorder.setOrdercode(RandomStringUtils.randomAlphanumeric(32));
+		userorder.setPayee(merchantid);
+		userorder.setPayway(OrderConstant.BALANCE_PAY);
+		userorder.setConcession(concession);
+		userorder.setRebate(rebate);
+		userorder.setCreator(userid);
+		userorder.setCreatedate(thisDate);
+		userorder.setModifier(userid);
+		userorder.setModifierdate(thisDate);
+		return userorderRepository.save(userorder).getId();
+	}
+	
+	public Long merchantPaymentCoupon(String userid, String money, String merchantid, Integer concession,
+			Integer rebate) {
+		String thisDate = DateUtils.getDateForNow();
+		// 1.先创建订单信息
+		Userorder userorder = new Userorder();
+		userorder.setUserid(userid);
+		userorder.setSum(new BigDecimal(money));// 设置金额
+		userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_PAY);// 设置待支付
+		userorder.setOrdercode(RandomStringUtils.randomAlphanumeric(32));
+		userorder.setPayee(merchantid);
+		userorder.setPayway(OrderConstant.COUPON_PAY);
+		userorder.setConcession(concession);
+		userorder.setRebate(rebate);
+		userorder.setCreator(userid);
+		userorder.setCreatedate(thisDate);
+		userorder.setModifier(userid);
+		userorder.setModifierdate(thisDate);
+		return userorderRepository.save(userorder).getId();
+	}
 }
