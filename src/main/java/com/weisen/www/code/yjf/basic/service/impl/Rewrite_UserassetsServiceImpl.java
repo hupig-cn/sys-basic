@@ -2,6 +2,7 @@ package com.weisen.www.code.yjf.basic.service.impl;
 
 import java.util.List;
 
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_UserPriceDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -42,12 +43,16 @@ public class Rewrite_UserassetsServiceImpl implements Rewrite_UserassetsService 
 
 	// 查询用户余额
 	@Override
-	public Rewrite_PriceDTO findUserBalance(Long userId) {
+	public Rewrite_UserPriceDTO findUserBalance(Long userId) {
 		Userassets userassets = rewrite_UserassetsRepository.findByUserid(userId.toString());
-		if (null == userassets) {
-			return new Rewrite_PriceDTO("0");
-		}
-		return new Rewrite_PriceDTO(userassets.getBalance());
+//		if (null == userassets) {
+//			return new Rewrite_PriceDTO("0");
+//		}
+        Rewrite_UserPriceDTO rewrite_UserPriceDTO = new Rewrite_UserPriceDTO();
+        rewrite_UserPriceDTO.setBalance(userassets.getBalance());
+        rewrite_UserPriceDTO.setAvailableBalance(userassets.getUsablebalance());
+        rewrite_UserPriceDTO.setFrozenBalance(userassets.getFrozenbalance());
+		return rewrite_UserPriceDTO;
 	}
 
 	// 查询用户的余额 积分 优惠券

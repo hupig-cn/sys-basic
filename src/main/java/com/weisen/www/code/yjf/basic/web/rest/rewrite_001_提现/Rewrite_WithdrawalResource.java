@@ -19,7 +19,7 @@ import java.util.Optional;
  * REST controller for managing {@link com.weisen.www.code.yjf.basic.domain.Withdrawal}.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/withdrawal")
 @Api(tags = "000-提现")
 public class Rewrite_WithdrawalResource {
 
@@ -69,6 +69,13 @@ public class Rewrite_WithdrawalResource {
     @ApiOperation("获取用户提现信息")
     public ResponseEntity<?> getUserInfo(@PathVariable Long userid){
         Result result = withdrawalService.getUserInfo(userid);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
+    @GetMapping("/getWithdrawalInfo/{withdrawalId}")
+    @ApiOperation("获取一条提现数据详细信息")
+    public ResponseEntity<?> getWithdrawalInfo(@PathVariable Long withdrawalId){
+        Result result = withdrawalService.getWithdrawalInfo(withdrawalId);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 }
