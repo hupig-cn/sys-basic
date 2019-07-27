@@ -1,0 +1,72 @@
+{
+    "name": "Userbankcard",
+    "fields": [
+        {
+            "fieldName": "userid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "realname",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "bankcard",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "banktype",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "cardtype",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "bankicon",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "bankphone",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdate",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifier",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifierdate",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modifiernum",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "state",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "logicdelete",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "other",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20190727030719",
+    "entityTableName": "userbankcard",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "basic",
+    "applications": "*",
+    "microserviceName": "basic"
+}

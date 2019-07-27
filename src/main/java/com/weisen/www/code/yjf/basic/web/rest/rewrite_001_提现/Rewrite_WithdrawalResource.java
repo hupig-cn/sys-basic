@@ -11,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -64,6 +61,14 @@ public class Rewrite_WithdrawalResource {
     @ApiOperation("审核用户提现")
     public ResponseEntity<?> auditWithdrawal(@RequestBody Rewrite_submitWithdrawalDTO rewrite_submitWithdrawalDTO){
         Result result = withdrawalService.auditWithdrawal(rewrite_submitWithdrawalDTO.getId(), rewrite_submitWithdrawalDTO.getOther(), rewrite_submitWithdrawalDTO.getModifier());
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
+    // 获取用户提现信息
+    @PostMapping("/getUserInfo/{userid}")
+    @ApiOperation("获取用户提现信息")
+    public ResponseEntity<?> getUserInfo(@PathVariable Long userid){
+        Result result = withdrawalService.getUserInfo(userid);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 }

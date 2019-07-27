@@ -1,28 +1,40 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
-import com.alipay.api.internal.util.AlipaySignature;
-import com.weisen.www.code.yjf.basic.config.AlipayConstants;
-import com.weisen.www.code.yjf.basic.domain.*;
-import com.weisen.www.code.yjf.basic.repository.*;
-import com.weisen.www.code.yjf.basic.service.Rewrite_000_UserorderService;
-import com.weisen.www.code.yjf.basic.service.dto.CreateOrderDTO;
-import com.weisen.www.code.yjf.basic.service.util.FinalUtil;
-import com.weisen.www.code.yjf.basic.util.AlipayUtil;
-import com.weisen.www.code.yjf.basic.util.Result;
-import com.weisen.www.code.yjf.basic.util.Rewrite_Constant;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.weisen.www.code.yjf.basic.service.Rewrite_PayService;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_DistributionDTO;
+import com.weisen.www.code.yjf.basic.util.*;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Optional;
+import com.alipay.api.internal.util.AlipaySignature;
+import com.weisen.www.code.yjf.basic.config.AlipayConstants;
+import com.weisen.www.code.yjf.basic.domain.Percentage;
+import com.weisen.www.code.yjf.basic.domain.Receiptpay;
+import com.weisen.www.code.yjf.basic.domain.Userassets;
+import com.weisen.www.code.yjf.basic.domain.Userlinkuser;
+import com.weisen.www.code.yjf.basic.domain.Userorder;
+import com.weisen.www.code.yjf.basic.repository.ReceiptpayRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_000_UserassetsRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_000_UserorderRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_PercentageRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
+import com.weisen.www.code.yjf.basic.service.Rewrite_000_UserorderService;
+import com.weisen.www.code.yjf.basic.service.dto.CreateOrderDTO;
+import com.weisen.www.code.yjf.basic.service.util.FinalUtil;
+import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
 
 @Service
 @Transactional
@@ -40,12 +52,17 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
 
     private Rewrite_000_UserassetsRepository userassetsRepository;
 
-    public Rewrite_000_UserorderServiceImpl(Rewrite_000_UserorderRepository userorderRepository, Rewrite_UserlinkuserRepository userlinkuserRepository, Rewrite_PercentageRepository percentageRepository, ReceiptpayRepository receiptpayRepository, Rewrite_000_UserassetsRepository userassetsRepository) {
+    private Rewrite_PayService rewrite_PayService;
+
+    public Rewrite_000_UserorderServiceImpl(Rewrite_000_UserorderRepository userorderRepository, Rewrite_UserlinkuserRepository userlinkuserRepository,
+                                            Rewrite_PercentageRepository percentageRepository, ReceiptpayRepository receiptpayRepository,
+                                            Rewrite_000_UserassetsRepository userassetsRepository,Rewrite_PayService rewrite_PayService) {
         this.userorderRepository = userorderRepository;
         this.userlinkuserRepository = userlinkuserRepository;
         this.percentageRepository = percentageRepository;
         this.receiptpayRepository = receiptpayRepository;
         this.userassetsRepository = userassetsRepository;
+        this.rewrite_PayService = rewrite_PayService;
     }
 
     @Override
@@ -147,8 +164,13 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
                         }
                         // TODO 翻转订单状态
                         userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_DELIVER); //将订单状态更改成待发货
+                        userorder.setPayway(OrderConstant.ALI_PAY);
+                        userorder.setPaytime(TimeUtil.getDate());
+                        userorderRepository.saveAndFlush(userorder);
                         // 生成支付流水
-                        createFlow(userorder);
+//                        createFlow(userorder);
+                        Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId(),OrderConstant.ALI_PAY,null,null);
+                        rewrite_PayService.distribution(rewrite_DistributionDTO);
                     } else {
                         log.debug("并不是支付成功的返回");
                     }
@@ -286,5 +308,32 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
         userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_PAY);
         userorder.setSum(new BigDecimal(createOrderDTO.getSum()));
         return null;
+    }
+    
+    public String merchantPayment(String userid,String money,String merchantid, Integer concession,Integer rebate) {
+    	String thisDate = DateUtils.getDateForNow();
+        //1.先创建订单信息
+        Userorder userorder = new Userorder();
+        String orderCode = FinalUtil.createTradeNo(RandomStringUtils.randomAlphanumeric(32));
+        userorder.setUserid(userid);
+        userorder.setSum(new BigDecimal(money));//设置金额
+        userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_PAY);//设置待支付
+        userorder.setOrdercode(orderCode);
+        userorder.setPayee(merchantid);
+        userorder.setPayway(OrderConstant.ALI_PAY);
+        userorder.setConcession(concession);
+        userorder.setRebate(rebate);
+        userorder.setCreator(userid);
+        userorder.setCreatedate(thisDate);
+        userorder.setModifier(userid);
+        userorder.setModifierdate(thisDate);
+        userorder = userorderRepository.save(userorder);
+        if (userorder.getId()!=null&&userorder.getId()>0) {
+        	String subject = "圆积分消费,祝你生活愉快.";//订单名称字段暂时没有，等待加入
+        	String address = "http://app.yuanscore.com/?result="+userorder.getOrdercode();
+        	return AlipayUtil.alipay(userorder.getOrdercode(), subject, userorder.getSum(), address);
+        }else {
+        	return "订单生成错误";
+        }
     }
 }
