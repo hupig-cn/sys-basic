@@ -296,7 +296,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         if(null != userlinkuser){
             if(null != userlinkuser.isPartner() || userlinkuser.isPartner() == true){
                 return userId;
-            }else if(userlinkuser.getRecommendid() != null && !"".equals(userlinkuser.getRecommendid()){
+            }else if(userlinkuser.getRecommendid() != null && !"".equals(userlinkuser.getRecommendid())){
                 findPartner(userlinkuser.getRecommendid());
             }
         }
