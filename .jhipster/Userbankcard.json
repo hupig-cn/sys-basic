@@ -59,7 +59,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190727030719",
+    "changelogDate": "20190727104917",
     "entityTableName": "userbankcard",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

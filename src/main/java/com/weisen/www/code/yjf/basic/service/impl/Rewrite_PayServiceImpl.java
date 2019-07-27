@@ -113,7 +113,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 
         // 我的资产
         Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
-        int num = Integer.valueOf(rewrite_PayDTO.getIntegral()).compareTo(Integer.valueOf(userassets.getIntegral()));
+        int num = Integer.valueOf(userorder.getSum().toString()).compareTo(Integer.valueOf(userassets.getIntegral()));
 
         if( num > 0 ){
             return  Result.fail("您的积分不足");
@@ -156,7 +156,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 
         // 我的资产
         Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
-        int num = Integer.valueOf(rewrite_PayDTO.getIntegral()).compareTo(Integer.valueOf(userassets.getCouponsum()));
+        int num = Integer.valueOf(userorder.getSum().toString()).compareTo(Integer.valueOf(userassets.getCouponsum()));
 
         if( num > 0 ){
             return  Result.fail("您的积分不足");

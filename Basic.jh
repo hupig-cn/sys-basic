@@ -34,10 +34,11 @@ entity Linkaccount {// 用户绑定账号表
     other String// 备注
 }
 
-entity Usercard {// 用户卡包表
-    userid String,// 用户id
-    cardtype String,// 卡片类型
-    belong String,// 所属，农业银行，工商银行
+entity Usercard {// 银行卡信息表
+    // userid String,// 用户id
+    // cardtype String,// 卡片类型
+    bankname String,// 所属，农业银行，工商银行
+    logo String, // 银行logo
     bank String,// 开户行
     cardnum String,// 卡号
     creator String,// 创建者
