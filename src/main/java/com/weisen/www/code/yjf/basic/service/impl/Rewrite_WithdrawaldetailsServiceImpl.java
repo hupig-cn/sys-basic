@@ -6,6 +6,7 @@ import com.weisen.www.code.yjf.basic.repository.Rewrite_WithdrawaldetailsReposit
 import com.weisen.www.code.yjf.basic.service.Rewrite_ReceiptpayService;
 import com.weisen.www.code.yjf.basic.service.Rewrite_WithdrawaldetailsService;
 import com.weisen.www.code.yjf.basic.service.dto.WithdrawaldetailsDTO;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithdrawaldetailsDto;
 import com.weisen.www.code.yjf.basic.service.mapper.UserorderMapper;
 import com.weisen.www.code.yjf.basic.util.Result;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,8 +42,18 @@ public class Rewrite_WithdrawaldetailsServiceImpl implements Rewrite_Withdrawald
             getAllUserInfo(userid.toString(),startNum * pageSize,pageSize);
 
         int count = rewrite_WithdrawaldetailsRepository.getAllUserInfoCount(userid.toString());
+        List<Rewrite_WithdrawaldetailsDto> withlist = new ArrayList<>();
 
+        list.forEach(x -> {
+            Rewrite_WithdrawaldetailsDto rewrite_WithdrawaldetailsDto = new Rewrite_WithdrawaldetailsDto();
+            rewrite_WithdrawaldetailsDto.setTitle(x.getWithdrawalway());
+            rewrite_WithdrawaldetailsDto.setAmount(x.getAmount());
+            rewrite_WithdrawaldetailsDto.setBalance(x.getAfteramount());
+            rewrite_WithdrawaldetailsDto.setId(x.getId().toString());
+            rewrite_WithdrawaldetailsDto.setType(x.getState());
+            withlist.add(rewrite_WithdrawaldetailsDto);
+        });
 
-        return null;
+        return Result.suc("成功",withlist,count);
     }
 }
