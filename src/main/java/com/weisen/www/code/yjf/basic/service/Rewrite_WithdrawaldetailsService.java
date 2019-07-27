@@ -9,7 +9,7 @@ public interface Rewrite_WithdrawaldetailsService {
     Result createWithdrawaldetails(WithdrawaldetailsDTO withdrawaldetailsDTO);
 
     // 查询用户的提现明细列表
-    Result findUserWithdrawaldetails(Long userid);
+    Result findUserWithdrawaldetails(Long userid,int startNum,int pageSize);
 
 
 }

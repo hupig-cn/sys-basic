@@ -91,8 +91,8 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpayRepository.save(receiptpay);
 
         //更新我的资产
-        userassets.setUsablebalance(new BigDecimal(Double.parseDouble(userassets.getUsablebalance())).subtract(userorder.getSum()).toString());
-        userassets.setBalance(new BigDecimal(Double.parseDouble(userassets.getBalance())).subtract(userorder.getSum()).toString());
+        userassets.setUsablebalance(new BigDecimal(Double.parseDouble(userassets.getUsablebalance())).subtract(userorder.getSum()).setScale(3).toString());
+        userassets.setBalance(new BigDecimal(Double.parseDouble(userassets.getBalance())).subtract(userorder.getSum()).setScale(3).toString());
         userassetsRepository.save(userassets);
 
         Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId(),userorder.getPayway());
@@ -138,7 +138,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpayRepository.save(receiptpay);
 
         //更新我的资产
-        userassets.setIntegral(userassets.getIntegral().substring(Integer.valueOf(rewrite_PayDTO.getIntegral())));
+        userassets.setIntegral((new BigDecimal(userassets.getIntegral()).subtract(userorder.getSum()).setScale(3).toString()));
         userassetsRepository.save(userassets);
 
 
@@ -181,7 +181,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpayRepository.save(receiptpay);
 
         //更新我的资产
-        userassets.setCouponsum(userassets.getCouponsum().substring(Integer.valueOf(rewrite_PayDTO.getIntegral())));
+        userassets.setCouponsum((new BigDecimal(userassets.getCouponsum()).subtract(userorder.getSum()).setScale(3).toString()));
         userassetsRepository.save(userassets);
 
 
