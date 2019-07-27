@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.weisen.www.code.yjf.basic.service.Rewrite_UserassetsService;
 import com.weisen.www.code.yjf.basic.service.dto.UserassetsDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_PriceDTO;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_UserPriceDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 import io.github.jhipster.web.util.ResponseUtil;
@@ -42,7 +43,7 @@ public class Rewrite_UserassetsResource {
     @ApiOperation(value = "查询用户余额")
     @Timed
     public ResponseEntity<Result> findUserBalance(@PathVariable Long userId) {
-        Rewrite_PriceDTO rewrite_PriceDTO = rewrite_UserassetsService.findUserBalance(userId);
+        Rewrite_UserPriceDTO rewrite_PriceDTO = rewrite_UserassetsService.findUserBalance(userId);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(Result.suc("成功",rewrite_PriceDTO)));
     }
 

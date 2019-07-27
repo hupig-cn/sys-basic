@@ -13,7 +13,7 @@
     <property name="clobType" value="clob" dbms="mysql, oracle, mssql, mariadb, postgresql"/>
     <property name="uuidType" value="varchar(36)" dbms="h2, mysql, mariadb"/>
 
-    <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <!--<include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727030712_added_entity_Linkuser.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727030713_added_entity_Linkaccount.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727030714_added_entity_Usercard.xml" relativeToChangelogFile="false"/>
@@ -34,7 +34,7 @@
     <include file="config/liquibase/changelog/20190727030729_added_entity_Messagetemplate.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727030730_added_entity_Advertisement.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727030731_added_entity_Files.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190727030732_added_entity_Receiving.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190727030732_added_entity_Receiving.xml" relativeToChangelogFile="false"/>-->
     <!-- <include file="config/liquibase/changelog/20190727104910_added_entity_Linkuser.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727104911_added_entity_Linkaccount.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727104912_added_entity_Usercard.xml" relativeToChangelogFile="false"/>
@@ -56,7 +56,7 @@
     <include file="config/liquibase/changelog/20190727104928_added_entity_Advertisement.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727104929_added_entity_Files.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727104930_added_entity_Receiving.xml" relativeToChangelogFile="false"/> -->
-    <!-- <include file="config/liquibase/changelog/20190727141327_added_entity_Linkuser.xml" relativeToChangelogFile="false"/>
+   <!-- <include file="config/liquibase/changelog/20190727141327_added_entity_Linkuser.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727141328_added_entity_Linkaccount.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727141329_added_entity_Usercard.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727141330_added_entity_Userlocation.xml" relativeToChangelogFile="false"/>
@@ -76,7 +76,7 @@
     <include file="config/liquibase/changelog/20190727141344_added_entity_Messagetemplate.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727141345_added_entity_Advertisement.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727141346_added_entity_Files.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190727141347_added_entity_Receiving.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190727141347_added_entity_Receiving.xml" relativeToChangelogFile="false"/>-->
     <include file="config/liquibase/changelog/20190727172046_added_entity_Linkuser.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727172047_added_entity_Linkaccount.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727172048_added_entity_Usercard.xml" relativeToChangelogFile="false"/>
@@ -98,7 +98,7 @@
     <include file="config/liquibase/changelog/20190727172104_added_entity_Messagetemplate.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727172105_added_entity_Advertisement.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190727172106_added_entity_Files.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190727172107_added_entity_Receiving.xml" relativeToChangelogFile="false"/> -->
+    <include file="config/liquibase/changelog/20190727172107_added_entity_Receiving.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

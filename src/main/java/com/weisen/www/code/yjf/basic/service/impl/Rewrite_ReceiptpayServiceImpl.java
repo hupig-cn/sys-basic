@@ -7,6 +7,7 @@ import com.weisen.www.code.yjf.basic.service.Rewrite_UserassetsService;
 import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_MercProfitDto;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_PriceDTO;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_UserPriceDTO;
 import com.weisen.www.code.yjf.basic.service.mapper.ReceiptpayMapper;
 import com.weisen.www.code.yjf.basic.service.util.ProfitConstant;
 import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
@@ -90,7 +91,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
     // 查询商家各项详细收益
     @Override
     public Rewrite_MercProfitDto getProfitInfo(Long userId) {
-        Rewrite_PriceDTO rewrite_PriceDTO = rewrite_UserassetsService.findUserBalance(userId);
+        Rewrite_UserPriceDTO rewrite_PriceDTO = rewrite_UserassetsService.findUserBalance(userId);
         Rewrite_PriceDTO pricere = selectYesterday(userId);
 
         String today = new SimpleDateFormat("yyyy-MM").format(new Date());
