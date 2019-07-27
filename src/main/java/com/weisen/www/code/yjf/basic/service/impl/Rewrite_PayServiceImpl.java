@@ -192,7 +192,16 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         userassets.setCouponsum((new BigDecimal(userassets.getCouponsum()).subtract(userorder.getSum()).setScale(3).toString()));
         userassetsRepository.save(userassets);
 
+        if(userorder.getPayee() != null && !"".equals(userorder.getPayee())) {
+            BigDecimal am = userorder.getSum();
+            BigDecimal mBigPrice = userorder.getSum();
+            BigDecimal ma = new BigDecimal(userorder.getConcession());
+            ma = ma.divide(new BigDecimal("100"));
+            mBigPrice = mBigPrice.multiply(ma).setScale(3, BigDecimal.ROUND_HALF_UP);
+            mBigPrice = am.subtract(mBigPrice);
+            craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME, userorder.getUserid(), userorder.getPayee(), mBigPrice);
 
+        }
         return Result.suc("支付成功");
     }
 
