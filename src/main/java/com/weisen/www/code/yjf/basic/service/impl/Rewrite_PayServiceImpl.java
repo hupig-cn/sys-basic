@@ -201,7 +201,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         // 付款人关系
         Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getUserid());
         // 支付者推荐人分销
-        if(userlinkuser.getRecommendid() != null ){
+        if(userlinkuser.getRecommendid() != null && !"".equals(userlinkuser.getRecommendid()) ){
             BigDecimal mBigPrice = new BigDecimal(rewrite_DistributionDTO.getAmount());
             BigDecimal ma = new BigDecimal("5");
             ma = ma.divide(new BigDecimal("1000"));
@@ -218,7 +218,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),id,mBigPrice);
         }
         // 上面支付者的分销分完了  下面如果有收款方 还需要再分一轮
-        if(userorder.getPayee() != null){
+        if(userorder.getPayee() != null && !"".equals(userorder.getPayee())){
             BigDecimal am = new BigDecimal(rewrite_DistributionDTO.getAmount());
             BigDecimal mBigPrice = new BigDecimal(rewrite_DistributionDTO.getAmount());
             BigDecimal ma = new BigDecimal(rewrite_DistributionDTO.getConcession());
@@ -230,7 +230,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             Userlinkuser payeeuserlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getUserid());
 
             // 收款方推荐人分销
-            if(payeeuserlinkuser.getRecommendid() != null ){
+            if(payeeuserlinkuser.getRecommendid() != null && !"".equals(payeeuserlinkuser.getRecommendid())){
                 BigDecimal mPrice = new BigDecimal(rewrite_DistributionDTO.getAmount());
                 BigDecimal kma = new BigDecimal("5");
                 kma = kma.divide(new BigDecimal("1000"));
@@ -247,14 +247,14 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),kid,mPrice);
             }
             // 如何付款用户没有推荐人，把给第一个付款的商家用户自动绑定
-            if(userlinkuser.getRecommendid() ==null){
+            if(userlinkuser.getRecommendid() ==null && !"".equals(payeeuserlinkuser.getRecommendid())){
                 userlinkuser.setRecommendid(userorder.getPayee());
                 rewrite_UserlinkuserRepository.saveAndFlush(userlinkuser);
             }
 
 
             //分配积分，
-            if(userorder.getPayee() != null){ // 线下
+            if(userorder.getPayee() != null && !"".equals(userorder.getPayee())){ // 线下
                 handleIntgerl(userorder.getRebate().toString(),userorder.getUserid(),userorder.getSum());
             }else{  // 线上
                 handleIntgerl("50",userorder.getUserid(),userorder.getSum());
@@ -296,7 +296,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         if(null != userlinkuser){
             if(null != userlinkuser.isPartner() || userlinkuser.isPartner() == true){
                 return userId;
-            }else if(userlinkuser.getRecommendid() != null){
+            }else if(userlinkuser.getRecommendid() != null && !"".equals(userlinkuser.getRecommendid()){
                 findPartner(userlinkuser.getRecommendid());
             }
         }
