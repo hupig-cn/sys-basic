@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface Rewrite_000_UserassetsRepository extends JpaRepository<Userassets, Long> {
 
-//    @Query(value = "from Userassets where userid = ?1")
+    @Query(value = "from Userassets where userid = ?1")
     Userassets findByUserId(String userId);
 }
