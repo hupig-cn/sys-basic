@@ -9,6 +9,9 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.weisen.www.code.yjf.basic.service.Rewrite_PayService;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_DistributionDTO;
+import com.weisen.www.code.yjf.basic.util.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -35,10 +38,6 @@ import com.weisen.www.code.yjf.basic.service.Rewrite_000_UserorderService;
 import com.weisen.www.code.yjf.basic.service.dto.CreateOrderDTO;
 import com.weisen.www.code.yjf.basic.service.util.FinalUtil;
 import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
-import com.weisen.www.code.yjf.basic.util.AlipayUtil;
-import com.weisen.www.code.yjf.basic.util.DateUtils;
-import com.weisen.www.code.yjf.basic.util.Result;
-import com.weisen.www.code.yjf.basic.util.Rewrite_Constant;
 
 @Service
 @Transactional
@@ -58,15 +57,18 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
 
 	private final Rewrite_LinkaccountRepository rewrite_LinkaccountRepository;
 
+	private Rewrite_PayService rewrite_PayService;
+
 	public Rewrite_000_UserorderServiceImpl(Rewrite_LinkaccountRepository rewrite_LinkaccountRepository,
 			Rewrite_000_UserorderRepository userorderRepository, Rewrite_UserlinkuserRepository userlinkuserRepository,
 			Rewrite_PercentageRepository percentageRepository, ReceiptpayRepository receiptpayRepository,
-			Rewrite_000_UserassetsRepository userassetsRepository) {
+			Rewrite_000_UserassetsRepository userassetsRepository,Rewrite_PayService rewrite_PayService) {
 		this.userorderRepository = userorderRepository;
 		this.userlinkuserRepository = userlinkuserRepository;
 		this.percentageRepository = percentageRepository;
 		this.receiptpayRepository = receiptpayRepository;
 		this.userassetsRepository = userassetsRepository;
+		this.rewrite_PayService = rewrite_PayService;
 		this.rewrite_LinkaccountRepository = rewrite_LinkaccountRepository;
 	}
 
@@ -131,61 +133,66 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
 		}
 		return Result.suc("支付成功");
 	}
-
-	@Override
-	public void notifyMessage(HttpServletRequest request, HttpServletResponse response) {
-		Map<String, String[]> requestParams = request.getParameterMap();
-		try {
-			response.getWriter().write("success");
-			// 解析支付宝服务器回调过来的数据。
-			Map<String, String> params = new HashMap<>();
-			try {
-				for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
-					String name = (String) iter.next();
-					String[] values = requestParams.get(name);
-					String valueStr = "";
-					for (int i = 0; i < values.length; i++) {
-						valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
-					}
-					params.put(name, valueStr);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			try {
-				boolean flag = AlipaySignature.rsaCheckV1(params, AlipayConstants.ALIPAY_PUBLIC_KEY,
-						AlipayConstants.CHARSET, AlipayConstants.SIGN_TYPE);
-				if (flag) { // 验证支付是否异常
-					String trade_status = params.get("trade_status");
-					if ("TRADE_SUCCESS".equals(trade_status)) { // 判断是否是支付成功的状态
-						String tradeNo = params.get("out_trade_no");// 订单号
-						String totalAmount = params.get("total_amount");
-						String payWay = Rewrite_Constant.ACCOUNTTYPE_ALIPAY;
-						// 根据解析出来的数据验证订单，用户
-						Userorder userorder = userorderRepository.findByOrdercode(tradeNo);
-						// 不是待支付订单不能支付
-						if (!Rewrite_Constant.ORDER_WAIT_PAY.equals(userorder.getOrderstatus())) {
-							return;
-						}
-						// TODO 翻转订单状态
-						userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_DELIVER); // 将订单状态更改成待发货
-						// 生成支付流水
-						createFlow(userorder);
-					} else {
-						log.debug("并不是支付成功的返回");
-					}
-				} else {
-					log.debug("支付宝支付回调参数有误");
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				log.debug("支付宝回调中错误");
-			}
-			log.debug("支付宝回调成功");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	
+    @Override
+    public void notifyMessage(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, String[]> requestParams = request.getParameterMap();
+        try {
+            response.getWriter().write("success");
+            // 解析支付宝服务器回调过来的数据。
+            Map<String, String> params = new HashMap<>();
+            try {
+                for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext(); ) {
+                    String name = (String) iter.next();
+                    String[] values = requestParams.get(name);
+                    String valueStr = "";
+                    for (int i = 0; i < values.length; i++) {
+                        valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
+                    }
+                    params.put(name, valueStr);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                boolean flag = AlipaySignature.rsaCheckV1(params, AlipayConstants.ALIPAY_PUBLIC_KEY, AlipayConstants.CHARSET,
+                    AlipayConstants.SIGN_TYPE);
+                if (flag) { // 验证支付是否异常
+                    String trade_status = params.get("trade_status");
+                    if ("TRADE_SUCCESS".equals(trade_status)) { // 判断是否是支付成功的状态
+                        String tradeNo = params.get("out_trade_no");// 订单号
+                        String totalAmount = params.get("total_amount");
+                        String payWay = Rewrite_Constant.ACCOUNTTYPE_ALIPAY;
+                        // 根据解析出来的数据验证订单，用户
+                        Userorder userorder = userorderRepository.findByOrdercode(tradeNo);
+                        //不是待支付订单不能支付
+                        if (!Rewrite_Constant.ORDER_WAIT_PAY.equals(userorder.getOrderstatus())) {
+                            return;
+                        }
+                        // TODO 翻转订单状态
+                        userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_DELIVER); //将订单状态更改成待发货
+                        userorder.setPayway(OrderConstant.ALI_PAY);
+                        userorder.setPaytime(TimeUtil.getDate());
+                        userorderRepository.saveAndFlush(userorder);
+                        // 生成支付流水
+//                        createFlow(userorder);
+                        Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId(),OrderConstant.ALI_PAY,null,null);
+                        rewrite_PayService.distribution(rewrite_DistributionDTO);
+                    } else {
+                        log.debug("并不是支付成功的返回");
+                    }
+                } else {
+                    log.debug("支付宝支付回调参数有误");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                log.debug("支付宝回调中错误");
+            }
+            log.debug("支付宝回调成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 	private void createFlow(Userorder userorder) {
 		// 创建自身的收支明细

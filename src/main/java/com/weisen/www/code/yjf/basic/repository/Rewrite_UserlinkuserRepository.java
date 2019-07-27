@@ -12,5 +12,7 @@ public interface Rewrite_UserlinkuserRepository extends JpaRepository<Userlinkus
     Userlinkuser findByUserId(Long userId);
     
     Userlinkuser findByUserid(String userid);
+
+    long countAllByRecommendid(String recommendid);
     
 }

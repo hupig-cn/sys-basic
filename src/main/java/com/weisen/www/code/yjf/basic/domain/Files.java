@@ -26,10 +26,10 @@ public class Files implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "jhi_size")
+    @Column(name = "size")
     private Integer size;
 
-    @Column(name = "jhi_file")
+    @Column(name = "file")
     private String file;
 
     @Column(name = "file_content_type")

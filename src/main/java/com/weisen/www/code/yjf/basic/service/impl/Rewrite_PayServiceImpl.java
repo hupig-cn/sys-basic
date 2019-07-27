@@ -256,7 +256,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             handleCoupon("50",userorder.getUserid(),userorder.getSum());
             //分配积分，
             if(userorder.getPayee() != null){ // 线下
-                handleIntgerl(rewrite_DistributionDTO.getRebate(),userorder.getUserid(),userorder.getSum());
+                handleIntgerl(userorder.getRebate().toString(),userorder.getUserid(),userorder.getSum());
             }else{  // 线上
                 handleIntgerl("50",userorder.getUserid(),userorder.getSum());
             }
