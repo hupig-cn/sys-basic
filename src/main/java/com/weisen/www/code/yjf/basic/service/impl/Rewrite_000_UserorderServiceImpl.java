@@ -343,11 +343,10 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
 			return "获取支付宝会员信息失败";
 		// 1.先创建订单信息
 		Userorder userorder = new Userorder();
-		String orderCode = FinalUtil.createTradeNo(RandomStringUtils.randomAlphanumeric(32));
 		userorder.setUserid(linkaccount.getUserid());
 		userorder.setSum(new BigDecimal(money));// 设置金额
 		userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_PAY);// 设置待支付
-		userorder.setOrdercode(orderCode);
+		userorder.setOrdercode(RandomStringUtils.randomAlphanumeric(32));
 		userorder.setPayee(merchantid);
 		userorder.setPayway(OrderConstant.ALI_PAY);
 		userorder.setConcession(concession);
