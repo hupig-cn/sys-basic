@@ -169,7 +169,8 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
                         userorderRepository.saveAndFlush(userorder);
                         // 生成支付流水
 //                        createFlow(userorder);
-                        Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId(),OrderConstant.ALI_PAY,null,null);
+                        Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId()
+                            ,OrderConstant.ALI_PAY,userorder.getConcession().toString(),userorder.getRebate().toString());
                         rewrite_PayService.distribution(rewrite_DistributionDTO);
                     } else {
                         log.debug("并不是支付成功的返回");
