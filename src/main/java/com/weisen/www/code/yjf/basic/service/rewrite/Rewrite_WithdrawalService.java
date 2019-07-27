@@ -15,4 +15,7 @@ public interface Rewrite_WithdrawalService {
     Result getWithdrawals(Integer pageNum, Integer pageSize);
     //后台审核通过提现
     Result auditWithdrawal(Long id, String other, String modifier);
+
+    // 获取用户提现信息
+    Result getUserInfo(Long id);
 }

@@ -30,4 +30,6 @@ public interface Rewrite_WithdrawalRepository extends JpaRepository<Withdrawal, 
     @Query(value = "select * from withdrawal ORDER BY createdate DESC limit ?1,?2",nativeQuery = true)
     List<Withdrawal> getWithdrawals(Integer pageNum, Integer pageSize);
 
+    // 根据提现状态获取
+    List<Withdrawal> findAllByUseridAndtyOrWithdrawaltype(String userid,String withdrawaltype);
 }

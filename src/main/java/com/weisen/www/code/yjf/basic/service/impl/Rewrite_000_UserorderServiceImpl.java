@@ -9,6 +9,9 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.weisen.www.code.yjf.basic.service.Rewrite_PayService;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_DistributionDTO;
+import com.weisen.www.code.yjf.basic.util.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -32,10 +35,6 @@ import com.weisen.www.code.yjf.basic.service.Rewrite_000_UserorderService;
 import com.weisen.www.code.yjf.basic.service.dto.CreateOrderDTO;
 import com.weisen.www.code.yjf.basic.service.util.FinalUtil;
 import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
-import com.weisen.www.code.yjf.basic.util.AlipayUtil;
-import com.weisen.www.code.yjf.basic.util.DateUtils;
-import com.weisen.www.code.yjf.basic.util.Result;
-import com.weisen.www.code.yjf.basic.util.Rewrite_Constant;
 
 @Service
 @Transactional
@@ -53,12 +52,17 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
 
     private Rewrite_000_UserassetsRepository userassetsRepository;
 
-    public Rewrite_000_UserorderServiceImpl(Rewrite_000_UserorderRepository userorderRepository, Rewrite_UserlinkuserRepository userlinkuserRepository, Rewrite_PercentageRepository percentageRepository, ReceiptpayRepository receiptpayRepository, Rewrite_000_UserassetsRepository userassetsRepository) {
+    private Rewrite_PayService rewrite_PayService;
+
+    public Rewrite_000_UserorderServiceImpl(Rewrite_000_UserorderRepository userorderRepository, Rewrite_UserlinkuserRepository userlinkuserRepository,
+                                            Rewrite_PercentageRepository percentageRepository, ReceiptpayRepository receiptpayRepository,
+                                            Rewrite_000_UserassetsRepository userassetsRepository,Rewrite_PayService rewrite_PayService) {
         this.userorderRepository = userorderRepository;
         this.userlinkuserRepository = userlinkuserRepository;
         this.percentageRepository = percentageRepository;
         this.receiptpayRepository = receiptpayRepository;
         this.userassetsRepository = userassetsRepository;
+        this.rewrite_PayService = rewrite_PayService;
     }
 
     @Override
@@ -160,8 +164,13 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
                         }
                         // TODO 翻转订单状态
                         userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_DELIVER); //将订单状态更改成待发货
+                        userorder.setPayway(OrderConstant.ALI_PAY);
+                        userorder.setPaytime(TimeUtil.getDate());
+                        userorderRepository.saveAndFlush(userorder);
                         // 生成支付流水
-                        createFlow(userorder);
+//                        createFlow(userorder);
+                        Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId(),OrderConstant.ALI_PAY,null,null);
+                        rewrite_PayService.distribution(rewrite_DistributionDTO);
                     } else {
                         log.debug("并不是支付成功的返回");
                     }

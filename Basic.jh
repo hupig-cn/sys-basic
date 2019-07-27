@@ -113,13 +113,29 @@ entity Coupon {// 优惠卷表
     other String// 备注
 }
 
-
+entity Userbankcard {// 用户银行卡表
+    userid String,// 银行卡用户id
+    realname String,// 银行卡姓名
+    bankcard String,// 银行卡卡号
+    banktype String ,// 所属银行
+    cardtype String,// 银行类型
+    bankicon String,// 银行卡图标
+    bankphone String, // 银行卡手机号
+    createdate String,// 申请时间
+    modifier String,// 修改者
+    modifierdate String,// 修改日期
+    modifiernum Long,// 修改次数
+    state String, // 状态
+    logicdelete Boolean,// 删除
+    other String// 备注
+}
 
 entity Withdrawal {// 提现表
     userid String,// 提现用户id
     withdrawalamount String,// 提现金额
     withdrawaltype String,// 提现状态
     gatheringway String ,// 提现方式
+    payee String,// 收款人
     creator String,// 创建者
     createdate String,// 申请时间
     modifier String,// 修改者
