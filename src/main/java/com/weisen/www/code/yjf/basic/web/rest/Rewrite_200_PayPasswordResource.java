@@ -24,7 +24,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/weisen/payment")
+@RequestMapping("/api/payment")
 @Api(tags = "200_支付密码管理")
 public class Rewrite_200_PayPasswordResource {
 
@@ -44,7 +44,7 @@ public class Rewrite_200_PayPasswordResource {
         return payPasswordService.check();
     }
 
-    @ApiOperation("检查是否设置密码")
+    @ApiOperation("发送支付密码短信验证码")
     @Timed
     @GetMapping("/send-code")
     public Result sendCode () {

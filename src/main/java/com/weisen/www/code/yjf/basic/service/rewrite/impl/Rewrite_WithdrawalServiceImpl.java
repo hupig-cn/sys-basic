@@ -152,10 +152,10 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 //        List<Withdrawal> FROZEN = rewrite_withdrawalRepository.findAllByUseridAndtyOrWithdrawaltype(id.toString(), WithdrawalConstant.READY);
 //        Optional sumFROZEN = FROZEN.stream().map(x -> new BigDecimal(x.getWithdrawalamount())).reduce(BigDecimal::add);
         // 提现中
-        List<Withdrawal> IN_READY = rewrite_withdrawalRepository.findAllByUseridAndtyOrWithdrawaltype(id.toString(), WithdrawalConstant.READY);
+        List<Withdrawal> IN_READY = rewrite_withdrawalRepository.findAllByUseridAndWithdrawaltype(id.toString(), WithdrawalConstant.READY);
         Optional sumIN_READY= IN_READY.stream().map(x -> new BigDecimal(x.getWithdrawalamount())).reduce(BigDecimal::add);
         // 已提现
-        List<Withdrawal> ALREADY = rewrite_withdrawalRepository.findAllByUseridAndtyOrWithdrawaltype(id.toString(), WithdrawalConstant.READY);
+        List<Withdrawal> ALREADY = rewrite_withdrawalRepository.findAllByUseridAndWithdrawaltype(id.toString(), WithdrawalConstant.READY);
         Optional sumALREADY = ALREADY.stream().map(x -> new BigDecimal(x.getWithdrawalamount())).reduce(BigDecimal::add);
 
         long count = rewrite_UserlinkuserRepository.countAllByRecommendid(id.toString());

@@ -9,9 +9,6 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.weisen.www.code.yjf.basic.service.Rewrite_PayService;
-import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_DistributionDTO;
-import com.weisen.www.code.yjf.basic.util.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -20,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alipay.api.internal.util.AlipaySignature;
+import com.alipay.api.response.AlipaySystemOauthTokenResponse;
 import com.weisen.www.code.yjf.basic.config.AlipayConstants;
+import com.weisen.www.code.yjf.basic.domain.Linkaccount;
 import com.weisen.www.code.yjf.basic.domain.Percentage;
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
 import com.weisen.www.code.yjf.basic.domain.Userassets;
@@ -29,104 +28,116 @@ import com.weisen.www.code.yjf.basic.domain.Userorder;
 import com.weisen.www.code.yjf.basic.repository.ReceiptpayRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_000_UserassetsRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_000_UserorderRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkaccountRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_PercentageRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_000_UserorderService;
+import com.weisen.www.code.yjf.basic.service.Rewrite_PayService;
 import com.weisen.www.code.yjf.basic.service.dto.CreateOrderDTO;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_DistributionDTO;
 import com.weisen.www.code.yjf.basic.service.util.FinalUtil;
 import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
+import com.weisen.www.code.yjf.basic.util.AlipayUtil;
+import com.weisen.www.code.yjf.basic.util.DateUtils;
+import com.weisen.www.code.yjf.basic.util.Result;
+import com.weisen.www.code.yjf.basic.util.Rewrite_Constant;
+import com.weisen.www.code.yjf.basic.util.TimeUtil;
 
 @Service
 @Transactional
 public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderService {
 
-    private final Logger log = LoggerFactory.getLogger(Rewrite_000_UserorderServiceImpl.class);
+	private final Logger log = LoggerFactory.getLogger(Rewrite_000_UserorderServiceImpl.class);
 
-    private Rewrite_000_UserorderRepository userorderRepository;
+	private final Rewrite_000_UserorderRepository userorderRepository;
 
-    private Rewrite_UserlinkuserRepository userlinkuserRepository;
+	private final Rewrite_UserlinkuserRepository userlinkuserRepository;
 
-    private Rewrite_PercentageRepository percentageRepository;
+	private final Rewrite_PercentageRepository percentageRepository;
 
-    private ReceiptpayRepository receiptpayRepository;
+	private final ReceiptpayRepository receiptpayRepository;
 
-    private Rewrite_000_UserassetsRepository userassetsRepository;
+	private final Rewrite_000_UserassetsRepository userassetsRepository;
 
-    private Rewrite_PayService rewrite_PayService;
+	private final Rewrite_LinkaccountRepository rewrite_LinkaccountRepository;
 
-    public Rewrite_000_UserorderServiceImpl(Rewrite_000_UserorderRepository userorderRepository, Rewrite_UserlinkuserRepository userlinkuserRepository,
-                                            Rewrite_PercentageRepository percentageRepository, ReceiptpayRepository receiptpayRepository,
-                                            Rewrite_000_UserassetsRepository userassetsRepository,Rewrite_PayService rewrite_PayService) {
-        this.userorderRepository = userorderRepository;
-        this.userlinkuserRepository = userlinkuserRepository;
-        this.percentageRepository = percentageRepository;
-        this.receiptpayRepository = receiptpayRepository;
-        this.userassetsRepository = userassetsRepository;
-        this.rewrite_PayService = rewrite_PayService;
-    }
+	private Rewrite_PayService rewrite_PayService;
 
-    @Override
-    public Result alipay(Long orderId) {
-        log.debug("调用支付宝支付:{}", orderId);
-        if (null == orderId) {
-            return Result.fail("订单号不能为空");
-        }
-        //1.检查订单是否存在
-        Optional<Userorder> optional = userorderRepository.findById(orderId);
-        if (!optional.isPresent()) {
-            return Result.fail("订单不存在");
-        }
-        //2.判断订单状态
-        Userorder userorder = optional.get();
-        if (!userorder.getOrderstatus().equals(Rewrite_Constant.ORDER_WAIT_PAY)) {
-            return Result.fail("当前订单不能支付");
-        }
-        //3.准备调起支付宝
-        String outTradeNo = userorder.getOrdercode();
-        String subject = "圆积分消费,祝你生活愉快,详情商品信息请在APP内查看";//订单名称字段暂时没有，等待加入
-        BigDecimal totalAmount = userorder.getSum();
-        //4.支付宝返回
-        String form = AlipayUtil.alipay(outTradeNo, subject, totalAmount, orderId);
-        if (StringUtils.isBlank(form)) {
-            log.debug("支付宝支付错误");
-            return Result.fail("支付宝支付错误");
-        }
-        return Result.suc("调用支付宝成功", form);
-    }
+	public Rewrite_000_UserorderServiceImpl(Rewrite_LinkaccountRepository rewrite_LinkaccountRepository,
+			Rewrite_000_UserorderRepository userorderRepository, Rewrite_UserlinkuserRepository userlinkuserRepository,
+			Rewrite_PercentageRepository percentageRepository, ReceiptpayRepository receiptpayRepository,
+			Rewrite_000_UserassetsRepository userassetsRepository,Rewrite_PayService rewrite_PayService) {
+		this.userorderRepository = userorderRepository;
+		this.userlinkuserRepository = userlinkuserRepository;
+		this.percentageRepository = percentageRepository;
+		this.receiptpayRepository = receiptpayRepository;
+		this.userassetsRepository = userassetsRepository;
+		this.rewrite_PayService = rewrite_PayService;
+		this.rewrite_LinkaccountRepository = rewrite_LinkaccountRepository;
+	}
 
-    @Override
-    public Result alipay(String merchantId, String userId, Integer concession, Integer rebate, String amount) {
-        //1.先创建订单信息
-        Userorder userorder = new Userorder();
-        String orderCode = FinalUtil.createTradeNo(Rewrite_Constant.ORDER_PREFIX_OFFLINE);
-        userorder.setUserid(userId);
-        userorder.setSum(new BigDecimal(amount));//设置金额
-        userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_PAY);//设置待支付
-        userorder.setOrdercode(orderCode);
-        userorder.setPayee(merchantId);
-        userorder.setConcession(concession);
-        userorder.setRebate(rebate);
-        userorder.setCreatedate("创建时间");
-        userorderRepository.save(userorder);
-        return alipay(userorder.getId());
-    }
+	@Override
+	public Result alipay(Long orderId) {
+		log.debug("调用支付宝支付:{}", orderId);
+		if (null == orderId) {
+			return Result.fail("订单号不能为空");
+		}
+		// 1.检查订单是否存在
+		Optional<Userorder> optional = userorderRepository.findById(orderId);
+		if (!optional.isPresent()) {
+			return Result.fail("订单不存在");
+		}
+		// 2.判断订单状态
+		Userorder userorder = optional.get();
+		if (!userorder.getOrderstatus().equals(Rewrite_Constant.ORDER_WAIT_PAY)) {
+			return Result.fail("当前订单不能支付");
+		}
+		// 3.准备调起支付宝
+		String outTradeNo = userorder.getOrdercode();
+		String subject = "圆积分消费,祝你生活愉快,详情商品信息请在APP内查看";// 订单名称字段暂时没有，等待加入
+		BigDecimal totalAmount = userorder.getSum();
+		// 4.支付宝返回
+		String form = AlipayUtil.alipay(outTradeNo, subject, totalAmount, orderId);
+		if (StringUtils.isBlank(form)) {
+			log.debug("支付宝支付错误");
+			return Result.fail("支付宝支付错误");
+		}
+		return Result.suc("调用支付宝成功", form);
+	}
 
-    @Override
-    public Result queryOrder(String orderId) {
-        if (StringUtils.isBlank(orderId)) {
-            return Result.fail("订单号不能为空");
-        }
-        Optional<Userorder> optional = userorderRepository.findById(Long.valueOf(orderId));
-        if (!optional.isPresent()) {
-            return Result.fail("订单不存在");
-        }
-        Userorder userorder = optional.get();
-        if (!userorder.getOrderstatus().equals(Rewrite_Constant.ORDER_WAIT_DELIVER)) {
-            return Result.fail("当前订单状态有误");
-        }
-        return Result.suc("支付成功");
-    }
+	@Override
+	public Result alipay(String merchantId, String userId, Integer concession, Integer rebate, String amount) {
+		// 1.先创建订单信息
+		Userorder userorder = new Userorder();
+		String orderCode = FinalUtil.createTradeNo(Rewrite_Constant.ORDER_PREFIX_OFFLINE);
+		userorder.setUserid(userId);
+		userorder.setSum(new BigDecimal(amount));// 设置金额
+		userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_PAY);// 设置待支付
+		userorder.setOrdercode(orderCode);
+		userorder.setPayee(merchantId);
+		userorder.setConcession(concession);
+		userorder.setRebate(rebate);
+		userorder.setCreatedate("创建时间");
+		userorderRepository.save(userorder);
+		return alipay(userorder.getId());
+	}
 
+	@Override
+	public Result queryOrder(String orderId) {
+		if (StringUtils.isBlank(orderId)) {
+			return Result.fail("订单号不能为空");
+		}
+		Optional<Userorder> optional = userorderRepository.findById(Long.valueOf(orderId));
+		if (!optional.isPresent()) {
+			return Result.fail("订单不存在");
+		}
+		Userorder userorder = optional.get();
+		if (!userorder.getOrderstatus().equals(Rewrite_Constant.ORDER_WAIT_DELIVER)) {
+			return Result.fail("当前订单状态有误");
+		}
+		return Result.suc("支付成功");
+	}
+	
     @Override
     public void notifyMessage(HttpServletRequest request, HttpServletResponse response) {
         Map<String, String[]> requestParams = request.getParameterMap();
@@ -188,153 +199,174 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
         }
     }
 
-    private void createFlow(Userorder userorder) {
-        //创建自身的收支明细
-        createSelfReceiptpay(userorder);
-        //获取分配比例
-        Percentage percentageRecommend = percentageRepository.findByName(Rewrite_Constant.PERCENTAGE_RECOMMEND, Rewrite_Constant.PERCENTAGE_TYPE_CASH);
-        Percentage percentagePartner = percentageRepository.findByName(Rewrite_Constant.PERCENTAGE_PARTNER, Rewrite_Constant.PERCENTAGE_TYPE_CASH);
-        Percentage percentageBenefit = percentageRepository.findByName(Rewrite_Constant.PERCENTAGE_BENEFIT, Rewrite_Constant.PERCENTAGE_TYPE_CASH);
-        //创建商家的收支明细
-        createMerchantReceiptpay(userorder, percentageBenefit);
-        BigDecimal sumBigDecimal = userorder.getSum();
-        //计算收益手续费
-        BigDecimal benefitPercentage = BigDecimal.ONE.subtract(new BigDecimal(percentageBenefit.getValue()).divide(BigDecimal.valueOf(100)));
-        //获取推荐人
-        Userlinkuser userlinkuser = userlinkuserRepository.findByUserId(userorder.getId());
-        //计算推荐收益
-        String percentageRecommendValue = percentageRecommend.getValue();
-        BigDecimal amountRecommend = sumBigDecimal.multiply(new BigDecimal(percentageRecommendValue)).multiply(benefitPercentage); //计算后金额
-        String recommendId = userlinkuser.getRecommendid();
-        createRecommendAndPartner(Rewrite_Constant.DEALTYPE_RECOMMEND, Rewrite_Constant.DEALSTATE_NORMAL, recommendId, userorder.getPayee(), amountRecommend);
-        //获取合伙人
-        Userlinkuser partner = userlinkuserRepository.findByUserId(userorder.getId());//先默认取推荐人
-        while (partner.isPartner()) {
-            String tempRecommendId = partner.getRecommendid();
-            partner = userlinkuserRepository.findByUserId(Long.valueOf(tempRecommendId));
-        }
-        //计算推荐收益
-        String percentagePartnerValue = percentagePartner.getValue();
-        BigDecimal amountPartner = sumBigDecimal.multiply(new BigDecimal(percentagePartnerValue)).multiply(benefitPercentage); //计算后金额
-        createRecommendAndPartner(Rewrite_Constant.DEALTYPE_PARTNER, Rewrite_Constant.DEALSTATE_NORMAL, partner.getUserid(), userorder.getPayee(), amountPartner);
-    }
+	private void createFlow(Userorder userorder) {
+		// 创建自身的收支明细
+		createSelfReceiptpay(userorder);
+		// 获取分配比例
+		Percentage percentageRecommend = percentageRepository.findByName(Rewrite_Constant.PERCENTAGE_RECOMMEND,
+				Rewrite_Constant.PERCENTAGE_TYPE_CASH);
+		Percentage percentagePartner = percentageRepository.findByName(Rewrite_Constant.PERCENTAGE_PARTNER,
+				Rewrite_Constant.PERCENTAGE_TYPE_CASH);
+		Percentage percentageBenefit = percentageRepository.findByName(Rewrite_Constant.PERCENTAGE_BENEFIT,
+				Rewrite_Constant.PERCENTAGE_TYPE_CASH);
+		// 创建商家的收支明细
+		createMerchantReceiptpay(userorder, percentageBenefit);
+		BigDecimal sumBigDecimal = userorder.getSum();
+		// 计算收益手续费
+		BigDecimal benefitPercentage = BigDecimal.ONE
+				.subtract(new BigDecimal(percentageBenefit.getValue()).divide(BigDecimal.valueOf(100)));
+		// 获取推荐人
+		Userlinkuser userlinkuser = userlinkuserRepository.findByUserId(userorder.getId());
+		// 计算推荐收益
+		String percentageRecommendValue = percentageRecommend.getValue();
+		BigDecimal amountRecommend = sumBigDecimal.multiply(new BigDecimal(percentageRecommendValue))
+				.multiply(benefitPercentage); // 计算后金额
+		String recommendId = userlinkuser.getRecommendid();
+		createRecommendAndPartner(Rewrite_Constant.DEALTYPE_RECOMMEND, Rewrite_Constant.DEALSTATE_NORMAL, recommendId,
+				userorder.getPayee(), amountRecommend);
+		// 获取合伙人
+		Userlinkuser partner = userlinkuserRepository.findByUserId(userorder.getId());// 先默认取推荐人
+		while (partner.isPartner()) {
+			String tempRecommendId = partner.getRecommendid();
+			partner = userlinkuserRepository.findByUserId(Long.valueOf(tempRecommendId));
+		}
+		// 计算推荐收益
+		String percentagePartnerValue = percentagePartner.getValue();
+		BigDecimal amountPartner = sumBigDecimal.multiply(new BigDecimal(percentagePartnerValue))
+				.multiply(benefitPercentage); // 计算后金额
+		createRecommendAndPartner(Rewrite_Constant.DEALTYPE_PARTNER, Rewrite_Constant.DEALSTATE_NORMAL,
+				partner.getUserid(), userorder.getPayee(), amountPartner);
+	}
 
-    /**
-     * 创建自身的收支明细记录
-     * @param userorder
-     */
-    private void createSelfReceiptpay (Userorder userorder) {
-        Receiptpay receiptpaySelf = new Receiptpay();//自身的收益流水
-        receiptpaySelf.setDealtype(Rewrite_Constant.DEALTYPE_CONSUMPTION);
-        receiptpaySelf.setUserid(userorder.getUserid());
-        receiptpaySelf.setSourcer(Rewrite_Constant.SOURCE_ALIPAY);
-        receiptpaySelf.setBenefit(userorder.getPayee());
-        //获取到的积分
-        if (userorder.getRebate() != null) {
-            //现在的积分 = 原本的积分 + 商家积分百分比 * 支付金额
-            Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
-            String originIntegral = userassets.getIntegral();
-            BigDecimal rebateBigDecimal = new BigDecimal(userorder.getRebate()).divide(BigDecimal.valueOf(100));
-            BigDecimal integralBigDecimal = userorder.getSum().multiply(rebateBigDecimal);
-            integralBigDecimal = integralBigDecimal.add(new BigDecimal(originIntegral));
-            userassets.setIntegral(integralBigDecimal.toString());
-        }
-        receiptpaySelf.setAmount(userorder.getSum());
-        receiptpaySelf.setHappendate("发生时间");
-        receiptpaySelf.setDealstate(Rewrite_Constant.DEALSTATE_NORMAL);
-        receiptpaySelf.setCreator("SYSTEM");
-        receiptpaySelf.setCreatedate("创建时间");
-    }
+	/**
+	 * 创建自身的收支明细记录
+	 * 
+	 * @param userorder
+	 */
+	private void createSelfReceiptpay(Userorder userorder) {
+		Receiptpay receiptpaySelf = new Receiptpay();// 自身的收益流水
+		receiptpaySelf.setDealtype(Rewrite_Constant.DEALTYPE_CONSUMPTION);
+		receiptpaySelf.setUserid(userorder.getUserid());
+		receiptpaySelf.setSourcer(Rewrite_Constant.SOURCE_ALIPAY);
+		receiptpaySelf.setBenefit(userorder.getPayee());
+		// 获取到的积分
+		if (userorder.getRebate() != null) {
+			// 现在的积分 = 原本的积分 + 商家积分百分比 * 支付金额
+			Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
+			String originIntegral = userassets.getIntegral();
+			BigDecimal rebateBigDecimal = new BigDecimal(userorder.getRebate()).divide(BigDecimal.valueOf(100));
+			BigDecimal integralBigDecimal = userorder.getSum().multiply(rebateBigDecimal);
+			integralBigDecimal = integralBigDecimal.add(new BigDecimal(originIntegral));
+			userassets.setIntegral(integralBigDecimal.toString());
+		}
+		receiptpaySelf.setAmount(userorder.getSum());
+		receiptpaySelf.setHappendate("发生时间");
+		receiptpaySelf.setDealstate(Rewrite_Constant.DEALSTATE_NORMAL);
+		receiptpaySelf.setCreator("SYSTEM");
+		receiptpaySelf.setCreatedate("创建时间");
+	}
 
-    /**
-     * 创建商家的收支明细记录
-     * @param userorder
-     */
-    private void createMerchantReceiptpay (Userorder userorder, Percentage percentageBenefit) {
-        Userassets userassets = userassetsRepository.findByUserId(userorder.getPayee());
-        //更新余额
-        BigDecimal balanceBigDecimal = new BigDecimal(userassets.getBalance());
-        //让利百分比
-        BigDecimal afterConcessionBigDecimal = new BigDecimal(100 - userorder.getConcession()).divide(BigDecimal.valueOf(100));
-        //提现手续费
-        BigDecimal benefitPercentage = BigDecimal.ONE.subtract(new BigDecimal(percentageBenefit.getValue()).divide(BigDecimal.valueOf(100)));
-        //收到的金额
-        BigDecimal receiveBigDecimal = userorder.getSum().multiply(afterConcessionBigDecimal).multiply(benefitPercentage);
-        balanceBigDecimal = balanceBigDecimal.add(receiveBigDecimal);
-        userassets.setBalance(balanceBigDecimal.toString());
-        Receiptpay receiptpayMerchant = new Receiptpay();
-        receiptpayMerchant.setDealtype(Rewrite_Constant.DEALTYPE_RECEIVABLES);
-        receiptpayMerchant.setUserid(userorder.getPayee());
-        receiptpayMerchant.setSourcer(Rewrite_Constant.SOURCE_ALIPAY);
-        receiptpayMerchant.setBenefit(userorder.getUserid());
-        receiptpayMerchant.setAmount(userorder.getSum());
-        receiptpayMerchant.setHappendate("发生时间");
-        receiptpayMerchant.setDealstate(Rewrite_Constant.DEALSTATE_NORMAL);
-        receiptpayMerchant.setCreator("SYSTEM");
-        receiptpayMerchant.setCreatedate("创建时间");
-    }
+	/**
+	 * 创建商家的收支明细记录
+	 * 
+	 * @param userorder
+	 */
+	private void createMerchantReceiptpay(Userorder userorder, Percentage percentageBenefit) {
+		Userassets userassets = userassetsRepository.findByUserId(userorder.getPayee());
+		// 更新余额
+		BigDecimal balanceBigDecimal = new BigDecimal(userassets.getBalance());
+		// 让利百分比
+		BigDecimal afterConcessionBigDecimal = new BigDecimal(100 - userorder.getConcession())
+				.divide(BigDecimal.valueOf(100));
+		// 提现手续费
+		BigDecimal benefitPercentage = BigDecimal.ONE
+				.subtract(new BigDecimal(percentageBenefit.getValue()).divide(BigDecimal.valueOf(100)));
+		// 收到的金额
+		BigDecimal receiveBigDecimal = userorder.getSum().multiply(afterConcessionBigDecimal)
+				.multiply(benefitPercentage);
+		balanceBigDecimal = balanceBigDecimal.add(receiveBigDecimal);
+		userassets.setBalance(balanceBigDecimal.toString());
+		Receiptpay receiptpayMerchant = new Receiptpay();
+		receiptpayMerchant.setDealtype(Rewrite_Constant.DEALTYPE_RECEIVABLES);
+		receiptpayMerchant.setUserid(userorder.getPayee());
+		receiptpayMerchant.setSourcer(Rewrite_Constant.SOURCE_ALIPAY);
+		receiptpayMerchant.setBenefit(userorder.getUserid());
+		receiptpayMerchant.setAmount(userorder.getSum());
+		receiptpayMerchant.setHappendate("发生时间");
+		receiptpayMerchant.setDealstate(Rewrite_Constant.DEALSTATE_NORMAL);
+		receiptpayMerchant.setCreator("SYSTEM");
+		receiptpayMerchant.setCreatedate("创建时间");
+	}
 
-    /**
-     * 创建推荐人或合伙人的收支明细记录
-     * @param dealtype
-     * @param dealstate
-     * @param userId
-     * @param benegit
-     * @param bigDecimal
-     */
-    private void createRecommendAndPartner (String dealtype, String dealstate, String userId, String benegit, BigDecimal bigDecimal) {
-        Userassets userassets = userassetsRepository.findByUserId(userId);
-        //更新余额
-        BigDecimal balanceBigDecimal = new BigDecimal(userassets.getBalance());
-        balanceBigDecimal = balanceBigDecimal.add(bigDecimal);
-        userassets.setBalance(balanceBigDecimal.toString());//更新余额
-        Receiptpay receiptpay = new Receiptpay();
-        receiptpay.setDealtype(dealtype);
-        receiptpay.setUserid(userId);
-        receiptpay.setBenefit(benegit);
-        receiptpay.setAmount(bigDecimal);
-        receiptpay.setHappendate("发生时间");
-        receiptpay.setDealstate(dealstate);
-        receiptpay.setCreator("SYSTEM");
-        receiptpay.setCreatedate("创建时间");
-        receiptpayRepository.save(receiptpay);
-    }
+	/**
+	 * 创建推荐人或合伙人的收支明细记录
+	 * 
+	 * @param dealtype
+	 * @param dealstate
+	 * @param userId
+	 * @param benegit
+	 * @param bigDecimal
+	 */
+	private void createRecommendAndPartner(String dealtype, String dealstate, String userId, String benegit,
+			BigDecimal bigDecimal) {
+		Userassets userassets = userassetsRepository.findByUserId(userId);
+		// 更新余额
+		BigDecimal balanceBigDecimal = new BigDecimal(userassets.getBalance());
+		balanceBigDecimal = balanceBigDecimal.add(bigDecimal);
+		userassets.setBalance(balanceBigDecimal.toString());// 更新余额
+		Receiptpay receiptpay = new Receiptpay();
+		receiptpay.setDealtype(dealtype);
+		receiptpay.setUserid(userId);
+		receiptpay.setBenefit(benegit);
+		receiptpay.setAmount(bigDecimal);
+		receiptpay.setHappendate("发生时间");
+		receiptpay.setDealstate(dealstate);
+		receiptpay.setCreator("SYSTEM");
+		receiptpay.setCreatedate("创建时间");
+		receiptpayRepository.save(receiptpay);
+	}
 
-    @Override
-    public Result createOrder(CreateOrderDTO createOrderDTO) {
-        String orderCode = FinalUtil.createTradeNo(createOrderDTO.getType());
-        Userorder userorder = new Userorder();
-        userorder.setUserid(createOrderDTO.getUserId());
-        userorder.setOrdercode(orderCode);
-        userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_PAY);
-        userorder.setSum(new BigDecimal(createOrderDTO.getSum()));
-        return null;
-    }
-    
-    public String merchantPayment(String userid,String money,String merchantid, Integer concession,Integer rebate) {
-    	String thisDate = DateUtils.getDateForNow();
-        //1.先创建订单信息
-        Userorder userorder = new Userorder();
-        String orderCode = FinalUtil.createTradeNo(RandomStringUtils.randomAlphanumeric(32));
-        userorder.setUserid(userid);
-        userorder.setSum(new BigDecimal(money));//设置金额
-        userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_PAY);//设置待支付
-        userorder.setOrdercode(orderCode);
-        userorder.setPayee(merchantid);
-        userorder.setPayway(OrderConstant.ALI_PAY);
-        userorder.setConcession(concession);
-        userorder.setRebate(rebate);
-        userorder.setCreator(userid);
-        userorder.setCreatedate(thisDate);
-        userorder.setModifier(userid);
-        userorder.setModifierdate(thisDate);
-        userorder = userorderRepository.save(userorder);
-        if (userorder.getId()!=null&&userorder.getId()>0) {
-        	String subject = "圆积分消费,祝你生活愉快.";//订单名称字段暂时没有，等待加入
-        	String address = "http://app.yuanscore.com/?result="+userorder.getOrdercode();
-        	return AlipayUtil.alipay(userorder.getOrdercode(), subject, userorder.getSum(), address);
-        }else {
-        	return "订单生成错误";
-        }
-    }
+	@Override
+	public Result createOrder(CreateOrderDTO createOrderDTO) {
+		String orderCode = FinalUtil.createTradeNo(createOrderDTO.getType());
+		Userorder userorder = new Userorder();
+		userorder.setUserid(createOrderDTO.getUserId());
+		userorder.setOrdercode(orderCode);
+		userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_PAY);
+		userorder.setSum(new BigDecimal(createOrderDTO.getSum()));
+		return null;
+	}
+
+	public String merchantPayment(String authCode, String money, String merchantid, Integer concession,
+			Integer rebate, String name) {
+		String thisDate = DateUtils.getDateForNow();
+		AlipaySystemOauthTokenResponse userInfo = AlipayUtil.getUserInfo(authCode);
+		if (userInfo == null)
+			return "获取支付宝会员信息失败";
+		Linkaccount linkaccount = rewrite_LinkaccountRepository.findFirstByAccounttypeAndToken("支付宝", userInfo.getUserId());// 判断系统是否有这个支付宝
+		if (linkaccount == null)
+			return "获取支付宝会员信息失败";
+		// 1.先创建订单信息
+		Userorder userorder = new Userorder();
+		userorder.setUserid(linkaccount.getUserid());
+		userorder.setSum(new BigDecimal(money));// 设置金额
+		userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_PAY);// 设置待支付
+		userorder.setOrdercode(RandomStringUtils.randomAlphanumeric(32));
+		userorder.setPayee(merchantid);
+		userorder.setPayway(OrderConstant.ALI_PAY);
+		userorder.setConcession(concession);
+		userorder.setRebate(rebate);
+		userorder.setCreator(linkaccount.getUserid());
+		userorder.setCreatedate(thisDate);
+		userorder.setModifier(linkaccount.getUserid());
+		userorder.setModifierdate(thisDate);
+		userorder = userorderRepository.save(userorder);
+		if (userorder.getId() != null && userorder.getId() > 0) {
+			String subject = name;// 订单名称字段暂时没有，等待加入
+			String address = "http://app.yuanscore.com/?result=" + userorder.getOrdercode();
+			return AlipayUtil.alipay(userorder.getOrdercode(), subject, userorder.getSum(), address);
+		} else {
+			return "订单生成错误";
+		}
+	}
 }

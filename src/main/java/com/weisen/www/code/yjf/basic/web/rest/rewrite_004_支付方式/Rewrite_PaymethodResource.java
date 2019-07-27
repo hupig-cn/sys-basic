@@ -1,9 +1,9 @@
 package com.weisen.www.code.yjf.basic.web.rest.rewrite_004_支付方式;
 
-import com.weisen.www.code.yjf.basic.domain.Paymethod;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_PaymethodRepository;
 import com.weisen.www.code.yjf.basic.service.dto.PaymethodDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_PaymethodService;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitPayMethodDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.Api;
@@ -12,10 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -65,12 +67,12 @@ public class Rewrite_PaymethodResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
-    @GetMapping("/get-paymethods")
+    @PostMapping("/get-paymethods")
     @ApiOperation("获取支付方式")
-    public ResponseEntity<?> getPaymethods(String os,Boolean online) throws URISyntaxException {
+    public ResponseEntity<?> getPaymethods(@RequestBody Rewrite_submitPayMethodDTO rewrite_submitPayMethodDTO) throws URISyntaxException {
         //名称,顺序,终端位置,线上还是线下,提示消息,创建者
-        List<Paymethod> all = rewrite_paymethodRepository.findPaymethod();
+        Result result = paymethodService.getPayMethod(rewrite_submitPayMethodDTO);
 //        Result result = paymethodService.getPayMethod(os,online);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(all));
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 }

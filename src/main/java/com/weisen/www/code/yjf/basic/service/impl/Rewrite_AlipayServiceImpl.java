@@ -1,7 +1,6 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,10 +10,12 @@ import com.weisen.www.code.yjf.basic.domain.Linkaccount;
 import com.weisen.www.code.yjf.basic.domain.Linkuser;
 import com.weisen.www.code.yjf.basic.domain.Userassets;
 import com.weisen.www.code.yjf.basic.domain.Userlinkuser;
+import com.weisen.www.code.yjf.basic.domain.Userlocation;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkaccountRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserassetsRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlocationRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_AlipayService;
 import com.weisen.www.code.yjf.basic.util.AlipayUtil;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
@@ -26,6 +27,8 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 	private final Rewrite_LinkaccountRepository rewrite_LinkaccountRepository;
 
 	private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
+	
+	private final Rewrite_UserlocationRepository rewrite_UserlocationRepository;
 
 	private final Rewrite_UserassetsRepository rewrite_UserassetsRepository;
 
@@ -34,11 +37,13 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 	public Rewrite_AlipayServiceImpl(Rewrite_LinkaccountRepository rewrite_LinkaccountRepository,
 			Rewrite_LinkuserRepository rewrite_LinkuserRepository,
 			Rewrite_UserassetsRepository rewrite_UserassetsRepository,
-			Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository) {
+			Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository,
+			Rewrite_UserlocationRepository rewrite_UserlocationRepository) {
 		this.rewrite_LinkaccountRepository = rewrite_LinkaccountRepository;
 		this.rewrite_LinkuserRepository = rewrite_LinkuserRepository;
 		this.rewrite_UserassetsRepository = rewrite_UserassetsRepository;
 		this.rewrite_UserlinkuserRepository = rewrite_UserlinkuserRepository;
+		this.rewrite_UserlocationRepository = rewrite_UserlocationRepository;
 	}
 
 	@Override
@@ -59,7 +64,7 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 		String id = "0";
 		if (linkaccount != null) {
 			Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(linkaccount.getUserid());
-			if (null != linkuser && null != linkuser.getPhone()) {
+			if (null != linkuser && null != linkuser.getPhone() && !"".equals(linkuser.getPhone())) {
 				if (linkaccount.getUserid().equals(userid)) {
 					return "已绑定，请勿重复操作";
 				} else {
@@ -88,6 +93,13 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 					recommendr = userlinkuser.getRecommendid();
 					recommenddate = userlinkuser.getModifierdate();
 					rewrite_UserlinkuserRepository.delete(userlinkuser);// 拿出推荐人
+				}
+				Userlocation userlocation = rewrite_UserlocationRepository.findByUserid(linkuser.getUserid());
+				if (null != userlocation) {
+					rewrite_UserlocationRepository.delete(userlocation);//删除用户位置信息
+				}
+				if (null != linkuser) {
+					rewrite_LinkuserRepository.delete(linkuser);//删除用户附加信息
 				}
 			}
 			rewrite_LinkaccountRepository.delete(linkaccount);// 用完删除这个用户的支付宝账户
@@ -161,7 +173,7 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 		String alipayUserId = userInfo.getUserId();
 		Linkaccount linkaccount = rewrite_LinkaccountRepository.findFirstByAccounttypeAndToken("支付宝", alipayUserId);// 判断系统是否有这个支付宝
 		if (linkaccount != null) {
-			return "用户存在"+linkaccount.getUserid();
+			return "用户存在";
 		} else {
 			return alipayUserId;
 		}

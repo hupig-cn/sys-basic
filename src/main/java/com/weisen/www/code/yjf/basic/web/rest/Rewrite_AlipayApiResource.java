@@ -72,9 +72,9 @@ public class Rewrite_AlipayApiResource {
 
 	@GetMapping("/public/merchantPayment")
 	@ApiOperation(value = "根据金额生成随机订单,用于支付宝")
-	public String merchantPayment(@RequestParam String userid, String money, String merchantid,
-			Integer concession, Integer rebate) {
-		return userorderService.merchantPayment(userid, money, merchantid, concession, rebate);
+	public String merchantPayment(@RequestParam String authCode, String money, String merchantid,
+			Integer concession, Integer rebate, String name) {
+		return userorderService.merchantPayment(authCode, money, merchantid, concession, rebate, name);
 	}
 
 	/**
