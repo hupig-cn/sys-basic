@@ -200,6 +200,13 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         // ** 先给支付者方面分销 推荐人，千分之5 ，合伙人，千分之4 合伙人没有需要无限层往上找
         // 付款人关系
         Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getUserid());
+
+        // 如何付款用户没有推荐人，把给第一个付款的商家用户自动绑定
+        if(userlinkuser.getRecommendid() ==null && !"".equals(userlinkuser.getRecommendid())){
+            userlinkuser.setRecommendid(userorder.getPayee());
+            userlinkuser = rewrite_UserlinkuserRepository.saveAndFlush(userlinkuser);
+        }
+
         // 支付者推荐人分销
         if(userlinkuser.getRecommendid() != null && !"".equals(userlinkuser.getRecommendid()) ){
             BigDecimal mBigPrice = new BigDecimal(rewrite_DistributionDTO.getAmount());
@@ -246,12 +253,6 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 mPrice = mPrice.multiply(kma).setScale(3, BigDecimal.ROUND_HALF_UP);
                 craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),kid,mPrice);
             }
-            // 如何付款用户没有推荐人，把给第一个付款的商家用户自动绑定
-            if(userlinkuser.getRecommendid() ==null && !"".equals(payeeuserlinkuser.getRecommendid())){
-                userlinkuser.setRecommendid(userorder.getPayee());
-                rewrite_UserlinkuserRepository.saveAndFlush(userlinkuser);
-            }
-
 
             //分配积分，
             if(userorder.getPayee() != null && !"".equals(userorder.getPayee())){ // 线下
