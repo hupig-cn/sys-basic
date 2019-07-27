@@ -67,7 +67,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190727030728",
+    "changelogDate": "20190727104926",
     "entityTableName": "receiptpay",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

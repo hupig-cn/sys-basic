@@ -9,11 +9,9 @@ public class UsercardDTO implements Serializable {
 
     private Long id;
 
-    private String userid;
+    private String bankname;
 
-    private String cardtype;
-
-    private String belong;
+    private String logo;
 
     private String bank;
 
@@ -42,28 +40,20 @@ public class UsercardDTO implements Serializable {
         this.id = id;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getBankname() {
+        return bankname;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setBankname(String bankname) {
+        this.bankname = bankname;
     }
 
-    public String getCardtype() {
-        return cardtype;
+    public String getLogo() {
+        return logo;
     }
 
-    public void setCardtype(String cardtype) {
-        this.cardtype = cardtype;
-    }
-
-    public String getBelong() {
-        return belong;
-    }
-
-    public void setBelong(String belong) {
-        this.belong = belong;
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 
     public String getBank() {
@@ -163,9 +153,8 @@ public class UsercardDTO implements Serializable {
     public String toString() {
         return "UsercardDTO{" +
             "id=" + getId() +
-            ", userid='" + getUserid() + "'" +
-            ", cardtype='" + getCardtype() + "'" +
-            ", belong='" + getBelong() + "'" +
+            ", bankname='" + getBankname() + "'" +
+            ", logo='" + getLogo() + "'" +
             ", bank='" + getBank() + "'" +
             ", cardnum='" + getCardnum() + "'" +
             ", creator='" + getCreator() + "'" +

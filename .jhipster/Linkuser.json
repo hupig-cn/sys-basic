@@ -83,7 +83,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190727030712",
+    "changelogDate": "20190727104910",
     "entityTableName": "linkuser",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

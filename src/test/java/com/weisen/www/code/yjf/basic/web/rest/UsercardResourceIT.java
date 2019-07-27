@@ -37,14 +37,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = {SecurityBeanOverrideConfiguration.class, BasicApp.class})
 public class UsercardResourceIT {
 
-    private static final String DEFAULT_USERID = "AAAAAAAAAA";
-    private static final String UPDATED_USERID = "BBBBBBBBBB";
+    private static final String DEFAULT_BANKNAME = "AAAAAAAAAA";
+    private static final String UPDATED_BANKNAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_CARDTYPE = "AAAAAAAAAA";
-    private static final String UPDATED_CARDTYPE = "BBBBBBBBBB";
-
-    private static final String DEFAULT_BELONG = "AAAAAAAAAA";
-    private static final String UPDATED_BELONG = "BBBBBBBBBB";
+    private static final String DEFAULT_LOGO = "AAAAAAAAAA";
+    private static final String UPDATED_LOGO = "BBBBBBBBBB";
 
     private static final String DEFAULT_BANK = "AAAAAAAAAA";
     private static final String UPDATED_BANK = "BBBBBBBBBB";
@@ -121,9 +118,8 @@ public class UsercardResourceIT {
      */
     public static Usercard createEntity(EntityManager em) {
         Usercard usercard = new Usercard()
-            .userid(DEFAULT_USERID)
-            .cardtype(DEFAULT_CARDTYPE)
-            .belong(DEFAULT_BELONG)
+            .bankname(DEFAULT_BANKNAME)
+            .logo(DEFAULT_LOGO)
             .bank(DEFAULT_BANK)
             .cardnum(DEFAULT_CARDNUM)
             .creator(DEFAULT_CREATOR)
@@ -143,9 +139,8 @@ public class UsercardResourceIT {
      */
     public static Usercard createUpdatedEntity(EntityManager em) {
         Usercard usercard = new Usercard()
-            .userid(UPDATED_USERID)
-            .cardtype(UPDATED_CARDTYPE)
-            .belong(UPDATED_BELONG)
+            .bankname(UPDATED_BANKNAME)
+            .logo(UPDATED_LOGO)
             .bank(UPDATED_BANK)
             .cardnum(UPDATED_CARDNUM)
             .creator(UPDATED_CREATOR)
@@ -179,9 +174,8 @@ public class UsercardResourceIT {
         List<Usercard> usercardList = usercardRepository.findAll();
         assertThat(usercardList).hasSize(databaseSizeBeforeCreate + 1);
         Usercard testUsercard = usercardList.get(usercardList.size() - 1);
-        assertThat(testUsercard.getUserid()).isEqualTo(DEFAULT_USERID);
-        assertThat(testUsercard.getCardtype()).isEqualTo(DEFAULT_CARDTYPE);
-        assertThat(testUsercard.getBelong()).isEqualTo(DEFAULT_BELONG);
+        assertThat(testUsercard.getBankname()).isEqualTo(DEFAULT_BANKNAME);
+        assertThat(testUsercard.getLogo()).isEqualTo(DEFAULT_LOGO);
         assertThat(testUsercard.getBank()).isEqualTo(DEFAULT_BANK);
         assertThat(testUsercard.getCardnum()).isEqualTo(DEFAULT_CARDNUM);
         assertThat(testUsercard.getCreator()).isEqualTo(DEFAULT_CREATOR);
@@ -225,9 +219,8 @@ public class UsercardResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(usercard.getId().intValue())))
-            .andExpect(jsonPath("$.[*].userid").value(hasItem(DEFAULT_USERID.toString())))
-            .andExpect(jsonPath("$.[*].cardtype").value(hasItem(DEFAULT_CARDTYPE.toString())))
-            .andExpect(jsonPath("$.[*].belong").value(hasItem(DEFAULT_BELONG.toString())))
+            .andExpect(jsonPath("$.[*].bankname").value(hasItem(DEFAULT_BANKNAME.toString())))
+            .andExpect(jsonPath("$.[*].logo").value(hasItem(DEFAULT_LOGO.toString())))
             .andExpect(jsonPath("$.[*].bank").value(hasItem(DEFAULT_BANK.toString())))
             .andExpect(jsonPath("$.[*].cardnum").value(hasItem(DEFAULT_CARDNUM.toString())))
             .andExpect(jsonPath("$.[*].creator").value(hasItem(DEFAULT_CREATOR.toString())))
@@ -250,9 +243,8 @@ public class UsercardResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(usercard.getId().intValue()))
-            .andExpect(jsonPath("$.userid").value(DEFAULT_USERID.toString()))
-            .andExpect(jsonPath("$.cardtype").value(DEFAULT_CARDTYPE.toString()))
-            .andExpect(jsonPath("$.belong").value(DEFAULT_BELONG.toString()))
+            .andExpect(jsonPath("$.bankname").value(DEFAULT_BANKNAME.toString()))
+            .andExpect(jsonPath("$.logo").value(DEFAULT_LOGO.toString()))
             .andExpect(jsonPath("$.bank").value(DEFAULT_BANK.toString()))
             .andExpect(jsonPath("$.cardnum").value(DEFAULT_CARDNUM.toString()))
             .andExpect(jsonPath("$.creator").value(DEFAULT_CREATOR.toString()))
@@ -285,9 +277,8 @@ public class UsercardResourceIT {
         // Disconnect from session so that the updates on updatedUsercard are not directly saved in db
         em.detach(updatedUsercard);
         updatedUsercard
-            .userid(UPDATED_USERID)
-            .cardtype(UPDATED_CARDTYPE)
-            .belong(UPDATED_BELONG)
+            .bankname(UPDATED_BANKNAME)
+            .logo(UPDATED_LOGO)
             .bank(UPDATED_BANK)
             .cardnum(UPDATED_CARDNUM)
             .creator(UPDATED_CREATOR)
@@ -308,9 +299,8 @@ public class UsercardResourceIT {
         List<Usercard> usercardList = usercardRepository.findAll();
         assertThat(usercardList).hasSize(databaseSizeBeforeUpdate);
         Usercard testUsercard = usercardList.get(usercardList.size() - 1);
-        assertThat(testUsercard.getUserid()).isEqualTo(UPDATED_USERID);
-        assertThat(testUsercard.getCardtype()).isEqualTo(UPDATED_CARDTYPE);
-        assertThat(testUsercard.getBelong()).isEqualTo(UPDATED_BELONG);
+        assertThat(testUsercard.getBankname()).isEqualTo(UPDATED_BANKNAME);
+        assertThat(testUsercard.getLogo()).isEqualTo(UPDATED_LOGO);
         assertThat(testUsercard.getBank()).isEqualTo(UPDATED_BANK);
         assertThat(testUsercard.getCardnum()).isEqualTo(UPDATED_CARDNUM);
         assertThat(testUsercard.getCreator()).isEqualTo(UPDATED_CREATOR);

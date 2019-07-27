@@ -20,14 +20,11 @@ public class Usercard implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "userid")
-    private String userid;
+    @Column(name = "bankname")
+    private String bankname;
 
-    @Column(name = "cardtype")
-    private String cardtype;
-
-    @Column(name = "belong")
-    private String belong;
+    @Column(name = "logo")
+    private String logo;
 
     @Column(name = "bank")
     private String bank;
@@ -65,43 +62,30 @@ public class Usercard implements Serializable {
         this.id = id;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getBankname() {
+        return bankname;
     }
 
-    public Usercard userid(String userid) {
-        this.userid = userid;
+    public Usercard bankname(String bankname) {
+        this.bankname = bankname;
         return this;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setBankname(String bankname) {
+        this.bankname = bankname;
     }
 
-    public String getCardtype() {
-        return cardtype;
+    public String getLogo() {
+        return logo;
     }
 
-    public Usercard cardtype(String cardtype) {
-        this.cardtype = cardtype;
+    public Usercard logo(String logo) {
+        this.logo = logo;
         return this;
     }
 
-    public void setCardtype(String cardtype) {
-        this.cardtype = cardtype;
-    }
-
-    public String getBelong() {
-        return belong;
-    }
-
-    public Usercard belong(String belong) {
-        this.belong = belong;
-        return this;
-    }
-
-    public void setBelong(String belong) {
-        this.belong = belong;
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 
     public String getBank() {
@@ -242,9 +226,8 @@ public class Usercard implements Serializable {
     public String toString() {
         return "Usercard{" +
             "id=" + getId() +
-            ", userid='" + getUserid() + "'" +
-            ", cardtype='" + getCardtype() + "'" +
-            ", belong='" + getBelong() + "'" +
+            ", bankname='" + getBankname() + "'" +
+            ", logo='" + getLogo() + "'" +
             ", bank='" + getBank() + "'" +
             ", cardnum='" + getCardnum() + "'" +
             ", creator='" + getCreator() + "'" +
