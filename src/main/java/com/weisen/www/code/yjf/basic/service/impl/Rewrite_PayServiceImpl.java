@@ -101,8 +101,8 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpayRepository.save(receiptpay);
 
         //更新我的资产
-        userassets.setUsablebalance(new BigDecimal(Double.parseDouble(userassets.getUsablebalance())).subtract(userorder.getSum()).setScale(3).toString());
-        userassets.setBalance(new BigDecimal(Double.parseDouble(userassets.getBalance())).subtract(userorder.getSum()).setScale(3).toString());
+        userassets.setUsablebalance((new BigDecimal(userassets.getUsablebalance()).subtract(userorder.getSum())).setScale(3).toString());
+        userassets.setBalance((new BigDecimal(userassets.getBalance()).subtract(userorder.getSum())).setScale(3).toString());
         userassetsRepository.save(userassets);
 
         Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId(),userorder.getPayway());
