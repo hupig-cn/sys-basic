@@ -45,11 +45,11 @@ public class Rewrite_UserbankcardResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
-    @PostMapping("/deleteBackCard/{userId}")
+    @PostMapping("/deleteBackCard/{bankcardId}")
     @ApiOperation(value = "用户删除银行卡")
-    public ResponseEntity<Result> deleteBackCard(@PathVariable Long userId) {
-        log.debug("REST request to get deleteBackCard : {}", userId);
-        Result result = Rewrite_UserbankcardService.deleteBackCard(userId);
+    public ResponseEntity<Result> deleteBackCard(@PathVariable Long bankcardId) {
+        log.debug("REST request to get deleteBackCard : {}", bankcardId);
+        Result result = Rewrite_UserbankcardService.deleteBackCard(bankcardId);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 

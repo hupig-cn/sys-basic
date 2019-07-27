@@ -1,32 +1,28 @@
 {
-    "name": "Userbankcard",
+    "name": "Withdrawaldetails",
     "fields": [
         {
             "fieldName": "userid",
             "fieldType": "String"
         },
         {
-            "fieldName": "realname",
+            "fieldName": "withdrawalway",
             "fieldType": "String"
         },
         {
-            "fieldName": "bankcard",
+            "fieldName": "withdrawalid",
             "fieldType": "String"
         },
         {
-            "fieldName": "banktype",
+            "fieldName": "type",
             "fieldType": "String"
         },
         {
-            "fieldName": "cardtype",
+            "fieldName": "amount",
             "fieldType": "String"
         },
         {
-            "fieldName": "bankicon",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "bankphone",
+            "fieldName": "afteramount",
             "fieldType": "String"
         },
         {
@@ -34,33 +30,17 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "modifier",
-            "fieldType": "String"
-        },
-        {
             "fieldName": "modifierdate",
             "fieldType": "String"
         },
         {
-            "fieldName": "modifiernum",
-            "fieldType": "Long"
-        },
-        {
             "fieldName": "state",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "logicdelete",
-            "fieldType": "Boolean"
-        },
-        {
-            "fieldName": "other",
             "fieldType": "String"
         }
     ],
     "relationships": [],
-    "changelogDate": "20190727172053",
-    "entityTableName": "userbankcard",
+    "changelogDate": "20190727172055",
+    "entityTableName": "withdrawaldetails",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
     "service": "serviceImpl",

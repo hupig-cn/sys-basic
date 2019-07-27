@@ -115,20 +115,20 @@ entity Coupon {// 优惠卷表
 }
 
 entity Userbankcard {// 用户银行卡表
-    userid String,// 银行卡用户id
+    userid String,// 银行卡用户id （所属的用户id）
     realname String,// 银行卡姓名
-    bankcard String,// 银行卡卡号
-    banktype String ,// 所属银行
-    cardtype String,// 银行类型
+    bankcard String,// 银行卡卡号（银行账号）
+    banktype String ,// 所属银行（开户银行）
+    cardtype String,// 银行类型 （不传）
     bankicon String,// 银行卡图标
     bankphone String, // 银行卡手机号
-    createdate String,// 申请时间
-    modifier String,// 修改者
-    modifierdate String,// 修改日期
-    modifiernum Long,// 修改次数
-    state String, // 状态
-    logicdelete Boolean,// 删除
-    other String// 备注
+    createdate String,// 申请时间 （不传）
+    modifier String,// 修改者 （不传）
+    modifierdate String,// 修改日期 （不传）
+    modifiernum Long,// 修改次数 （不传）
+    state String, // 状态 （不传）
+    logicdelete Boolean,// 删除（不传）
+    other String// 备注 （不传）
 }
 
 entity Withdrawal {// 提现表
@@ -145,6 +145,18 @@ entity Withdrawal {// 提现表
     modifiernum Long,// 修改次数
     logicdelete Boolean,// 删除
     other String// 备注
+}
+
+entity Withdrawaldetails { // 提现表明细表
+    userid String , // 用户
+    withdrawalway String , // 提现方式
+    withdrawalid String , // 提现表id  关联信息
+    type String , // 明细类型
+    amount String , // 本次明细产生的金额
+    afteramount String , // 产生后的金额
+    createdate String , // 创建时间
+    modifierdate String,// 修改日期（审批时间）
+    state String // 状态
 }
 
 entity Paymethod {// 支付方式表

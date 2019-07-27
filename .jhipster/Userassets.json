@@ -55,7 +55,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190727141332",
+    "changelogDate": "20190727172051",
     "entityTableName": "userassets",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

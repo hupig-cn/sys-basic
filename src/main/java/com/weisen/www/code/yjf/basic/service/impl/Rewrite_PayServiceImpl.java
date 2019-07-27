@@ -95,7 +95,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         userassets.setBalance(new BigDecimal(Double.parseDouble(userassets.getBalance())).subtract(userorder.getSum()).toString());
         userassetsRepository.save(userassets);
 
-        Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId(),userorder.getPayway(),rewrite_PayDTO.getConcession(),rewrite_PayDTO.getRebate());
+        Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId(),userorder.getPayway());
         distribution(rewrite_DistributionDTO);
 
         return Result.suc("支付成功");
@@ -231,7 +231,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         if(userorder.getPayee() != null && !"".equals(userorder.getPayee())){
             BigDecimal am = new BigDecimal(rewrite_DistributionDTO.getAmount());
             BigDecimal mBigPrice = new BigDecimal(rewrite_DistributionDTO.getAmount());
-            BigDecimal ma = new BigDecimal(rewrite_DistributionDTO.getConcession());
+            BigDecimal ma = new BigDecimal(userorder.getConcession());
             ma = ma.divide(new BigDecimal("100"));
             mBigPrice = mBigPrice.multiply(ma).setScale(3, BigDecimal.ROUND_HALF_UP);
             mBigPrice = am.subtract(mBigPrice);

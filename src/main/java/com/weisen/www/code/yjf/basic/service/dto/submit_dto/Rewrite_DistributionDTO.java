@@ -12,12 +12,10 @@ public class Rewrite_DistributionDTO {
 
     private String rebate; // 返积分比例
 
-    public Rewrite_DistributionDTO(String amount,Long orderId,String payWay,String concession,String rebate){
+    public Rewrite_DistributionDTO(String amount,Long orderId,String payWay){
         this.amount = amount;
         this.orderId = orderId;
         this.payWay = payWay;
-        this.concession = concession;
-        this.rebate = rebate;
 
     }
 
