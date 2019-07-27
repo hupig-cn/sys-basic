@@ -114,7 +114,7 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 						userlinkuser.setOther("支付宝");
 					}
 				}
-			} else if (userlinkuser != null && userlinkuser.getRecommendid() == null) {// app没有推荐人，但是有数据
+			} else if (null != userlinkuser && null != userlinkuser.getRecommendid() && !"".equals(userlinkuser.getRecommendid())) {// app没有推荐人，但是有数据
 				userlinkuser.setRecommendid(recommendr);
 				userlinkuser.setModifierdate(recommenddate);
 				userlinkuser.setOther("支付宝");
