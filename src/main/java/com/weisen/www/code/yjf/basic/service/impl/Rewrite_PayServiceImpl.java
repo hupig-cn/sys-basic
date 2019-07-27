@@ -200,7 +200,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getUserid());
 
         // 如何付款用户没有推荐人，把给第一个付款的商家用户自动绑定
-        if(userlinkuser.getRecommendid() ==null && !"".equals(userlinkuser.getRecommendid())){
+        if(userlinkuser.getRecommendid() ==null || "".equals(userlinkuser.getRecommendid())){
             userlinkuser.setRecommendid(userorder.getPayee());
             userlinkuser = rewrite_UserlinkuserRepository.saveAndFlush(userlinkuser);
         }
@@ -220,7 +220,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             BigDecimal ma = new BigDecimal("4");
             ma = ma.divide(new BigDecimal("1000"));
             mBigPrice = mBigPrice.multiply(ma).setScale(3, BigDecimal.ROUND_HALF_UP);
-            craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),id,mBigPrice);
+            craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_PER,userorder.getUserid(),id,mBigPrice);
         }
         // 上面支付者的分销分完了  下面如果有收款方 还需要再分一轮
         if(userorder.getPayee() != null && !"".equals(userorder.getPayee())){
@@ -232,7 +232,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             mBigPrice = am.subtract(mBigPrice);
             craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME,userorder.getUserid(),userorder.getPayee(),mBigPrice);
 
-            Userlinkuser payeeuserlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getUserid());
+            Userlinkuser payeeuserlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getPayee());
 
             // 收款方推荐人分销
             if(payeeuserlinkuser.getRecommendid() != null && !"".equals(payeeuserlinkuser.getRecommendid())){
@@ -240,7 +240,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 BigDecimal kma = new BigDecimal("5");
                 kma = kma.divide(new BigDecimal("1000"));
                 mPrice = mPrice.multiply(kma).setScale(3, BigDecimal.ROUND_HALF_UP);
-                craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),payeeuserlinkuser.getRecommendid(),mPrice);
+                craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getPayee(),payeeuserlinkuser.getRecommendid(),mPrice);
             }
             // 是否有合伙人
             String kid = findPartner(payeeuserlinkuser.getRecommendid());
@@ -249,7 +249,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 BigDecimal kma = new BigDecimal("4");
                 kma = kma.divide(new BigDecimal("1000"));
                 mPrice = mPrice.multiply(kma).setScale(3, BigDecimal.ROUND_HALF_UP);
-                craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),kid,mPrice);
+                craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_PER,userorder.getPayee(),kid,mPrice);
             }
 
             //分配积分，
@@ -307,17 +307,19 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         BigDecimal mPrice = amount;
         BigDecimal kma = new BigDecimal(percentage);
         kma = kma.divide(new BigDecimal("100"));
-        mPrice = mPrice.multiply(kma).setScale(2, BigDecimal.ROUND_HALF_UP);
+        mPrice = mPrice.multiply(kma).setScale(3, BigDecimal.ROUND_HALF_UP);
 
         Userassets userassets = userassetsRepository.findByUserId(userId);
         BigDecimal am = new BigDecimal(userassets.getIntegral());
+        BigDecimal sum = mPrice;
+
         mPrice = am.add(mPrice);
         userassets.setIntegral(mPrice.toString());
         userassetsRepository.saveAndFlush(userassets);
 
         Receiptpay receiptpay = new Receiptpay();
-        receiptpay.setAmount(mPrice);
-        receiptpay.dealstate(ReceiptpayConstant.INTEGRAL_GET); // 积分收入
+        receiptpay.setAmount(sum);
+        receiptpay.setDealtype(ReceiptpayConstant.INTEGRAL_GET); // 积分收入
         receiptpay.setUserid(userId);
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);
@@ -328,17 +330,19 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         BigDecimal mPrice = amount;
         BigDecimal kma = new BigDecimal(percentage);
         kma = kma.divide(new BigDecimal("100"));
-        mPrice = mPrice.multiply(kma).setScale(2, BigDecimal.ROUND_HALF_UP);
+        mPrice = mPrice.multiply(kma).setScale(3, BigDecimal.ROUND_HALF_UP);
 
         Userassets userassets = userassetsRepository.findByUserId(userId);
         BigDecimal am = new BigDecimal(userassets.getCouponsum());
+        BigDecimal sum = mPrice;
+
         mPrice = am.add(mPrice);
         userassets.setCouponsum(mPrice.toString());
         userassetsRepository.saveAndFlush(userassets);
 
         Receiptpay receiptpay = new Receiptpay();
-        receiptpay.setAmount(mPrice);
-        receiptpay.dealstate(ReceiptpayConstant.COUPON_GET); // 优惠券收入
+        receiptpay.setAmount(sum);
+        receiptpay.setDealtype(ReceiptpayConstant.COUPON_GET); // 优惠券收入
         receiptpay.setUserid(userId);
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);
