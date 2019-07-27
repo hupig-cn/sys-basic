@@ -98,7 +98,7 @@ public class Rewrite_AlipayApiResource {
 	 * @param response
 	 * @return
 	 */
-	@GetMapping("/public/notify")
+	@PostMapping("/public/notify")
 	@ApiOperation(value = "异步地址")
 	public void notifyMessage(HttpServletRequest request, HttpServletResponse response) {
 		log.debug("回调地址");
