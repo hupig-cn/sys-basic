@@ -49,5 +49,5 @@ public class AlipayConstants {
 
     public static final String RETURN_URL = "http://app.yuanscore.com:8081";
     //测试支付完成后返回地址
-    public static final String NOTIFY_URL = "http://app.yuanscore.com/services/basic/api/public/notify";
+    public static final String NOTIFY_URL = "http://app.yuanscore.com:9090/api/public/notify";
 }
