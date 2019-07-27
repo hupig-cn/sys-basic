@@ -234,7 +234,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             mBigPrice = am.subtract(mBigPrice);
             craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME,userorder.getUserid(),userorder.getPayee(),mBigPrice);
 
-            Userlinkuser payeeuserlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getUserid());
+            Userlinkuser payeeuserlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getPayee());
 
             // 收款方推荐人分销
             if(payeeuserlinkuser.getRecommendid() != null && !"".equals(payeeuserlinkuser.getRecommendid())){
@@ -242,7 +242,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 BigDecimal kma = new BigDecimal("5");
                 kma = kma.divide(new BigDecimal("1000"));
                 mPrice = mPrice.multiply(kma).setScale(3, BigDecimal.ROUND_HALF_UP);
-                craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),payeeuserlinkuser.getRecommendid(),mPrice);
+                craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getPayee(),payeeuserlinkuser.getRecommendid(),mPrice);
             }
             // 是否有合伙人
             String kid = findPartner(payeeuserlinkuser.getRecommendid());
@@ -251,7 +251,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 BigDecimal kma = new BigDecimal("4");
                 kma = kma.divide(new BigDecimal("1000"));
                 mPrice = mPrice.multiply(kma).setScale(3, BigDecimal.ROUND_HALF_UP);
-                craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),kid,mPrice);
+                craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getPayee(),kid,mPrice);
             }
 
             //分配积分，
@@ -309,7 +309,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         BigDecimal mPrice = amount;
         BigDecimal kma = new BigDecimal(percentage);
         kma = kma.divide(new BigDecimal("100"));
-        mPrice = mPrice.multiply(kma).setScale(2, BigDecimal.ROUND_HALF_UP);
+        mPrice = mPrice.multiply(kma).setScale(3, BigDecimal.ROUND_HALF_UP);
 
         Userassets userassets = userassetsRepository.findByUserId(userId);
         BigDecimal am = new BigDecimal(userassets.getIntegral());
@@ -330,7 +330,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         BigDecimal mPrice = amount;
         BigDecimal kma = new BigDecimal(percentage);
         kma = kma.divide(new BigDecimal("100"));
-        mPrice = mPrice.multiply(kma).setScale(2, BigDecimal.ROUND_HALF_UP);
+        mPrice = mPrice.multiply(kma).setScale(3, BigDecimal.ROUND_HALF_UP);
 
         Userassets userassets = userassetsRepository.findByUserId(userId);
         BigDecimal am = new BigDecimal(userassets.getCouponsum());
