@@ -59,7 +59,7 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 		String id = "0";
 		if (linkaccount != null) {
 			Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(linkaccount.getUserid());
-			if (null != linkuser && null != linkuser.getPhone()) {
+			if (null != linkuser && null != linkuser.getPhone() && !"".equals(linkuser.getPhone())) {
 				if (linkaccount.getUserid().equals(userid)) {
 					return "已绑定，请勿重复操作";
 				} else {
