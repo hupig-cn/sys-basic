@@ -47,6 +47,7 @@ public class Rewrite_UsercardServiceImpl implements Rewrite_UsercardService {
     @Override
     public Result findCardInfo() {
         List<Usercard> list = usercardRepository.findAll();
-        return Result.suc("success",usercardMapper.toDto(list));
+        List<UsercardDTO> dto = usercardMapper.toDto(list);
+        return Result.suc("success",dto);
     }
 }
