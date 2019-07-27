@@ -129,6 +129,7 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 		userassets.setBalance("0");
 		userassets.setUsablebalance("0");
 		userassets.setFrozenbalance("0");
+		userassets.setCouponsum("0");
 		userassets.setIntegral("0");
 		userassets.setCreator(userid);
 		userassets.setCreatedate(thisDate);
