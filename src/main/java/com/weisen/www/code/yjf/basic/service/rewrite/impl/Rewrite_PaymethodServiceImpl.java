@@ -5,6 +5,7 @@ import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_PaymethodReposit
 import com.weisen.www.code.yjf.basic.service.dto.PaymethodDTO;
 import com.weisen.www.code.yjf.basic.service.mapper.PaymethodMapper;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_PaymethodService;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitPayMethodDTO;
 import com.weisen.www.code.yjf.basic.util.CheckUtils;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
@@ -77,16 +78,16 @@ public class Rewrite_PaymethodServiceImpl implements Rewrite_PaymethodService {
         }
     }
 
-
-    public Result getPayMethod(String os, Boolean online) {
-        if (!CheckUtils.checkString(os))
-            return Result.fail();
+    public Result getPayMethod(Rewrite_submitPayMethodDTO rewrite_submitPayMethodDTO) {
+        if (!CheckUtils.checkString(rewrite_submitPayMethodDTO.getOs()))
+            return Result.fail("付款终端错误");
         else {
-            List<Paymethod> payMethodByOsAndOnline = rewrite_paymethodRepository.findPayMethodByOsAndOnline(os, online);
+            List<Paymethod> payMethodByOsAndOnline = rewrite_paymethodRepository.findPayMethodByOsAndOnline(rewrite_submitPayMethodDTO.getOs(), rewrite_submitPayMethodDTO.getOnline());
             if (!CheckUtils.checkList(payMethodByOsAndOnline))
-                return Result.fail();
-            return Result.suc("", payMethodByOsAndOnline);
+                return Result.fail("获取支付方式失败");
+            return Result.suc("获取成功", payMethodByOsAndOnline);
         }
     }
+
 
 }

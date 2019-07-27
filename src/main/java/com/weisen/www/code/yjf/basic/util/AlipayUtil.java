@@ -51,10 +51,9 @@ public class AlipayUtil {
             model.setBody(body); //商品描述，可选字段
             model.setTimeoutExpress(TIMEOUT_VALUE); //支付超时时间
             model.setProductCode(PRODUCT_H5_CODE); //H5支付方式
-            alipayRequest.setReturnUrl(NOTIFY_URL); //回调地址
-            alipayRequest.setNotifyUrl(RETURN_URL + orderId); //支付完成后返回地址
+            alipayRequest.setReturnUrl(RETURN_URL); //支付完成后返回地址
+            alipayRequest.setNotifyUrl(NOTIFY_URL); //回调地址
             alipayRequest.setBizModel(model);
-
             form =  alipayClient.pageExecute(alipayRequest,"get").getBody();
             System.out.println("回调开始");
             System.out.println(form);
