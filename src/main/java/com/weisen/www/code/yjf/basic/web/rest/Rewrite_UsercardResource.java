@@ -34,4 +34,12 @@ public class Rewrite_UsercardResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
+    @GetMapping("/findCardInfo")
+    @ApiOperation(value = "查询所有银行卡信息")
+    public ResponseEntity<Result> findCardInfo() {
+        log.debug("REST request to get findCardInfo : {}");
+        Result result = rewrite_UsercardService.findCardInfo();
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
 }
