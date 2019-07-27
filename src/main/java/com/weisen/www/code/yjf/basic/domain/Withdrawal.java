@@ -32,6 +32,9 @@ public class Withdrawal implements Serializable {
     @Column(name = "gatheringway")
     private String gatheringway;
 
+    @Column(name = "bankcardid")
+    private String bankcardid;
+
     @Column(name = "payee")
     private String payee;
 
@@ -115,6 +118,19 @@ public class Withdrawal implements Serializable {
 
     public void setGatheringway(String gatheringway) {
         this.gatheringway = gatheringway;
+    }
+
+    public String getBankcardid() {
+        return bankcardid;
+    }
+
+    public Withdrawal bankcardid(String bankcardid) {
+        this.bankcardid = bankcardid;
+        return this;
+    }
+
+    public void setBankcardid(String bankcardid) {
+        this.bankcardid = bankcardid;
     }
 
     public String getPayee() {
@@ -246,6 +262,7 @@ public class Withdrawal implements Serializable {
             ", withdrawalamount='" + getWithdrawalamount() + "'" +
             ", withdrawaltype='" + getWithdrawaltype() + "'" +
             ", gatheringway='" + getGatheringway() + "'" +
+            ", bankcardid='" + getBankcardid() + "'" +
             ", payee='" + getPayee() + "'" +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +

@@ -49,6 +49,9 @@ public class WithdrawalResourceIT {
     private static final String DEFAULT_GATHERINGWAY = "AAAAAAAAAA";
     private static final String UPDATED_GATHERINGWAY = "BBBBBBBBBB";
 
+    private static final String DEFAULT_BANKCARDID = "AAAAAAAAAA";
+    private static final String UPDATED_BANKCARDID = "BBBBBBBBBB";
+
     private static final String DEFAULT_PAYEE = "AAAAAAAAAA";
     private static final String UPDATED_PAYEE = "BBBBBBBBBB";
 
@@ -125,6 +128,7 @@ public class WithdrawalResourceIT {
             .withdrawalamount(DEFAULT_WITHDRAWALAMOUNT)
             .withdrawaltype(DEFAULT_WITHDRAWALTYPE)
             .gatheringway(DEFAULT_GATHERINGWAY)
+            .bankcardid(DEFAULT_BANKCARDID)
             .payee(DEFAULT_PAYEE)
             .creator(DEFAULT_CREATOR)
             .createdate(DEFAULT_CREATEDATE)
@@ -147,6 +151,7 @@ public class WithdrawalResourceIT {
             .withdrawalamount(UPDATED_WITHDRAWALAMOUNT)
             .withdrawaltype(UPDATED_WITHDRAWALTYPE)
             .gatheringway(UPDATED_GATHERINGWAY)
+            .bankcardid(UPDATED_BANKCARDID)
             .payee(UPDATED_PAYEE)
             .creator(UPDATED_CREATOR)
             .createdate(UPDATED_CREATEDATE)
@@ -183,6 +188,7 @@ public class WithdrawalResourceIT {
         assertThat(testWithdrawal.getWithdrawalamount()).isEqualTo(DEFAULT_WITHDRAWALAMOUNT);
         assertThat(testWithdrawal.getWithdrawaltype()).isEqualTo(DEFAULT_WITHDRAWALTYPE);
         assertThat(testWithdrawal.getGatheringway()).isEqualTo(DEFAULT_GATHERINGWAY);
+        assertThat(testWithdrawal.getBankcardid()).isEqualTo(DEFAULT_BANKCARDID);
         assertThat(testWithdrawal.getPayee()).isEqualTo(DEFAULT_PAYEE);
         assertThat(testWithdrawal.getCreator()).isEqualTo(DEFAULT_CREATOR);
         assertThat(testWithdrawal.getCreatedate()).isEqualTo(DEFAULT_CREATEDATE);
@@ -229,6 +235,7 @@ public class WithdrawalResourceIT {
             .andExpect(jsonPath("$.[*].withdrawalamount").value(hasItem(DEFAULT_WITHDRAWALAMOUNT.toString())))
             .andExpect(jsonPath("$.[*].withdrawaltype").value(hasItem(DEFAULT_WITHDRAWALTYPE.toString())))
             .andExpect(jsonPath("$.[*].gatheringway").value(hasItem(DEFAULT_GATHERINGWAY.toString())))
+            .andExpect(jsonPath("$.[*].bankcardid").value(hasItem(DEFAULT_BANKCARDID.toString())))
             .andExpect(jsonPath("$.[*].payee").value(hasItem(DEFAULT_PAYEE.toString())))
             .andExpect(jsonPath("$.[*].creator").value(hasItem(DEFAULT_CREATOR.toString())))
             .andExpect(jsonPath("$.[*].createdate").value(hasItem(DEFAULT_CREATEDATE.toString())))
@@ -254,6 +261,7 @@ public class WithdrawalResourceIT {
             .andExpect(jsonPath("$.withdrawalamount").value(DEFAULT_WITHDRAWALAMOUNT.toString()))
             .andExpect(jsonPath("$.withdrawaltype").value(DEFAULT_WITHDRAWALTYPE.toString()))
             .andExpect(jsonPath("$.gatheringway").value(DEFAULT_GATHERINGWAY.toString()))
+            .andExpect(jsonPath("$.bankcardid").value(DEFAULT_BANKCARDID.toString()))
             .andExpect(jsonPath("$.payee").value(DEFAULT_PAYEE.toString()))
             .andExpect(jsonPath("$.creator").value(DEFAULT_CREATOR.toString()))
             .andExpect(jsonPath("$.createdate").value(DEFAULT_CREATEDATE.toString()))
@@ -289,6 +297,7 @@ public class WithdrawalResourceIT {
             .withdrawalamount(UPDATED_WITHDRAWALAMOUNT)
             .withdrawaltype(UPDATED_WITHDRAWALTYPE)
             .gatheringway(UPDATED_GATHERINGWAY)
+            .bankcardid(UPDATED_BANKCARDID)
             .payee(UPDATED_PAYEE)
             .creator(UPDATED_CREATOR)
             .createdate(UPDATED_CREATEDATE)
@@ -312,6 +321,7 @@ public class WithdrawalResourceIT {
         assertThat(testWithdrawal.getWithdrawalamount()).isEqualTo(UPDATED_WITHDRAWALAMOUNT);
         assertThat(testWithdrawal.getWithdrawaltype()).isEqualTo(UPDATED_WITHDRAWALTYPE);
         assertThat(testWithdrawal.getGatheringway()).isEqualTo(UPDATED_GATHERINGWAY);
+        assertThat(testWithdrawal.getBankcardid()).isEqualTo(UPDATED_BANKCARDID);
         assertThat(testWithdrawal.getPayee()).isEqualTo(UPDATED_PAYEE);
         assertThat(testWithdrawal.getCreator()).isEqualTo(UPDATED_CREATOR);
         assertThat(testWithdrawal.getCreatedate()).isEqualTo(UPDATED_CREATEDATE);

@@ -18,4 +18,7 @@ public interface Rewrite_WithdrawalService {
 
     // 获取用户提现信息
     Result getUserInfo(Long id);
+
+    // 获取一条提现数据详细信息
+    Result getWithdrawalInfo(Long withdrawalId);
 }

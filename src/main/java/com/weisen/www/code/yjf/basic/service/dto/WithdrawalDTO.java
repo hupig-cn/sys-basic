@@ -17,6 +17,8 @@ public class WithdrawalDTO implements Serializable {
 
     private String gatheringway;
 
+    private String bankcardid;
+
     private String payee;
 
     private String creator;
@@ -72,6 +74,14 @@ public class WithdrawalDTO implements Serializable {
 
     public void setGatheringway(String gatheringway) {
         this.gatheringway = gatheringway;
+    }
+
+    public String getBankcardid() {
+        return bankcardid;
+    }
+
+    public void setBankcardid(String bankcardid) {
+        this.bankcardid = bankcardid;
     }
 
     public String getPayee() {
@@ -167,6 +177,7 @@ public class WithdrawalDTO implements Serializable {
             ", withdrawalamount='" + getWithdrawalamount() + "'" +
             ", withdrawaltype='" + getWithdrawaltype() + "'" +
             ", gatheringway='" + getGatheringway() + "'" +
+            ", bankcardid='" + getBankcardid() + "'" +
             ", payee='" + getPayee() + "'" +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +

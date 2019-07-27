@@ -136,11 +136,12 @@ entity Withdrawal {// 提现表
     withdrawalamount String,// 提现金额
     withdrawaltype String,// 提现状态
     gatheringway String ,// 提现方式
+    bankcardid String , // 提现银行卡id
     payee String,// 收款人
     creator String,// 创建者
     createdate String,// 申请时间
     modifier String,// 修改者
-    modifierdate String,// 修改日期
+    modifierdate String,// 修改日期（审批时间）
     modifiernum Long,// 修改次数
     logicdelete Boolean,// 删除
     other String// 备注

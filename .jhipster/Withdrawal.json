@@ -18,6 +18,10 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "bankcardid",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "payee",
             "fieldType": "String"
         },
@@ -51,7 +55,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190727104918",
+    "changelogDate": "20190727141335",
     "entityTableName": "withdrawal",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

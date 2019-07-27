@@ -72,7 +72,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 
         // 我的资产
         Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
-        int num = userorder.getSum().compareTo(new BigDecimal(Double.parseDouble(userassets.getUsablebalance())));
+        int num = userorder.getSum().compareTo(new BigDecimal(userassets.getUsablebalance()));
         if( num > 0 ){
             return  Result.fail("您的余额不足");
         }
@@ -118,7 +118,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 
         // 我的资产
         Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
-        int num = Integer.valueOf(userorder.getSum().toString()).compareTo(Integer.valueOf(userassets.getIntegral()));
+        int num = userorder.getSum().compareTo(new BigDecimal(userassets.getIntegral()));
 
         if( num > 0 ){
             return  Result.fail("您的积分不足");
@@ -161,10 +161,10 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 
         // 我的资产
         Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
-        int num = Integer.valueOf(userorder.getSum().toString()).compareTo(Integer.valueOf(userassets.getCouponsum()));
+        int num = userorder.getSum().compareTo(new BigDecimal(userassets.getCouponsum()));
 
         if( num > 0 ){
-            return  Result.fail("您的积分不足");
+            return  Result.fail("您的优惠券不足");
         }
         //翻转订单状态
         userorder.setPayway(OrderConstant.BALANCE_PAY);

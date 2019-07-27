@@ -2,12 +2,15 @@ package com.weisen.www.code.yjf.basic.service.rewrite.impl;
 
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
 import com.weisen.www.code.yjf.basic.domain.Userassets;
+import com.weisen.www.code.yjf.basic.domain.Userbankcard;
 import com.weisen.www.code.yjf.basic.domain.Withdrawal;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserassetsRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_UserbankcardRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_WithdrawalRepository;
 import com.weisen.www.code.yjf.basic.security.SecurityUtils;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithOneInfo;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithdrawalInfo;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_WithdrawalService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_WithdrawalDTO;
@@ -37,14 +40,17 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 
     private final Rewrite_UserassetsRepository rewrite_UserassetsRepository;
 
+    private final Rewrite_UserbankcardRepository rewrite_UserbankcardRepository;
+
     public Rewrite_WithdrawalServiceImpl(Rewrite_WithdrawalRepository rewrite_withdrawalRepository, Rewrite_WithdrawalMapper rewrite_withdrawalMapper,
                                          Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository,Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository,
-                                         Rewrite_UserassetsRepository rewrite_UserassetsRepository) {
+                                         Rewrite_UserassetsRepository rewrite_UserassetsRepository,Rewrite_UserbankcardRepository rewrite_UserbankcardRepository) {
         this.rewrite_withdrawalRepository = rewrite_withdrawalRepository;
         this.rewrite_withdrawalMapper = rewrite_withdrawalMapper;
         this.rewrite_ReceiptpayRepository = rewrite_ReceiptpayRepository;
         this.rewrite_UserlinkuserRepository = rewrite_UserlinkuserRepository;
         this.rewrite_UserassetsRepository = rewrite_UserassetsRepository;
+        this.rewrite_UserbankcardRepository = rewrite_UserbankcardRepository;
     }
 
     /**
@@ -120,7 +126,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
      * 后台审核通过提现记录
      *
      * @param id
-     * @param userId
+     *
      * @return
      */
     public Result auditWithdrawal(Long id, String other, String Modifier) {
@@ -165,5 +171,28 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
         Rewrite_WithdrawalInfo rewrite_WithdrawalInfo = new Rewrite_WithdrawalInfo(sum.toString(),userassets.getFrozenbalance(),
             sumIN_READY.toString(),userassets.getUsablebalance(),sumALREADY.toString(),String.valueOf(count));
         return Result.suc("成功",rewrite_WithdrawalInfo);
+    }
+
+    // 获取一条提现数据详细信息
+    @Override
+    public Result getWithdrawalInfo(Long withdrawalId) {
+        Withdrawal withdrawal = rewrite_withdrawalRepository.getOne(withdrawalId);
+        Rewrite_WithOneInfo rewrite_WithOneInfo = new Rewrite_WithOneInfo();
+
+        if(withdrawal.getBankcardid() != null && !"".equals(withdrawal.getBankcardid())){
+            Userbankcard userbankcard = rewrite_UserbankcardRepository.getOne(Long.valueOf(withdrawal.getBankcardid()));
+            rewrite_WithOneInfo.setBankuser(userbankcard.getRealname());
+            rewrite_WithOneInfo.setBankaccount(userbankcard.getBankcard());
+            rewrite_WithOneInfo.setBankname(userbankcard.getBanktype());
+        }
+
+        rewrite_WithOneInfo.setStime(withdrawal.getCreatedate());
+        rewrite_WithOneInfo.setAmount(withdrawal.getWithdrawalamount());
+        rewrite_WithOneInfo.setType(withdrawal.getGatheringway());
+        rewrite_WithOneInfo.setType(withdrawal.getWithdrawaltype());
+        rewrite_WithOneInfo.setEtime(withdrawal.getModifierdate());
+        rewrite_WithOneInfo.setExtro(withdrawal.getOther());
+
+        return Result.suc("成功",rewrite_WithOneInfo);
     }
 }
