@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/usercard")
+@RequestMapping("/api/usercard")
 @Api(tags = "000-银行卡附加信息")
 public class Rewrite_UsercardResource {
 
