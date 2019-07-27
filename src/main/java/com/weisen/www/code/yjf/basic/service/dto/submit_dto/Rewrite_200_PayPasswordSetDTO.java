@@ -21,4 +21,11 @@ public class Rewrite_200_PayPasswordSetDTO {
     public void setVertifyCode(String vertifyCode) {
         this.vertifyCode = vertifyCode;
     }
+
+    public String toString() {
+        return "Rewrite_200_PayPasswordSetDTO{" +
+            "payPassword='" + payPassword + '\'' +
+            ", vertifyCode='" + vertifyCode + '\'' +
+            '}';
+    }
 }

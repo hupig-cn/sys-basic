@@ -9,7 +9,6 @@ import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
 import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
-import jdk.nashorn.internal.runtime.options.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -69,7 +68,6 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         // 我的资产
         Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
         int num = userorder.getSum().compareTo(new BigDecimal(Integer.valueOf(userassets.getUsablebalance())));
-
         if( num > 0 ){
             return  Result.fail("您的余额不足");
         }
