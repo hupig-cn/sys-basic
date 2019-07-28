@@ -1,5 +1,6 @@
 package com.weisen.www.code.yjf.basic.service.rewrite;
 
+import com.weisen.www.code.yjf.basic.service.dto.WithdrawalDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_WithdrawalDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
@@ -8,7 +9,7 @@ import com.weisen.www.code.yjf.basic.util.Result;
  */
 public interface Rewrite_WithdrawalService {
     //提交提现记录
-    Result insertWithdrawal(Rewrite_WithdrawalDTO rewrite_withdrawalDTO);
+    Result insertWithdrawal(WithdrawalDTO withdrawalDTO);
     //获取账号提现记录
     Result getWithdrawalByAccount(String userId, Integer pageNum, Integer pageSize);
     //本地获取所有提现记录

@@ -1,5 +1,6 @@
 package com.weisen.www.code.yjf.basic.web.rest.rewrite_001_提现;
 
+import com.weisen.www.code.yjf.basic.service.dto.WithdrawalDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_WithdrawalService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_WithdrawalDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.submit_dto.Rewrite_submitWithdrawalDTO;
@@ -38,7 +39,7 @@ public class Rewrite_WithdrawalResource {
     //用户提交提现记录
     @PostMapping("/insert-withdrawal")
     @ApiOperation("申请提现")
-    public ResponseEntity<?> insertWithdrawal(@RequestBody Rewrite_WithdrawalDTO rewrite_withdrawalDTO){
+    public ResponseEntity<?> insertWithdrawal(@RequestBody WithdrawalDTO rewrite_withdrawalDTO){
         Result result = withdrawalService.insertWithdrawal(rewrite_withdrawalDTO);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }

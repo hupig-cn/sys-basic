@@ -4,8 +4,10 @@ import com.weisen.www.code.yjf.basic.domain.*;
 import com.weisen.www.code.yjf.basic.repository.*;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_WithdrawalRepository;
 import com.weisen.www.code.yjf.basic.security.SecurityUtils;
+import com.weisen.www.code.yjf.basic.service.dto.WithdrawalDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithOneInfo;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithdrawalInfo;
+import com.weisen.www.code.yjf.basic.service.mapper.WithdrawalMapper;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_WithdrawalService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_WithdrawalDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_WithdrawalMapper;
@@ -27,7 +29,10 @@ import java.util.Optional;
 public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService {
 
     private final Rewrite_WithdrawalRepository rewrite_withdrawalRepository;
+
     private final Rewrite_WithdrawalMapper rewrite_withdrawalMapper;
+
+    private final WithdrawalMapper withdrawalMapper;
 
     private final Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository;
 
@@ -42,7 +47,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
     public Rewrite_WithdrawalServiceImpl(Rewrite_WithdrawalRepository rewrite_withdrawalRepository, Rewrite_WithdrawalMapper rewrite_withdrawalMapper,
                                          Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository, Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository,
                                          Rewrite_UserassetsRepository rewrite_UserassetsRepository, Rewrite_UserbankcardRepository rewrite_UserbankcardRepository
-                                        , Rewrite_WithdrawaldetailsRepository rewrite_WithdrawaldetailsRepository) {
+                                        , Rewrite_WithdrawaldetailsRepository rewrite_WithdrawaldetailsRepository,WithdrawalMapper withdrawalMapper) {
         this.rewrite_withdrawalRepository = rewrite_withdrawalRepository;
         this.rewrite_withdrawalMapper = rewrite_withdrawalMapper;
         this.rewrite_ReceiptpayRepository = rewrite_ReceiptpayRepository;
@@ -50,6 +55,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
         this.rewrite_UserassetsRepository = rewrite_UserassetsRepository;
         this.rewrite_UserbankcardRepository = rewrite_UserbankcardRepository;
         this.rewrite_WithdrawaldetailsRepository = rewrite_WithdrawaldetailsRepository;
+        this.withdrawalMapper = withdrawalMapper;
     }
 
     /**
@@ -58,7 +64,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
      * @param rewrite_withdrawalDTO
      * @return
      */
-    public Result insertWithdrawal(Rewrite_WithdrawalDTO rewrite_withdrawalDTO) {
+    public Result insertWithdrawal(WithdrawalDTO rewrite_withdrawalDTO) {
         if (!CheckUtils.checkObj(rewrite_withdrawalDTO))
             return Result.fail("提交信息异常");
         else if (!CheckUtils.checkString(rewrite_withdrawalDTO.getUserid()))
@@ -81,7 +87,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
         userassets.setFrozenbalance(frozen.add(amount).setScale(3).toString());
         userassets = rewrite_UserassetsRepository.saveAndFlush(userassets);
         //提现表
-        Withdrawal withdrawal = rewrite_withdrawalMapper.toEntity(rewrite_withdrawalDTO);
+        Withdrawal withdrawal = withdrawalMapper.toEntity(rewrite_withdrawalDTO);
         withdrawal.setLogicdelete(false);
         withdrawal.setCreatedate(DateUtils.getDateForNow());
         withdrawal.setWithdrawaltype(WithdrawalConstant.IN_READY); // 提现中
