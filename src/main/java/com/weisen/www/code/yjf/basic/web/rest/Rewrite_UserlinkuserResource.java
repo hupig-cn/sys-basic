@@ -1,5 +1,6 @@
 package com.weisen.www.code.yjf.basic.web.rest;
 
+import com.weisen.www.code.yjf.basic.util.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,5 +40,13 @@ public class Rewrite_UserlinkuserResource {
     public String getMyRecommendName(@PathVariable String userid) {
         log.debug("REST request to get Userlinkuser : {}", userid);
         return rewrite_UserlinkuserService.findRecommendName(userid);
+    }
+
+    @GetMapping("/findAllByRecommendAndInfo/{userid}&{startPage}&{pageSize}")
+    @ApiOperation(value = "分页查询用户的推荐人（时间 电话或token 做处理）")
+    public Result findAllByRecommendAndInfo(@PathVariable String userid, @PathVariable int startPage, @PathVariable int pageSize) {
+        log.debug("REST request to get Userlinkuser : {}", userid);
+        Result result = rewrite_UserlinkuserService.findAllByRecommendAndInfo(userid,startPage,pageSize);
+        return result;
     }
 }
