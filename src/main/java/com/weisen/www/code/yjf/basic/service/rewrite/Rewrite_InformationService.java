@@ -1,6 +1,7 @@
 package com.weisen.www.code.yjf.basic.service.rewrite;
 
 
+import com.weisen.www.code.yjf.basic.service.dto.InformationDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitInformationDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
@@ -15,4 +16,6 @@ public interface Rewrite_InformationService {
     Result deleteInformations(Long[] ids, String userId);
     //获取账号消息列表
     Result getInformations(String userId, Integer pageNum, Integer pageSize);
+    //内部服务保存消息
+    String insertInformation(InformationDTO informationDTO);
 }

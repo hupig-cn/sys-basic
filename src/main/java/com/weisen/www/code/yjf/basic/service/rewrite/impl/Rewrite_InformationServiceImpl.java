@@ -7,6 +7,7 @@ import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_InformationRepos
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_MessageTemplateRepository;
 import com.weisen.www.code.yjf.basic.service.dto.InformationDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_InformationService;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_InformationDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitInformationDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_InformationMapper;
 import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_MessageTemplateMapper;
@@ -144,6 +145,31 @@ public class Rewrite_InformationServiceImpl implements Rewrite_InformationServic
             }
             return Result.suc("保存成功");
         }
+    }
+    public String insertInformation(InformationDTO rewrite_informationDTO){
+        if(!CheckUtils.checkObj(rewrite_informationDTO)){
+            return "消息主体不能为空";
+        }else if(!CheckUtils.checkString(rewrite_informationDTO.getContent()))
+            return "消息内容不能为空";
+        else if(!CheckUtils.checkString(rewrite_informationDTO.getReaduserid()))
+            return "接收人不能为空";
+        else if(!CheckUtils.checkString(rewrite_informationDTO.getSenduserid()))
+            return "发送人不能为空";
+        else if(!CheckUtils.checkString(rewrite_informationDTO.getType()))
+            return "消息类型不能为空";
+        else if(!CheckUtils.checkString(rewrite_informationDTO.getTitle()))
+            return "消息标题不能为空";
+        else {
+            rewrite_informationDTO.setCreatedate(DateUtils.getDateForNow());
+            //0 => 未读 1 => 已读
+            rewrite_informationDTO.setState("0");
+            Information information = rewrite_informationMapper.toEntity(rewrite_informationDTO);
+            Information save = rewrite_informationRepository.save(information);
+            if(!CheckUtils.checkObj(save))
+                return "数据库异常保存失败";
+            return "保存成功";
+        }
+
     }
 
     /**
