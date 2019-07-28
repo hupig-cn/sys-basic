@@ -30,13 +30,12 @@ public class WithdrawalConstant {
 
     public static String getInfo(String type){
         switch (type){
-            case BANK_CARD
+            case BANK_CARD:
                 return  "申请(银行卡)提现";
-            case ALI
+            case ALI:
                 return  "申请(支付宝)提现";
-            case WECHAT
+            case WECHAT:
                 return  "申请(微信)提现";
-            break;
         }
         return null;
     }
