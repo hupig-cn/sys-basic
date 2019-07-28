@@ -132,11 +132,11 @@ entity Userbankcard {// 用户银行卡表
 }
 
 entity Withdrawal {// 提现表
-    userid String,// 提现用户id
-    withdrawalamount String,// 提现金额
+    userid String,// 提现用户id  (传)
+    withdrawalamount String,// 提现金额  (传)
     withdrawaltype String,// 提现状态
-    gatheringway String ,// 提现方式
-    bankcardid String , // 提现银行卡id
+    gatheringway String ,// 提现方式  (传)
+    bankcardid String , // 提现银行卡id  (传)
     payee String,// 收款人
     creator String,// 创建者
     createdate String,// 申请时间

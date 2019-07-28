@@ -63,8 +63,6 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
             return Result.fail("提交信息异常");
         else if (!CheckUtils.checkString(rewrite_withdrawalDTO.getUserid()))
             return Result.fail("账号信息异常");
-        else if (!CheckUtils.checkString(rewrite_withdrawalDTO.getCreator()))
-            return Result.fail("提现申请信息异常");
 
         Userassets userassets = rewrite_UserassetsRepository.findByUserid(rewrite_withdrawalDTO.getUserid());
         if(null == userassets){
