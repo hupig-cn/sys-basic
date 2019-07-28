@@ -3,7 +3,6 @@ package com.weisen.www.code.yjf.basic.service.impl;
 import com.weisen.www.code.yjf.basic.domain.Userbankcard;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserbankcardRepository;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_UserbankcardService;
 import com.weisen.www.code.yjf.basic.service.dto.UserbankcardDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_BankCardDTO;
@@ -62,6 +61,7 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
         userbankcard.setBanktype(userbankcardDTO.getBanktype());
         userbankcard.setRealname(userbankcardDTO.getRealname());
         userbankcard.setCreatedate(TimeUtil.getDate());
+        userbankcard.setUserid(userbankcardDTO.getUserid());
         rewrite_UserbankcardRepository.save(userbankcard);
 
         return Result.suc("success");
