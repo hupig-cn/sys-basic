@@ -44,7 +44,7 @@ public class Rewrite_UserlinkuserResource {
 
     @GetMapping("/findAllByRecommendAndInfo/{userid}&{startPage}&{pageSize}")
     @ApiOperation(value = "分页查询用户的推荐人（时间 电话或token 做处理）")
-    public Result findAllByRecommendAndInfo(@PathVariable String userid, @PathVariable int startPage, @PathVariable int pageSize) {
+    public Result findAllByRecommendAndInfo(@PathVariable Long userid, @PathVariable int startPage, @PathVariable int pageSize) {
         log.debug("REST request to get Userlinkuser : {}", userid);
         Result result = rewrite_UserlinkuserService.findAllByRecommendAndInfo(userid,startPage,pageSize);
         return result;

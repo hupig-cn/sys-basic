@@ -54,7 +54,7 @@ public class Rewrite_UserlinkuserServiceImpl implements Rewrite_UserlinkuserServ
     @Override
     public Result findAllByRecommendAndInfo(Long userid, int startPage, int pageSize) {
         List<Userlinkuser> list = rewrite_UserlinkuserRepository.
-            findAllByRecommendidAndTime(userid,startPage * pageSize,pageSize);
+            findAllByRecommendidAndTime(userid.toString(),startPage * pageSize,pageSize);
         List<Rewrite_UserLink> listUser = new ArrayList<>();
         list.forEach(x-> {
             Rewrite_UserLink rewrite_UserLink = new Rewrite_UserLink();

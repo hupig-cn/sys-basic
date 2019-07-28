@@ -10,6 +10,10 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "withdrawalid",
             "fieldType": "String"
         },
@@ -36,10 +40,14 @@
         {
             "fieldName": "state",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "other",
+            "fieldType": "String"
         }
     ],
     "relationships": [],
-    "changelogDate": "20190727172055",
+    "changelogDate": "20190728202116",
     "entityTableName": "withdrawaldetails",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

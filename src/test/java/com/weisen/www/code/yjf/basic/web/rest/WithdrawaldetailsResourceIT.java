@@ -43,6 +43,9 @@ public class WithdrawaldetailsResourceIT {
     private static final String DEFAULT_WITHDRAWALWAY = "AAAAAAAAAA";
     private static final String UPDATED_WITHDRAWALWAY = "BBBBBBBBBB";
 
+    private static final String DEFAULT_TITLE = "AAAAAAAAAA";
+    private static final String UPDATED_TITLE = "BBBBBBBBBB";
+
     private static final String DEFAULT_WITHDRAWALID = "AAAAAAAAAA";
     private static final String UPDATED_WITHDRAWALID = "BBBBBBBBBB";
 
@@ -63,6 +66,9 @@ public class WithdrawaldetailsResourceIT {
 
     private static final String DEFAULT_STATE = "AAAAAAAAAA";
     private static final String UPDATED_STATE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_OTHER = "AAAAAAAAAA";
+    private static final String UPDATED_OTHER = "BBBBBBBBBB";
 
     @Autowired
     private WithdrawaldetailsRepository withdrawaldetailsRepository;
@@ -114,13 +120,15 @@ public class WithdrawaldetailsResourceIT {
         Withdrawaldetails withdrawaldetails = new Withdrawaldetails()
             .userid(DEFAULT_USERID)
             .withdrawalway(DEFAULT_WITHDRAWALWAY)
+            .title(DEFAULT_TITLE)
             .withdrawalid(DEFAULT_WITHDRAWALID)
             .type(DEFAULT_TYPE)
             .amount(DEFAULT_AMOUNT)
             .afteramount(DEFAULT_AFTERAMOUNT)
             .createdate(DEFAULT_CREATEDATE)
             .modifierdate(DEFAULT_MODIFIERDATE)
-            .state(DEFAULT_STATE);
+            .state(DEFAULT_STATE)
+            .other(DEFAULT_OTHER);
         return withdrawaldetails;
     }
     /**
@@ -133,13 +141,15 @@ public class WithdrawaldetailsResourceIT {
         Withdrawaldetails withdrawaldetails = new Withdrawaldetails()
             .userid(UPDATED_USERID)
             .withdrawalway(UPDATED_WITHDRAWALWAY)
+            .title(UPDATED_TITLE)
             .withdrawalid(UPDATED_WITHDRAWALID)
             .type(UPDATED_TYPE)
             .amount(UPDATED_AMOUNT)
             .afteramount(UPDATED_AFTERAMOUNT)
             .createdate(UPDATED_CREATEDATE)
             .modifierdate(UPDATED_MODIFIERDATE)
-            .state(UPDATED_STATE);
+            .state(UPDATED_STATE)
+            .other(UPDATED_OTHER);
         return withdrawaldetails;
     }
 
@@ -166,6 +176,7 @@ public class WithdrawaldetailsResourceIT {
         Withdrawaldetails testWithdrawaldetails = withdrawaldetailsList.get(withdrawaldetailsList.size() - 1);
         assertThat(testWithdrawaldetails.getUserid()).isEqualTo(DEFAULT_USERID);
         assertThat(testWithdrawaldetails.getWithdrawalway()).isEqualTo(DEFAULT_WITHDRAWALWAY);
+        assertThat(testWithdrawaldetails.getTitle()).isEqualTo(DEFAULT_TITLE);
         assertThat(testWithdrawaldetails.getWithdrawalid()).isEqualTo(DEFAULT_WITHDRAWALID);
         assertThat(testWithdrawaldetails.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testWithdrawaldetails.getAmount()).isEqualTo(DEFAULT_AMOUNT);
@@ -173,6 +184,7 @@ public class WithdrawaldetailsResourceIT {
         assertThat(testWithdrawaldetails.getCreatedate()).isEqualTo(DEFAULT_CREATEDATE);
         assertThat(testWithdrawaldetails.getModifierdate()).isEqualTo(DEFAULT_MODIFIERDATE);
         assertThat(testWithdrawaldetails.getState()).isEqualTo(DEFAULT_STATE);
+        assertThat(testWithdrawaldetails.getOther()).isEqualTo(DEFAULT_OTHER);
     }
 
     @Test
@@ -209,13 +221,15 @@ public class WithdrawaldetailsResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(withdrawaldetails.getId().intValue())))
             .andExpect(jsonPath("$.[*].userid").value(hasItem(DEFAULT_USERID.toString())))
             .andExpect(jsonPath("$.[*].withdrawalway").value(hasItem(DEFAULT_WITHDRAWALWAY.toString())))
+            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
             .andExpect(jsonPath("$.[*].withdrawalid").value(hasItem(DEFAULT_WITHDRAWALID.toString())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.toString())))
             .andExpect(jsonPath("$.[*].afteramount").value(hasItem(DEFAULT_AFTERAMOUNT.toString())))
             .andExpect(jsonPath("$.[*].createdate").value(hasItem(DEFAULT_CREATEDATE.toString())))
             .andExpect(jsonPath("$.[*].modifierdate").value(hasItem(DEFAULT_MODIFIERDATE.toString())))
-            .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE.toString())));
+            .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE.toString())))
+            .andExpect(jsonPath("$.[*].other").value(hasItem(DEFAULT_OTHER.toString())));
     }
     
     @Test
@@ -231,13 +245,15 @@ public class WithdrawaldetailsResourceIT {
             .andExpect(jsonPath("$.id").value(withdrawaldetails.getId().intValue()))
             .andExpect(jsonPath("$.userid").value(DEFAULT_USERID.toString()))
             .andExpect(jsonPath("$.withdrawalway").value(DEFAULT_WITHDRAWALWAY.toString()))
+            .andExpect(jsonPath("$.title").value(DEFAULT_TITLE.toString()))
             .andExpect(jsonPath("$.withdrawalid").value(DEFAULT_WITHDRAWALID.toString()))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.toString()))
             .andExpect(jsonPath("$.afteramount").value(DEFAULT_AFTERAMOUNT.toString()))
             .andExpect(jsonPath("$.createdate").value(DEFAULT_CREATEDATE.toString()))
             .andExpect(jsonPath("$.modifierdate").value(DEFAULT_MODIFIERDATE.toString()))
-            .andExpect(jsonPath("$.state").value(DEFAULT_STATE.toString()));
+            .andExpect(jsonPath("$.state").value(DEFAULT_STATE.toString()))
+            .andExpect(jsonPath("$.other").value(DEFAULT_OTHER.toString()));
     }
 
     @Test
@@ -263,13 +279,15 @@ public class WithdrawaldetailsResourceIT {
         updatedWithdrawaldetails
             .userid(UPDATED_USERID)
             .withdrawalway(UPDATED_WITHDRAWALWAY)
+            .title(UPDATED_TITLE)
             .withdrawalid(UPDATED_WITHDRAWALID)
             .type(UPDATED_TYPE)
             .amount(UPDATED_AMOUNT)
             .afteramount(UPDATED_AFTERAMOUNT)
             .createdate(UPDATED_CREATEDATE)
             .modifierdate(UPDATED_MODIFIERDATE)
-            .state(UPDATED_STATE);
+            .state(UPDATED_STATE)
+            .other(UPDATED_OTHER);
         WithdrawaldetailsDTO withdrawaldetailsDTO = withdrawaldetailsMapper.toDto(updatedWithdrawaldetails);
 
         restWithdrawaldetailsMockMvc.perform(put("/api/withdrawaldetails")
@@ -283,6 +301,7 @@ public class WithdrawaldetailsResourceIT {
         Withdrawaldetails testWithdrawaldetails = withdrawaldetailsList.get(withdrawaldetailsList.size() - 1);
         assertThat(testWithdrawaldetails.getUserid()).isEqualTo(UPDATED_USERID);
         assertThat(testWithdrawaldetails.getWithdrawalway()).isEqualTo(UPDATED_WITHDRAWALWAY);
+        assertThat(testWithdrawaldetails.getTitle()).isEqualTo(UPDATED_TITLE);
         assertThat(testWithdrawaldetails.getWithdrawalid()).isEqualTo(UPDATED_WITHDRAWALID);
         assertThat(testWithdrawaldetails.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testWithdrawaldetails.getAmount()).isEqualTo(UPDATED_AMOUNT);
@@ -290,6 +309,7 @@ public class WithdrawaldetailsResourceIT {
         assertThat(testWithdrawaldetails.getCreatedate()).isEqualTo(UPDATED_CREATEDATE);
         assertThat(testWithdrawaldetails.getModifierdate()).isEqualTo(UPDATED_MODIFIERDATE);
         assertThat(testWithdrawaldetails.getState()).isEqualTo(UPDATED_STATE);
+        assertThat(testWithdrawaldetails.getOther()).isEqualTo(UPDATED_OTHER);
     }
 
     @Test

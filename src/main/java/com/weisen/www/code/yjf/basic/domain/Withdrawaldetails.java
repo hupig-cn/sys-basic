@@ -26,6 +26,9 @@ public class Withdrawaldetails implements Serializable {
     @Column(name = "withdrawalway")
     private String withdrawalway;
 
+    @Column(name = "title")
+    private String title;
+
     @Column(name = "withdrawalid")
     private String withdrawalid;
 
@@ -46,6 +49,9 @@ public class Withdrawaldetails implements Serializable {
 
     @Column(name = "state")
     private String state;
+
+    @Column(name = "other")
+    private String other;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -80,6 +86,19 @@ public class Withdrawaldetails implements Serializable {
 
     public void setWithdrawalway(String withdrawalway) {
         this.withdrawalway = withdrawalway;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Withdrawaldetails title(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getWithdrawalid() {
@@ -172,6 +191,19 @@ public class Withdrawaldetails implements Serializable {
     public void setState(String state) {
         this.state = state;
     }
+
+    public String getOther() {
+        return other;
+    }
+
+    public Withdrawaldetails other(String other) {
+        this.other = other;
+        return this;
+    }
+
+    public void setOther(String other) {
+        this.other = other;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -196,6 +228,7 @@ public class Withdrawaldetails implements Serializable {
             "id=" + getId() +
             ", userid='" + getUserid() + "'" +
             ", withdrawalway='" + getWithdrawalway() + "'" +
+            ", title='" + getTitle() + "'" +
             ", withdrawalid='" + getWithdrawalid() + "'" +
             ", type='" + getType() + "'" +
             ", amount='" + getAmount() + "'" +
@@ -203,6 +236,7 @@ public class Withdrawaldetails implements Serializable {
             ", createdate='" + getCreatedate() + "'" +
             ", modifierdate='" + getModifierdate() + "'" +
             ", state='" + getState() + "'" +
+            ", other='" + getOther() + "'" +
             "}";
     }
 }
