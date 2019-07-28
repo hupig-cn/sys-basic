@@ -44,6 +44,9 @@ public class Rewrite_UserassetsResource {
     @Timed
     public ResponseEntity<Result> findUserBalance(@PathVariable Long userId) {
         Rewrite_UserPriceDTO rewrite_PriceDTO = rewrite_UserassetsService.findUserBalance(userId);
+        if(rewrite_PriceDTO == null){
+            return ResponseUtil.wrapOrNotFound(Optional.ofNullable(Result.suc("成功","")));
+        }
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(Result.suc("成功",rewrite_PriceDTO)));
     }
 
