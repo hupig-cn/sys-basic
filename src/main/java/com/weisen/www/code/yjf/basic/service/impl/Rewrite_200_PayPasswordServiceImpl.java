@@ -1,5 +1,6 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import com.weisen.www.code.yjf.basic.util.CheckUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,8 @@ public class Rewrite_200_PayPasswordServiceImpl implements Rewrite_200_PayPasswo
 //            return result;
 //        }
         Linkuser userData = userDataRepository.findByPhone(login);
+        if(!CheckUtils.checkObj(userData))
+            return Result.fail("不存在当前用户信息");
         String payPassword = passwordEncoder.encode(payPasswordSetDTO.getPayPassword());
         userData.setPaypassword(payPassword);
         return Result.suc("设置成功");
