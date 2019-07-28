@@ -52,7 +52,7 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 	 */
 	@Override
 	public Result createUserByPhone(String userId, String phone) {
-		createBasicInfo(userId, phone, "", DateUtils.getDateForNow());
+		createBasicInfo(userId, phone, "1", DateUtils.getDateForNow());
 		return Result.suc("用户创建成功");
 	}
 
