@@ -98,7 +98,7 @@ public class Rewrite_ReceiptpayResource {
     @ApiOperation(value = "查询用户的各项收益")
     public ResponseEntity<Rewrite_ProfitDTO> getUserProfit(@PathVariable String userid) {
     	Rewrite_ProfitDTO rewrite_ProfitDTO = rewrite_ReceiptpayService.getUserProfit(userid);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rewrite_ProfitDTO));
+        return ResponseUtil.wrapOrNotFound(Optional.of(rewrite_ProfitDTO));
     }
 
 }
