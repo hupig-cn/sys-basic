@@ -36,14 +36,18 @@ public final class Constants {
     public static final Integer REGISTER_NUMBER = 3;
 
     public static final Integer CHANGE_PASSWORD_NUMBER = 3;
-    
+    //消费消息
+    public static final Integer CONSUMPTION = 1 ;
+    //收款消息
+    public static final Integer COLLECTION = 2 ;
+
     // Validate pay password
     public static final String SMS_PAY_PASSWORD_CODE_REGEXP = "\\d{6}";
 
     public static final String SMS_PAY_PASSWORD_REGEXP = "\\d{6}";
-    
+
     public static final String SMS_PAY_PASSWORD = "pay_password";
-    
+
     public static final Integer SMS_TYPE_PAY_PASSWORD = 5;
 
     private Constants() {

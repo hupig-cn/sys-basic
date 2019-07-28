@@ -20,7 +20,6 @@ public class Rewrite_PaymethodServiceImpl implements Rewrite_PaymethodService {
 
     private final PaymethodMapper paymethodMapper;
     private final Rewrite_PaymethodRepository rewrite_paymethodRepository;
-
     public Rewrite_PaymethodServiceImpl(PaymethodMapper paymethodMapper, Rewrite_PaymethodRepository rewrite_paymethodRepository) {
         this.paymethodMapper = paymethodMapper;
         this.rewrite_paymethodRepository = rewrite_paymethodRepository;

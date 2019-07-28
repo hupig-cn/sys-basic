@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -212,8 +213,13 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
         // 今日分销的收入数量
         List<Receiptpay> todayReceiptpay = rewrite_ReceiptpayRepository.
             findInfoByTime(userid,startTime,endTime,ReceiptpayConstant.BALANCE_INCOME_DIR,ReceiptpayConstant.BALANCE_INCOME_PER);
-        BigDecimal todayPrice = todayReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add).get();
-        rewrite_ProfitDTO.setTodayprofit(todayPrice.toString());
+        Optional todayPrice = todayReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
+        if(todayPrice.isPresent()){
+            rewrite_ProfitDTO.setTodayprofit(todayPrice.get().toString());
+        }else{
+            rewrite_ProfitDTO.setTodayprofit("0");
+        }
+
 
         // 昨日的分销收入
         String retoday = new SimpleDateFormat("yyyy-MM-dd")
@@ -223,8 +229,12 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 
         List<Receiptpay> lastReceiptpay = rewrite_ReceiptpayRepository.
             findInfoByTime(userid,restartTime,reendTime,ReceiptpayConstant.BALANCE_INCOME_DIR,ReceiptpayConstant.BALANCE_INCOME_PER);
-        BigDecimal lastPrice = lastReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add).get();
-        rewrite_ProfitDTO.setTodaylastprofit(lastPrice.toString());
+        Optional lastPrice = lastReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
+        if(lastPrice.isPresent()){
+            rewrite_ProfitDTO.setTodaylastprofit(lastPrice.get().toString());
+        }else{
+            rewrite_ProfitDTO.setTodaylastprofit("0");
+        }
 
         // 本月的分销收入
         String todayMonth = new SimpleDateFormat("yyyy-MM").format(new Date());
@@ -234,21 +244,33 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 
         List<Receiptpay> thisMonthReceiptpay = rewrite_ReceiptpayRepository.
             findInfoByTime(userid,toMonthTime,nextTime,ReceiptpayConstant.BALANCE_INCOME_DIR,ReceiptpayConstant.BALANCE_INCOME_PER);
-        BigDecimal thisMonth = lastReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add).get();
-        rewrite_ProfitDTO.setMonthprofit(thisMonth.toString());
+        Optional thisMonth = lastReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
+        if(thisMonth.isPresent()){
+            rewrite_ProfitDTO.setMonthprofit(thisMonth.get().toString());
+        }else{
+            rewrite_ProfitDTO.setMonthprofit("0");
+        }
 
         // 上月的分销收入
         String lastMonthTime =TimeUtil.getLastMonth(sdf.format(new Date())) + "-01 00:00:00";
 
         List<Receiptpay> lastMonthReceiptpay = rewrite_ReceiptpayRepository.
             findInfoByTime(userid,lastMonthTime,toMonthTime,ReceiptpayConstant.BALANCE_INCOME_DIR,ReceiptpayConstant.BALANCE_INCOME_PER);
-        BigDecimal lastMonth = lastMonthReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add).get();
-        rewrite_ProfitDTO.setMonthlastprofit(lastMonth.toString());
+        Optional lastMonth = lastMonthReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
+        if(lastMonth.isPresent()){
+            rewrite_ProfitDTO.setMonthlastprofit(lastMonth.get().toString());
+        }else{
+            rewrite_ProfitDTO.setMonthlastprofit("0");
+        }
 
         // 总分销收入
         List<Receiptpay> allReceiptpay = rewrite_ReceiptpayRepository.getAllInfo(userid,ReceiptpayConstant.BALANCE_INCOME_DIR,ReceiptpayConstant.BALANCE_INCOME_PER);
-        BigDecimal allprice = allReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add).get();
-        rewrite_ProfitDTO.setTotalprofit(allprice.toString());
+        Optional allprice = allReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
+        if(allprice.isPresent()){
+            rewrite_ProfitDTO.setTotalprofit(allprice.get().toString());
+        }else{
+            rewrite_ProfitDTO.setTotalprofit("0");
+        }
 
          // 总推荐人数
         Long allCount = rewrite_UserlinkuserRepository.countAllByRecommendid(userid.toString());

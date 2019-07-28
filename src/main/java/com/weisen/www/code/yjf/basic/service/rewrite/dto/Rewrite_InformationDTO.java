@@ -16,6 +16,8 @@ public class Rewrite_InformationDTO implements Serializable {
 
     private String readuserid;
 
+    private String senduserid;
+
     private String senddate;
 
     private String title;
@@ -32,6 +34,13 @@ public class Rewrite_InformationDTO implements Serializable {
 
     private String other;
 
+    public String getSenduserid() {
+        return senduserid;
+    }
+
+    public void setSenduserid(String senduserid) {
+        this.senduserid = senduserid;
+    }
 
     public Long getId() {
         return id;
