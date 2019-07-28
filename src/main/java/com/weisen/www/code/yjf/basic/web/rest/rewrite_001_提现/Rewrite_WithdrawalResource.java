@@ -60,7 +60,7 @@ public class Rewrite_WithdrawalResource {
     @PostMapping("/admin/audit-withdrawal")
     @ApiOperation("审核用户提现")
     public ResponseEntity<?> auditWithdrawal(@RequestBody Rewrite_submitWithdrawalDTO rewrite_submitWithdrawalDTO){
-        Result result = withdrawalService.auditWithdrawal(rewrite_submitWithdrawalDTO.getId(), rewrite_submitWithdrawalDTO.getOther(), rewrite_submitWithdrawalDTO.getModifier());
+        Result result = withdrawalService.auditWithdrawal(rewrite_submitWithdrawalDTO.getId(), rewrite_submitWithdrawalDTO.getType());
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 

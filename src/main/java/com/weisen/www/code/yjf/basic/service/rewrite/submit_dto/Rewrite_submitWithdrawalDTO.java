@@ -8,6 +8,16 @@ public class Rewrite_submitWithdrawalDTO {
     private String modifier;
     private Long id;
 
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public Long getId() {
         return id;
     }

@@ -151,12 +151,12 @@ entity Withdrawaldetails { // 提现表明细表
     userid String , // 用户
     withdrawalway String , // 提现方式
     withdrawalid String , // 提现表id  关联信息
-    type String , // 明细类型
+    type String , // 明细类型 （支出收入）
     amount String , // 本次明细产生的金额
     afteramount String , // 产生后的金额
     createdate String , // 创建时间
     modifierdate String,// 修改日期（审批时间）
-    state String // 状态
+    state String // 提现状态
 }
 
 entity Paymethod {// 支付方式表

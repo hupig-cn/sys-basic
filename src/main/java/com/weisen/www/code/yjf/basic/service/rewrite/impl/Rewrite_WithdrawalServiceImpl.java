@@ -1,13 +1,7 @@
 package com.weisen.www.code.yjf.basic.service.rewrite.impl;
 
-import com.weisen.www.code.yjf.basic.domain.Receiptpay;
-import com.weisen.www.code.yjf.basic.domain.Userassets;
-import com.weisen.www.code.yjf.basic.domain.Userbankcard;
-import com.weisen.www.code.yjf.basic.domain.Withdrawal;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_UserassetsRepository;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_UserbankcardRepository;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
+import com.weisen.www.code.yjf.basic.domain.*;
+import com.weisen.www.code.yjf.basic.repository.*;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_WithdrawalRepository;
 import com.weisen.www.code.yjf.basic.security.SecurityUtils;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithOneInfo;
@@ -20,6 +14,7 @@ import com.weisen.www.code.yjf.basic.service.util.WithdrawalConstant;
 import com.weisen.www.code.yjf.basic.util.CheckUtils;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
+import com.weisen.www.code.yjf.basic.util.TimeUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,15 +37,19 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 
     private final Rewrite_UserbankcardRepository rewrite_UserbankcardRepository;
 
+    private final Rewrite_WithdrawaldetailsRepository rewrite_WithdrawaldetailsRepository;
+
     public Rewrite_WithdrawalServiceImpl(Rewrite_WithdrawalRepository rewrite_withdrawalRepository, Rewrite_WithdrawalMapper rewrite_withdrawalMapper,
-                                         Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository,Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository,
-                                         Rewrite_UserassetsRepository rewrite_UserassetsRepository,Rewrite_UserbankcardRepository rewrite_UserbankcardRepository) {
+                                         Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository, Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository,
+                                         Rewrite_UserassetsRepository rewrite_UserassetsRepository, Rewrite_UserbankcardRepository rewrite_UserbankcardRepository
+                                        , Rewrite_WithdrawaldetailsRepository rewrite_WithdrawaldetailsRepository) {
         this.rewrite_withdrawalRepository = rewrite_withdrawalRepository;
         this.rewrite_withdrawalMapper = rewrite_withdrawalMapper;
         this.rewrite_ReceiptpayRepository = rewrite_ReceiptpayRepository;
         this.rewrite_UserlinkuserRepository = rewrite_UserlinkuserRepository;
         this.rewrite_UserassetsRepository = rewrite_UserassetsRepository;
         this.rewrite_UserbankcardRepository = rewrite_UserbankcardRepository;
+        this.rewrite_WithdrawaldetailsRepository = rewrite_WithdrawaldetailsRepository;
     }
 
     /**
@@ -66,14 +65,41 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
             return Result.fail("账号信息异常");
         else if (!CheckUtils.checkString(rewrite_withdrawalDTO.getCreator()))
             return Result.fail("提现申请信息异常");
-        else {
-            Withdrawal withdrawal = rewrite_withdrawalMapper.toEntity(rewrite_withdrawalDTO);
-            withdrawal.setLogicdelete(false);
-            withdrawal.setCreatedate(DateUtils.getDateForNow());
-            Withdrawal save = rewrite_withdrawalRepository.save(withdrawal);
-            if (!CheckUtils.checkObj(save))
-                return Result.fail();
+
+        Userassets userassets = rewrite_UserassetsRepository.findByUserid(rewrite_withdrawalDTO.getUserid());
+        if(null == userassets){
+            return Result.fail("用户不存在");
         }
+        int judg = new BigDecimal(rewrite_withdrawalDTO.getWithdrawalamount()).compareTo(new BigDecimal(userassets.getUsablebalance()));
+        if(judg > 0 ){
+            return Result.fail("您的可用余额不足");
+        }
+
+        BigDecimal useBan = new BigDecimal(userassets.getUsablebalance());
+        BigDecimal frozen = new BigDecimal(userassets.getFrozenbalance());
+        BigDecimal amount = new BigDecimal(rewrite_withdrawalDTO.getWithdrawalamount());
+        // 更改资产状态
+        userassets.setUsablebalance(useBan.subtract(amount).setScale(3).toString());
+        userassets.setFrozenbalance(frozen.add(amount).setScale(3).toString());
+        userassets = rewrite_UserassetsRepository.saveAndFlush(userassets);
+        //提现表
+        Withdrawal withdrawal = rewrite_withdrawalMapper.toEntity(rewrite_withdrawalDTO);
+        withdrawal.setLogicdelete(false);
+        withdrawal.setCreatedate(DateUtils.getDateForNow());
+        withdrawal.setWithdrawaltype(WithdrawalConstant.IN_READY); // 提现中
+        Withdrawal save = rewrite_withdrawalRepository.save(withdrawal);
+        if (!CheckUtils.checkObj(save))
+            return Result.fail();
+        //提现流水表
+        Withdrawaldetails withdrawaldetails = new Withdrawaldetails();
+        withdrawaldetails.setAmount(amount.toString());
+        withdrawaldetails.setUserid(rewrite_withdrawalDTO.getUserid());
+        withdrawaldetails.setAfteramount(userassets.getUsablebalance().toString());
+        withdrawaldetails.setWithdrawalid(save.getId().toString());
+        withdrawaldetails.setCreatedate(TimeUtil.getDate());
+        withdrawaldetails.setType(WithdrawalConstant.PAY);
+        withdrawaldetails.setState(WithdrawalConstant.IN_READY);
+        rewrite_WithdrawaldetailsRepository.save(withdrawaldetails);
 
         return Result.suc("提交成功");
     }
@@ -123,27 +149,74 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
     }
 
     /**
-     * 后台审核通过提现记录
+     * 后台审核提现记录
      *
-     * @param id
-     *
+     * @param withdrawalid
+     * @param type
      * @return
      */
-    public Result auditWithdrawal(Long id, String other, String Modifier) {
-        if (!CheckUtils.checkLongByZero(id))
+    public Result auditWithdrawal(Long withdrawalid, String type) {
+        if (!CheckUtils.checkLongByZero(withdrawalid))
             return Result.fail("审核数据异常");
-        else {
-            Optional<Withdrawal> byId = rewrite_withdrawalRepository.findById(id);
-            Withdrawal withdrawal = byId.get();
-            Integer integer = rewrite_withdrawalRepository.auditWithdrawal(id, other, Modifier);
-            if (!CheckUtils.checkIntegerByZero(integer))
-                return Result.fail("数据库修改失败");
-            // TODO: 2019/6/28 审核扣除账号金额,并且生成收支流水
-            //审核通过扣减账号审核金额
-            //根据userId找到当前用户,然后根据提现上面所填写的内容扣除
-            //用户资金扣除,生成收支明细
+
+        if(type.equals(WithdrawalConstant.SUCCESS)){
+            Withdrawal withdrawal = rewrite_withdrawalRepository.getOne(withdrawalid);
+            withdrawal.setWithdrawaltype(WithdrawalConstant.ALREADY);
+            withdrawal.setModifierdate(TimeUtil.getDate());
+            rewrite_withdrawalRepository.saveAndFlush(withdrawal);
+
+            Withdrawaldetails withdrawaldetails = rewrite_WithdrawaldetailsRepository.findByWithdrawalid(withdrawal.getId().toString());
+            withdrawaldetails.setState(WithdrawalConstant.ALREADY);
+            withdrawaldetails.setModifierdate(TimeUtil.getDate());
+            rewrite_WithdrawaldetailsRepository.save(withdrawaldetails);
+
+            Userassets userassets = rewrite_UserassetsRepository.findByUserid(withdrawaldetails.getUserid());
+
+            BigDecimal balance = new BigDecimal(userassets.getBalance());
+            BigDecimal frozen = new BigDecimal(userassets.getFrozenbalance());
+            BigDecimal amount = new BigDecimal(withdrawaldetails.getAmount());
+
+            userassets.setBalance(balance.subtract(amount).setScale(3).toString());
+            userassets.setFrozenbalance(frozen.subtract(amount).setScale(3).toString());
+            rewrite_UserassetsRepository.saveAndFlush(userassets);
+
+        }else if(type.equals(WithdrawalConstant.FAIL_S)){  // 审批不通过
+            // 提现表
+            Withdrawal withdrawal = rewrite_withdrawalRepository.getOne(withdrawalid);
+            withdrawal.setWithdrawaltype(WithdrawalConstant.FAIL);
+            withdrawal.setModifierdate(TimeUtil.getDate());
+            rewrite_withdrawalRepository.saveAndFlush(withdrawal);
+            //提现流水表
+            Withdrawaldetails withdrawaldetails = rewrite_WithdrawaldetailsRepository.findByWithdrawalid(withdrawal.getId().toString());
+            withdrawaldetails.setState(WithdrawalConstant.FAIL);
+            withdrawaldetails.setModifierdate(TimeUtil.getDate());
+            rewrite_WithdrawaldetailsRepository.save(withdrawaldetails);
+            // 更改我的资产
+            Userassets userassets = rewrite_UserassetsRepository.findByUserid(withdrawaldetails.getUserid());
+
+            BigDecimal usebalance = new BigDecimal(userassets.getUsablebalance());
+            BigDecimal frozen = new BigDecimal(userassets.getFrozenbalance());
+            BigDecimal amount = new BigDecimal(withdrawaldetails.getAmount());
+
+            userassets.setUsablebalance(usebalance.add(amount).setScale(3).toString());
+            userassets.setFrozenbalance(frozen.subtract(amount).setScale(3).toString());
+            userassets = rewrite_UserassetsRepository.saveAndFlush(userassets);
+
+            Withdrawaldetails failWithdrawaldetails = new Withdrawaldetails();
+            failWithdrawaldetails.setUserid(withdrawaldetails.getUserid());
+            failWithdrawaldetails.setState(WithdrawalConstant.FAIL);
+            failWithdrawaldetails.setWithdrawalway(withdrawaldetails.getWithdrawalway());
+            failWithdrawaldetails.setAmount(amount.toString());
+            failWithdrawaldetails.setAfteramount(userassets.getUsablebalance());
+            failWithdrawaldetails.setCreatedate(TimeUtil.getDate());
+            failWithdrawaldetails.setType(WithdrawalConstant.INCOME);
+            rewrite_WithdrawaldetailsRepository.save(failWithdrawaldetails);
+
+        }else{
+            return Result.fail("请传入正确的参数");
         }
-        return Result.suc("审核通过");
+
+        return Result.suc("成功");
     }
 
     // 获取用户提现信息
@@ -158,10 +231,10 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 //        List<Withdrawal> FROZEN = rewrite_withdrawalRepository.findAllByUseridAndtyOrWithdrawaltype(id.toString(), WithdrawalConstant.READY);
 //        Optional sumFROZEN = FROZEN.stream().map(x -> new BigDecimal(x.getWithdrawalamount())).reduce(BigDecimal::add);
         // 提现中
-        List<Withdrawal> IN_READY = rewrite_withdrawalRepository.findAllByUseridAndWithdrawaltype(id.toString(), WithdrawalConstant.READY);
+        List<Withdrawal> IN_READY = rewrite_withdrawalRepository.findAllByUseridAndWithdrawaltype(id.toString(), WithdrawalConstant.IN_READY);
         Optional sumIN_READY= IN_READY.stream().map(x -> new BigDecimal(x.getWithdrawalamount())).reduce(BigDecimal::add);
         // 已提现
-        List<Withdrawal> ALREADY = rewrite_withdrawalRepository.findAllByUseridAndWithdrawaltype(id.toString(), WithdrawalConstant.READY);
+        List<Withdrawal> ALREADY = rewrite_withdrawalRepository.findAllByUseridAndWithdrawaltype(id.toString(), WithdrawalConstant.ALREADY);
         Optional sumALREADY = ALREADY.stream().map(x -> new BigDecimal(x.getWithdrawalamount())).reduce(BigDecimal::add);
 
         long count = rewrite_UserlinkuserRepository.countAllByRecommendid(id.toString());

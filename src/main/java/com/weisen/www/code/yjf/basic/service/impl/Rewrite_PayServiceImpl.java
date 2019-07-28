@@ -315,7 +315,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
     private String findPartner(String userId){
         Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userId);
         if(null != userlinkuser){
-            if(null != userlinkuser.isPartner() || userlinkuser.isPartner() == true){
+            if(null != userlinkuser.isPartner() && userlinkuser.isPartner() == true){
                 return userId;
             }else if(userlinkuser.getRecommendid() != null && !"".equals(userlinkuser.getRecommendid())){
                 findPartner(userlinkuser.getRecommendid());

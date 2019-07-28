@@ -19,4 +19,6 @@ public interface Rewrite_WithdrawaldetailsRepository extends JpaRepository<Withd
         "from withdrawaldetails where userid = ?1",nativeQuery = true)
     int getAllUserInfoCount(String userid);
 
+    Withdrawaldetails findByWithdrawalid(String withdrawalid);
+
 }
