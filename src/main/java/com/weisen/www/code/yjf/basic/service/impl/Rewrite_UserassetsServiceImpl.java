@@ -45,9 +45,9 @@ public class Rewrite_UserassetsServiceImpl implements Rewrite_UserassetsService 
 	@Override
 	public Rewrite_UserPriceDTO findUserBalance(Long userId) {
 		Userassets userassets = rewrite_UserassetsRepository.findByUserid(userId.toString());
-//		if (null == userassets) {
-//			return new Rewrite_PriceDTO("0");
-//		}
+		if (null == userassets) {
+            return null;
+        }
         Rewrite_UserPriceDTO rewrite_UserPriceDTO = new Rewrite_UserPriceDTO();
         rewrite_UserPriceDTO.setBalance(userassets.getBalance());
         rewrite_UserPriceDTO.setAvailableBalance(userassets.getUsablebalance());
