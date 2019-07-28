@@ -244,7 +244,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 
         List<Receiptpay> thisMonthReceiptpay = rewrite_ReceiptpayRepository.
             findInfoByTime(userid,toMonthTime,nextTime,ReceiptpayConstant.BALANCE_INCOME_DIR,ReceiptpayConstant.BALANCE_INCOME_PER);
-        Optional thisMonth = lastReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
+        Optional thisMonth = thisMonthReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
         if(thisMonth.isPresent()){
             rewrite_ProfitDTO.setMonthprofit(thisMonth.get().toString());
         }else{
