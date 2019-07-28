@@ -2,6 +2,8 @@ package com.weisen.www.code.yjf.basic.service.dto.show_dto;
 
 public class Rewrite_ProfitDTO {
 
+    private Long id; // 用户id
+    
 	private String todayrecommend; // 今日推荐人数量
 	
     private String todayprofit; // 今日分销的收入数量
@@ -16,6 +18,14 @@ public class Rewrite_ProfitDTO {
     
     private String totalrecommend; // 总推荐人数
     
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getTodayrecommend() {
 		return todayrecommend;
 	}
@@ -74,9 +84,8 @@ public class Rewrite_ProfitDTO {
 
 	@Override
 	public String toString() {
-		return "Rewrite_ProfitDTO [todayrecommend=" + todayrecommend + ", todayprofit=" + todayprofit
+		return "Rewrite_ProfitDTO [id=" + id + ", todayrecommend=" + todayrecommend + ", todayprofit=" + todayprofit
 				+ ", todaylastprofit=" + todaylastprofit + ", monthprofit=" + monthprofit + ", monthlastprofit="
 				+ monthlastprofit + ", totalprofit=" + totalprofit + ", totalrecommend=" + totalrecommend + "]";
 	}
-    
 }
