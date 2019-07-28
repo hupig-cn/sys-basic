@@ -14,4 +14,6 @@ public interface Rewrite_LinkaccountRepository extends JpaRepository<Linkaccount
     Linkaccount findFirstByAccounttypeAndToken(String accounttype,String token);
     
     Linkaccount findFirstByUseridAndAccounttype(String userid,String accounttype);
+
+    Linkaccount findFirstByUserid(String userid);
 }

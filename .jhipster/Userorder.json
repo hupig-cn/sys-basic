@@ -71,7 +71,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190727172102",
+    "changelogDate": "20190728202123",
     "entityTableName": "userorder",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

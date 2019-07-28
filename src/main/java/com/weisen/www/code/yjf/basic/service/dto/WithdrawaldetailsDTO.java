@@ -13,6 +13,8 @@ public class WithdrawaldetailsDTO implements Serializable {
 
     private String withdrawalway;
 
+    private String title;
+
     private String withdrawalid;
 
     private String type;
@@ -26,6 +28,8 @@ public class WithdrawaldetailsDTO implements Serializable {
     private String modifierdate;
 
     private String state;
+
+    private String other;
 
 
     public Long getId() {
@@ -50,6 +54,14 @@ public class WithdrawaldetailsDTO implements Serializable {
 
     public void setWithdrawalway(String withdrawalway) {
         this.withdrawalway = withdrawalway;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getWithdrawalid() {
@@ -108,6 +120,14 @@ public class WithdrawaldetailsDTO implements Serializable {
         this.state = state;
     }
 
+    public String getOther() {
+        return other;
+    }
+
+    public void setOther(String other) {
+        this.other = other;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -135,6 +155,7 @@ public class WithdrawaldetailsDTO implements Serializable {
             "id=" + getId() +
             ", userid='" + getUserid() + "'" +
             ", withdrawalway='" + getWithdrawalway() + "'" +
+            ", title='" + getTitle() + "'" +
             ", withdrawalid='" + getWithdrawalid() + "'" +
             ", type='" + getType() + "'" +
             ", amount='" + getAmount() + "'" +
@@ -142,6 +163,7 @@ public class WithdrawaldetailsDTO implements Serializable {
             ", createdate='" + getCreatedate() + "'" +
             ", modifierdate='" + getModifierdate() + "'" +
             ", state='" + getState() + "'" +
+            ", other='" + getOther() + "'" +
             "}";
     }
 }
