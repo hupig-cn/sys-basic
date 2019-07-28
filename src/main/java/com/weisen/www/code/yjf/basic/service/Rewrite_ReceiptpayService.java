@@ -28,7 +28,7 @@ public interface Rewrite_ReceiptpayService {
     // 查询用户的各项收益
     Result getUserPrifitInfo(Long userId);
     
-    // 查询用户的各项收益
+    // 查询用户的各项收益(推广端)
     Rewrite_ProfitDTO getUserProfit(String userid);
 
 }

@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.weisen.www.code.yjf.basic.service.Rewrite_ReceiptpayService;
 import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
@@ -97,11 +94,11 @@ public class Rewrite_ReceiptpayResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
     
-    @GetMapping("/getUserPrifitInfo/{userid}")
+    @GetMapping("/getUserProfit/{userid}")
     @ApiOperation(value = "查询用户的各项收益")
     public ResponseEntity<Rewrite_ProfitDTO> getUserProfit(@PathVariable String userid) {
     	Rewrite_ProfitDTO rewrite_ProfitDTO = rewrite_ReceiptpayService.getUserProfit(userid);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rewrite_ProfitDTO));
     }
-	
+
 }

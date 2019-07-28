@@ -2,6 +2,7 @@ package com.weisen.www.code.yjf.basic.service.impl;
 
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_ReceiptpayService;
 import com.weisen.www.code.yjf.basic.service.Rewrite_UserassetsService;
 import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
@@ -38,11 +39,15 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 
 	private final Rewrite_UserassetsService rewrite_UserassetsService;
 
+	private final Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository;
+
 	public Rewrite_ReceiptpayServiceImpl(Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository,
-			ReceiptpayMapper receiptpayMapper,Rewrite_UserassetsService rewrite_UserassetsService) {
+			ReceiptpayMapper receiptpayMapper,Rewrite_UserassetsService rewrite_UserassetsService,
+                                         Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository) {
 		this.rewrite_ReceiptpayRepository = rewrite_ReceiptpayRepository;
 		this.receiptpayMapper = receiptpayMapper;
 		this.rewrite_UserassetsService = rewrite_UserassetsService;
+		this.rewrite_UserlinkuserRepository = rewrite_UserlinkuserRepository;
 	}
 
 	// 查询商家今日收入 (商家端)
@@ -187,11 +192,69 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 				ProfitConstant.FIVE);
 		return receiptpayMapper.toDto(receiptpay);
 	}
+
+    // 查询用户的各项收益(推广端)
 	@Override
 	public Rewrite_ProfitDTO getUserProfit(String userid) {
 		Rewrite_ProfitDTO rewrite_ProfitDTO = new Rewrite_ProfitDTO();
-		
-		return null;
+
+        String today = new SimpleDateFormat("yyyy-MM-dd")
+            .format(new Date());
+        String startTime = today + " 00:00:00";
+        String endTime = today + " 23:59:59";
+
+        // 用户id
+        rewrite_ProfitDTO.setId(Long.valueOf(userid));
+        // 今日推荐人数量
+        Long todayCount = rewrite_UserlinkuserRepository.countAllByCreatedateBetweenAndRecommendid(startTime,endTime, userid.toString());
+        rewrite_ProfitDTO.setTodayrecommend(todayCount.toString());
+
+        // 今日分销的收入数量
+        List<Receiptpay> todayReceiptpay = rewrite_ReceiptpayRepository.
+            findInfoByTime(userid,startTime,endTime,ReceiptpayConstant.BALANCE_INCOME_DIR,ReceiptpayConstant.BALANCE_INCOME_PER);
+        BigDecimal todayPrice = todayReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add).get();
+        rewrite_ProfitDTO.setTodayprofit(todayPrice.toString());
+
+        // 昨日的分销收入
+        String retoday = new SimpleDateFormat("yyyy-MM-dd")
+            .format(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24));
+        String restartTime = retoday + " 00:00:00";
+        String reendTime = retoday + " 23:59:59";
+
+        List<Receiptpay> lastReceiptpay = rewrite_ReceiptpayRepository.
+            findInfoByTime(userid,restartTime,reendTime,ReceiptpayConstant.BALANCE_INCOME_DIR,ReceiptpayConstant.BALANCE_INCOME_PER);
+        BigDecimal lastPrice = lastReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add).get();
+        rewrite_ProfitDTO.setTodaylastprofit(lastPrice.toString());
+
+        // 本月的分销收入
+        String todayMonth = new SimpleDateFormat("yyyy-MM").format(new Date());
+        String toMonthTime =  todayMonth + "-01 00:00:00";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String nextTime = TimeUtil.getPreMonth(sdf.format(new Date())) + "-01 00:00:00";
+
+        List<Receiptpay> thisMonthReceiptpay = rewrite_ReceiptpayRepository.
+            findInfoByTime(userid,toMonthTime,nextTime,ReceiptpayConstant.BALANCE_INCOME_DIR,ReceiptpayConstant.BALANCE_INCOME_PER);
+        BigDecimal thisMonth = lastReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add).get();
+        rewrite_ProfitDTO.setMonthprofit(thisMonth.toString());
+
+        // 上月的分销收入
+        String lastMonthTime =TimeUtil.getLastMonth(sdf.format(new Date())) + "-01 00:00:00";
+
+        List<Receiptpay> lastMonthReceiptpay = rewrite_ReceiptpayRepository.
+            findInfoByTime(userid,lastMonthTime,toMonthTime,ReceiptpayConstant.BALANCE_INCOME_DIR,ReceiptpayConstant.BALANCE_INCOME_PER);
+        BigDecimal lastMonth = lastMonthReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add).get();
+        rewrite_ProfitDTO.setMonthlastprofit(lastMonth.toString());
+
+        // 总分销收入
+        List<Receiptpay> allReceiptpay = rewrite_ReceiptpayRepository.getAllInfo(userid,ReceiptpayConstant.BALANCE_INCOME_DIR,ReceiptpayConstant.BALANCE_INCOME_PER);
+        BigDecimal allprice = allReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add).get();
+        rewrite_ProfitDTO.setTotalprofit(allprice.toString());
+
+         // 总推荐人数
+        Long allCount = rewrite_UserlinkuserRepository.countAllByRecommendid(userid.toString());
+        rewrite_ProfitDTO.setTotalrecommend(allCount.toString());
+
+		return rewrite_ProfitDTO;
 	}
 
 }
