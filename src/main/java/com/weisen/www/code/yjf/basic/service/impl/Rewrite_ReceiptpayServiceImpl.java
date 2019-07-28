@@ -94,6 +94,9 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
     @Override
     public Rewrite_MercProfitDto getProfitInfo(Long userId) {
         Rewrite_UserPriceDTO rewrite_PriceDTO = rewrite_UserassetsService.findUserBalance(userId);
+        if(rewrite_PriceDTO == null){
+            return null;
+        }
         Rewrite_PriceDTO pricere = selectYesterday(userId);
 
         String today = new SimpleDateFormat("yyyy-MM").format(new Date());

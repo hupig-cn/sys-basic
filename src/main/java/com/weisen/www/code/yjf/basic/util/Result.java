@@ -55,7 +55,9 @@ public class Result implements Serializable {
 			this.totalElements = null;
 		} else if (data != null && !(data instanceof List<?>)) {
 			this.data = Arrays.asList(data);
-		} else {
+		} else if(data == null){
+            this.data = null;
+        }else{
 			if (!((List<?>) data).isEmpty()) this.data = data;
 		}
 	}
