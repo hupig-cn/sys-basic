@@ -102,6 +102,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
         withdrawaldetails.setWithdrawalid(save.getId().toString());
         withdrawaldetails.setCreatedate(TimeUtil.getDate());
         withdrawaldetails.setType(WithdrawalConstant.PAY);
+        withdrawaldetails.setTitle(WithdrawalConstant.getInfo(rewrite_withdrawalDTO.getGatheringway()));
         withdrawaldetails.setState(WithdrawalConstant.IN_READY);
         rewrite_WithdrawaldetailsRepository.save(withdrawaldetails);
 
@@ -214,6 +215,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
             failWithdrawaldetails.setAfteramount(userassets.getUsablebalance());
             failWithdrawaldetails.setCreatedate(TimeUtil.getDate());
             failWithdrawaldetails.setType(WithdrawalConstant.INCOME);
+            failWithdrawaldetails.setTitle("提现失败，资金回退");
             rewrite_WithdrawaldetailsRepository.save(failWithdrawaldetails);
 
         }else{
