@@ -1,11 +1,12 @@
 package com.weisen.www.code.yjf.basic.service;
 
+import java.util.List;
+
 import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_MercProfitDto;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_PriceDTO;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_ProfitDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
-
-import java.util.List;
 
 public interface Rewrite_ReceiptpayService {
 
@@ -26,5 +27,8 @@ public interface Rewrite_ReceiptpayService {
 
     // 查询用户的各项收益
     Result getUserPrifitInfo(Long userId);
+    
+    // 查询用户的各项收益
+    Rewrite_ProfitDTO getUserProfit(String userid);
 
 }

@@ -7,6 +7,7 @@ import com.weisen.www.code.yjf.basic.service.Rewrite_UserassetsService;
 import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_MercProfitDto;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_PriceDTO;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_ProfitDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_UserPriceDTO;
 import com.weisen.www.code.yjf.basic.service.mapper.ReceiptpayMapper;
 import com.weisen.www.code.yjf.basic.service.util.ProfitConstant;
@@ -185,6 +186,12 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 		List<Receiptpay> receiptpay = rewrite_ReceiptpayRepository.getReceiptpayByUseridAndDealtype(userId.toString(),
 				ProfitConstant.FIVE);
 		return receiptpayMapper.toDto(receiptpay);
+	}
+	@Override
+	public Rewrite_ProfitDTO getUserProfit(String userid) {
+		Rewrite_ProfitDTO rewrite_ProfitDTO = new Rewrite_ProfitDTO();
+		
+		return null;
 	}
 
 }

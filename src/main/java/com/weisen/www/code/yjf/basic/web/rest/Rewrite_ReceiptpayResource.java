@@ -3,9 +3,6 @@ package com.weisen.www.code.yjf.basic.web.rest;
 import java.util.List;
 import java.util.Optional;
 
-import com.weisen.www.code.yjf.basic.domain.Receiptpay;
-import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
-import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_MercProfitDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.weisen.www.code.yjf.basic.service.Rewrite_ReceiptpayService;
+import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_MercProfitDto;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_PriceDTO;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_ProfitDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 import io.github.jhipster.web.util.ResponseUtil;
@@ -95,6 +95,13 @@ public class Rewrite_ReceiptpayResource {
     public ResponseEntity<Result> getUserPrifitInfo(@PathVariable Long userId) {
         Result result = rewrite_ReceiptpayService.getUserPrifitInfo(userId);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+    
+    @GetMapping("/getUserPrifitInfo/{userid}")
+    @ApiOperation(value = "查询用户的各项收益")
+    public ResponseEntity<Rewrite_ProfitDTO> getUserProfit(@PathVariable String userid) {
+    	Rewrite_ProfitDTO rewrite_ProfitDTO = rewrite_ReceiptpayService.getUserProfit(userid);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rewrite_ProfitDTO));
     }
 	
 }
