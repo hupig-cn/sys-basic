@@ -16,7 +16,7 @@ public class Result implements Serializable {
 	
 	private Integer totalElements;
 	
-	private Object data = "";
+	private Object data;
 
 	public static final int SUCCESS = 1;
 	
