@@ -16,7 +16,7 @@ public class Result implements Serializable {
 	
 	private Integer totalElements;
 	
-	private Object data;
+	private Object data = "";
 
 	public static final int SUCCESS = 1;
 	
@@ -56,8 +56,7 @@ public class Result implements Serializable {
 		} else if (data != null && !(data instanceof List<?>)) {
 			this.data = Arrays.asList(data);
 		} else if(data == null){
-            this.data = null;
-            this.totalElements = 0;
+            this.data = "";
         }else{
 			if (!((List<?>) data).isEmpty()) this.data = data;
 		}
