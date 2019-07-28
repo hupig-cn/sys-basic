@@ -2,19 +2,19 @@ package com.weisen.www.code.yjf.basic.service.dto.show_dto;
 
 public class Rewrite_ProfitDTO {
 
-	private String todayrecommend;
+	private String todayrecommend; // 今日推荐人数量
 	
-    private String todayprofit;
+    private String todayprofit; // 今日分销的收入数量
     
-    private String todaylastprofit;
+    private String todaylastprofit; // 昨日的分销收入
     
-    private String monthprofit;
+    private String monthprofit; // 本月的分销收入
     
-    private String monthlastprofit;
+    private String monthlastprofit; // 上月的分销收入
     
-    private String totalprofit;
+    private String totalprofit; // 总分销收入
     
-    private String totalrecommend;
+    private String totalrecommend; // 总推荐人数
     
 	public String getTodayrecommend() {
 		return todayrecommend;
