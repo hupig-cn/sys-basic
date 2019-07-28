@@ -54,6 +54,6 @@ public class Rewrite_WithdrawaldetailsServiceImpl implements Rewrite_Withdrawald
             withlist.add(rewrite_WithdrawaldetailsDto);
         });
 
-        return Result.suc("成功",withlist,count);
+        return Result.suc("成功",list,count);
     }
 }
