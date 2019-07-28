@@ -236,7 +236,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),userlinkuser.getRecommendid(),mBigPrice);
         }
         // 是否有合伙人
-        String id = findPartner(userlinkuser.getRecommendid());
+        String id = findPartner(userorder.getUserid());
         if(id != null){
             BigDecimal mBigPrice = new BigDecimal(rewrite_DistributionDTO.getAmount());
             BigDecimal ma = new BigDecimal("4");
@@ -265,7 +265,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getPayee(),payeeuserlinkuser.getRecommendid(),mPrice);
             }
             // 是否有合伙人
-            String kid = findPartner(payeeuserlinkuser.getRecommendid());
+            String kid = findPartner(userorder.getPayee());
             if(kid != null){
                 BigDecimal mPrice = new BigDecimal(rewrite_DistributionDTO.getAmount());
                 BigDecimal kma = new BigDecimal("4");
