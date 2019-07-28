@@ -8,8 +8,10 @@ import com.weisen.www.code.yjf.basic.util.Result;
 public interface Rewrite_UserlinkuserService {
 	
 	String findRecommendName(String userid);
+	
+	Boolean getMyPartner(String userid);
 
 	// 分页查询用户的推荐人（时间 电话或token 做处理）
-    Result findAllByRecommendAndInfo(Long userid,int startPage,int pageSize);
+    Result findAllByRecommendAndInfo(String userid,int startPage,int pageSize);
 
 }

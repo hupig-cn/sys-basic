@@ -50,26 +50,35 @@ public class Rewrite_UserlinkuserServiceImpl implements Rewrite_UserlinkuserServ
 		return "无";
 	}
 
-    // 分页查询用户的推荐人（时间 电话或token 做处理）
+	@Override
+	public Boolean getMyPartner(String userid) {
+		Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userid);
+		if (userlinkuser != null && userlinkuser.isPartner()) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	// 分页查询用户的推荐人（时间 电话或token 做处理）
     @Override
-    public Result findAllByRecommendAndInfo(Long userid, int startPage, int pageSize) {
+    public Result findAllByRecommendAndInfo(String userid, int startPage, int pageSize) {
         List<Userlinkuser> list = rewrite_UserlinkuserRepository.
-            findAllByRecommendidAndTime(userid.toString(),startPage * pageSize,pageSize);
+            findAllByRecommendidAndTime(userid,startPage * pageSize,pageSize);
         List<Rewrite_UserLink> listUser = new ArrayList<>();
         list.forEach(x-> {
             Rewrite_UserLink rewrite_UserLink = new Rewrite_UserLink();
             Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(x.getUserid());
             rewrite_UserLink.setTime(x.getModifierdate());
             if(linkuser.getPhone() != null && !"".equals(linkuser.getPhone())){
-                rewrite_UserLink.setPhoneOrToken("元积分用户："+linkuser.getPhone().substring(0,3)
+                rewrite_UserLink.setPhoneOrToken("圆积分用户："+linkuser.getPhone().substring(0,3)
                     +"****"+linkuser.getPhone().substring(7,linkuser.getPhone().length()));
             }else{
                 Linkaccount linkaccount = rewrite_LinkaccountRepository.findFirstByUserid(x.getUserid());
-                rewrite_UserLink.setPhoneOrToken(linkaccount.getAccounttype()+"用户："+linkaccount.getToken().substring(0,3)+"******");
+                rewrite_UserLink.setPhoneOrToken(linkaccount.getAccounttype()+"用户："+linkaccount.getToken().substring(0,3)+"********");
             }
             listUser.add(rewrite_UserLink);
         });
-
         return Result.suc("success",listUser);
     }
 }

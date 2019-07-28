@@ -46,7 +46,7 @@ public class Rewrite_WithdrawaldetailsServiceImpl implements Rewrite_Withdrawald
 
         list.forEach(x -> {
             Rewrite_WithdrawaldetailsDto rewrite_WithdrawaldetailsDto = new Rewrite_WithdrawaldetailsDto();
-            rewrite_WithdrawaldetailsDto.setTitle(x.getWithdrawalway());
+            rewrite_WithdrawaldetailsDto.setTitle(x.getTitle());
             rewrite_WithdrawaldetailsDto.setAmount(x.getAmount());
             rewrite_WithdrawaldetailsDto.setBalance(x.getAfteramount());
             rewrite_WithdrawaldetailsDto.setId(x.getId().toString());
