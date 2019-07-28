@@ -1,13 +1,10 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
 import com.weisen.www.code.yjf.basic.domain.Usercard;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_UserorderRepository;
 import com.weisen.www.code.yjf.basic.repository.UsercardRepository;
-import com.weisen.www.code.yjf.basic.service.Rewrite_ReceiptpayService;
 import com.weisen.www.code.yjf.basic.service.Rewrite_UsercardService;
 import com.weisen.www.code.yjf.basic.service.dto.UsercardDTO;
 import com.weisen.www.code.yjf.basic.service.mapper.UsercardMapper;
-import com.weisen.www.code.yjf.basic.service.mapper.UserorderMapper;
 import com.weisen.www.code.yjf.basic.util.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
