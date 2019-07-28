@@ -6,5 +6,7 @@ package com.weisen.www.code.yjf.basic.service;
 public interface Rewrite_UserlinkuserService {
 	
 	String findRecommendName(String userid);
+	
+	Boolean getMyPartner(String userid);
 
 }

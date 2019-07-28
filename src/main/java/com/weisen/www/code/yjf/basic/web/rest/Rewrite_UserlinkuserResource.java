@@ -40,4 +40,12 @@ public class Rewrite_UserlinkuserResource {
         log.debug("REST request to get Userlinkuser : {}", userid);
         return rewrite_UserlinkuserService.findRecommendName(userid);
     }
+    
+    @GetMapping("/getMyPartner/{userid}")
+    @ApiOperation(value = "获取当前用户是否是合伙人")
+    public Boolean getMyPartner(@PathVariable String userid) {
+        log.debug("REST request to get Userlinkuser : {}", userid);
+        return rewrite_UserlinkuserService.getMyPartner(userid);
+    }
+    
 }

@@ -39,4 +39,14 @@ public class Rewrite_UserlinkuserServiceImpl implements Rewrite_UserlinkuserServ
 		}
 		return "无";
 	}
+	
+	@Override
+	public Boolean getMyPartner(String userid) {
+		Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userid);
+		if (userlinkuser != null && userlinkuser.isPartner()) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 }
