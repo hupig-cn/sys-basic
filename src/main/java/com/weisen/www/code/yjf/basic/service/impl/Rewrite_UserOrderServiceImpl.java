@@ -1,6 +1,8 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import com.weisen.www.code.yjf.basic.domain.Userlinkuser;
 import com.weisen.www.code.yjf.basic.domain.Userorder;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserorderRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_ReceiptpayService;
 import com.weisen.www.code.yjf.basic.service.Rewrite_UserOrderService;
@@ -31,14 +33,20 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
 
     private final Rewrite_UserorderRepository rewrite_UserorderRepository;
 
+    private final Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository;
+
     private final UserorderMapper userorderMapper;
 
     private final Rewrite_ReceiptpayService rewrite_ReceiptpayService;
 
-    public Rewrite_UserOrderServiceImpl(Rewrite_UserorderRepository rewrite_UserorderRepository, UserorderMapper userorderMapper,Rewrite_ReceiptpayService rewrite_ReceiptpayService) {
+    public Rewrite_UserOrderServiceImpl(Rewrite_UserorderRepository rewrite_UserorderRepository,
+                                        UserorderMapper userorderMapper,
+                                        Rewrite_ReceiptpayService rewrite_ReceiptpayService
+                                        ,Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository) {
         this.rewrite_UserorderRepository = rewrite_UserorderRepository;
         this.userorderMapper = userorderMapper;
         this.rewrite_ReceiptpayService = rewrite_ReceiptpayService;
+        this.rewrite_UserlinkuserRepository = rewrite_UserlinkuserRepository;
     }
 
     // 获取用户当日的订单量（区分端）
@@ -121,6 +129,13 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     //用户下单
     @Override
     public Result placeAnOrder(Rewrite_AnOrder rewrite_AnOrder) {
+        if(rewrite_AnOrder.getProductid().equals("1")){
+            Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(rewrite_AnOrder.getUserId());
+            if(userlinkuser.isPartner() == true){
+                return Result.fail("您已经是圆帅了");
+            }
+        }
+
         if(null == rewrite_AnOrder.getUserId()){
 
         }else if(null == rewrite_AnOrder.getPrice()){
