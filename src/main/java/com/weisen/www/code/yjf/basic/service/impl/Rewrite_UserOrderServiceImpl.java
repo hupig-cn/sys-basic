@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -135,6 +134,7 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
         userorder.setPayresult("");  // ??
         userorder.setCreator(null);
         userorder.setCreatedate(TimeUtil.getDate());
+        userorder.setOther(rewrite_AnOrder.getProductid());
         rewrite_UserorderRepository.save(userorder);
 
         return Result.suc("成功", userorder.getId());
@@ -151,7 +151,7 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
         Rewrite_OrderCoDto rewrite_OrderCoDto = new Rewrite_OrderCoDto(rewrite_PriceDTO.getPrice(),day_order,unpaid,paid,refund);
         return Result.suc("成功",rewrite_OrderCoDto);
     }
-    
+
 //    public static void main(String[] args) {
 //    	BigDecimal mPrice = new BigDecimal(123);
 //    	BigDecimal kma = new BigDecimal(0.1);
