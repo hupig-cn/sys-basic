@@ -379,7 +379,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 
 
     //订单商品是元帅的流程
-    private Result judgeYuanShuai(Rewrite_DistributionDTO rewrite_DistributionDTO){
+    public Result judgeYuanShuai(Rewrite_DistributionDTO rewrite_DistributionDTO){
         Userorder userorder = userorderRepository.getOne(rewrite_DistributionDTO.getOrderId());
         if(userorder == null || userorder.getOrderstatus().equals(OrderConstant.UN_PAID)){
             return Result.fail("订单不存在或订单未支付");
@@ -398,7 +398,8 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             mBigPrice = mBigPrice.multiply(ma).setScale(3, BigDecimal.ROUND_HALF_UP);
             craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_PER,userorder.getUserid(),id,mBigPrice);
         }
-
+        
+        return Result.suc("成功");
     }
 
 
