@@ -67,7 +67,7 @@ public class Rewrite_InformationResource {
     @PostMapping("/get-account-information")
     @ApiOperation("获取账号消息列表")
     public ResponseEntity<?> getInformations(@RequestBody Rewrite_InformationDetailsDTO details){
-        Result result = informationService.getInformations(details.getUserId(), details.getPageNum(), details.getPageSize());
+        Result result = informationService.getInformations(details);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 }
