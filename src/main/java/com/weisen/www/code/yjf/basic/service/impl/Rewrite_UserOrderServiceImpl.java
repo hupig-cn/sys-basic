@@ -129,7 +129,7 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     //用户下单
     @Override
     public Result placeAnOrder(Rewrite_AnOrder rewrite_AnOrder) {
-        if(rewrite_AnOrder.getOther().equals("1")){
+        if(rewrite_AnOrder.getProductid().equals("1")){
             Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(rewrite_AnOrder.getUserId());
             if(userlinkuser.isPartner() == true){
                 return Result.fail("您已经是圆帅了");
