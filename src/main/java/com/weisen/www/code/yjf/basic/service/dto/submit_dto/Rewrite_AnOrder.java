@@ -11,6 +11,8 @@ public class Rewrite_AnOrder {
 
     private String payWay;
 
+    private String other;
+
     private List<Long> specId;
     private String productid;
 
@@ -20,6 +22,14 @@ public class Rewrite_AnOrder {
 
     public void setProductid(String productid) {
         this.productid = productid;
+    }
+
+    public String getOther() {
+        return other;
+    }
+
+    public void setOther(String other) {
+        this.other = other;
     }
 
     public List<Long> getSpecId() {
