@@ -122,13 +122,13 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
         List<Receiptpay> lastreceiptpay = rewrite_ReceiptpayRepository.getReceiptpayByUseridAndTime(userId.toString(),
             lastTime, startTime, ReceiptpayConstant.BALANCE_INCOME);
         BigDecimal lastprice = new BigDecimal("0");
-        for (Receiptpay list : receiptpay) {
+        for (Receiptpay list : lastreceiptpay) {
             lastprice = lastprice.add(list.getAmount());
         }
         // 总销售额
         List<Receiptpay> allreceiptpay = rewrite_ReceiptpayRepository.findAllByUseridAndDealtype(userId.toString(),ReceiptpayConstant.BALANCE_INCOME);
         BigDecimal totalprice = new BigDecimal("0");
-        for (Receiptpay list : receiptpay) {
+        for (Receiptpay list : allreceiptpay) {
             totalprice = totalprice.add(list.getAmount());
         }
 
