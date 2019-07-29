@@ -7,10 +7,10 @@ import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_InformationRepos
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_MessageTemplateRepository;
 import com.weisen.www.code.yjf.basic.service.dto.InformationDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_InformationService;
-import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_InformationDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitInformationDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_InformationMapper;
 import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_MessageTemplateMapper;
+import com.weisen.www.code.yjf.basic.service.rewrite.submit_dto.Rewrite_InformationDetailsDTO;
 import com.weisen.www.code.yjf.basic.util.CheckUtils;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
@@ -235,18 +235,18 @@ public class Rewrite_InformationServiceImpl implements Rewrite_InformationServic
      * @param pageSize
      * @return
      */
-    public Result getInformations(String userId, Integer pageNum, Integer pageSize) {
-        if(!CheckUtils.checkString(userId))
+    public Result getInformations(Rewrite_InformationDetailsDTO details) {
+        if(!CheckUtils.checkString(details.getUserId()))
             return Result.fail();
-        else if(!CheckUtils.checkPageInfo(pageNum,pageSize))
+        else if(!CheckUtils.checkPageInfo(details.getPageNum(),details.getPageSize()))
             return Result.fail();
         else {
-            List<Information> informations = rewrite_informationRepository.getInformations(userId, pageNum * pageSize, pageSize);
-            if(!CheckUtils.checkList(informations))
+            List<Information> informations = rewrite_informationRepository.getInformations(details.getUserId(), details.getPageNum() * details.getPageNum(), details.getPageSize());
+            if(!CheckUtils.checkList(informations)){
                 return Result.fail();
-            Integer count = rewrite_informationRepository.getCount(userId);
+            }
             List<InformationDTO> data = rewrite_informationMapper.toDto(informations);
-            return Result.suc("获取成功",data,count);
+            return Result.suc("获取成功",data);
         }
     }
 }
