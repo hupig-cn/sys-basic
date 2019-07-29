@@ -14,6 +14,10 @@ public class Rewrite_PriceDTO {
 
     private List<CouponDTO> Coupon;
 
+    public Rewrite_PriceDTO(){
+
+    }
+
     public String getBalance() {
         return balance;
     }

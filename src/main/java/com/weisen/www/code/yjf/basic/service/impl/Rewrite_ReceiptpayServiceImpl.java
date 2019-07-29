@@ -70,17 +70,19 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 	// 获取昨日收款 （商家）
 	@Override
 	public Rewrite_PriceDTO selectYesterday(Long userId) {
+        Rewrite_PriceDTO rewrite_PriceDTO = new Rewrite_PriceDTO();
 		String today = new SimpleDateFormat("yyyy-MM-dd")
 				.format(new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24));
 		String startTime = today + " 00:00:00";
 		String endTime = today + " 23:59:59";
 		List<Receiptpay> receiptpay = rewrite_ReceiptpayRepository.getReceiptpayByUseridAndTime(userId.toString(),
 				startTime, endTime, ReceiptpayConstant.BALANCE_INCOME);
-		BigDecimal price = new BigDecimal("0");
-		for (Receiptpay list : receiptpay) {
-			price = price.add(list.getAmount());
-		}
-		Rewrite_PriceDTO rewrite_PriceDTO = new Rewrite_PriceDTO(price.toString());
+        Optional thisPrice = receiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
+        if(thisPrice.isPresent()){
+            rewrite_PriceDTO.setPrice(thisPrice.get().toString());
+        }else{
+            rewrite_PriceDTO.setPrice("0");
+        }
 		return rewrite_PriceDTO;
 	}
 
@@ -100,11 +102,16 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
     // 查询商家各项详细收益
     @Override
     public Rewrite_MercProfitDto getProfitInfo(Long userId) {
+        Rewrite_MercProfitDto rewrite_MercProfitDto = new Rewrite_MercProfitDto();
+
         Rewrite_UserPriceDTO rewrite_PriceDTO = rewrite_UserassetsService.findUserBalance(userId);
         if(rewrite_PriceDTO == null){
             return null;
         }
+        rewrite_MercProfitDto.setBalance(rewrite_PriceDTO.getBalance());
+
         Rewrite_PriceDTO pricere = selectYesterday(userId);
+        rewrite_MercProfitDto.setYestoday_income(new BigDecimal(pricere.getPrice()));
 
         String today = new SimpleDateFormat("yyyy-MM").format(new Date());
         String startTime =  today + "-01 00:00:00";
@@ -113,18 +120,24 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
         // 当月销售
         List<Receiptpay> receiptpay = rewrite_ReceiptpayRepository.getReceiptpayByUseridAndTime(userId.toString(),
             startTime, endTime, ReceiptpayConstant.BALANCE_INCOME);
-        BigDecimal price = new BigDecimal("0");
-        for (Receiptpay list : receiptpay) {
-            price = price.add(list.getAmount());
+        Optional thisPrice = receiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
+        if(thisPrice.isPresent()){
+            rewrite_MercProfitDto.setThis_month(new BigDecimal(thisPrice.get().toString()));
+        }else{
+            rewrite_MercProfitDto.setThis_month(new BigDecimal("0"));
         }
+
         String lastTime =TimeUtil.getLastMonth(sdf.format(new Date())) + "-01 00:00:00";
         //上个月
         List<Receiptpay> lastreceiptpay = rewrite_ReceiptpayRepository.getReceiptpayByUseridAndTime(userId.toString(),
             lastTime, startTime, ReceiptpayConstant.BALANCE_INCOME);
-        BigDecimal lastprice = new BigDecimal("0");
-        for (Receiptpay list : lastreceiptpay) {
-            lastprice = lastprice.add(list.getAmount());
+        Optional lastPrice = lastreceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
+        if(lastPrice.isPresent()){
+            rewrite_MercProfitDto.setLast_month(new BigDecimal(lastPrice.get().toString()));
+        }else{
+            rewrite_MercProfitDto.setLast_month(new BigDecimal("0"));
         }
+
         // 总销售额
         List<Receiptpay> allreceiptpay = rewrite_ReceiptpayRepository.findAllByUseridAndDealtype(userId.toString(),ReceiptpayConstant.BALANCE_INCOME);
         BigDecimal totalprice = new BigDecimal("0");
@@ -132,8 +145,6 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
             totalprice = totalprice.add(list.getAmount());
         }
 
-        Rewrite_MercProfitDto rewrite_MercProfitDto = new Rewrite_MercProfitDto(rewrite_PriceDTO.getBalance(),
-            new BigDecimal(pricere.getPrice()),price,lastprice,totalprice);
         return rewrite_MercProfitDto;
     }
 
