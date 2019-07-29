@@ -19,5 +19,5 @@ public interface Rewrite_PayService {
     Result couponPayment(Rewrite_PayDTO rewrite_PayDTO);
 
     //订单商品是元帅的流程
-    Result judgeYuanShuai(Rewrite_DistributionDTO rewrite_DistributionDTO)
+    Result judgeYuanShuai(Rewrite_DistributionDTO rewrite_DistributionDTO);
 }
