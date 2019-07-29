@@ -390,15 +390,16 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         userlinkuser.setPartner(true);
         rewrite_UserlinkuserRepository.saveAndFlush(userlinkuser);
 
-        String id = findPartner(userorder.getUserid());
-        if(id != null){
-            BigDecimal mBigPrice = new BigDecimal(rewrite_DistributionDTO.getAmount());
-            BigDecimal ma = new BigDecimal("25");
-            ma = ma.divide(new BigDecimal("100"));
-            mBigPrice = mBigPrice.multiply(ma).setScale(3, BigDecimal.ROUND_HALF_UP);
-            craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_PER,userorder.getUserid(),id,mBigPrice);
+        if(userlinkuser.getRecommendid() != null && !"".equals(userlinkuser.getRecommendid())){
+            String id = findPartner(userlinkuser.getRecommendid());
+            if(id != null){
+                BigDecimal mBigPrice = new BigDecimal(rewrite_DistributionDTO.getAmount());
+                BigDecimal ma = new BigDecimal("25");
+                ma = ma.divide(new BigDecimal("100"));
+                mBigPrice = mBigPrice.multiply(ma).setScale(3, BigDecimal.ROUND_HALF_UP);
+                craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_PER,userorder.getUserid(),id,mBigPrice);
+            }
         }
-        
         return Result.suc("成功");
     }
 
