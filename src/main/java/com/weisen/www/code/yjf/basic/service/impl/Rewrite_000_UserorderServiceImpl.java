@@ -168,7 +168,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
                         Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId()
                             ,OrderConstant.ALI_PAY);
 
-                        if(userorder.getOther().equals("1")){ // 圆帅
+                        if(userorder.getOther() != null && userorder.getOther().equals("1")){ // 圆帅
                             rewrite_PayService.judgeYuanShuai(rewrite_DistributionDTO);
                         }else{
                             rewrite_PayService.distribution(rewrite_DistributionDTO);
