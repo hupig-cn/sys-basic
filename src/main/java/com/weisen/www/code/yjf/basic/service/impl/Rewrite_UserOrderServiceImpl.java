@@ -134,6 +134,7 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
         userorder.setUserid(rewrite_AnOrder.getUserId());
         userorder.setPayresult("");  // ??
         userorder.setCreator(null);
+        userorder.setOther(rewrite_AnOrder.getOther());
         userorder.setCreatedate(TimeUtil.getDate());
         rewrite_UserorderRepository.save(userorder);
 

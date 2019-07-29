@@ -11,7 +11,17 @@ public class Rewrite_AnOrder {
 
     private String payWay;
 
+    private String other;
+
     private List<Long> specId;
+
+    public String getOther() {
+        return other;
+    }
+
+    public void setOther(String other) {
+        this.other = other;
+    }
 
     public List<Long> getSpecId() {
         return specId;

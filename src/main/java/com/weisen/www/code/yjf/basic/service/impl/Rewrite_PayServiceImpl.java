@@ -69,6 +69,11 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             return  Result.fail("支付密码错误");
         }
 
+        Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getUserid());
+        if(userorder.getOther().equals("1") && userlinkuser.isPartner() == true){
+            return  Result.fail("用户已经是圆帅");
+        }
+
         // 我的资产
         Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
         int num = userorder.getSum().compareTo(new BigDecimal(userassets.getUsablebalance()));
@@ -95,7 +100,12 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         userassetsRepository.save(userassets);
 
         Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId(),userorder.getPayway());
-        distribution(rewrite_DistributionDTO);
+
+        if(userorder.getOther().equals("1")){ // 圆帅
+            judgeYuanShuai(rewrite_DistributionDTO);
+        }else{
+            distribution(rewrite_DistributionDTO);
+        }
 
         return Result.suc("支付成功");
     }
@@ -112,6 +122,10 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userorder.getUserid());
         if(!passwordEncoder.matches(rewrite_PayDTO.getPassword(),linkuser.getPaypassword())){
             return  Result.fail("支付密码错误");
+        }
+
+        if(userorder.getOther().equals("1")){
+            return  Result.fail("开通圆帅不能使用此支付方式");
         }
 
         // 我的资产
@@ -154,6 +168,10 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userorder.getUserid());
         if(!passwordEncoder.matches(rewrite_PayDTO.getPassword(),linkuser.getPaypassword())){
             return  Result.fail("支付密码错误");
+        }
+
+        if(userorder.getOther().equals("1")){
+            return  Result.fail("开通圆帅不能使用此支付方式");
         }
 
         // 我的资产
@@ -357,6 +375,30 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpay.setUserid(userId);
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);
+    }
+
+
+    //订单商品是元帅的流程
+    private Result judgeYuanShuai(Rewrite_DistributionDTO rewrite_DistributionDTO){
+        Userorder userorder = userorderRepository.getOne(rewrite_DistributionDTO.getOrderId());
+        if(userorder == null || userorder.getOrderstatus().equals(OrderConstant.UN_PAID)){
+            return Result.fail("订单不存在或订单未支付");
+        }
+
+        // 付款人关系
+        Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getUserid());
+        userlinkuser.setPartner(true);
+        rewrite_UserlinkuserRepository.saveAndFlush(userlinkuser);
+
+        String id = findPartner(userorder.getUserid());
+        if(id != null){
+            BigDecimal mBigPrice = new BigDecimal(rewrite_DistributionDTO.getAmount());
+            BigDecimal ma = new BigDecimal("25");
+            ma = ma.divide(new BigDecimal("100"));
+            mBigPrice = mBigPrice.multiply(ma).setScale(3, BigDecimal.ROUND_HALF_UP);
+            craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_PER,userorder.getUserid(),id,mBigPrice);
+        }
+
     }
 
 
