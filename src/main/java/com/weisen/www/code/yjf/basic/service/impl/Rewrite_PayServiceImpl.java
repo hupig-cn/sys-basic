@@ -229,13 +229,13 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getUserid());
 
         // 如何付款用户没有推荐人，把给第一个付款的商家用户自动绑定
-        if((null  == userlinkuser.getRecommendid() || "".equals(userlinkuser.getRecommendid())) && null == userorder.getPayee()){
+        if((null  == userlinkuser.getRecommendid() || "".equals(userlinkuser.getRecommendid())) && null != userorder.getPayee()){
             userlinkuser.setRecommendid(userorder.getPayee());
             userlinkuser = rewrite_UserlinkuserRepository.saveAndFlush(userlinkuser);
         }
 
         // 支付者推荐人分销
-        if(userlinkuser.getRecommendid() != null && !"".equals(userlinkuser.getRecommendid()) ){
+        if(userlinkuser.getRecommendid() != null && !"".equals(userlinkuser.getRecommendid()) && !"1".equals(userlinkuser.getRecommendid())){
             BigDecimal mBigPrice = new BigDecimal(rewrite_DistributionDTO.getAmount());
             BigDecimal ma = new BigDecimal("5");
             ma = ma.divide(new BigDecimal("1000"));
@@ -264,7 +264,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             Userlinkuser payeeuserlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getPayee());
 
             // 收款方推荐人分销
-            if(payeeuserlinkuser.getRecommendid() != null && !"".equals(payeeuserlinkuser.getRecommendid())){
+            if(payeeuserlinkuser.getRecommendid() != null && !"".equals(payeeuserlinkuser.getRecommendid()) && !"1".equals(payeeuserlinkuser.getRecommendid())){
                 BigDecimal mPrice = new BigDecimal(rewrite_DistributionDTO.getAmount());
                 BigDecimal kma = new BigDecimal("5");
                 kma = kma.divide(new BigDecimal("1000"));
@@ -324,7 +324,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         if(null != userlinkuser){
             if(null != userlinkuser.isPartner() && userlinkuser.isPartner() == true){
                 return userId;
-            }else if(userlinkuser.getRecommendid() != null && !"".equals(userlinkuser.getRecommendid())){
+            }else if(userlinkuser.getRecommendid() != null && !"".equals(userlinkuser.getRecommendid()) && !"1".equals(userlinkuser.getRecommendid())){
                 return findPartner(userlinkuser.getRecommendid());
             }
         }

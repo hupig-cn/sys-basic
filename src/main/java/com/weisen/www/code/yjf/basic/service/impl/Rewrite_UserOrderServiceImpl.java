@@ -52,7 +52,7 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     // 获取用户当日的订单量（区分端）
     @Override
     public int getTodayOrderNum(Long userId) {
-        List<Userorder> list = rewrite_UserorderRepository.findAllByUserid(userId.toString());
+        List<Userorder> list = rewrite_UserorderRepository.findAllByPayee(userId.toString());
         String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         String startTime =  today + " 00:00:00";
         String endTime = today + " 23:59:59";
@@ -76,28 +76,28 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     // 获取待付款订单
     @Override
     public List<UserorderDTO> getUnpaidOrder(Long userId) {
-        List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndOrderstatus(userId.toString(), OrderConstant.UN_PAID);
+        List<Userorder> list = rewrite_UserorderRepository.findAllByPayeeAndOrderstatus(userId.toString(), OrderConstant.UN_PAID);
         return userorderMapper.toDto(list);
     }
 
     // 获取已支付订单
     @Override
     public List<UserorderDTO> getPaidOrder(Long userId) {
-        List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndOrderstatus(userId.toString(), OrderConstant.PAID);
+        List<Userorder> list = rewrite_UserorderRepository.findAllByPayeeAndOrderstatus(userId.toString(), OrderConstant.PAID);
         return userorderMapper.toDto(list);
     }
 
     // 获取退款订单
     @Override
     public List<UserorderDTO> getRefundOrder(Long userId) {
-        List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndOrderstatus(userId.toString(), OrderConstant.REFUNDED);
+        List<Userorder> list = rewrite_UserorderRepository.findAllByPayeeAndOrderstatus(userId.toString(), OrderConstant.REFUNDED);
         return userorderMapper.toDto(list);
     }
 
     // 获取当日订单
     @Override
     public List<UserorderDTO> getTodayOrder(Long userId) {
-        List<Userorder> list = rewrite_UserorderRepository.findAllByUserid(userId.toString());
+        List<Userorder> list = rewrite_UserorderRepository.findAllByPayee(userId.toString());
         String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         String startTime =  today + " 00:00:00";  // 当天开始时间
         String endTime = today + " 23:59:59";     // 当天结束时间

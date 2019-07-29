@@ -22,6 +22,10 @@ public class Rewrite_MercProfitDto {
         this.amount = amount;
     }
 
+    public Rewrite_MercProfitDto(){
+
+    }
+
     public String getBalance() {
         return balance;
     }
