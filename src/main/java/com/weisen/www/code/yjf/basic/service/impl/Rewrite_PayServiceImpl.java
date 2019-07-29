@@ -211,7 +211,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getUserid());
 
         // 如何付款用户没有推荐人，把给第一个付款的商家用户自动绑定
-        if(userlinkuser.getRecommendid() ==null || "".equals(userlinkuser.getRecommendid())){
+        if((null  == userlinkuser.getRecommendid() || "".equals(userlinkuser.getRecommendid())) && null == userorder.getPayee()){
             userlinkuser.setRecommendid(userorder.getPayee());
             userlinkuser = rewrite_UserlinkuserRepository.saveAndFlush(userlinkuser);
         }
