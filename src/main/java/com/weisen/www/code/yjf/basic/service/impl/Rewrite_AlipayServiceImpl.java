@@ -64,7 +64,7 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 		String id = "0";
 		if (linkaccount != null) {
 			Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(linkaccount.getUserid());
-			if (null != linkuser && null != linkuser.getPhone() && !"".equals(linkuser.getPhone())) {
+			if (null != linkuser && null != linkuser.getPhone() && linkuser.getPhone().length() == 11) {
 				if (linkaccount.getUserid().equals(userid)) {
 					return "已绑定，请勿重复操作";
 				} else {
@@ -106,7 +106,7 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 		}
 		if (recommendr != null && !recommendr.equals("")) {
 			Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userid);
-			if (userlinkuser != null && userlinkuser.getRecommendid() != null && !"".equals(userlinkuser.getRecommendid())) {// app有推荐人
+			if (userlinkuser != null && userlinkuser.getRecommendid() != null && !"".equals(userlinkuser.getRecommendid()) && !"1".equals(userlinkuser.getRecommendid())) {// app有推荐人
 				if (userlinkuser.getOther() != null && !"".equals(userlinkuser.getOther())) {
 					if ((getToLong(userlinkuser.getModifierdate()) > getToLong(recommenddate))) {
 						userlinkuser.setRecommendid(recommendr);
@@ -114,7 +114,7 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 						userlinkuser.setOther("支付宝");
 					}
 				}
-			} else if (userlinkuser != null && (userlinkuser.getRecommendid() == null || "".equals(userlinkuser.getRecommendid()))) {// app没有推荐人，但是有数据
+			} else if (userlinkuser != null && (userlinkuser.getRecommendid() == null || "".equals(userlinkuser.getRecommendid()) || "1".equals(userlinkuser.getRecommendid()))) {// app没有推荐人，但是有数据
 				userlinkuser.setRecommendid(recommendr);
 				userlinkuser.setModifierdate(recommenddate);
 				userlinkuser.setOther("支付宝");
