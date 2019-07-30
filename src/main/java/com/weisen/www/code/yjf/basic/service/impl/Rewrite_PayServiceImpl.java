@@ -70,7 +70,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         }
 
         Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getUserid());
-        if(userorder.getOther().equals("1") && userlinkuser.isPartner() == true){
+        if(null != userorder.getOther() &&userorder.getOther().equals("1") && userlinkuser.isPartner() == true){
             return  Result.fail("用户已经是圆帅");
         }
 

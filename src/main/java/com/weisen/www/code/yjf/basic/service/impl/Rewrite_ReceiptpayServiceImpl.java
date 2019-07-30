@@ -120,6 +120,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
         // 当月销售
         List<Receiptpay> receiptpay = rewrite_ReceiptpayRepository.getReceiptpayByUseridAndTime(userId.toString(),
             startTime, endTime, ReceiptpayConstant.BALANCE_INCOME);
+        log.debug("getProfitInfo--------------" +receiptpay.toString());
         Optional thisPrice = receiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
         if(thisPrice.isPresent()){
             rewrite_MercProfitDto.setThis_month(new BigDecimal(thisPrice.get().toString()));
@@ -144,6 +145,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
         for (Receiptpay list : allreceiptpay) {
             totalprice = totalprice.add(list.getAmount());
         }
+        rewrite_MercProfitDto.setAmount(totalprice);
 
         return rewrite_MercProfitDto;
     }
