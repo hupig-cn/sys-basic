@@ -70,7 +70,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         }
 
         Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getUserid());
-        if(null != userorder.getOther() &&userorder.getOther().equals("1") && userlinkuser.isPartner() == true){
+        if(null != userorder.getOther() && userorder.getOther().equals("1") && userlinkuser.isPartner() == true){
             return  Result.fail("用户已经是圆帅");
         }
 
@@ -101,7 +101,8 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 
         Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId(),userorder.getPayway());
 
-        if(userorder.getOther().equals("1")){ // 圆帅
+        if(null != userorder.getOther() 
+        		&& userorder.getOther().equals("1")){ // 圆帅
             judgeYuanShuai(rewrite_DistributionDTO);
         }else{
             distribution(rewrite_DistributionDTO);
