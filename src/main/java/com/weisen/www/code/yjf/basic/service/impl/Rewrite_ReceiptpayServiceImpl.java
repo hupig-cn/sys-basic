@@ -6,10 +6,7 @@ import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_ReceiptpayService;
 import com.weisen.www.code.yjf.basic.service.Rewrite_UserassetsService;
 import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
-import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_MercProfitDto;
-import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_PriceDTO;
-import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_ProfitDTO;
-import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_UserPriceDTO;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.*;
 import com.weisen.www.code.yjf.basic.service.mapper.ReceiptpayMapper;
 import com.weisen.www.code.yjf.basic.service.util.ProfitConstant;
 import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
@@ -24,9 +21,9 @@ import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -290,6 +287,34 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
         rewrite_ProfitDTO.setTotalrecommend(allCount.toString());
 
 		return rewrite_ProfitDTO;
-	}
+    }
+
+    // 查询用户商家端收益列表倒叙(意哥需求)
+    @Override
+    public Result findMerchantProfitInfo(String userId,int startPage,int pageSize) {
+        List<Receiptpay> list = rewrite_ReceiptpayRepository.getAllByMerchantAndType
+            (userId,ReceiptpayConstant.BALANCE_INCOME,startPage * pageSize,pageSize);
+        List<Rewrite_MerchantShow> merList = new ArrayList<>();
+        list.forEach(x -> {
+            Rewrite_MerchantShow<Rewrite_MerchantShow> rewrite_MerchantShow = new Rewrite_MerchantShow();
+            rewrite_MerchantShow.setTime(x.getCreatedate().substring(0,7));
+            x.setCreatedate(x.getCreatedate().substring(7,x.getCreatedate().length()));
+            rewrite_MerchantShow.setSingleClass(x);
+            merList.add(rewrite_MerchantShow);
+        });
+
+        Map<String,List<Rewrite_MerchantShow>> map = merList.stream().
+            collect(Collectors.groupingBy(Rewrite_MerchantShow::getTime));
+
+        List<Rewrite_MerchantShow> showList = new ArrayList<>();
+        map.forEach((x,y) ->{
+            Rewrite_MerchantShow<Rewrite_MerchantShow> rewrite_MerchantShow = new Rewrite_MerchantShow();
+            rewrite_MerchantShow.setTime(x);
+            rewrite_MerchantShow.setList(y);
+            showList.add(rewrite_MerchantShow);
+        });
+
+        return Result.suc("成功",showList);
+    }
 
 }

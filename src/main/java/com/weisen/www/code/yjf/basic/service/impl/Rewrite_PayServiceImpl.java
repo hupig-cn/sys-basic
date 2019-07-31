@@ -70,7 +70,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         }
 
         Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getUserid());
-        if(userorder.getOther().equals("1") && userlinkuser.isPartner() == true){
+        if(null != userorder.getOther() && userorder.getOther().equals("1") && userlinkuser.isPartner() == true){
             return  Result.fail("用户已经是圆帅");
         }
 
@@ -89,7 +89,8 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         // 支出流水
         Receiptpay receiptpay = new Receiptpay();
         receiptpay.setAmount(userorder.getSum());
-        receiptpay.dealstate(ReceiptpayConstant.BALANCE_PAY); //余额支出
+        receiptpay.setDealtype(ReceiptpayConstant.BALANCE_PAY); //余额支出
+        receiptpay.setDealstate(ReceiptpayConstant.PAY);
         receiptpay.setUserid(userorder.getUserid());
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);
@@ -101,7 +102,8 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 
         Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId(),userorder.getPayway());
 
-        if(userorder.getOther().equals("1")){ // 圆帅
+        if(null != userorder.getOther() 
+        		&& userorder.getOther().equals("1")){ // 圆帅
             judgeYuanShuai(rewrite_DistributionDTO);
         }else{
             distribution(rewrite_DistributionDTO);
@@ -144,7 +146,8 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         // 支出流水
         Receiptpay receiptpay = new Receiptpay();
         receiptpay.setAmount(userorder.getSum());
-        receiptpay.dealstate(ReceiptpayConstant.INTEGRAL_PAY); //积分支出
+        receiptpay.setDealtype(ReceiptpayConstant.INTEGRAL_PAY); //积分支出
+        receiptpay.setDealstate(ReceiptpayConstant.PAY);
         receiptpay.setUserid(userorder.getUserid());
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);
@@ -190,7 +193,8 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         // 支出流水
         Receiptpay receiptpay = new Receiptpay();
         receiptpay.setAmount(userorder.getSum());
-        receiptpay.dealstate(ReceiptpayConstant.COUPON_PAY); // 优惠券支出
+        receiptpay.setDealtype(ReceiptpayConstant.COUPON_PAY); // 优惠券支出
+        receiptpay.setDealstate(ReceiptpayConstant.PAY);
         receiptpay.setUserid(userorder.getUserid());
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);
@@ -301,6 +305,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
     private void craeteReceiptpay(String Dealtype,String userId,String sourcerId,BigDecimal amount){
         Receiptpay receiptpay = new Receiptpay();
         receiptpay.setDealtype(Dealtype);
+        receiptpay.setDealstate(ReceiptpayConstant.INCOME);
         receiptpay.setUserid(sourcerId);
         receiptpay.setAmount(amount);
         receiptpay.setSourcer(userId);
@@ -349,6 +354,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         Receiptpay receiptpay = new Receiptpay();
         receiptpay.setAmount(sum);
         receiptpay.setDealtype(ReceiptpayConstant.INTEGRAL_GET); // 积分收入
+        receiptpay.setDealstate(ReceiptpayConstant.INCOME);
         receiptpay.setUserid(userId);
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);
@@ -372,6 +378,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         Receiptpay receiptpay = new Receiptpay();
         receiptpay.setAmount(sum);
         receiptpay.setDealtype(ReceiptpayConstant.COUPON_GET); // 优惠券收入
+        receiptpay.setDealstate(ReceiptpayConstant.INCOME);
         receiptpay.setUserid(userId);
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);

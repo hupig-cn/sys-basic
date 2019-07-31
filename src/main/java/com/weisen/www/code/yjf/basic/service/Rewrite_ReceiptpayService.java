@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_MercProfitDto;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_MerchantShow;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_PriceDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_ProfitDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
@@ -30,5 +31,8 @@ public interface Rewrite_ReceiptpayService {
     
     // 查询用户的各项收益(推广端)
     Rewrite_ProfitDTO getUserProfit(String userid);
+
+    // 查询用户商家端收益列表倒叙
+    Result findMerchantProfitInfo(String userId,int startPage,int pageSize);
 
 }

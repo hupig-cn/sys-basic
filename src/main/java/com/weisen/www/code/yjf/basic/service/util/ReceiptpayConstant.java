@@ -12,6 +12,10 @@ public class ReceiptpayConstant {
 
     public static final String BALANCE_INCOME_PER = "10"; // 合伙人分销收入
 
+    public static final String INCOME = "2"; // 收入
+
+    public static final String PAY = "1"; // 支出
+
 
     public static final String BALANCE_PAY = "4"; // 余额支出
 
