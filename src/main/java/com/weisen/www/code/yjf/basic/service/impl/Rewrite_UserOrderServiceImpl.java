@@ -76,21 +76,21 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     // 获取待付款订单
     @Override
     public List<UserorderDTO> getUnpaidOrder(Long userId) {
-        List<Userorder> list = rewrite_UserorderRepository.findAllByPayeeAndOrderstatus(userId.toString(), OrderConstant.UN_PAID);
+        List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndOrderstatus(userId.toString(), OrderConstant.UN_PAID);
         return userorderMapper.toDto(list);
     }
 
     // 获取已支付订单
     @Override
     public List<UserorderDTO> getPaidOrder(Long userId) {
-        List<Userorder> list = rewrite_UserorderRepository.findAllByPayeeAndOrderstatus(userId.toString(), OrderConstant.PAID);
+        List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndOrderstatus(userId.toString(), OrderConstant.PAID);
         return userorderMapper.toDto(list);
     }
 
     // 获取退款订单
     @Override
     public List<UserorderDTO> getRefundOrder(Long userId) {
-        List<Userorder> list = rewrite_UserorderRepository.findAllByPayeeAndOrderstatus(userId.toString(), OrderConstant.REFUNDED);
+        List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndOrderstatus(userId.toString(), OrderConstant.REFUNDED);
         return userorderMapper.toDto(list);
     }
 
@@ -159,18 +159,33 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     // 收益+当日订单+各种订单状态
     @Override
     public Result somethingData(Long userId) {
-        int unpaid = getUnpaidOrder(userId).size();
+        Rewrite_OrderCoDto lisRewrite_OrderCoDto = getMerchantorderCount(userId);
+        int unpaid = lisRewrite_OrderCoDto.getUnpaid();
         int day_order = getTodayOrderNum(userId);
-        int paid = getPaidOrder(userId).size();
-        int refund = getRefundOrder(userId).size();
+        int paid = lisRewrite_OrderCoDto.getPaid();
+        int refund = lisRewrite_OrderCoDto.getRefund();
         Rewrite_PriceDTO rewrite_PriceDTO = rewrite_ReceiptpayService.selectTodayIncome(userId);
         Rewrite_OrderCoDto rewrite_OrderCoDto = new Rewrite_OrderCoDto(rewrite_PriceDTO.getPrice(),day_order,unpaid,paid,refund);
         return Result.suc("成功",rewrite_OrderCoDto);
     }
 
-    public static void main(String[] args) {
-    	String str = "2019-04-01";
-    	System.out.println(str.subSequence(0, 7));
-	}
+    // 商户订单查询
+    @Override
+    public Rewrite_OrderCoDto getMerchantorderCount(Long userId) {
+        List<Userorder> listUN_PAID = rewrite_UserorderRepository.findAllByPayeeAndOrderstatus(userId.toString(), OrderConstant.UN_PAID);
+        List<Userorder> listPAID = rewrite_UserorderRepository.findAllByPayeeAndOrderstatus(userId.toString(), OrderConstant.PAID);
+        List<Userorder> listREFUNDED = rewrite_UserorderRepository.findAllByPayeeAndOrderstatus(userId.toString(), OrderConstant.REFUNDED);
+        Rewrite_OrderCoDto rewrite_OrderCoDto = new Rewrite_OrderCoDto();
+        rewrite_OrderCoDto.setUnpaid(listUN_PAID.size());
+        rewrite_OrderCoDto.setPaid(listPAID.size());
+        rewrite_OrderCoDto.setRefund(listREFUNDED.size());
+
+        return rewrite_OrderCoDto;
+    }
+
+//    public static void main(String[] args) {
+//    	String str = "2019-04-01";
+//    	System.out.println(str.subSequence(0, 7));
+//	}
 
 }

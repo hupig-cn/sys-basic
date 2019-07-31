@@ -20,6 +20,10 @@ public class Rewrite_OrderCoDto {
         this.refund = refund;
     }
 
+    public Rewrite_OrderCoDto(){
+
+    }
+
 
     public String getToday_income() {
         return today_income;

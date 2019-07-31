@@ -2,6 +2,7 @@ package com.weisen.www.code.yjf.basic.service;
 
 import com.weisen.www.code.yjf.basic.domain.Userorder;
 import com.weisen.www.code.yjf.basic.service.dto.UserorderDTO;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_OrderCoDto;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_AnOrder;
 import com.weisen.www.code.yjf.basic.util.Result;
 
@@ -33,5 +34,8 @@ public interface Rewrite_UserOrderService {
 
     // 收益+当日订单+各种订单状态
     Result somethingData(Long userId);
+
+    // 商户订单查询
+    Rewrite_OrderCoDto getMerchantorderCount(Long userId);
 
 }
