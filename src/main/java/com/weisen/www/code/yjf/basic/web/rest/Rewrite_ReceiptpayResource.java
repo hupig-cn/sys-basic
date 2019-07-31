@@ -3,6 +3,7 @@ package com.weisen.www.code.yjf.basic.web.rest;
 import java.util.List;
 import java.util.Optional;
 
+import com.sun.mail.imap.ResyncData;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -100,5 +101,13 @@ public class Rewrite_ReceiptpayResource {
     public ResponseEntity<Rewrite_ProfitDTO> getUserProfit(@PathVariable String userid) {
     	Rewrite_ProfitDTO rewrite_ProfitDTO = rewrite_ReceiptpayService.getUserProfit(userid);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rewrite_ProfitDTO));
+    }
+
+    @GetMapping("/findMerchantProfitInfo/{userid}&{startPage}&{pageSize}")
+    @ApiOperation(value = "查询用户商家端收益列表倒叙(意哥需求)")
+    @Timed
+    public ResponseEntity<Result> findMerchantProfitInfo(@PathVariable String userid, @PathVariable int startPage, @PathVariable int pageSize) {
+        Result result = rewrite_ReceiptpayService.findMerchantProfitInfo(userid,startPage,pageSize);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 }
