@@ -50,6 +50,9 @@ public class ReceiptpayResourceIT {
     private static final String DEFAULT_BENEFIT = "AAAAAAAAAA";
     private static final String UPDATED_BENEFIT = "BBBBBBBBBB";
 
+    private static final String DEFAULT_PAYWAY = "AAAAAAAAAA";
+    private static final String UPDATED_PAYWAY = "BBBBBBBBBB";
+
     private static final BigDecimal DEFAULT_AMOUNT = new BigDecimal(1);
     private static final BigDecimal UPDATED_AMOUNT = new BigDecimal(2);
 
@@ -138,6 +141,7 @@ public class ReceiptpayResourceIT {
             .userid(DEFAULT_USERID)
             .sourcer(DEFAULT_SOURCER)
             .benefit(DEFAULT_BENEFIT)
+            .payway(DEFAULT_PAYWAY)
             .amount(DEFAULT_AMOUNT)
             .bonus(DEFAULT_BONUS)
             .happendate(DEFAULT_HAPPENDATE)
@@ -164,6 +168,7 @@ public class ReceiptpayResourceIT {
             .userid(UPDATED_USERID)
             .sourcer(UPDATED_SOURCER)
             .benefit(UPDATED_BENEFIT)
+            .payway(UPDATED_PAYWAY)
             .amount(UPDATED_AMOUNT)
             .bonus(UPDATED_BONUS)
             .happendate(UPDATED_HAPPENDATE)
@@ -204,6 +209,7 @@ public class ReceiptpayResourceIT {
         assertThat(testReceiptpay.getUserid()).isEqualTo(DEFAULT_USERID);
         assertThat(testReceiptpay.getSourcer()).isEqualTo(DEFAULT_SOURCER);
         assertThat(testReceiptpay.getBenefit()).isEqualTo(DEFAULT_BENEFIT);
+        assertThat(testReceiptpay.getPayway()).isEqualTo(DEFAULT_PAYWAY);
         assertThat(testReceiptpay.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testReceiptpay.getBonus()).isEqualTo(DEFAULT_BONUS);
         assertThat(testReceiptpay.getHappendate()).isEqualTo(DEFAULT_HAPPENDATE);
@@ -254,6 +260,7 @@ public class ReceiptpayResourceIT {
             .andExpect(jsonPath("$.[*].userid").value(hasItem(DEFAULT_USERID.toString())))
             .andExpect(jsonPath("$.[*].sourcer").value(hasItem(DEFAULT_SOURCER.toString())))
             .andExpect(jsonPath("$.[*].benefit").value(hasItem(DEFAULT_BENEFIT.toString())))
+            .andExpect(jsonPath("$.[*].payway").value(hasItem(DEFAULT_PAYWAY.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].bonus").value(hasItem(DEFAULT_BONUS.intValue())))
             .andExpect(jsonPath("$.[*].happendate").value(hasItem(DEFAULT_HAPPENDATE.toString())))
@@ -283,6 +290,7 @@ public class ReceiptpayResourceIT {
             .andExpect(jsonPath("$.userid").value(DEFAULT_USERID.toString()))
             .andExpect(jsonPath("$.sourcer").value(DEFAULT_SOURCER.toString()))
             .andExpect(jsonPath("$.benefit").value(DEFAULT_BENEFIT.toString()))
+            .andExpect(jsonPath("$.payway").value(DEFAULT_PAYWAY.toString()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.bonus").value(DEFAULT_BONUS.intValue()))
             .andExpect(jsonPath("$.happendate").value(DEFAULT_HAPPENDATE.toString()))
@@ -322,6 +330,7 @@ public class ReceiptpayResourceIT {
             .userid(UPDATED_USERID)
             .sourcer(UPDATED_SOURCER)
             .benefit(UPDATED_BENEFIT)
+            .payway(UPDATED_PAYWAY)
             .amount(UPDATED_AMOUNT)
             .bonus(UPDATED_BONUS)
             .happendate(UPDATED_HAPPENDATE)
@@ -349,6 +358,7 @@ public class ReceiptpayResourceIT {
         assertThat(testReceiptpay.getUserid()).isEqualTo(UPDATED_USERID);
         assertThat(testReceiptpay.getSourcer()).isEqualTo(UPDATED_SOURCER);
         assertThat(testReceiptpay.getBenefit()).isEqualTo(UPDATED_BENEFIT);
+        assertThat(testReceiptpay.getPayway()).isEqualTo(UPDATED_PAYWAY);
         assertThat(testReceiptpay.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testReceiptpay.getBonus()).isEqualTo(UPDATED_BONUS);
         assertThat(testReceiptpay.getHappendate()).isEqualTo(UPDATED_HAPPENDATE);
