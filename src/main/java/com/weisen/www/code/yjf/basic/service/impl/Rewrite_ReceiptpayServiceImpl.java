@@ -8,6 +8,7 @@ import com.weisen.www.code.yjf.basic.service.Rewrite_UserassetsService;
 import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.*;
 import com.weisen.www.code.yjf.basic.service.mapper.ReceiptpayMapper;
+import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
 import com.weisen.www.code.yjf.basic.service.util.ProfitConstant;
 import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
 import com.weisen.www.code.yjf.basic.service.util.TimeUtil;
@@ -295,10 +296,12 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
         List<Receiptpay> list = rewrite_ReceiptpayRepository.getAllByMerchantAndType
             (userId,ReceiptpayConstant.BALANCE_INCOME,startPage * pageSize,pageSize);
         List<Rewrite_MerchantShow> merList = new ArrayList<>();
-        list.forEach(x -> {
+
+        receiptpayMapper.toDto(list).forEach(x -> {
             Rewrite_MerchantShow<Rewrite_MerchantShow> rewrite_MerchantShow = new Rewrite_MerchantShow();
             rewrite_MerchantShow.setTime(x.getCreatedate().substring(0,7));
             x.setCreatedate(x.getCreatedate().substring(6,x.getCreatedate().length()));
+            x.setOther(OrderConstant.getpayInfo(x.getPayway())+" - 收款"+x.getAmount().toString()+"圆");
             rewrite_MerchantShow.setSingleClass(x);
             merList.add(rewrite_MerchantShow);
         });

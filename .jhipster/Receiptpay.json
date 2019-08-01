@@ -18,6 +18,10 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "payway",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "amount",
             "fieldType": "BigDecimal"
         },
@@ -67,7 +71,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190728202124",
+    "changelogDate": "20190801062736",
     "entityTableName": "receiptpay",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

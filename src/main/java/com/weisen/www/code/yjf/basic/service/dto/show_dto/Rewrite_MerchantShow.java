@@ -1,6 +1,7 @@
 package com.weisen.www.code.yjf.basic.service.dto.show_dto;
 
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
+import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
 
 import java.util.List;
 
@@ -10,17 +11,17 @@ public class Rewrite_MerchantShow<T> {
 
     private List<T> list;
 
-    private Receiptpay singleClass;
+    private ReceiptpayDTO singleClass;
 
     public Rewrite_MerchantShow(){
 
     }
 
-    public Receiptpay getSingleClass() {
+    public ReceiptpayDTO getSingleClass() {
         return singleClass;
     }
 
-    public void setSingleClass(Receiptpay singleClass) {
+    public void setSingleClass(ReceiptpayDTO singleClass) {
         this.singleClass = singleClass;
     }
 

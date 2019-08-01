@@ -47,7 +47,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190728202116",
+    "changelogDate": "20190801062728",
     "entityTableName": "withdrawaldetails",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

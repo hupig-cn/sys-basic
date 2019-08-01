@@ -18,6 +18,8 @@ public class ReceiptpayDTO implements Serializable {
 
     private String benefit;
 
+    private String payway;
+
     private BigDecimal amount;
 
     private BigDecimal bonus;
@@ -81,6 +83,14 @@ public class ReceiptpayDTO implements Serializable {
 
     public void setBenefit(String benefit) {
         this.benefit = benefit;
+    }
+
+    public String getPayway() {
+        return payway;
+    }
+
+    public void setPayway(String payway) {
+        this.payway = payway;
     }
 
     public BigDecimal getAmount() {
@@ -208,6 +218,7 @@ public class ReceiptpayDTO implements Serializable {
             ", userid='" + getUserid() + "'" +
             ", sourcer='" + getSourcer() + "'" +
             ", benefit='" + getBenefit() + "'" +
+            ", payway='" + getPayway() + "'" +
             ", amount=" + getAmount() +
             ", bonus=" + getBonus() +
             ", happendate='" + getHappendate() + "'" +

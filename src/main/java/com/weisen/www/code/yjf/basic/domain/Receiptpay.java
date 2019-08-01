@@ -33,6 +33,9 @@ public class Receiptpay implements Serializable {
     @Column(name = "benefit")
     private String benefit;
 
+    @Column(name = "payway")
+    private String payway;
+
     @Column(name = "amount", precision = 21, scale = 2)
     private BigDecimal amount;
 
@@ -128,6 +131,19 @@ public class Receiptpay implements Serializable {
 
     public void setBenefit(String benefit) {
         this.benefit = benefit;
+    }
+
+    public String getPayway() {
+        return payway;
+    }
+
+    public Receiptpay payway(String payway) {
+        this.payway = payway;
+        return this;
+    }
+
+    public void setPayway(String payway) {
+        this.payway = payway;
     }
 
     public BigDecimal getAmount() {
@@ -311,6 +327,7 @@ public class Receiptpay implements Serializable {
             ", userid='" + getUserid() + "'" +
             ", sourcer='" + getSourcer() + "'" +
             ", benefit='" + getBenefit() + "'" +
+            ", payway='" + getPayway() + "'" +
             ", amount=" + getAmount() +
             ", bonus=" + getBonus() +
             ", happendate='" + getHappendate() + "'" +

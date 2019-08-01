@@ -27,6 +27,24 @@ public class OrderConstant {
     
     public static final String COUPON_PAY = "5"; // 优惠券支付
 
+    public static String getpayInfo(String payWay){
+
+        switch (payWay){
+            case "1":
+                return "支付宝扫码";
+            case "2":
+                return "微信扫码";
+            case "3":
+                return "余额支付";
+            case "5":
+                return "优惠券支付";
+        }
+
+        return null;
+    }
+
+
+
     //生成订单编号
     public static String getOrderCode(String id){
         String sources = "0123456789"; // 加上一些字母，就可以生成pc站的验证码了
