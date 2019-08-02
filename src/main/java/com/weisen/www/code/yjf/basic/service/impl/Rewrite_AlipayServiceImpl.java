@@ -59,7 +59,7 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 			return "你已经绑定过支付宝了";
 		}
 		Linkaccount linkaccount = rewrite_LinkaccountRepository.findFirstByAccounttypeAndToken("支付宝", alipayUserId);// 判断系统是否有这个支付宝
-		String recommendr = "";
+		String recommendr = "1";
 		String recommenddate = DateUtils.getDateForNow();
 		String id = "0";
 		if (linkaccount != null) {
@@ -90,7 +90,9 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 				}
 				Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(linkaccount.getUserid());
 				if (null != userlinkuser) {
-					recommendr = userlinkuser.getRecommendid();
+					recommendr = null == userlinkuser.getRecommendid()
+							|| "".equals(userlinkuser.getRecommendid())
+							?"1":userlinkuser.getRecommendid();
 					recommenddate = userlinkuser.getModifierdate();
 					rewrite_UserlinkuserRepository.delete(userlinkuser);// 拿出推荐人
 				}
@@ -108,17 +110,21 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 			Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userid);
 			if (userlinkuser != null && userlinkuser.getRecommendid() != null && !"".equals(userlinkuser.getRecommendid()) && !"1".equals(userlinkuser.getRecommendid())) {// app有推荐人
 				if (userlinkuser.getOther() != null && !"".equals(userlinkuser.getOther())) {
-					if ((getToLong(userlinkuser.getModifierdate()) > getToLong(recommenddate))) {
+					if (getToLong(userlinkuser.getModifierdate()) > getToLong(recommenddate)) {
 						userlinkuser.setRecommendid(recommendr);
 						userlinkuser.setModifierdate(recommenddate);
 						userlinkuser.setOther("支付宝");
 					}
 				}
-			} else if (userlinkuser != null && (userlinkuser.getRecommendid() == null || "".equals(userlinkuser.getRecommendid()) || "1".equals(userlinkuser.getRecommendid()))) {// app没有推荐人，但是有数据
-				userlinkuser.setRecommendid(recommendr);
-				userlinkuser.setModifierdate(recommenddate);
-				userlinkuser.setOther("支付宝");
-			} else {// 没有推荐人，并且没有数据
+			} else if (userlinkuser != null && 
+					(userlinkuser.getRecommendid() == null 
+					|| "".equals(userlinkuser.getRecommendid()) 
+					|| "1".equals(userlinkuser.getRecommendid()))
+					&& getToLong(userlinkuser.getModifierdate()) > getToLong(recommenddate)) {// app没有推荐人，但是有数据
+					userlinkuser.setRecommendid(recommendr);
+					userlinkuser.setModifierdate(recommenddate);
+					userlinkuser.setOther("支付宝");
+			} else if (userlinkuser == null && getToLong(userlinkuser.getModifierdate()) > getToLong(recommenddate)) {// 没有推荐人，并且没有数据
 				userlinkuser = new Userlinkuser();
 				userlinkuser.setUserid(userid);
 				userlinkuser.setRecommendid(recommendr);
