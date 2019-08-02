@@ -15,7 +15,7 @@ public interface Rewrite_WithdrawalService {
     //本地获取所有提现记录
     Result getWithdrawals(Integer pageNum, Integer pageSize);
     //后台审核提现记录
-    Result auditWithdrawal(Long withdrawalid, String type);
+    Result auditWithdrawal(Long withdrawalid, String type,String content);
 
     // 获取用户提现信息
     Result getUserInfo(Long id);

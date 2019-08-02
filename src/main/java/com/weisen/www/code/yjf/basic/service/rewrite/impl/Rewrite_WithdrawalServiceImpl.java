@@ -159,7 +159,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
      * @param type
      * @return
      */
-    public Result auditWithdrawal(Long withdrawalid, String type) {
+    public Result auditWithdrawal(Long withdrawalid, String type,String content) {
         if (!CheckUtils.checkLongByZero(withdrawalid))
             return Result.fail("审核数据异常");
 
@@ -215,6 +215,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
             failWithdrawaldetails.setCreatedate(TimeUtil.getDate());
             failWithdrawaldetails.setType(WithdrawalConstant.INCOME);
             failWithdrawaldetails.setTitle("提现失败，资金回退");
+            failWithdrawaldetails.setOther(content); // 审核失败原因  后台操作填写
             rewrite_WithdrawaldetailsRepository.save(failWithdrawaldetails);
 
         }else{

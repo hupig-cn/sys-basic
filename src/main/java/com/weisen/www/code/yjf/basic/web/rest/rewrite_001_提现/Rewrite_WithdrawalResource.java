@@ -58,10 +58,10 @@ public class Rewrite_WithdrawalResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
     //后台审核用户提现记录
-    @PostMapping("/admin/audit-withdrawal")
+    @PostMapping("/admin/audit-withdrawal/{withdrawalid}&{type}")
     @ApiOperation("审核用户提现")
-    public ResponseEntity<?> auditWithdrawal(@RequestBody Rewrite_submitWithdrawalDTO rewrite_submitWithdrawalDTO){
-        Result result = withdrawalService.auditWithdrawal(rewrite_submitWithdrawalDTO.getId(), rewrite_submitWithdrawalDTO.getType());
+    public ResponseEntity<?> auditWithdrawal(@PathVariable Long withdrawalid,@PathVariable String type,@PathVariable String content){
+        Result result = withdrawalService.auditWithdrawal(withdrawalid,type,content);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
