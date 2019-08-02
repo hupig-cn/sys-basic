@@ -301,7 +301,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
             Rewrite_MerchantShow<Rewrite_MerchantShow> rewrite_MerchantShow = new Rewrite_MerchantShow();
             rewrite_MerchantShow.setTime(x.getCreatedate().substring(0,7));
             x.setCreatedate(x.getCreatedate().substring(6,x.getCreatedate().length()));
-            x.setOther(OrderConstant.getpayInfo(x.getPayway())+" - 收款"+x.getAmount().toString()+"元");
+            x.setOther(OrderConstant.getpayInfo(x.getPayway())+" - 收款"+Float.parseFloat(x.getAmount().toString())+"元");
             rewrite_MerchantShow.setSingleClass(x);
             merList.add(rewrite_MerchantShow);
         });
