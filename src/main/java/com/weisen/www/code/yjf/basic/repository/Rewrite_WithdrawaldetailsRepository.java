@@ -12,7 +12,7 @@ public interface Rewrite_WithdrawaldetailsRepository extends JpaRepository<Withd
 
     // 分页查询用户提现记录
     @Query(value = "select id,userid,withdrawalway,withdrawalid,type,amount,afteramount,createdate,modifierdate,state " +
-        "from withdrawaldetails where userid = ?1 order by createdate DESC limit ?2,?3",nativeQuery = true)
+        ", other from withdrawaldetails where userid = ?1 order by createdate DESC limit ?2,?3",nativeQuery = true)
     List<Withdrawaldetails> getAllUserInfo(String userid,int index,int pageSize);
 
     @Query(value = "select count(*) " +
