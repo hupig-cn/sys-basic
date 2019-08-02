@@ -359,6 +359,37 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
 			return "订单生成错误";
 		}
 	}
+	
+	public String merchantPaymentWeChat(String userid, String money, String merchantid, Integer concession,
+			Integer rebate, String name) {
+		String thisDate = DateUtils.getDateForNow();
+		Linkaccount linkaccount = rewrite_LinkaccountRepository.findFirstByUserid(userid);// 判断系统是否有这个微信
+		if (linkaccount == null)
+			return "获取微信会员信息失败";
+		// 1.先创建订单信息
+		Userorder userorder = new Userorder();
+		userorder.setUserid(linkaccount.getUserid());
+		userorder.setSum(new BigDecimal(money));// 设置金额
+		userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_PAY);// 设置待支付
+		userorder.setOrdercode(RandomStringUtils.randomAlphanumeric(32));
+		userorder.setPayee(merchantid);
+		userorder.setPayway(OrderConstant.WECHAT_PAY);
+		userorder.setConcession(concession);
+		userorder.setRebate(rebate);
+		userorder.setCreator(linkaccount.getUserid());
+		userorder.setCreatedate(thisDate);
+		userorder.setModifier(linkaccount.getUserid());
+		userorder.setModifierdate(thisDate);
+		userorder = userorderRepository.save(userorder);
+		if (userorder.getId() != null && userorder.getId() > 0) {
+			String subject = name;// 订单名称字段暂时没有，等待加入
+			String address = "http://app.yuanscore.com/?result=" + userorder.getOrdercode();
+			return "";
+//			return AlipayUtil.alipay(userorder.getOrdercode(), subject, userorder.getSum(), address);
+		} else {
+			return "订单生成错误";
+		}
+	}
 
 	public Long merchantPaymentYue(String userid, String money, String merchantid, Integer concession,
 			Integer rebate) {

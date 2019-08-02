@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.weisen.www.code.yjf.basic.service.Rewrite_000_UserorderService;
+import com.weisen.www.code.yjf.basic.service.Rewrite_WeChatService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +20,8 @@ public class Rewrite_WeChatApiResource {
 
 	private final Logger log = LoggerFactory.getLogger(Rewrite_WeChatApiResource.class);
 
+	private Rewrite_WeChatService rewrite_WeChatService;
+	
 	private Rewrite_000_UserorderService userorderService;
 
 	public Rewrite_WeChatApiResource(Rewrite_000_UserorderService userorderService) {
@@ -36,27 +39,26 @@ public class Rewrite_WeChatApiResource {
 	 */
 	@GetMapping("/public/bindingWeChat")
 	@ApiOperation(value = "用户绑定微信")
-	public String bindingWeChat(@RequestParam String userid, String authCode) {
-		return null;
+	public String bindingWeChat(@RequestParam String userid, String code) {
+		return rewrite_WeChatService.scaningWeChat(userid, code);
 	}
 
 	@GetMapping("/public/queryWeChat")
 	@ApiOperation(value = "查询微信绑定状态")
 	public String queryWeChat(@RequestParam String userid) {
-		return null;
+		return rewrite_WeChatService.queryWeChat(userid);
 	}
 
 	@GetMapping("/public/queryWeChatUser")
 	@ApiOperation(value = "查询这个微信账户是否有用户")
-	public String queryWeChatUser(@RequestParam String authCode) {
-		return null;
+	public String queryWeChatUser(@RequestParam String code) {
+		return rewrite_WeChatService.queryWeChatUser(code);
 	}
 
 	@GetMapping("/public/merchantPaymentWeChat")
 	@ApiOperation(value = "根据金额生成随机订单,用于微信")
-	public String merchantPaymentWeChat(@RequestParam String authCode, String money, String merchantid,
+	public String merchantPaymentWeChat(@RequestParam String userid, String money, String merchantid,
 			Integer concession, Integer rebate, String name) {
-//		return userorderService.merchantPayment(authCode, money, merchantid, concession, rebate, name);
-		return null;
+		return userorderService.merchantPaymentWeChat(userid, money, merchantid, concession, rebate, name);
 	}
 }
