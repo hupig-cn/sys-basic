@@ -71,11 +71,10 @@ public class Rewrite_UserlinkuserServiceImpl implements Rewrite_UserlinkuserServ
             Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(x.getUserid());
             rewrite_UserLink.setTime(x.getModifierdate());
             if(linkuser.getPhone() != null && !"".equals(linkuser.getPhone())){
-                rewrite_UserLink.setPhoneOrToken("圆积分用户："+linkuser.getPhone().substring(0,3)
-                    +"****");
+                rewrite_UserLink.setPhoneOrToken("圆积分用户：*"+linkuser.getPhone().substring(7,linkuser.getPhone().length()));
             }else{
                 Linkaccount linkaccount = rewrite_LinkaccountRepository.findFirstByUserid(x.getUserid());
-                rewrite_UserLink.setPhoneOrToken(linkaccount.getAccounttype()+"用户："+linkaccount.getToken().substring(0,3)+"****");
+                rewrite_UserLink.setPhoneOrToken(linkaccount.getAccounttype()+"用户：*"+linkaccount.getToken().substring(0,4));
             }
             listUser.add(rewrite_UserLink);
         });
