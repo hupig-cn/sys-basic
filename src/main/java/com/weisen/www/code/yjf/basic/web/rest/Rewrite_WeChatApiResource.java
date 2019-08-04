@@ -3,6 +3,7 @@ package com.weisen.www.code.yjf.basic.web.rest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,9 +50,9 @@ public class Rewrite_WeChatApiResource {
 		return rewrite_WeChatService.queryWeChat(userid);
 	}
 
-	@GetMapping("/public/queryWeChatUser")
+	@GetMapping("/public/queryWeChatUser/{code}")
 	@ApiOperation(value = "查询这个微信账户是否有用户")
-	public String queryWeChatUser(@RequestParam String code) {
+	public String queryWeChatUser(@PathVariable("code") String code) {
 		return rewrite_WeChatService.queryWeChatUser(code);
 	}
 
