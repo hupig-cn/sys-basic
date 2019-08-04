@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.alipay.api.response.AlipaySystemOauthTokenResponse;
 import com.weisen.www.code.yjf.basic.domain.Linkaccount;
 import com.weisen.www.code.yjf.basic.domain.Linkuser;
@@ -19,6 +20,7 @@ import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlocationRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_WeChatService;
 import com.weisen.www.code.yjf.basic.util.AlipayUtil;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
+import com.weisen.www.code.yjf.basic.util.HttpRequest;
 
 @Service
 @Transactional
@@ -63,16 +65,20 @@ public class Rewrite_WeChatServiceImpl implements Rewrite_WeChatService {
 
 	@Override
 	public String queryWeChatUser(String code) {
-//		if (userInfo == null) {
-//			return "获取微信会员信息失败";
-//		}
-//		String alipayUserId = userInfo.getUserId();
-//		Linkaccount linkaccount = rewrite_LinkaccountRepository.findFirstByAccounttypeAndToken("支付宝", alipayUserId);// 判断系统是否有这个微信
-//		if (linkaccount != null) {
-//			return "用户存在";
-//		} else {
-//			return alipayUserId;
-//		}
-		return null;
+		String str =HttpRequest.sendGet("https://api.weixin.qq.com/sns/oauth2/access_token", 
+        		"appid=wx5450b0124166c23d&"
+        		+ "secret=8cd059133c5be21c0f570551361fbf9c&"
+        		+ "code=" + code
+        		+ "&grant_type=authorization_code");
+        String openid = JSON.parseObject(str).getString("openid");
+		if (null == openid) {
+			return "获取微信会员信息失败";
+		}
+		Linkaccount linkaccount = rewrite_LinkaccountRepository.findFirstByAccounttypeAndToken("微信", openid);// 判断系统是否有这个微信
+		if (linkaccount != null) {
+			return "用户" + linkaccount.getUserid();
+		} else {
+			return openid;
+		}
 	}
 }
