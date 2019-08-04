@@ -25,8 +25,10 @@ public class Rewrite_WeChatApiResource {
 	
 	private Rewrite_000_UserorderService userorderService;
 
-	public Rewrite_WeChatApiResource(Rewrite_000_UserorderService userorderService) {
+	public Rewrite_WeChatApiResource(Rewrite_000_UserorderService userorderService,
+			Rewrite_WeChatService rewrite_WeChatService) {
 		this.userorderService = userorderService;
+		this.rewrite_WeChatService = rewrite_WeChatService;
 	}
 
 	/**
