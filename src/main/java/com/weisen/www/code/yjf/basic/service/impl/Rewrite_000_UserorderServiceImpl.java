@@ -359,7 +359,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
 			return "订单生成错误";
 		}
 	}
-	
+
 	public String merchantPaymentWeChat(String userid, String money, String merchantid, Integer concession,
 			Integer rebate, String name) {
 		String thisDate = DateUtils.getDateForNow();
@@ -382,10 +382,24 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
 		userorder.setModifierdate(thisDate);
 		userorder = userorderRepository.save(userorder);
 		if (userorder.getId() != null && userorder.getId() > 0) {
-			String subject = name;// 订单名称字段暂时没有，等待加入
+            Map<String, String> resultMap = null;
+            String mPrepayId = "";
+			String subject = name + "消费购物,祝你购物愉快";// 订单名称字段暂时没有，等待加入
 			String address = "http://app.yuanscore.com/?result=" + userorder.getOrdercode();
-			return "";
-//			return AlipayUtil.alipay(userorder.getOrdercode(), subject, userorder.getSum(), address);
+            String xml = WechatUtils.packagePayPara(linkaccount.getToken(), subject, userorder.getOrdercode(), "123.12.12.123", money.toString(), WechatUtils.TRADE_TYPE_JSAPI);
+            resultMap = WechatUtils.unifiedOrder(xml);
+            String return_code = resultMap.get("return_code");
+            String return_msg = resultMap.get("return_msg");
+            String result_code = resultMap.get("result_code");
+            System.out.println("return_code返回的=" + return_code);
+            System.out.println("return_msg返回的=" + return_msg);
+            System.out.println("prepay_id的返回=" + resultMap.get("prepay_id"));
+            if ("SUCCESS".equals(return_code) && "SUCCESS".equals(result_code)) {
+                log.debug("正确返回");
+                return resultMap.toString();
+            }else {
+                return "调用微信支付失败";
+            }
 		} else {
 			return "订单生成错误";
 		}

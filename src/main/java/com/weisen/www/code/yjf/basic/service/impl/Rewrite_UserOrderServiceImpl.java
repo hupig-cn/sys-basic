@@ -135,11 +135,10 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
                 return Result.fail("您已经是圆帅了");
             }
         }
-
         if(null == rewrite_AnOrder.getUserId()){
-
+            Result.fail("用户标识不能为空");
         }else if(null == rewrite_AnOrder.getPrice()){
-
+            Result.fail("网络繁忙请稍后重试");
         } ////
         Userorder userorder = new Userorder();
         userorder.setOrdercode(OrderConstant.getOrderCode(rewrite_AnOrder.getUserId()));
