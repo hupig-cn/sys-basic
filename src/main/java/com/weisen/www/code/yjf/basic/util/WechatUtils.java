@@ -28,7 +28,13 @@ import java.util.*;
  */
 public class WechatUtils {
     // 微信公众平台appid,H5支付,jsonAPi支付
-    public static String WX_PUBLIC_APPID = "wxaa40fcd1d1c549c2";
+//    public static String WX_PUBLIC_APPID = "wxaa40fcd1d1c549c2";
+    //测试1
+    public static String WX_PUBLIC_APPID = "wx66cb03334f396adf";
+    //测试2
+//    public static String WX_PUBLIC_APPID = "wx68e39844515478d9";
+    //测试3
+//    public static String WX_PUBLIC_APPID = "wxb1690517095bb9da";
     // 微信公众平台	AppSecret
     public static String WX_PUBLIC_KEY = "c45736ce2d0852b53c9874a5e33159b1";
     // 微信开放平台APPID APP支付
@@ -97,6 +103,7 @@ public class WechatUtils {
 //					para.put("pay_key", WechatUtils.WX_OPEN_KEY);
             } else if (WechatUtils.TRADE_TYPE_JSAPI.equals(payType)) { // 如果是jsapi支付（公众号支付）
                 para.put("appid", WechatUtils.WX_PUBLIC_APPID);
+                System.out.println("JSAPI支付");
 //					para.put("pay_key", WechatUtils.WX_PUBLIC_KEY);
                 para.put("wx_openid", openId);// 用户openid
             } else if (WechatUtils.TRADE_TYPE_MWEB.equals(payType)) { // 如果是h5支付
