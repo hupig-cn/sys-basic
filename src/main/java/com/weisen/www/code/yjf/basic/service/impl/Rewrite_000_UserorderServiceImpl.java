@@ -398,7 +398,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
                 log.debug("正确返回");
                 return resultMap.toString();
             }else {
-                return "调用微信支付失败";
+                return return_code + "-" + return_msg + "-" + result_code;
             }
 		} else {
 			return "订单生成错误";
