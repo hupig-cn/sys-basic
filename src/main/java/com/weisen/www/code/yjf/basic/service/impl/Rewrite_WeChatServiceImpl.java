@@ -66,8 +66,8 @@ public class Rewrite_WeChatServiceImpl implements Rewrite_WeChatService {
 	@Override
 	public String queryWeChatUser(String code) {
 		String str =HttpRequest.sendGet("https://api.weixin.qq.com/sns/oauth2/access_token", 
-        		"appid=wx66cb03334f396adf&"
-        		+ "secret=c45736ce2d0852b53c9874a5e33159b1&"
+        		"appid=wx5450b0124166c23d&"
+        		+ "secret=8cd059133c5be21c0f570551361fbf9c&"
         		+ "code=" + code
         		+ "&grant_type=authorization_code");
         String openid = JSON.parseObject(str).getString("openid");
