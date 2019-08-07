@@ -361,7 +361,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
 	public Result merchantPaymentWeChat(String userid, String money, String merchantid, Integer concession,
 			Integer rebate, String name) {
 		String thisDate = DateUtils.getDateForNow();
-		Linkaccount linkaccount = rewrite_LinkaccountRepository.findFirstByUserid(userid);// 判断系统是否有这个微信
+		Linkaccount linkaccount = rewrite_LinkaccountRepository.findFirstByUseridAndAccounttype(userid,"微信");// 判断系统是否有这个微信
 		if (linkaccount == null)
 			return Result.fail("获取微信会员信息失败");
 		// 1.先创建订单信息
