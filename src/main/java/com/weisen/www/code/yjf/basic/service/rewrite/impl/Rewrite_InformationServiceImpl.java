@@ -82,16 +82,16 @@ public class Rewrite_InformationServiceImpl implements Rewrite_InformationServic
                 //设置消息类型
                 information.setType(rewrite_submitInformationDTO.getType());
                 information.setState("1");
+                Information save = rewrite_informationRepository.save(information);
+                if (!CheckUtils.checkObj(save)) {
+                    return Result.fail("数据保存异常,请稍后重试");
+               }
                 if ("1".equals(rewrite_submitInformationDTO.getWeight()) && "所有人".equals(rewrite_submitInformationDTO.getReaduserid())) {
                     simpMessageSendingOperations.convertAndSend("/topic", information.getContent());
                 }
                 else if ("1".equals(rewrite_submitInformationDTO.getWeight()) && !"所有人".equals(rewrite_submitInformationDTO.getReaduserid())) {
                     simpMessageSendingOperations.convertAndSendToUser(information.getReaduserid(), "/message", information.getContent());
                 }
-                Information save = rewrite_informationRepository.save(information);
-                if (!CheckUtils.checkObj(save)) {
-                    return Result.fail("数据保存异常,请稍后重试");
-               }
             } else {
                 return Result.fail("消息类型不能为空");
 //                Messagetemplate templateByType = rewrite_messageTemplateRepository.findTemplateByType(rewrite_submitInformationDTO.getType());
