@@ -1,22 +1,20 @@
 package com.weisen.www.code.yjf.basic.web.rest;
 
+import com.weisen.www.code.yjf.basic.service.Rewrite_000_UserorderService;
+import com.weisen.www.code.yjf.basic.service.Rewrite_WeChatService;
 import com.weisen.www.code.yjf.basic.util.Result;
+import com.weisen.www.code.yjf.basic.util.WechatUtils;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.weisen.www.code.yjf.basic.service.Rewrite_000_UserorderService;
-import com.weisen.www.code.yjf.basic.service.Rewrite_WeChatService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -70,4 +68,29 @@ public class Rewrite_WeChatApiResource {
         Result result = userorderService.merchantPaymentWeChat(userid, money, merchantid, concession, rebate, name);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
+
+
+    /***
+     * 微信回调地址
+     *
+     * @author lanzhengjun
+     * @param
+     * @return
+     */
+    @PostMapping("/public/order/pay/wechat-refund-notify")
+    @ApiOperation(value = "微信回调地址(内部)")
+    public String weChatRefundNotify(HttpServletRequest request) {
+        log.debug("微信支付回調");
+        try {
+            System.out.println("回调的参数="+request.getInputStream());
+            Map<String, String> map = WechatUtils.parseXml(request.getInputStream());
+            userorderService.weChatRefundNotify(map);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return "SUCCESS";
+    }
+
+
 }
