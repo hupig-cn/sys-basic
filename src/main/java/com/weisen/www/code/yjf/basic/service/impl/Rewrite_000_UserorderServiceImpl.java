@@ -387,7 +387,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
 //            System.out.println(linkaccount + "微信标识");
             String xml = WechatUtils.packagePayPara(linkaccount.getToken(), subject, userorder.getOrdercode(), "123.12.12.123", money.toString(), WechatUtils.TRADE_TYPE_JSAPI);
             resultMap = WechatUtils.unifiedOrder(xml);
-//            System.out.println(resultMap);
+            System.out.println(resultMap);
             String return_code = resultMap.get("return_code");
             String return_msg = resultMap.get("return_msg");
             String result_code = resultMap.get("result_code");
@@ -399,10 +399,18 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
                 result.put("appId",resultMap.get("appid"));
                 result.put("nonceStr",resultMap.get("nonce_str"));
                 result.put("package","prepay_id="+resultMap.get("prepay_id"));
-                result.put("paySign",resultMap.get("sign"));
+                //二次加密开始
+                SortedMap<String, String> para = new TreeMap<String, String>();
+                para.put("appId",resultMap.get("appid"));
+                para.put("nonceStr",resultMap.get("nonceStr"));
+                para.put("package","prepay_id="+resultMap.get("prepay_id"));
+                para.put("signType","MD5");
+                para.put("appId",resultMap.get("appid"));
+                result.put("paySign",WechatUtils.createSign(para));
+                //二次加密结束
                 result.put("signType","MD5");
                 result.put("timeStamp",new Date().getTime()/1000);
-//                System.out.println(result);
+                System.out.println(result);
                 log.debug("正确返回");
                 log.debug(result.toString());
                 return Result.suc("",result);
