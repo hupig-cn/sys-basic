@@ -1,10 +1,13 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import com.weisen.www.code.yjf.basic.config.Constants;
 import com.weisen.www.code.yjf.basic.domain.*;
 import com.weisen.www.code.yjf.basic.repository.*;
 import com.weisen.www.code.yjf.basic.service.Rewrite_PayService;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_DistributionDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_PayDTO;
+import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_InformationService;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitInformationDTO;
 import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
 import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
 import com.weisen.www.code.yjf.basic.util.Result;
@@ -42,8 +45,11 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 
     private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
 
+    private final Rewrite_InformationService rewrite_informationService;
+
     public Rewrite_PayServiceImpl(Rewrite_000_UserorderRepository userorderRepository, Rewrite_UserlinkuserRepository userlinkuserRepository, Rewrite_PercentageRepository percentageRepository, ReceiptpayRepository receiptpayRepository, Rewrite_000_UserassetsRepository userassetsRepository
-            ,LinkuserRepository linkuserRepository,Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository, PasswordEncoder passwordEncoder, Rewrite_LinkuserRepository rewrite_LinkuserRepository ) {
+            ,LinkuserRepository linkuserRepository,Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository, PasswordEncoder passwordEncoder, Rewrite_LinkuserRepository rewrite_LinkuserRepository ,
+                                  Rewrite_InformationService rewrite_informationService) {
         this.userorderRepository = userorderRepository;
         this.userlinkuserRepository = userlinkuserRepository;
         this.percentageRepository = percentageRepository;
@@ -53,6 +59,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         this.rewrite_UserlinkuserRepository = rewrite_UserlinkuserRepository;
         this.passwordEncoder = passwordEncoder;
         this.rewrite_LinkuserRepository = rewrite_LinkuserRepository;
+        this.rewrite_informationService = rewrite_informationService;
     }
     // 余额支付
     @Override
@@ -95,6 +102,14 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpay.setUserid(userorder.getUserid());
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);
+
+        Rewrite_submitInformationDTO rewrite_submitInformationDTO = new Rewrite_submitInformationDTO(
+            Constants.CONSUMPTION.toString(),
+            userorder.getUserid(),
+            userorder.getUserid(),
+            "时间："+TimeUtil.getDate()+"消费了"+userorder.getSum().toString()+"元余额。"
+        );
+        rewrite_informationService.insertInformation(rewrite_submitInformationDTO);
 
         //更新我的资产
         userassets.setUsablebalance((new BigDecimal(userassets.getUsablebalance()).subtract(userorder.getSum())).setScale(3).toString());
@@ -154,6 +169,14 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);
 
+        Rewrite_submitInformationDTO rewrite_submitInformationDTO = new Rewrite_submitInformationDTO(
+            Constants.CONSUMPTION.toString(),
+            userorder.getUserid(),
+            userorder.getUserid(),
+            "时间："+TimeUtil.getDate()+"消费了"+userorder.getSum().toString()+"个积分。"
+        );
+        rewrite_informationService.insertInformation(rewrite_submitInformationDTO);
+
         //更新我的资产
         userassets.setIntegral((new BigDecimal(userassets.getIntegral()).subtract(userorder.getSum()).setScale(3).toString()));
         userassetsRepository.save(userassets);
@@ -201,6 +224,14 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpay.setUserid(userorder.getUserid());
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);
+
+        Rewrite_submitInformationDTO rewrite_submitInformationDTO = new Rewrite_submitInformationDTO(
+            Constants.CONSUMPTION.toString(),
+            userorder.getUserid(),
+            userorder.getUserid(),
+            "时间："+TimeUtil.getDate()+"消费了"+userorder.getSum().toString()+"元优惠券。"
+        );
+        rewrite_informationService.insertInformation(rewrite_submitInformationDTO);
 
         //更新我的资产
         userassets.setCouponsum((new BigDecimal(userassets.getCouponsum()).subtract(userorder.getSum()).setScale(3).toString()));
@@ -324,6 +355,16 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         usebalance = usebalance.add(amount);
         userassets.setUsablebalance(usebalance.toString());
         userassetsRepository.saveAndFlush(userassets);
+
+        if(Dealtype.equals(ReceiptpayConstant.INCOME)){
+            Rewrite_submitInformationDTO rewrite_submitInformationDTO = new Rewrite_submitInformationDTO(
+                Constants.COLLECTION.toString(),
+                userId,
+                sourcerId,
+                "时间："+TimeUtil.getDate()+",收款"+amount.toString()+"元"
+                );
+            rewrite_informationService.insertInformation(rewrite_submitInformationDTO);
+        }
     }
 
     // 判断用户是否有上层合伙人
@@ -362,6 +403,15 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpay.setPayway(payway);
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);
+
+            Rewrite_submitInformationDTO rewrite_submitInformationDTO = new Rewrite_submitInformationDTO(
+                Constants.COLLECTION.toString(),
+                userId,
+                userId,
+                "时间："+TimeUtil.getDate()+"消费了"+amount.toString()+"元，获得了"+sum.toString()+"个积分"
+            );
+            rewrite_informationService.insertInformation(rewrite_submitInformationDTO);
+
     }
 
     // 优惠券处理
@@ -387,6 +437,15 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpay.setUserid(userId);
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpayRepository.save(receiptpay);
+
+
+        Rewrite_submitInformationDTO rewrite_submitInformationDTO = new Rewrite_submitInformationDTO(
+            Constants.COLLECTION.toString(),
+            userId,
+            userId,
+            "时间："+TimeUtil.getDate()+"消费了"+amount.toString()+"元，获得了"+sum.toString()+"元优惠券"
+        );
+        rewrite_informationService.insertInformation(rewrite_submitInformationDTO);
     }
 
 

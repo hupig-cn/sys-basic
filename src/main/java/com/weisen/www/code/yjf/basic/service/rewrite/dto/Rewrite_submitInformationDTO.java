@@ -14,6 +14,17 @@ public class Rewrite_submitInformationDTO implements Serializable {
     private Long ids;
     private String userId;
 
+    public Rewrite_submitInformationDTO(){
+
+    }
+
+    public Rewrite_submitInformationDTO(String type,String senduserid,String readuserid,String content){
+        this.type = type;
+        this.senduserid = senduserid;
+        this.readuserid = readuserid;
+        this.content = content;
+    }
+
     public String getWeight() {
         return weight;
     }
