@@ -478,8 +478,26 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
         if ("SUCCESS".equals(result_code) && "SUCCESS".equals(return_code)) {
             //这是成功
             log.debug("微信回调开始");
+            Userorder userorder = userorderRepository.findByOrdercode(out_trade_no);
+            //不是待支付订单不能支付
+            if (!Rewrite_Constant.ORDER_WAIT_PAY.equals(userorder.getOrderstatus())) {
+                return Result.fail("订单状态不正确");
+            }
+            // TODO 翻转订单状态
+            userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_DELIVER); //将订单状态更改成待发货
+            userorder.setPayway(OrderConstant.ALI_PAY);
+            userorder.setPaytime(TimeUtil.getDate());
+            userorderRepository.saveAndFlush(userorder);
+            // 生成支付流水
+//                        createFlow(userorder);
+            Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId()
+                ,OrderConstant.ALI_PAY);
 
-
+            if(userorder.getOther() != null && userorder.getOther().equals("1")){ // 圆帅
+                rewrite_PayService.judgeYuanShuai(rewrite_DistributionDTO);
+            }else{
+                rewrite_PayService.distribution(rewrite_DistributionDTO);
+            }
         }
         else {
             //这是失败
