@@ -103,7 +103,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 
         Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId(),userorder.getPayway());
 
-        if(null != userorder.getOther() 
+        if(null != userorder.getOther()
         		&& userorder.getOther().equals("1")){ // 圆帅
             judgeYuanShuai(rewrite_DistributionDTO);
         }else{
