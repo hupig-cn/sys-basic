@@ -30,7 +30,7 @@ public class WechatUtils {
     // 微信公众平台appid,H5支付,jsonAPi支付
 //    public static String WX_PUBLIC_APPID = "wxaa40fcd1d1c549c2";
     //测试1
-    public static String WX_PUBLIC_APPID = "wx66cb03334f396adf";
+    public static String WX_PUBLIC_APPID = "wx5450b0124166c23d";
     //测试2
 //    public static String WX_PUBLIC_APPID = "wx68e39844515478d9";
     //测试3
@@ -42,9 +42,11 @@ public class WechatUtils {
     /**
      * 微信支付API秘钥
      */
-    public static String WX_KEY = "d2fe1eedf0cf8f46f3f441f00ba13ac9";
+//    public static String WX_KEY = "d2fe1eedf0cf8f46f3f441f00ba13ac9";
+        //最新线上API秘钥
+    public static String WX_KEY = "f97ca1bbcf5549d7b92ae74f041fyuan";
     // 微信商户id
-    public static String MCHID = "1529301071";
+    public static String MCHID = "1549399071";
 
     /**
      * 微信交易类型:公众号支付
@@ -103,27 +105,22 @@ public class WechatUtils {
 //					para.put("pay_key", WechatUtils.WX_OPEN_KEY);
             } else if (WechatUtils.TRADE_TYPE_JSAPI.equals(payType)) { // 如果是jsapi支付（公众号支付）
                 para.put("appid", WechatUtils.WX_PUBLIC_APPID);
-                System.out.println("JSAPI支付");
 //					para.put("pay_key", WechatUtils.WX_PUBLIC_KEY);
-                para.put("wx_openid", openId);// 用户openid
+                para.put("openid", openId);// 用户openid
             } else if (WechatUtils.TRADE_TYPE_MWEB.equals(payType)) { // 如果是h5支付
                 para.put("appid", WechatUtils.WX_PUBLIC_APPID);
 //					para.put("pay_key", WechatUtils.WX_PUBLIC_KEY);
             }
             para.put("body", payBody);// 支付详情
-            System.out.println(payBody);
             para.put("mch_id", WechatUtils.MCHID);// 商户id
             para.put("nonce_str", UUID.randomUUID().toString().replaceAll("-", ""));// 随机支付串
-            System.out.println(para.get("nonce_str"));
             para.put("notify_url", WechatUtils.NOTIFY_URL);// 回调地址
             para.put("out_trade_no", tradeNo);// 订单号
             para.put("spbill_create_ip", ip);// ip
             para.put("total_fee", new BigDecimal(price).multiply(new BigDecimal(100)).setScale(0, BigDecimal.ROUND_DOWN).toString());// 价格
             para.put("trade_type", payType);// 支付的方式 公众号支付
             para.put("sign", WechatUtils.createSign(para));// sign 加密
-            System.out.println(para.get("sign"));
             result = WechatUtils.arrayToXml(para);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -139,6 +136,7 @@ public class WechatUtils {
         para.put("out_trade_no", tradeNo);
         para.put("nonce_str", UUID.randomUUID().toString().replaceAll("-", ""));
         para.put("sign", createSign(para));
+        para.put("sign_type", "MD5");
         String xml = arrayToXml(para);
         Map<String, String> resultMap = null;
         try {

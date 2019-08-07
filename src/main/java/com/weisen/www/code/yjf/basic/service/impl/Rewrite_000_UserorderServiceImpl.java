@@ -1,5 +1,6 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.response.AlipaySystemOauthTokenResponse;
 import com.weisen.www.code.yjf.basic.config.AlipayConstants;
@@ -22,10 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -383,20 +381,30 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
 		userorder = userorderRepository.save(userorder);
 		if (userorder.getId() != null && userorder.getId() > 0) {
             Map<String, String> resultMap = null;
-            String mPrepayId = "";
+//            String mPrepayId = "";
 			String subject = name + "消费购物,祝你购物愉快";// 订单名称字段暂时没有，等待加入
-			String address = "http://app.yuanscore.com/?result=" + userorder.getOrdercode();
+//			String address = "http://app.yuanscore.com/?result=" + userorder.getOrdercode();
+//            System.out.println(linkaccount + "微信标识");
             String xml = WechatUtils.packagePayPara(linkaccount.getToken(), subject, userorder.getOrdercode(), "123.12.12.123", money.toString(), WechatUtils.TRADE_TYPE_JSAPI);
             resultMap = WechatUtils.unifiedOrder(xml);
+//            System.out.println(resultMap);
             String return_code = resultMap.get("return_code");
             String return_msg = resultMap.get("return_msg");
             String result_code = resultMap.get("result_code");
-            System.out.println("return_code返回的=" + return_code);
-            System.out.println("return_msg返回的=" + return_msg);
-            System.out.println("prepay_id的返回=" + resultMap.get("prepay_id"));
+//            System.out.println("return_code返回的=" + return_code);
+//            System.out.println("return_msg返回的=" + return_msg);
+//            System.out.println("prepay_id的返回=" + resultMap.get("prepay_id"));
             if ("SUCCESS".equals(return_code) && "SUCCESS".equals(result_code)) {
+                JSONObject result = new JSONObject();
+                result.put("appId",resultMap.get("appid"));
+                result.put("nonceStr",resultMap.get("nonce_str"));
+                result.put("package","prepay_id="+resultMap.get("prepay_id"));
+                result.put("paySign",resultMap.get("sign"));
+                result.put("signType","MD5");
+                result.put("timeStamp",new Date().getTime()/1000);
+//                System.out.println(result);
                 log.debug("正确返回");
-                return resultMap.toString();
+                return result.toString();
             }else {
                 return return_code + "-" + return_msg + "-" + result_code;
             }
