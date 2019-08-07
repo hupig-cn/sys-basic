@@ -400,16 +400,17 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
                 result.put("nonceStr",resultMap.get("nonce_str"));
                 result.put("package","prepay_id="+resultMap.get("prepay_id"));
                 //二次加密开始
+                long l = new Date().getTime() / 1000;
                 SortedMap<String, String> para = new TreeMap<String, String>();
                 para.put("appId",resultMap.get("appid"));
+                para.put("timeStamp",String.valueOf(l));
                 para.put("nonceStr",resultMap.get("nonceStr"));
                 para.put("package","prepay_id="+resultMap.get("prepay_id"));
                 para.put("signType","MD5");
-                para.put("appId",resultMap.get("appid"));
                 result.put("paySign",WechatUtils.createSign(para));
                 //二次加密结束
                 result.put("signType","MD5");
-                result.put("timeStamp",new Date().getTime()/1000);
+                result.put("timeStamp",l);
                 System.out.println(result);
                 log.debug("正确返回");
                 log.debug(result.toString());
