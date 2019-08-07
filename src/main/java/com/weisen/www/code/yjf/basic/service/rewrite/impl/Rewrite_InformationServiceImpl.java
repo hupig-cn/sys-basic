@@ -53,7 +53,7 @@ public class Rewrite_InformationServiceImpl implements Rewrite_InformationServic
      */
     public Result insertInformation(Rewrite_submitInformationDTO rewrite_submitInformationDTO) {
         if (!CheckUtils.checkObj(rewrite_submitInformationDTO))
-            return Result.fail();
+            return Result.fail("消息主体不能为空");
         else if (!CheckUtils.checkString(rewrite_submitInformationDTO.getContent()))
             return Result.fail("消息内容不能为空");
         else if (!CheckUtils.checkString(rewrite_submitInformationDTO.getReaduserid()))
@@ -61,7 +61,7 @@ public class Rewrite_InformationServiceImpl implements Rewrite_InformationServic
         else if (!CheckUtils.checkString(rewrite_submitInformationDTO.getSenduserid()))
             return Result.fail("发送人不能为空");
         else {
-            if (!CheckUtils.checkString(rewrite_submitInformationDTO.getType())) {
+            if (CheckUtils.checkString(rewrite_submitInformationDTO.getType())) {
                 Information information = new Information();
                 //设置内容
                 information.setContent(rewrite_submitInformationDTO.getContent());
@@ -80,7 +80,7 @@ public class Rewrite_InformationServiceImpl implements Rewrite_InformationServic
                 //逻辑删除
                 information.setLogicdelete(false);
                 //设置消息类型
-                information.setType("1");
+                information.setType(rewrite_submitInformationDTO.getType());
                 information.setState("1");
                 if ("1".equals(rewrite_submitInformationDTO.getWeight()) && "所有人".equals(rewrite_submitInformationDTO.getReaduserid())) {
                     simpMessageSendingOperations.convertAndSend("/topic", information.getContent());
@@ -93,55 +93,56 @@ public class Rewrite_InformationServiceImpl implements Rewrite_InformationServic
                     return Result.fail("数据保存异常,请稍后重试");
                }
             } else {
-                Messagetemplate templateByType = rewrite_messageTemplateRepository.findTemplateByType(rewrite_submitInformationDTO.getType());
-                if (null == templateByType)
-                    return Result.fail("消息模板异常");
-                JSONObject data = (JSONObject) JSONObject.parse(rewrite_submitInformationDTO.getContent());
-                System.out.println(data.get("goods"));
-                Information information = new Information();
-                Iterator<String> iterator = data.keySet().iterator();
-                String content = templateByType.getContent();
-                System.out.println(content);
-                while (iterator.hasNext()) {
-                    String parm = iterator.next().trim();
-                    System.out.println(parm);
-                    String str = data.get(parm).toString().trim();
-                    if (null != str && !"".equals(str))
-                        content = content.trim().replace(parm, str);
-                }
-                System.out.println(content);
-                //设置内容
-                information.setContent(content);
-                //设置创建时间
-                information.setCreatedate(DateUtils.getDateForNow());
-                //设置消息类型
-                information.setType(templateByType.getType());
-                //设置消息标题
-                information.setTitle(templateByType.getTitle());
-                //设置消息接收人
-                information.setReaduserid(rewrite_submitInformationDTO.getReaduserid());
-                //设置消息发送人
-                information.setSenduserid(rewrite_submitInformationDTO.getSenduserid());
-                //设置消息创建人
-                information.setCreator(rewrite_submitInformationDTO.getCreator());
-                //设置备注
-                information.setOther(rewrite_submitInformationDTO.getOther());
-                //设置消息状态,已读,未读
-                information.setState("1");
-                //设置权重
-                information.setWeight(rewrite_submitInformationDTO.getWeight());
-                // 逻辑删除
-                information.setLogicdelete(false);
-                if ("1".equals(information.getWeight()) && "所有人".equals(rewrite_submitInformationDTO.getReaduserid())) {
-                    simpMessageSendingOperations.convertAndSend("/topic", information.getContent());
-                }
-                else if ("1".equals(information.getWeight()) && !"所有人".equals(rewrite_submitInformationDTO.getReaduserid())) {
-                    simpMessageSendingOperations.convertAndSendToUser(information.getReaduserid(), "/message", information.getContent());
-                }
-                Information save = rewrite_informationRepository.save(information);
-                if (!CheckUtils.checkObj(save)) {
-                    return Result.fail("数据保存异常,请稍后重试");
-                }
+                return Result.fail("消息类型不能为空");
+//                Messagetemplate templateByType = rewrite_messageTemplateRepository.findTemplateByType(rewrite_submitInformationDTO.getType());
+//                if (null == templateByType)
+//                    return Result.fail("消息模板异常");
+//                JSONObject data = (JSONObject) JSONObject.parse(rewrite_submitInformationDTO.getContent());
+//                System.out.println(data.get("goods"));
+//                Information information = new Information();
+//                Iterator<String> iterator = data.keySet().iterator();
+//                String content = templateByType.getContent();
+//                System.out.println(content);
+//                while (iterator.hasNext()) {
+//                    String parm = iterator.next().trim();
+//                    System.out.println(parm);
+//                    String str = data.get(parm).toString().trim();
+//                    if (null != str && !"".equals(str))
+//                        content = content.trim().replace(parm, str);
+//                }
+//                System.out.println(content);
+//                //设置内容
+//                information.setContent(content);
+//                //设置创建时间
+//                information.setCreatedate(DateUtils.getDateForNow());
+//                //设置消息类型
+//                information.setType(templateByType.getType());
+//                //设置消息标题
+//                information.setTitle(templateByType.getTitle());
+//                //设置消息接收人
+//                information.setReaduserid(rewrite_submitInformationDTO.getReaduserid());
+//                //设置消息发送人
+//                information.setSenduserid(rewrite_submitInformationDTO.getSenduserid());
+//                //设置消息创建人
+//                information.setCreator(rewrite_submitInformationDTO.getCreator());
+//                //设置备注
+//                information.setOther(rewrite_submitInformationDTO.getOther());
+//                //设置消息状态,已读,未读
+//                information.setState("1");
+//                //设置权重
+//                information.setWeight(rewrite_submitInformationDTO.getWeight());
+//                // 逻辑删除
+//                information.setLogicdelete(false);
+//                if ("1".equals(information.getWeight()) && "所有人".equals(rewrite_submitInformationDTO.getReaduserid())) {
+//                    simpMessageSendingOperations.convertAndSend("/topic", information.getContent());
+//                }
+//                else if ("1".equals(information.getWeight()) && !"所有人".equals(rewrite_submitInformationDTO.getReaduserid())) {
+//                    simpMessageSendingOperations.convertAndSendToUser(information.getReaduserid(), "/message", information.getContent());
+//                }
+//                Information save = rewrite_informationRepository.save(information);
+//                if (!CheckUtils.checkObj(save)) {
+//                    return Result.fail("数据保存异常,请稍后重试");
+//                }
             }
             return Result.suc("保存成功");
         }
