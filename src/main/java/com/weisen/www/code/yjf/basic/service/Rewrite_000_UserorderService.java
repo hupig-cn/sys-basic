@@ -5,6 +5,7 @@ import com.weisen.www.code.yjf.basic.util.Result;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 public interface Rewrite_000_UserorderService {
 
@@ -26,4 +27,5 @@ public interface Rewrite_000_UserorderService {
 
 	Long merchantPaymentCoupon(String userid, String money, String merchantid, Integer concession, Integer rebate);
 
+    Result weChatRefundNotify(Map<String, String> map);
 }

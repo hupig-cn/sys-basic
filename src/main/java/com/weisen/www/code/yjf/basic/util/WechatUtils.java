@@ -84,7 +84,7 @@ public class WechatUtils {
     /**
      * 微信支付通知url
      */
-    public static final String NOTIFY_URL = "http://app.yuanscore.com:9090/api/public/notify";
+    public static final String NOTIFY_URL = "http://app.yuanscore.com:9090/api/public/order/pay/wechat-refund-notify";
     /**
      * 支付成功跳转地址
      */
@@ -119,6 +119,7 @@ public class WechatUtils {
             para.put("spbill_create_ip", ip);// ip
             para.put("total_fee", new BigDecimal(price).multiply(new BigDecimal(100)).setScale(0, BigDecimal.ROUND_DOWN).toString());// 价格
             para.put("trade_type", payType);// 支付的方式 公众号支付
+            para.put("sign_type", "MD5");// 支付的方式 公众号支付
             para.put("sign", WechatUtils.createSign(para));// sign 加密
             result = WechatUtils.arrayToXml(para);
         } catch (Exception e) {
@@ -318,7 +319,7 @@ public class WechatUtils {
             }
         }
         sb.append("key=" + WechatUtils.WX_KEY);
-        System.out.println("签名：" + sb.toString());
+//        System.out.println("签名：" + sb.toString());
         String sign = MD5.MD5(sb.toString()).toUpperCase();
         return sign;
     }

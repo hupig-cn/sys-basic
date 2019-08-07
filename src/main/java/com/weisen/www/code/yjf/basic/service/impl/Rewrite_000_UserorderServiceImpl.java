@@ -462,4 +462,30 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
 		userorder.setModifierdate(thisDate);
 		return userorderRepository.save(userorder).getId();
 	}
+
+    public Result weChatRefundNotify(Map<String, String> map) {
+        log.debug("微信支付開始回調");
+        // TODO 解析微信服务器回调过来的数据。
+        String result_code = "";
+        String return_code = "";
+        String out_trade_no = "";
+        String total_fee = "";
+        String mPayWay = "2";
+        result_code = map.get("result_code");
+        out_trade_no = map.get("out_trade_no");
+        return_code = map.get("return_code");
+        total_fee = map.get("total_fee");
+        if ("SUCCESS".equals(result_code) && "SUCCESS".equals(return_code)) {
+            //这是成功
+            log.debug("微信回调开始");
+
+
+        }
+        else {
+            //这是失败
+
+        }
+
+        return Result.suc("支付成功");
+    }
 }
