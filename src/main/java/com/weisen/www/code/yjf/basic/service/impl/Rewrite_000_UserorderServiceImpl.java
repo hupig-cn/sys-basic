@@ -404,7 +404,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
                 SortedMap<String, String> para = new TreeMap<String, String>();
                 para.put("appId",resultMap.get("appid"));
                 para.put("timeStamp",String.valueOf(l));
-                para.put("nonceStr",resultMap.get("nonceStr"));
+                para.put("nonceStr",resultMap.get("nonce_str"));
                 para.put("package","prepay_id="+resultMap.get("prepay_id"));
                 para.put("signType","MD5");
                 result.put("paySign",WechatUtils.createSign(para));
