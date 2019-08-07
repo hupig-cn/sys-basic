@@ -464,6 +464,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
 	}
 
     public Result weChatRefundNotify(Map<String, String> map) {
+        System.out.println("微信开始回调");
         log.debug("微信支付開始回調");
         // TODO 解析微信服务器回调过来的数据。
         String result_code = "";
@@ -477,15 +478,15 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
         total_fee = map.get("total_fee");
         if ("SUCCESS".equals(result_code) && "SUCCESS".equals(return_code)) {
             //这是成功
-            log.debug("微信回调开始");
+            System.out.println("微信调用成功");
 
 
         }
         else {
             //这是失败
+            System.out.println("微信调用失败");
 
         }
-
         return Result.suc("支付成功");
     }
 }
