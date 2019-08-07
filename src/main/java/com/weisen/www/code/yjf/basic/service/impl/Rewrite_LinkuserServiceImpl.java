@@ -1,5 +1,8 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitMemberDTO;
+import com.weisen.www.code.yjf.basic.util.CheckUtils;
+import com.weisen.www.code.yjf.basic.util.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -62,4 +65,23 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
 		}
 		return "未认证";
 	}
+
+    /**
+     * 获取会员信息
+     * @param rewrite_submitMemberDTO
+     * @return
+     */
+    public Result getMemberInfo(Rewrite_submitMemberDTO rewrite_submitMemberDTO) {
+        if(!CheckUtils.checkPageInfo(rewrite_submitMemberDTO.getPageNum(),rewrite_submitMemberDTO.getPageSize()))
+            return Result.fail("分页信息错误");
+        else {
+            rewrite_LinkuserRepository.getMemberInfo(rewrite_submitMemberDTO.getUserName(),rewrite_submitMemberDTO.getRealName(),
+                rewrite_submitMemberDTO.getPageNum() * rewrite_submitMemberDTO.getPageSize(),rewrite_submitMemberDTO.getPageSize());
+
+
+
+
+        }
+        return null;
+    }
 }
