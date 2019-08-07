@@ -358,12 +358,12 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
 		}
 	}
 
-	public String merchantPaymentWeChat(String userid, String money, String merchantid, Integer concession,
+	public Result merchantPaymentWeChat(String userid, String money, String merchantid, Integer concession,
 			Integer rebate, String name) {
 		String thisDate = DateUtils.getDateForNow();
 		Linkaccount linkaccount = rewrite_LinkaccountRepository.findFirstByUserid(userid);// 判断系统是否有这个微信
 		if (linkaccount == null)
-			return "获取微信会员信息失败";
+			return Result.fail("获取微信会员信息失败");
 		// 1.先创建订单信息
 		Userorder userorder = new Userorder();
 		userorder.setUserid(linkaccount.getUserid());
@@ -404,12 +404,13 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
                 result.put("timeStamp",new Date().getTime()/1000);
 //                System.out.println(result);
                 log.debug("正确返回");
-                return result.toString();
+                log.debug(result.toString());
+                return Result.suc("",result);
             }else {
-                return return_code + "-" + return_msg + "-" + result_code;
+                return Result.fail("调用微信支付失败,请稍后重试");
             }
 		} else {
-			return "订单生成错误";
+            return Result.fail("订单生成错误,请稍后重试");
 		}
 	}
 
