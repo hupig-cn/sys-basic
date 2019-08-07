@@ -14,6 +14,9 @@ import com.weisen.www.code.yjf.basic.service.Rewrite_LinkuserService;
 import com.weisen.www.code.yjf.basic.service.dto.LinkuserDTO;
 import com.weisen.www.code.yjf.basic.service.mapper.LinkuserMapper;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Service Implementation for managing {@link Linkuser}.
  */
@@ -75,13 +78,11 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
         if(!CheckUtils.checkPageInfo(rewrite_submitMemberDTO.getPageNum(),rewrite_submitMemberDTO.getPageSize()))
             return Result.fail("分页信息错误");
         else {
-            rewrite_LinkuserRepository.getMemberInfo(rewrite_submitMemberDTO.getUserName(),rewrite_submitMemberDTO.getRealName(),
-                rewrite_submitMemberDTO.getPageNum() * rewrite_submitMemberDTO.getPageSize(),rewrite_submitMemberDTO.getPageSize());
-
-
-
-
+            List<Map<String, Object>> memberInfo = rewrite_LinkuserRepository.getMemberInfo(rewrite_submitMemberDTO.getUserName(), rewrite_submitMemberDTO.getRealName(),
+                rewrite_submitMemberDTO.getPageNum() * rewrite_submitMemberDTO.getPageSize(), rewrite_submitMemberDTO.getPageSize());
+            if(!CheckUtils.checkList(memberInfo))
+                return Result.suc("数据为空");
+            return Result.suc("获取成功",memberInfo);
         }
-        return null;
     }
 }

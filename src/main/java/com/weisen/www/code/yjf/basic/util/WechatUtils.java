@@ -84,7 +84,7 @@ public class WechatUtils {
     /**
      * 微信支付通知url
      */
-    public static final String NOTIFY_URL = "http://appsrv.booymp.com/web/pay/weisen/order/pay/wechat-refund-notify";
+    public static final String NOTIFY_URL = "http://app.yuanscore.com:9090/api/public/notify";
     /**
      * 支付成功跳转地址
      */
