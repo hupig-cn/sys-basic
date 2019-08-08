@@ -1,10 +1,12 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import com.weisen.www.code.yjf.basic.domain.Linkuser;
 import com.weisen.www.code.yjf.basic.domain.Userbankcard;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserbankcardRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_UserbankcardService;
 import com.weisen.www.code.yjf.basic.service.dto.UserbankcardDTO;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_BackCardInfo;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_BankCardDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
@@ -40,6 +42,7 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
 
         list.forEach(x-> {
             Rewrite_BankCardDTO rewrite_BankCardDTO = new Rewrite_BankCardDTO();
+
             rewrite_BankCardDTO.setId(x.getId());
             rewrite_BankCardDTO.setBankname(x.getBanktype());
             rewrite_BankCardDTO.setBanknum(x.getBankcard().substring(x.getBankcard().length()-4,x.getBankcard().length()));
@@ -48,6 +51,12 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
             listbank.add(rewrite_BankCardDTO);
         });
 
+        Linkuser Linkuser = rewrite_LinkuserRepository.findByUserid(userId.toString());
+        Rewrite_BackCardInfo rewrite_BackCardInfo = new Rewrite_BackCardInfo(
+            listbank,
+            Linkuser.getAlipay()!=null ? Linkuser.getAlipay() :null,
+            Linkuser.getWechat() != null ? Linkuser.getWechat() :null
+        );
         return Result.suc("成功",listbank);
     }
 

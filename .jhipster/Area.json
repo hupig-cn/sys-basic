@@ -27,7 +27,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190801062733",
+    "changelogDate": "20190808022857",
     "entityTableName": "area",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

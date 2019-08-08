@@ -356,7 +356,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         userassets.setUsablebalance(usebalance.toString());
         userassetsRepository.saveAndFlush(userassets);
 
-        if(Dealtype.equals(ReceiptpayConstant.INCOME)){
+        if(Dealtype.equals(ReceiptpayConstant.BALANCE_INCOME)){
             Rewrite_submitInformationDTO rewrite_submitInformationDTO = new Rewrite_submitInformationDTO(
                 Constants.COLLECTION.toString(),
                 userId,

@@ -1,6 +1,8 @@
 entity Linkuser {// 用户附加信息表
     userid String,// 用户id
     phone String,// 手机号
+    alipay String, // 支付宝
+    wechat String, // 微信
     name String,// 真实姓名
     idcard String,// 身份证号
     sex String,// 性别

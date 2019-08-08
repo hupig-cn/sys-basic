@@ -14,7 +14,6 @@ public class Rewrite_BankCardDTO {
 
     public Rewrite_BankCardDTO(){}
 
-
     public Long getId() {
         return id;
     }

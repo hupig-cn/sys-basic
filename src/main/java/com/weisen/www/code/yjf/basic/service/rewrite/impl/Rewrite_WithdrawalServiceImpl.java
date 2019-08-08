@@ -33,6 +33,8 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 
     private final WithdrawalMapper withdrawalMapper;
 
+    private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
+
     private final Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository;
 
     private final Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository;
@@ -46,7 +48,8 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
     public Rewrite_WithdrawalServiceImpl(Rewrite_WithdrawalRepository rewrite_withdrawalRepository, Rewrite_WithdrawalMapper rewrite_withdrawalMapper,
                                          Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository, Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository,
                                          Rewrite_UserassetsRepository rewrite_UserassetsRepository, Rewrite_UserbankcardRepository rewrite_UserbankcardRepository
-                                        , Rewrite_WithdrawaldetailsRepository rewrite_WithdrawaldetailsRepository,WithdrawalMapper withdrawalMapper) {
+                                        , Rewrite_WithdrawaldetailsRepository rewrite_WithdrawaldetailsRepository,WithdrawalMapper withdrawalMapper,
+                                         Rewrite_LinkuserRepository rewrite_LinkuserRepository) {
         this.rewrite_withdrawalRepository = rewrite_withdrawalRepository;
         this.rewrite_withdrawalMapper = rewrite_withdrawalMapper;
         this.rewrite_ReceiptpayRepository = rewrite_ReceiptpayRepository;
@@ -55,6 +58,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
         this.rewrite_UserbankcardRepository = rewrite_UserbankcardRepository;
         this.rewrite_WithdrawaldetailsRepository = rewrite_WithdrawaldetailsRepository;
         this.withdrawalMapper = withdrawalMapper;
+        this.rewrite_LinkuserRepository = rewrite_LinkuserRepository;
     }
 
     /**
@@ -76,6 +80,13 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
         int judg = new BigDecimal(rewrite_withdrawalDTO.getWithdrawalamount()).compareTo(new BigDecimal(userassets.getUsablebalance()));
         if(judg > 0 ){
             return Result.fail("您的可用余额不足");
+        }
+        Linkuser Linkuser = rewrite_LinkuserRepository.findByUserid(rewrite_withdrawalDTO.getUserid());
+
+        if(rewrite_withdrawalDTO.getGatheringway().equals(WithdrawalConstant.WECHAT) && null == Linkuser.getWechat()){
+            return Result.fail("请您绑定微信账号");
+        }else if(rewrite_withdrawalDTO.getGatheringway().equals(WithdrawalConstant.ALI) && null == Linkuser.getAlipay()){
+            return Result.fail("请您绑定支付宝账号");
         }
 
         BigDecimal useBan = new BigDecimal(userassets.getUsablebalance());
