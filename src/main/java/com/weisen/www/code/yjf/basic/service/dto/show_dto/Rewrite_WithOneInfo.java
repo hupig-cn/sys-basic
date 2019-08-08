@@ -11,6 +11,42 @@ public class Rewrite_WithOneInfo {
     private String status;
     private String etime;
     private String extro;
+    private String alipay;
+    private String wechat;
+    private String alipayName;
+    private String wechatName;
+
+    public String getAlipay() {
+        return alipay;
+    }
+
+    public void setAlipay(String alipay) {
+        this.alipay = alipay;
+    }
+
+    public String getWechat() {
+        return wechat;
+    }
+
+    public void setWechat(String wechat) {
+        this.wechat = wechat;
+    }
+
+    public String getAlipayName() {
+        return alipayName;
+    }
+
+    public void setAlipayName(String alipayName) {
+        this.alipayName = alipayName;
+    }
+
+    public String getWechatName() {
+        return wechatName;
+    }
+
+    public void setWechatName(String wechatName) {
+        this.wechatName = wechatName;
+    }
 
     public String getStime() {
         return stime;

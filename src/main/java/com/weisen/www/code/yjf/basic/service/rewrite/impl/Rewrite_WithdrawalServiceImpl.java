@@ -281,6 +281,14 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
             rewrite_WithOneInfo.setBankaccount(userbankcard.getBankcard());
             rewrite_WithOneInfo.setBankname(userbankcard.getBanktype());
         }
+        Linkuser Linkuser = rewrite_LinkuserRepository.findByUserid(withdrawal.getUserid());
+        if(withdrawal.getGatheringway().equals(WithdrawalConstant.ALI)){
+            rewrite_WithOneInfo.setAlipay(Linkuser.getAlipay());
+            rewrite_WithOneInfo.setAlipayName(Linkuser.getAlipayname());
+        }else if(withdrawal.getGatheringway().equals(WithdrawalConstant.WECHAT)){
+            rewrite_WithOneInfo.setWechat(Linkuser.getWechat());
+            rewrite_WithOneInfo.setWechatName(Linkuser.getWechatname());
+        }
 
         rewrite_WithOneInfo.setStime(withdrawal.getCreatedate());
         rewrite_WithOneInfo.setAmount(withdrawal.getWithdrawalamount());
