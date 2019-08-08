@@ -1,5 +1,6 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_BIndAliWechat;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitMemberDTO;
 import com.weisen.www.code.yjf.basic.util.CheckUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
@@ -84,5 +85,22 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
                 return Result.suc("数据为空");
             return Result.suc("获取成功",memberInfo);
         }
+    }
+
+    //绑定支付宝或微信账号
+    @Override
+    public Result bindALiPayOrWeChat(Rewrite_BIndAliWechat rewrite_BIndAliWechat) {
+
+        Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(rewrite_BIndAliWechat.getUserid());
+
+        if(rewrite_BIndAliWechat.getAlipay() != null){
+            linkuser.setAlipay(rewrite_BIndAliWechat.getAlipay());
+        }
+        if(rewrite_BIndAliWechat.getWechat() != null){
+            linkuser.setWechat(rewrite_BIndAliWechat.getWechat());
+        }
+        rewrite_LinkuserRepository.saveAndFlush(linkuser);
+
+        return Result.suc("成功");
     }
 }

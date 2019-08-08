@@ -2,15 +2,12 @@ package com.weisen.www.code.yjf.basic.web.rest;
 
 import java.net.URISyntaxException;
 
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_BIndAliWechat;
+import com.weisen.www.code.yjf.basic.util.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.weisen.www.code.yjf.basic.domain.Linkuser;
 import com.weisen.www.code.yjf.basic.service.Rewrite_LinkuserService;
@@ -61,4 +58,12 @@ public class Rewrite_LinkuserResource {
 		Linkuser linkuser = rewrite_LinkuserService.findByUserid(userid);
 		return linkuser;
 	}
+
+    @PostMapping("/bindALiPayOrWeChat")
+    @ApiOperation(value = "绑定支付宝或微信账号")
+    public Result bindALiPayOrWeChat(@RequestBody Rewrite_BIndAliWechat rewrite_BIndAliWechat) {
+        log.debug("REST request to get Linkuser : {}", rewrite_BIndAliWechat);
+        Result result = rewrite_LinkuserService.bindALiPayOrWeChat(rewrite_BIndAliWechat);
+        return result;
+    }
 }

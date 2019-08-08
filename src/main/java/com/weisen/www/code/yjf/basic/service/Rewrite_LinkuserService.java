@@ -2,6 +2,7 @@ package com.weisen.www.code.yjf.basic.service;
 
 import com.weisen.www.code.yjf.basic.domain.Linkuser;
 import com.weisen.www.code.yjf.basic.service.dto.LinkuserDTO;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_BIndAliWechat;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitMemberDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
@@ -17,4 +18,7 @@ public interface Rewrite_LinkuserService {
     String queryRealName(String userid);
 
     Result getMemberInfo(Rewrite_submitMemberDTO rewrite_submitMemberDTO);
+
+    //绑定支付宝或微信账号
+    Result bindALiPayOrWeChat(Rewrite_BIndAliWechat rewrite_BIndAliWechat);
 }
