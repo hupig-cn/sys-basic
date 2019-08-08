@@ -101,11 +101,11 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
         }
 
         if(rewrite_BIndAliWechat.getAlipayName() != null){
-            linkuser.setWechat(rewrite_BIndAliWechat.getAlipayName());
+            linkuser.setAlipayname(rewrite_BIndAliWechat.getAlipayName());
         }
 
         if(rewrite_BIndAliWechat.getWechatName() != null){
-            linkuser.setWechat(rewrite_BIndAliWechat.getWechatName());
+            linkuser.setWechatname(rewrite_BIndAliWechat.getWechatName());
         }
 
         rewrite_LinkuserRepository.saveAndFlush(linkuser);
