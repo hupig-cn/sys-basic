@@ -55,7 +55,9 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
         Rewrite_BackCardInfo rewrite_BackCardInfo = new Rewrite_BackCardInfo(
             listbank,
             Linkuser.getAlipay()!=null ? Linkuser.getAlipay() :null,
-            Linkuser.getWechat() != null ? Linkuser.getWechat() :null
+            Linkuser.getWechat() != null ? Linkuser.getWechat() :null,
+            Linkuser.getAlipayname() != null ? Linkuser.getAlipayname() :null,
+            Linkuser.getWechatname() != null ? Linkuser.getWechatname() :null
         );
         return Result.suc("成功",rewrite_BackCardInfo);
     }

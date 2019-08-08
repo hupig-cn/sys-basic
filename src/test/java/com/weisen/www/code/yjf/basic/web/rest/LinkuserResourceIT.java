@@ -49,6 +49,12 @@ public class LinkuserResourceIT {
     private static final String DEFAULT_WECHAT = "AAAAAAAAAA";
     private static final String UPDATED_WECHAT = "BBBBBBBBBB";
 
+    private static final String DEFAULT_ALIPAYNAME = "AAAAAAAAAA";
+    private static final String UPDATED_ALIPAYNAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_WECHATNAME = "AAAAAAAAAA";
+    private static final String UPDATED_WECHATNAME = "BBBBBBBBBB";
+
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
@@ -155,6 +161,8 @@ public class LinkuserResourceIT {
             .phone(DEFAULT_PHONE)
             .alipay(DEFAULT_ALIPAY)
             .wechat(DEFAULT_WECHAT)
+            .alipayname(DEFAULT_ALIPAYNAME)
+            .wechatname(DEFAULT_WECHATNAME)
             .name(DEFAULT_NAME)
             .idcard(DEFAULT_IDCARD)
             .sex(DEFAULT_SEX)
@@ -187,6 +195,8 @@ public class LinkuserResourceIT {
             .phone(UPDATED_PHONE)
             .alipay(UPDATED_ALIPAY)
             .wechat(UPDATED_WECHAT)
+            .alipayname(UPDATED_ALIPAYNAME)
+            .wechatname(UPDATED_WECHATNAME)
             .name(UPDATED_NAME)
             .idcard(UPDATED_IDCARD)
             .sex(UPDATED_SEX)
@@ -233,6 +243,8 @@ public class LinkuserResourceIT {
         assertThat(testLinkuser.getPhone()).isEqualTo(DEFAULT_PHONE);
         assertThat(testLinkuser.getAlipay()).isEqualTo(DEFAULT_ALIPAY);
         assertThat(testLinkuser.getWechat()).isEqualTo(DEFAULT_WECHAT);
+        assertThat(testLinkuser.getAlipayname()).isEqualTo(DEFAULT_ALIPAYNAME);
+        assertThat(testLinkuser.getWechatname()).isEqualTo(DEFAULT_WECHATNAME);
         assertThat(testLinkuser.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testLinkuser.getIdcard()).isEqualTo(DEFAULT_IDCARD);
         assertThat(testLinkuser.getSex()).isEqualTo(DEFAULT_SEX);
@@ -289,6 +301,8 @@ public class LinkuserResourceIT {
             .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE.toString())))
             .andExpect(jsonPath("$.[*].alipay").value(hasItem(DEFAULT_ALIPAY.toString())))
             .andExpect(jsonPath("$.[*].wechat").value(hasItem(DEFAULT_WECHAT.toString())))
+            .andExpect(jsonPath("$.[*].alipayname").value(hasItem(DEFAULT_ALIPAYNAME.toString())))
+            .andExpect(jsonPath("$.[*].wechatname").value(hasItem(DEFAULT_WECHATNAME.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].idcard").value(hasItem(DEFAULT_IDCARD.toString())))
             .andExpect(jsonPath("$.[*].sex").value(hasItem(DEFAULT_SEX.toString())))
@@ -324,6 +338,8 @@ public class LinkuserResourceIT {
             .andExpect(jsonPath("$.phone").value(DEFAULT_PHONE.toString()))
             .andExpect(jsonPath("$.alipay").value(DEFAULT_ALIPAY.toString()))
             .andExpect(jsonPath("$.wechat").value(DEFAULT_WECHAT.toString()))
+            .andExpect(jsonPath("$.alipayname").value(DEFAULT_ALIPAYNAME.toString()))
+            .andExpect(jsonPath("$.wechatname").value(DEFAULT_WECHATNAME.toString()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.idcard").value(DEFAULT_IDCARD.toString()))
             .andExpect(jsonPath("$.sex").value(DEFAULT_SEX.toString()))
@@ -369,6 +385,8 @@ public class LinkuserResourceIT {
             .phone(UPDATED_PHONE)
             .alipay(UPDATED_ALIPAY)
             .wechat(UPDATED_WECHAT)
+            .alipayname(UPDATED_ALIPAYNAME)
+            .wechatname(UPDATED_WECHATNAME)
             .name(UPDATED_NAME)
             .idcard(UPDATED_IDCARD)
             .sex(UPDATED_SEX)
@@ -402,6 +420,8 @@ public class LinkuserResourceIT {
         assertThat(testLinkuser.getPhone()).isEqualTo(UPDATED_PHONE);
         assertThat(testLinkuser.getAlipay()).isEqualTo(UPDATED_ALIPAY);
         assertThat(testLinkuser.getWechat()).isEqualTo(UPDATED_WECHAT);
+        assertThat(testLinkuser.getAlipayname()).isEqualTo(UPDATED_ALIPAYNAME);
+        assertThat(testLinkuser.getWechatname()).isEqualTo(UPDATED_WECHATNAME);
         assertThat(testLinkuser.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testLinkuser.getIdcard()).isEqualTo(UPDATED_IDCARD);
         assertThat(testLinkuser.getSex()).isEqualTo(UPDATED_SEX);

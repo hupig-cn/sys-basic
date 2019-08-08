@@ -32,6 +32,14 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="alipayname" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="wechatname" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -132,6 +140,8 @@
             <column name="phone" type="string"/>
             <column name="alipay" type="string"/>
             <column name="wechat" type="string"/>
+            <column name="alipayname" type="string"/>
+            <column name="wechatname" type="string"/>
             <column name="name" type="string"/>
             <column name="idcard" type="string"/>
             <column name="sex" type="string"/>

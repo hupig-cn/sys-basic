@@ -32,6 +32,12 @@ public class Linkuser implements Serializable {
     @Column(name = "wechat")
     private String wechat;
 
+    @Column(name = "alipayname")
+    private String alipayname;
+
+    @Column(name = "wechatname")
+    private String wechatname;
+
     @Column(name = "name")
     private String name;
 
@@ -145,6 +151,32 @@ public class Linkuser implements Serializable {
 
     public void setWechat(String wechat) {
         this.wechat = wechat;
+    }
+
+    public String getAlipayname() {
+        return alipayname;
+    }
+
+    public Linkuser alipayname(String alipayname) {
+        this.alipayname = alipayname;
+        return this;
+    }
+
+    public void setAlipayname(String alipayname) {
+        this.alipayname = alipayname;
+    }
+
+    public String getWechatname() {
+        return wechatname;
+    }
+
+    public Linkuser wechatname(String wechatname) {
+        this.wechatname = wechatname;
+        return this;
+    }
+
+    public void setWechatname(String wechatname) {
+        this.wechatname = wechatname;
     }
 
     public String getName() {
@@ -406,6 +438,8 @@ public class Linkuser implements Serializable {
             ", phone='" + getPhone() + "'" +
             ", alipay='" + getAlipay() + "'" +
             ", wechat='" + getWechat() + "'" +
+            ", alipayname='" + getAlipayname() + "'" +
+            ", wechatname='" + getWechatname() + "'" +
             ", name='" + getName() + "'" +
             ", idcard='" + getIdcard() + "'" +
             ", sex='" + getSex() + "'" +

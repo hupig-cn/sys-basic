@@ -6,7 +6,27 @@ public class Rewrite_BIndAliWechat {
 
     private String wechat;
 
+    private String alipayName;
+
+    private String wechatName;
+
     private String userid;
+
+    public String getAlipayName() {
+        return alipayName;
+    }
+
+    public void setAlipayName(String alipayName) {
+        this.alipayName = alipayName;
+    }
+
+    public String getWechatName() {
+        return wechatName;
+    }
+
+    public void setWechatName(String wechatName) {
+        this.wechatName = wechatName;
+    }
 
     public String getUserid() {
         return userid;

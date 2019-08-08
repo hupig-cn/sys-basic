@@ -63,7 +63,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190808022854",
+    "changelogDate": "20190808113836",
     "entityTableName": "information",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

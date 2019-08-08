@@ -18,6 +18,14 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "alipayname",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "wechatname",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "name",
             "fieldType": "String"
         },
@@ -91,7 +99,7 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190808022843",
+    "changelogDate": "20190808113825",
     "entityTableName": "linkuser",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",

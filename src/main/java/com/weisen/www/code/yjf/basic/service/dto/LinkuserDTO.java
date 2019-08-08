@@ -17,6 +17,10 @@ public class LinkuserDTO implements Serializable {
 
     private String wechat;
 
+    private String alipayname;
+
+    private String wechatname;
+
     private String name;
 
     private String idcard;
@@ -92,6 +96,22 @@ public class LinkuserDTO implements Serializable {
 
     public void setWechat(String wechat) {
         this.wechat = wechat;
+    }
+
+    public String getAlipayname() {
+        return alipayname;
+    }
+
+    public void setAlipayname(String alipayname) {
+        this.alipayname = alipayname;
+    }
+
+    public String getWechatname() {
+        return wechatname;
+    }
+
+    public void setWechatname(String wechatname) {
+        this.wechatname = wechatname;
     }
 
     public String getName() {
@@ -267,6 +287,8 @@ public class LinkuserDTO implements Serializable {
             ", phone='" + getPhone() + "'" +
             ", alipay='" + getAlipay() + "'" +
             ", wechat='" + getWechat() + "'" +
+            ", alipayname='" + getAlipayname() + "'" +
+            ", wechatname='" + getWechatname() + "'" +
             ", name='" + getName() + "'" +
             ", idcard='" + getIdcard() + "'" +
             ", sex='" + getSex() + "'" +
