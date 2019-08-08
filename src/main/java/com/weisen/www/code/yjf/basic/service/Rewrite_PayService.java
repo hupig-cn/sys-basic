@@ -20,4 +20,7 @@ public interface Rewrite_PayService {
 
     //订单商品是元帅的流程
     Result judgeYuanShuai(Rewrite_DistributionDTO rewrite_DistributionDTO);
+
+//    Result weChatPay(Rewrite_submitWeChatPayDTO rewrite_submitWeChatPayDTO);
+
 }

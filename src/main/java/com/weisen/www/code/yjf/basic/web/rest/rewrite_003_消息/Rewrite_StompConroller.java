@@ -17,6 +17,8 @@ public class Rewrite_StompConroller {
 
     @MessageMapping("/marco")
     public void handleShout() {
+//        simpMessageSendingOperations.convertAndSendToUser("3","/message","你好");
+        System.out.println("连接成功");
     }
 
 
