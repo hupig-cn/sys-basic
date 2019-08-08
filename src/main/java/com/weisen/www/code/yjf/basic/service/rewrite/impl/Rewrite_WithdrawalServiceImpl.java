@@ -270,6 +270,9 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
     @Override
     public Result getWithdrawalInfo(Long withdrawalId) {
         Withdrawal withdrawal = rewrite_withdrawalRepository.getOne(withdrawalId);
+        if(null == withdrawal){
+            Result.suc("空数据",null);
+        }
         Rewrite_WithOneInfo rewrite_WithOneInfo = new Rewrite_WithOneInfo();
 
         if(withdrawal.getBankcardid() != null && !"".equals(withdrawal.getBankcardid())){
