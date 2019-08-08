@@ -57,7 +57,7 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
             Linkuser.getAlipay()!=null ? Linkuser.getAlipay() :null,
             Linkuser.getWechat() != null ? Linkuser.getWechat() :null
         );
-        return Result.suc("成功",listbank);
+        return Result.suc("成功",rewrite_BackCardInfo);
     }
 
     // 用户添加银行卡
