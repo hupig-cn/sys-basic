@@ -11,6 +11,7 @@ import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_WithdrawalService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_WithdrawalDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_WithdrawalMapper;
 import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
+import com.weisen.www.code.yjf.basic.service.util.SendCode;
 import com.weisen.www.code.yjf.basic.service.util.WithdrawalConstant;
 import com.weisen.www.code.yjf.basic.util.CheckUtils;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
@@ -115,6 +116,8 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
         withdrawaldetails.setTitle(WithdrawalConstant.getInfo(rewrite_withdrawalDTO.getGatheringway()));
         withdrawaldetails.setState(WithdrawalConstant.IN_READY);
         rewrite_WithdrawaldetailsRepository.save(withdrawaldetails);
+
+        String result = SendCode.issue("13794340607", "用户注册", "0000");
 
         return Result.suc("提交成功");
     }
