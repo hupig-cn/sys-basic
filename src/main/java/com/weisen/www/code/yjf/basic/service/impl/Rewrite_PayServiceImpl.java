@@ -345,6 +345,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpay.setSourcer(userId);
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpay.setLogicdelete(false);
+        receiptpay.setPayway(payway);
         receiptpayRepository.save(receiptpay);
 
         Userassets userassets = userassetsRepository.findByUserId(sourcerId);
