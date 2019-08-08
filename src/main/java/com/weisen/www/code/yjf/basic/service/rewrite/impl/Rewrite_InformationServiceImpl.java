@@ -19,6 +19,7 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -86,7 +87,10 @@ public class Rewrite_InformationServiceImpl implements Rewrite_InformationServic
                 if (!CheckUtils.checkObj(save)) {
                     return Result.fail("数据保存异常,请稍后重试");
                }
-                simpMessageSendingOperations.convertAndSendToUser(information.getReaduserid(), "/message", information.getContent());
+                HashMap<String, Object> info = new HashMap<>();
+                info.put("type",rewrite_submitInformationDTO.getType());
+                info.put("message",information.getContent());
+                simpMessageSendingOperations.convertAndSendToUser(information.getReaduserid(), "/message",info );
 //                if ("1".equals(rewrite_submitInformationDTO.getWeight()) && "所有人".equals(rewrite_submitInformationDTO.getReaduserid())) {
 //                    simpMessageSendingOperations.convertAndSend("/topic", information.getContent());
 //                }
