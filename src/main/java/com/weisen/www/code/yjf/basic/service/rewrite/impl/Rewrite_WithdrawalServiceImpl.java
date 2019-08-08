@@ -293,7 +293,6 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
         rewrite_WithOneInfo.setStime(withdrawal.getCreatedate());
         rewrite_WithOneInfo.setAmount(withdrawal.getWithdrawalamount());
         rewrite_WithOneInfo.setType(withdrawal.getGatheringway());
-        rewrite_WithOneInfo.setType(withdrawal.getWithdrawaltype());
         rewrite_WithOneInfo.setEtime(withdrawal.getModifierdate());
         rewrite_WithOneInfo.setExtro(withdrawal.getOther());
 
