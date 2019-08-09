@@ -208,6 +208,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
             Withdrawaldetails withdrawaldetails = rewrite_WithdrawaldetailsRepository.findByWithdrawalid(withdrawal.getId().toString());
             withdrawaldetails.setState(WithdrawalConstant.FAIL);
             withdrawaldetails.setModifierdate(TimeUtil.getDate());
+            withdrawaldetails.setWithdrawalid(withdrawal.getId().toString());
             rewrite_WithdrawaldetailsRepository.save(withdrawaldetails);
             // 更改我的资产
             Userassets userassets = rewrite_UserassetsRepository.findByUserid(withdrawaldetails.getUserid());
