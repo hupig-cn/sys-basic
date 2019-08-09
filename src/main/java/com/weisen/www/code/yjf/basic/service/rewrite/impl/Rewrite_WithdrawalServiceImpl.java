@@ -176,10 +176,15 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
                 rewrite_WithdrawalShowDTO.setIncomeWay(WithdrawalConstant.getInfo(x.getGatheringway()));  // 提现方式
                 rewrite_WithdrawalShowDTO.setState(x.getWithdrawaltype()); // 提现状态
                 if(x.getGatheringway().equals(WithdrawalConstant.BANK_CARD)){
-                    Userbankcard userbankcard = rewrite_UserbankcardRepository.getOne(Long.valueOf(x.getBankcardid()));
-                    rewrite_WithdrawalShowDTO.setIncomeAccount(userbankcard.getBankcard()); // 银行卡卡号（银行账号）
-                    rewrite_WithdrawalShowDTO.setIncomeName(userbankcard.getRealname()); // 银行卡姓名
-                    rewrite_WithdrawalShowDTO.setBelongBankName(userbankcard.getBanktype()); // 所属银行（开户银行）
+                    Optional<Userbankcard> op = rewrite_UserbankcardRepository.findById(Long.valueOf(x.getBankcardid()));
+                    if(op.isPresent()){
+                        Userbankcard userbankcard = op.get();
+                        rewrite_WithdrawalShowDTO.setIncomeAccount(userbankcard.getBankcard()); // 银行卡卡号（银行账号）
+                        rewrite_WithdrawalShowDTO.setIncomeName(userbankcard.getRealname()); // 银行卡姓名
+                        rewrite_WithdrawalShowDTO.setBelongBankName(userbankcard.getBanktype()); // 所属银行（开户银行）
+                    }
+                    rewrite_WithdrawalShowDTO.setIncomeAccount("用户银行卡不存在");
+
                 }else if(x.getGatheringway().equals(WithdrawalConstant.ALI)){
                     rewrite_WithdrawalShowDTO.setIncomeAccount(linkuser.getAlipay());
                     rewrite_WithdrawalShowDTO.setIncomeName(linkuser.getAlipayname());
