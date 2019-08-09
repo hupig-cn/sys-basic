@@ -54,7 +54,7 @@ public class Rewrite_WithdrawalResource {
     @PostMapping("/admin/get-all-withdrawal")
     @ApiOperation("后台获取所有提现信息")
     public ResponseEntity<?> getWithdrawal(@RequestBody Rewrite_submitWithdrawalDTO rewrite_submitWithdrawalDTO){
-        Result result = withdrawalService.getWithdrawals(rewrite_submitWithdrawalDTO.getPageNum(), rewrite_submitWithdrawalDTO.getPageSize());
+        Result result = withdrawalService.getWithdrawals(rewrite_submitWithdrawalDTO.getPageNum(), rewrite_submitWithdrawalDTO.getPageSize(),rewrite_submitWithdrawalDTO.getType());
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
     //后台审核用户提现记录

@@ -12,8 +12,10 @@ public interface Rewrite_WithdrawalService {
     Result insertWithdrawal(WithdrawalDTO withdrawalDTO);
     //获取账号提现记录
     Result getWithdrawalByAccount(String userId, Integer pageNum, Integer pageSize);
-    //本地获取所有提现记录
-    Result getWithdrawals(Integer pageNum, Integer pageSize);
+
+    //获取所有提现记录(根据类型查询)后台
+    Result getWithdrawals(Integer pageNum, Integer pageSize,String type);
+
     //后台审核提现记录
     Result auditWithdrawal(Long withdrawalid, String type,String content);
 

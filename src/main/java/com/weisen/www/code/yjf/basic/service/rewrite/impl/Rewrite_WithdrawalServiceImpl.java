@@ -6,6 +6,7 @@ import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_WithdrawalReposi
 import com.weisen.www.code.yjf.basic.service.dto.WithdrawalDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithOneInfo;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithdrawalInfo;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithdrawalShowDTO;
 import com.weisen.www.code.yjf.basic.service.mapper.WithdrawalMapper;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_WithdrawalService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_WithdrawalDTO;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -152,17 +154,44 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
      * @param pageSize
      * @return
      */
-    public Result getWithdrawals(Integer pageNum, Integer pageSize) {
+    public Result getWithdrawals(Integer pageNum, Integer pageSize,String type) {
         System.out.println(pageNum + pageSize + "");
         if (!CheckUtils.checkPageInfo(pageNum, pageSize))
             return Result.fail("分页信息异常");
         else {
-            List<Withdrawal> withdrawals = rewrite_withdrawalRepository.getWithdrawals(pageNum * pageSize, pageSize);
+            List<Withdrawal> withdrawals = rewrite_withdrawalRepository.getWithdrawals(type,pageNum * pageSize, pageSize);
             if (!CheckUtils.checkList(withdrawals))
                 return Result.fail("数据库异常");
-            List<Rewrite_WithdrawalDTO> rewrite_withdrawalDTOS = rewrite_withdrawalMapper.toDto(withdrawals);
-            Integer count = rewrite_withdrawalRepository.getCountByAccount(null);
-            return Result.suc("获取成功", rewrite_withdrawalDTOS, count);
+
+            List<Rewrite_WithdrawalShowDTO> list = new ArrayList<>();
+            withdrawals.forEach(x -> {
+                Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(x.getUserid());
+                Rewrite_WithdrawalShowDTO rewrite_WithdrawalShowDTO = new Rewrite_WithdrawalShowDTO();
+                rewrite_WithdrawalShowDTO.setId(x.getId().toString());
+                rewrite_WithdrawalShowDTO.setUserAccount(linkuser.getPhone());
+                rewrite_WithdrawalShowDTO.setUserName(linkuser.getName());
+                rewrite_WithdrawalShowDTO.setAmount(x.getWithdrawalamount());
+                rewrite_WithdrawalShowDTO.setStartTime(x.getCreatedate());
+                rewrite_WithdrawalShowDTO.setEndTime(x.getModifierdate());
+                rewrite_WithdrawalShowDTO.setIncomeWay(WithdrawalConstant.getInfo(x.getGatheringway()));  // 提现方式
+                rewrite_WithdrawalShowDTO.setState(x.getWithdrawaltype()); // 提现状态
+                if(x.getGatheringway().equals(WithdrawalConstant.BANK_CARD)){
+                    Userbankcard userbankcard = rewrite_UserbankcardRepository.getOne(Long.valueOf(x.getBankcardid()));
+                    rewrite_WithdrawalShowDTO.setIncomeAccount(userbankcard.getBankcard()); // 银行卡卡号（银行账号）
+                    rewrite_WithdrawalShowDTO.setIncomeName(userbankcard.getRealname()); // 银行卡姓名
+                    rewrite_WithdrawalShowDTO.setBelongBankName(userbankcard.getBanktype()); // 所属银行（开户银行）
+                }else if(x.getGatheringway().equals(WithdrawalConstant.ALI)){
+                    rewrite_WithdrawalShowDTO.setIncomeAccount(linkuser.getAlipay());
+                    rewrite_WithdrawalShowDTO.setIncomeName(linkuser.getAlipayname());
+                }else if(x.getGatheringway().equals(WithdrawalConstant.WECHAT)){
+                    rewrite_WithdrawalShowDTO.setIncomeAccount(linkuser.getWechat());
+                    rewrite_WithdrawalShowDTO.setIncomeName(linkuser.getWechatname());
+                }
+                list.add(rewrite_WithdrawalShowDTO);
+            });
+
+            Long count = rewrite_withdrawalRepository.countAllByWithdrawaltype(type);
+            return Result.suc("获取成功", list, count.intValue());
         }
     }
 
@@ -270,17 +299,22 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
     // 获取一条提现数据详细信息
     @Override
     public Result getWithdrawalInfo(Long withdrawalId) {
-        Withdrawal withdrawal = rewrite_withdrawalRepository.getOne(withdrawalId);
+        Withdrawaldetails withdrawaldetails = rewrite_WithdrawaldetailsRepository.getOne(withdrawalId);
+        if(null == withdrawaldetails){
+            Result.suc("空数据",null);
+        }
+        Withdrawal withdrawal = rewrite_withdrawalRepository.getOne(Long.valueOf(withdrawaldetails.getWithdrawalid()));
         if(null == withdrawal){
             Result.suc("空数据",null);
         }
+
         Rewrite_WithOneInfo rewrite_WithOneInfo = new Rewrite_WithOneInfo();
 
         if(withdrawal.getBankcardid() != null && !"".equals(withdrawal.getBankcardid())){
             Userbankcard userbankcard = rewrite_UserbankcardRepository.getOne(Long.valueOf(withdrawal.getBankcardid()));
-            rewrite_WithOneInfo.setBankuser(userbankcard.getRealname());
-            rewrite_WithOneInfo.setBankaccount(userbankcard.getBankcard());
-            rewrite_WithOneInfo.setBankname(userbankcard.getBanktype());
+            rewrite_WithOneInfo.setBankuser(userbankcard.getRealname()); // 银行卡姓名
+            rewrite_WithOneInfo.setBankaccount(userbankcard.getBankcard()); // 银行卡卡号（银行账号）
+            rewrite_WithOneInfo.setBankname(userbankcard.getBanktype()); // 所属银行（开户银行）
         }
         Linkuser Linkuser = rewrite_LinkuserRepository.findByUserid(withdrawal.getUserid());
         if(withdrawal.getGatheringway().equals(WithdrawalConstant.ALI)){
@@ -291,11 +325,12 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
             rewrite_WithOneInfo.setWechatName(Linkuser.getWechatname());
         }
 
-        rewrite_WithOneInfo.setStime(withdrawal.getCreatedate());
-        rewrite_WithOneInfo.setAmount(withdrawal.getWithdrawalamount());
+        rewrite_WithOneInfo.setStime(withdrawaldetails.getCreatedate());
+        rewrite_WithOneInfo.setAmount(withdrawaldetails.getAmount());
         rewrite_WithOneInfo.setType(withdrawal.getGatheringway());
-        rewrite_WithOneInfo.setEtime(withdrawal.getModifierdate());
-        rewrite_WithOneInfo.setExtro(withdrawal.getOther());
+        rewrite_WithOneInfo.setStatus(withdrawaldetails.getState());
+        rewrite_WithOneInfo.setEtime(withdrawaldetails.getModifierdate());
+        rewrite_WithOneInfo.setExtro(withdrawaldetails.getOther());
 
         return Result.suc("成功",rewrite_WithOneInfo);
     }
