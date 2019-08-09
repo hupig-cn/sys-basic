@@ -242,7 +242,6 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
             Withdrawaldetails withdrawaldetails = rewrite_WithdrawaldetailsRepository.findByWithdrawalid(withdrawal.getId().toString());
             withdrawaldetails.setState(WithdrawalConstant.FAIL);
             withdrawaldetails.setModifierdate(TimeUtil.getDate());
-            withdrawaldetails.setWithdrawalid(withdrawal.getId().toString());
             rewrite_WithdrawaldetailsRepository.save(withdrawaldetails);
             // 更改我的资产
             Userassets userassets = rewrite_UserassetsRepository.findByUserid(withdrawaldetails.getUserid());
@@ -262,6 +261,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
             failWithdrawaldetails.setAmount(amount.toString());
             failWithdrawaldetails.setAfteramount(userassets.getUsablebalance());
             failWithdrawaldetails.setCreatedate(TimeUtil.getDate());
+            failWithdrawaldetails.setWithdrawalid(withdrawal.getId().toString());
             failWithdrawaldetails.setType(WithdrawalConstant.INCOME);
             failWithdrawaldetails.setTitle("提现失败，资金回退");
             failWithdrawaldetails.setOther(content); // 审核失败原因  后台操作填写
