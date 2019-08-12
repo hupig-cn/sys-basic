@@ -247,7 +247,7 @@ public class Rewrite_InformationServiceImpl implements Rewrite_InformationServic
         else if(!CheckUtils.checkPageInfo(details.getPageNum(),details.getPageSize()))
             return Result.fail();
         else {
-            List<Information> informations = rewrite_informationRepository.getInformations(details.getUserId(), details.getPageNum() * details.getPageNum(), details.getPageSize());
+            List<Information> informations = rewrite_informationRepository.getInformations(details.getUserId(), details.getPageNum() * details.getPageSize(), details.getPageSize());
             if(!CheckUtils.checkList(informations)){
                 return Result.fail();
             }
