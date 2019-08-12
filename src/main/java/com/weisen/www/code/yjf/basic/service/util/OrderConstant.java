@@ -43,6 +43,22 @@ public class OrderConstant {
         return null;
     }
 
+    public static String getpayInfo2(String payWay){
+
+        switch (payWay){
+            case "1":
+                return "支付宝";
+            case "2":
+                return "微信";
+            case "3":
+                return "余额支付";
+            case "5":
+                return "优惠券支付";
+        }
+
+        return null;
+    }
+
 
 
     //生成订单编号

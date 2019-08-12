@@ -276,9 +276,9 @@ entity Receiptpay {// 收支明细表
 	dealtype String,// 交易类型
 	userid String,// 用户
 	sourcer String,// 来源
-	benefit String,// 受益
+	benefit String,// 受益 (8-12 现在变成了交易金额)
 	payway String, // 支付方式
-	amount BigDecimal,// 交易金额
+	amount BigDecimal,// 交易金额 (8-12 现在变成了受益金额)
 	bonus BigDecimal,// 红利
 	happendate String,// 产生时间
 	freezedate String,// 冻结时间

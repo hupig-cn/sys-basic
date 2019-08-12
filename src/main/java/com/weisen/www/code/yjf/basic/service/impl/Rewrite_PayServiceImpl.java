@@ -244,7 +244,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             ma = ma.divide(new BigDecimal("100"));
             mBigPrice = mBigPrice.multiply(ma).setScale(3, BigDecimal.ROUND_HALF_UP);
             mBigPrice = am.subtract(mBigPrice);
-            craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME, userorder.getUserid(), userorder.getPayee(), mBigPrice,userorder.getPayway());
+            craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME, userorder.getUserid(), userorder.getPayee(), mBigPrice,userorder.getPayway(),userorder.getSum().toString());
 
         }
         return Result.suc("支付成功");
@@ -278,7 +278,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             BigDecimal ma = new BigDecimal("5");
             ma = ma.divide(new BigDecimal("1000"));
             mBigPrice = mBigPrice.multiply(ma).setScale(3, BigDecimal.ROUND_HALF_UP);
-            craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),userlinkuser.getRecommendid(),mBigPrice,rewrite_DistributionDTO.getPayWay());
+            craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getUserid(),userlinkuser.getRecommendid(),mBigPrice,rewrite_DistributionDTO.getPayWay(),rewrite_DistributionDTO.getAmount());
         }
         // 是否有合伙人
         String id = findPartner(userorder.getUserid());
@@ -287,7 +287,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             BigDecimal ma = new BigDecimal("4");
             ma = ma.divide(new BigDecimal("1000"));
             mBigPrice = mBigPrice.multiply(ma).setScale(3, BigDecimal.ROUND_HALF_UP);
-            craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_PER,userorder.getUserid(),id,mBigPrice,rewrite_DistributionDTO.getPayWay());
+            craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_PER,userorder.getUserid(),id,mBigPrice,rewrite_DistributionDTO.getPayWay(),rewrite_DistributionDTO.getAmount());
         }
         // 上面支付者的分销分完了  下面如果有收款方 还需要再分一轮
         if(userorder.getPayee() != null && !"".equals(userorder.getPayee())){
@@ -297,7 +297,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             ma = ma.divide(new BigDecimal("100"));
             mBigPrice = mBigPrice.multiply(ma).setScale(3, BigDecimal.ROUND_HALF_UP);
             mBigPrice = am.subtract(mBigPrice);
-            craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME,userorder.getUserid(),userorder.getPayee(),mBigPrice,rewrite_DistributionDTO.getPayWay());
+            craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME,userorder.getUserid(),userorder.getPayee(),mBigPrice,rewrite_DistributionDTO.getPayWay(),rewrite_DistributionDTO.getAmount());
 
             Userlinkuser payeeuserlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorder.getPayee());
 
@@ -307,7 +307,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 BigDecimal kma = new BigDecimal("5");
                 kma = kma.divide(new BigDecimal("1000"));
                 mPrice = mPrice.multiply(kma).setScale(3, BigDecimal.ROUND_HALF_UP);
-                craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getPayee(),payeeuserlinkuser.getRecommendid(),mPrice,rewrite_DistributionDTO.getPayWay());
+                craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_DIR,userorder.getPayee(),payeeuserlinkuser.getRecommendid(),mPrice,rewrite_DistributionDTO.getPayWay(),rewrite_DistributionDTO.getAmount());
             }
             // 是否有合伙人
             String kid = findPartner(userorder.getPayee());
@@ -316,7 +316,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 BigDecimal kma = new BigDecimal("4");
                 kma = kma.divide(new BigDecimal("1000"));
                 mPrice = mPrice.multiply(kma).setScale(3, BigDecimal.ROUND_HALF_UP);
-                craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_PER,userorder.getPayee(),kid,mPrice,rewrite_DistributionDTO.getPayWay());
+                craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_PER,userorder.getPayee(),kid,mPrice,rewrite_DistributionDTO.getPayWay(),rewrite_DistributionDTO.getAmount());
             }
 
             //分配积分，
@@ -336,12 +336,13 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 
 
     // 创建收支明细
-    private void craeteReceiptpay(String Dealtype,String userId,String sourcerId,BigDecimal amount,String payway){
+    private void craeteReceiptpay(String Dealtype,String userId,String sourcerId,BigDecimal amount,String payway,String total){
         Receiptpay receiptpay = new Receiptpay();
         receiptpay.setDealtype(Dealtype);
         receiptpay.setDealstate(ReceiptpayConstant.INCOME);
         receiptpay.setUserid(sourcerId);
-        receiptpay.setAmount(amount);
+        receiptpay.setAmount(amount);  // 受益金额
+        receiptpay.setBenefit(total);  // 交易金额
         receiptpay.setSourcer(userId);
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpay.setLogicdelete(false);
@@ -397,7 +398,8 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         userassetsRepository.saveAndFlush(userassets);
 
         Receiptpay receiptpay = new Receiptpay();
-        receiptpay.setAmount(sum);
+        receiptpay.setAmount(sum); // 受益金额
+        receiptpay.setBenefit(amount.toString()); // 交易金额
         receiptpay.setDealtype(ReceiptpayConstant.INTEGRAL_GET); // 积分收入
         receiptpay.setDealstate(ReceiptpayConstant.INCOME);
         receiptpay.setUserid(userId);
@@ -469,7 +471,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 BigDecimal ma = new BigDecimal("25");
                 ma = ma.divide(new BigDecimal("100"));
                 mBigPrice = mBigPrice.multiply(ma).setScale(3, BigDecimal.ROUND_HALF_UP);
-                craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_PER,userorder.getUserid(),id,mBigPrice,rewrite_DistributionDTO.getPayWay());
+                craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_PER,userorder.getUserid(),id,mBigPrice,rewrite_DistributionDTO.getPayWay(),rewrite_DistributionDTO.getAmount());
             }
         }
         return Result.suc("成功");
