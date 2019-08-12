@@ -487,7 +487,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
             }
             // TODO 翻转订单状态
             userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_DELIVER); //将订单状态更改成待发货
-            userorder.setPayway(OrderConstant.ALI_PAY);
+            userorder.setPayway(OrderConstant.WECHAT_PAY);
             userorder.setPaytime(TimeUtil.getDate());
             userorderRepository.saveAndFlush(userorder);
             // 生成支付流水
