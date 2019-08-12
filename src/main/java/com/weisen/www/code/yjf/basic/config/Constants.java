@@ -40,6 +40,8 @@ public final class Constants {
     public static final Integer CONSUMPTION = 1 ;
     //收款消息
     public static final Integer COLLECTION = 2 ;
+    //注册消息
+    public static final Integer REGISTER_INFORMATION = 3 ;
 
     // Validate pay password
     public static final String SMS_PAY_PASSWORD_CODE_REGEXP = "\\d{6}";
