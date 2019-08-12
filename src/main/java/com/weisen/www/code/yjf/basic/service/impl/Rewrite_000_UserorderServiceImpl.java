@@ -493,7 +493,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
             // 生成支付流水
 //                        createFlow(userorder);
             Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId()
-                ,OrderConstant.ALI_PAY);
+                ,OrderConstant.WECHAT_PAY);
 
             if(userorder.getOther() != null && userorder.getOther().equals("1")){ // 圆帅
                 rewrite_PayService.judgeYuanShuai(rewrite_DistributionDTO);
