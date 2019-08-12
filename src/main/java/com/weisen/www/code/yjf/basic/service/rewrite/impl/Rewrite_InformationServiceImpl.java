@@ -89,7 +89,7 @@ public class Rewrite_InformationServiceImpl implements Rewrite_InformationServic
                }
                 HashMap<String, Object> info = new HashMap<>();
                 info.put("type",rewrite_submitInformationDTO.getType());
-                info.put("message",information.getContent());
+                info.put("message","时间:" + save.getCreatedate()+ "," + information.getContent());
                 simpMessageSendingOperations.convertAndSendToUser(information.getReaduserid(), "/message",info );
 //                if ("1".equals(rewrite_submitInformationDTO.getWeight()) && "所有人".equals(rewrite_submitInformationDTO.getReaduserid())) {
 //                    simpMessageSendingOperations.convertAndSend("/topic", information.getContent());

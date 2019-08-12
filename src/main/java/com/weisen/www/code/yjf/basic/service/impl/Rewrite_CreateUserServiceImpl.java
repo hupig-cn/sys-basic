@@ -1,23 +1,18 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import com.weisen.www.code.yjf.basic.config.Constants;
+import com.weisen.www.code.yjf.basic.domain.*;
+import com.weisen.www.code.yjf.basic.repository.*;
+import com.weisen.www.code.yjf.basic.service.Rewrite_CreateUserService;
+import com.weisen.www.code.yjf.basic.util.CheckUtils;
+import com.weisen.www.code.yjf.basic.util.DateUtils;
+import com.weisen.www.code.yjf.basic.util.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.weisen.www.code.yjf.basic.domain.Information;
-import com.weisen.www.code.yjf.basic.domain.Linkaccount;
-import com.weisen.www.code.yjf.basic.domain.Linkuser;
-import com.weisen.www.code.yjf.basic.domain.Userassets;
-import com.weisen.www.code.yjf.basic.domain.Userlinkuser;
-import com.weisen.www.code.yjf.basic.domain.Userlocation;
-import com.weisen.www.code.yjf.basic.repository.InformationRepository;
-import com.weisen.www.code.yjf.basic.repository.LinkaccountRepository;
-import com.weisen.www.code.yjf.basic.repository.LinkuserRepository;
-import com.weisen.www.code.yjf.basic.repository.UserassetsRepository;
-import com.weisen.www.code.yjf.basic.repository.UserlinkuserRepository;
-import com.weisen.www.code.yjf.basic.repository.UserlocationRepository;
-import com.weisen.www.code.yjf.basic.service.Rewrite_CreateUserService;
-import com.weisen.www.code.yjf.basic.util.DateUtils;
-import com.weisen.www.code.yjf.basic.util.Result;
+import java.util.HashMap;
 
 @Service
 @Transactional
@@ -35,6 +30,8 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 
 	private UserassetsRepository userassetsRepository;
 
+    @Autowired
+    private SimpMessageSendingOperations simpMessageSendingOperations;
 	public Rewrite_CreateUserServiceImpl(LinkuserRepository linkuserRepository,
 			LinkaccountRepository linkaccountRepository, UserlinkuserRepository userlinkuserRepository,
 			UserlocationRepository userlocationRepository, UserassetsRepository userassetsRepository,
@@ -64,7 +61,7 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 		String thisDate = DateUtils.getDateForNow();
 		createBasicInfo(userId, phone, referrer, thisDate);
 		Information information = new Information();
-		information.setType("推荐消息");
+		information.setType(Constants.REGISTER_INFORMATION.toString());
 		information.setSenduserid("1");
 		information.setReaduserid(referrer);
 		information.setSenddate(thisDate);
@@ -72,8 +69,14 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 		information.setContent("推荐用户：" + phone + "成功，推荐时间：" + thisDate);
 		information.setState("未读");
 		information.setWeight("正常");
-		informationRepository.save(information);// 发推荐消息
-		return Result.suc("用户创建成功");
+        Information save = informationRepository.save(information);// 发推荐消息
+        if(CheckUtils.checkObj(save)){
+            HashMap<String, Object> info = new HashMap<>();
+            info.put("type",Constants.REGISTER_NUMBER.toString());
+            info.put("message",information.getContent());
+            simpMessageSendingOperations.convertAndSendToUser(information.getReaduserid(), "/message",info );
+        }
+        return Result.suc("用户创建成功");
 	}
 
 	/**

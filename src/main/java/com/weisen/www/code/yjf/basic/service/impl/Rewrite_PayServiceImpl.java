@@ -107,7 +107,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             Constants.CONSUMPTION.toString(),
             userorder.getUserid(),
             userorder.getUserid(),
-            "时间："+TimeUtil.getDate()+"消费了"+userorder.getSum().toString()+"元余额。"
+            "消费了"+userorder.getSum().toString()+"元余额。"
         );
         rewrite_informationService.insertInformation(rewrite_submitInformationDTO);
 
@@ -173,7 +173,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             Constants.CONSUMPTION.toString(),
             userorder.getUserid(),
             userorder.getUserid(),
-            "时间："+TimeUtil.getDate()+"消费了"+userorder.getSum().toString()+"个积分。"
+            "消费了"+userorder.getSum().toString()+"个积分。"
         );
         rewrite_informationService.insertInformation(rewrite_submitInformationDTO);
 
@@ -229,7 +229,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             Constants.CONSUMPTION.toString(),
             userorder.getUserid(),
             userorder.getUserid(),
-            "时间："+TimeUtil.getDate()+"消费了"+userorder.getSum().toString()+"元优惠券。"
+            "消费了"+userorder.getSum().toString()+"元优惠券。"
         );
         rewrite_informationService.insertInformation(rewrite_submitInformationDTO);
 
@@ -362,7 +362,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 Constants.COLLECTION.toString(),
                 userId,
                 sourcerId,
-                "时间："+TimeUtil.getDate()+",收款"+amount.toString()+"元"
+                "收款"+amount.toString()+"元"
                 );
             rewrite_informationService.insertInformation(rewrite_submitInformationDTO);
         }
@@ -409,7 +409,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 Constants.COLLECTION.toString(),
                 userId,
                 userId,
-                "时间："+TimeUtil.getDate()+"消费了"+amount.toString()+"元，获得了"+sum.toString()+"个积分"
+                "消费了"+amount.toString()+"元，获得了"+sum.toString()+"个积分"
             );
             rewrite_informationService.insertInformation(rewrite_submitInformationDTO);
 
@@ -444,7 +444,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             Constants.COLLECTION.toString(),
             userId,
             userId,
-            "时间："+TimeUtil.getDate()+"消费了"+amount.toString()+"元，获得了"+sum.toString()+"元优惠券"
+            "消费了"+amount.toString()+"元，获得了"+sum.toString()+"元优惠券"
         );
         rewrite_informationService.insertInformation(rewrite_submitInformationDTO);
     }
