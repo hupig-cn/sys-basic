@@ -182,9 +182,9 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
                         rewrite_WithdrawalShowDTO.setIncomeAccount(userbankcard.getBankcard()); // 银行卡卡号（银行账号）
                         rewrite_WithdrawalShowDTO.setIncomeName(userbankcard.getRealname()); // 银行卡姓名
                         rewrite_WithdrawalShowDTO.setBelongBankName(userbankcard.getBanktype()); // 所属银行（开户银行）
+                    }else{
+                        rewrite_WithdrawalShowDTO.setIncomeAccount("用户银行卡不存在");
                     }
-                    rewrite_WithdrawalShowDTO.setIncomeAccount("用户银行卡不存在");
-
                 }else if(x.getGatheringway().equals(WithdrawalConstant.ALI)){
                     rewrite_WithdrawalShowDTO.setIncomeAccount(linkuser.getAlipay());
                     rewrite_WithdrawalShowDTO.setIncomeName(linkuser.getAlipayname());
