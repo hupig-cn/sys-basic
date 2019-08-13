@@ -24,7 +24,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/api/advertisement")
+@RequestMapping("/api/advertisement/admin")
 @Api(tags = "000-广告管理")
 public class Rewrite_AdvertisementResource {
 
