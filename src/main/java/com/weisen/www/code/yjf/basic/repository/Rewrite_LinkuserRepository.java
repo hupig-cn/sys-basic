@@ -21,8 +21,8 @@ public interface Rewrite_LinkuserRepository extends JpaRepository<Linkuser, Long
 	Linkuser findByIdcard(String idcard);
 
 	Linkuser findByPhone(String phone);
-    @Query(value = "select l.id as id ,l.phone as name , a.balance as balance,a.integral as integral , (case when l.paypassword IS NOT NULL THEN '已设置' ELSE '未设置') as password," +
-        "(CASE WHEN l.name IS NOT NULL THEN '已实名' ELSE '未实名') as realname,l.createdata as createtime ,ulu.recommendid as recommendid from linkuser l RIGHT JOIN userassets a ON l.userid = a.userid JOIN userlinkuser ulu ON ulu.userid = l.userid " +
-        "where (:userName IS NULL OR :userName = phone) AND (CASE WHEN :realName = TRUE THEN name = IS NOT NULL  ELSE  name IS NULL ) ORDER BY createdate DESC LIMIT :pageNum,:pageSize ",nativeQuery = true)
+    @Query(value = "select l.id as id ,l.phone as name , a.balance as balance,a.integral as integral , (case when l.paypassword IS NOT NULL THEN '已设置' ELSE '未设置' END ) as password," +
+        "(CASE WHEN l.name IS NOT NULL THEN '已实名' ELSE '未实名' END ) as realname,l.createdate as createtime ,ulu.recommendid as recommendid from linkuser l RIGHT JOIN userassets a ON l.userid = a.userid JOIN userlinkuser ulu ON ulu.userid = l.userid " +
+        "where (:userName IS NULL OR :userName = phone) AND (CASE WHEN :realName = TRUE THEN name IS NOT NULL  ELSE  name IS NULL END ) ORDER BY l.createdate DESC LIMIT :pageNum,:pageSize ",nativeQuery = true)
     List<Map<String,Object>> getMemberInfo(@Param("userName") String userName,@Param("realName") Boolean realName,@Param("pageNum") Integer pageNum,@Param("pageSize") Integer pageSize);
 }
