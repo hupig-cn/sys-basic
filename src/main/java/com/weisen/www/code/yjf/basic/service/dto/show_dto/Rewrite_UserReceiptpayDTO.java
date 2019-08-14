@@ -20,6 +20,16 @@ public class Rewrite_UserReceiptpayDTO {
 
     private String other;
 
+    private String dealtype;
+
+    public String getDealtype() {
+        return dealtype;
+    }
+
+    public void setDealtype(String dealtype) {
+        this.dealtype = dealtype;
+    }
+
     public String getId() {
         return id;
     }

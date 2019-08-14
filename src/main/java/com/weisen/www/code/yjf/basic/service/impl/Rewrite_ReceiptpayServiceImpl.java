@@ -349,6 +349,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
             rewrite_UserReceiptpayDTO.setOrderid("-");
             rewrite_UserReceiptpayDTO.setRelationOrder("-");
             rewrite_UserReceiptpayDTO.setDescribe("-");
+            rewrite_UserReceiptpayDTO.setDealtype(x.getDealtype());  // 1 支出 2 收入
             userList.add(rewrite_UserReceiptpayDTO);
         });
 
