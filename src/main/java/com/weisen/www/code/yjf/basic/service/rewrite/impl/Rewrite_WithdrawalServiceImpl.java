@@ -7,6 +7,7 @@ import com.weisen.www.code.yjf.basic.service.dto.WithdrawalDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithOneInfo;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithdrawalInfo;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithdrawalShowDTO;
+import com.weisen.www.code.yjf.basic.service.impl.UserlinkuserServiceImpl;
 import com.weisen.www.code.yjf.basic.service.mapper.WithdrawalMapper;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_WithdrawalService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_WithdrawalDTO;
@@ -18,6 +19,8 @@ import com.weisen.www.code.yjf.basic.util.CheckUtils;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +32,8 @@ import java.util.Optional;
 @Service
 @Transactional
 public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService {
+
+    private final Logger log = LoggerFactory.getLogger(UserlinkuserServiceImpl.class);
 
     private final Rewrite_WithdrawalRepository rewrite_withdrawalRepository;
 
@@ -208,8 +213,16 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
      * @return
      */
     public Result auditWithdrawal(Long withdrawalid, String type,String content) {
+        log.debug("auditWithdrawal",withdrawalid,type);
         if (!CheckUtils.checkLongByZero(withdrawalid))
             return Result.fail("审核数据异常");
+
+        Optional<Withdrawal> op = rewrite_withdrawalRepository.findById(withdrawalid);
+        if(!op.isPresent()){
+            return Result.fail("提现记录不存在");
+        }else if(op.isPresent() && !op.get().getWithdrawaltype().equals("1")){
+            return Result.fail("该提现已经被审核过了");
+        }
 
         if(type.equals(WithdrawalConstant.SUCCESS)){
             Withdrawal withdrawal = rewrite_withdrawalRepository.getOne(withdrawalid);

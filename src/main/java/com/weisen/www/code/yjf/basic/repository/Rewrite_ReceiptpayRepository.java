@@ -48,4 +48,8 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
     @Query(value = "select id,dealtype,userid,sourcer,benefit,payway,amount,bonus,happendate,freezedate,dealstate,creator,createdate,modifier,modifierdate,modifiernum,logicdelete,other from receiptpay where userid = ?1 and dealtype=?2 order by createdate desc limit ?3,?4",nativeQuery = true)
     List<Receiptpay> getAllByMerchantAndType(String userid,String type,int indexPage,int pageSize);
 
+    //分页查询一个用户的流水(分页)
+    @Query(value = "select * from receiptpay where (?1 is null or userid = ?1) order by createdate desc limit ?2,?3 " , nativeQuery = true)
+    List<Receiptpay> getAllByUserSomething(String userid,int pageIndex,int pageSize);
+
 }

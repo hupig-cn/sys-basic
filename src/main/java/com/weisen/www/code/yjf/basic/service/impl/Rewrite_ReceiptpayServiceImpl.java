@@ -1,6 +1,8 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import com.weisen.www.code.yjf.basic.domain.Linkuser;
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_ReceiptpayService;
@@ -40,13 +42,17 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 
 	private final Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository;
 
+	private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
+
 	public Rewrite_ReceiptpayServiceImpl(Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository,
 			ReceiptpayMapper receiptpayMapper,Rewrite_UserassetsService rewrite_UserassetsService,
-                                         Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository) {
+                                         Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository,
+                                         Rewrite_LinkuserRepository rewrite_LinkuserRepository) {
 		this.rewrite_ReceiptpayRepository = rewrite_ReceiptpayRepository;
 		this.receiptpayMapper = receiptpayMapper;
 		this.rewrite_UserassetsService = rewrite_UserassetsService;
 		this.rewrite_UserlinkuserRepository = rewrite_UserlinkuserRepository;
+		this.rewrite_LinkuserRepository = rewrite_LinkuserRepository;
 	}
 
 	// 查询商家今日收入 (商家端)
@@ -319,6 +325,20 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
         });
 
         return Result.suc("成功",showList);
+    }
+
+    // 根据用户账号查询详细收益（分页，暂时没有多条件）admin
+    @Override
+    public Result findByUserAccountOrSomething(String userAccount,int pageIndex,int pageSize) {
+        Linkuser linkuser = rewrite_LinkuserRepository.findByPhone(userAccount);
+        if (linkuser == null) {
+            return Result.fail("用户不存在");
+        }
+        List<Receiptpay> list = rewrite_ReceiptpayRepository.getAllByUserSomething(
+            linkuser.getUserid(), pageIndex * pageSize,pageSize);
+
+
+        return null;
     }
 
 }

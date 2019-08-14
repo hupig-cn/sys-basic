@@ -35,4 +35,6 @@ public interface Rewrite_ReceiptpayService {
     // 查询用户商家端收益列表倒叙
     Result findMerchantProfitInfo(String userId,int startPage,int pageSize);
 
+    // 根据用户账号查询详细收益（分页，暂时没有多条件）
+    Result findByUserAccountOrSomething(String userAccount,int pageIndex,int pageSize);
 }
