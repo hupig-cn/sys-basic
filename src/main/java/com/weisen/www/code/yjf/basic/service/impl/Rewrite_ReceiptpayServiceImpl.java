@@ -343,6 +343,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
             rewrite_UserReceiptpayDTO.setId(x.getId().toString());
             rewrite_UserReceiptpayDTO.setAmount(x.getAmount().toString());
             rewrite_UserReceiptpayDTO.setUserAccount(linkuser.getPhone());
+            rewrite_UserReceiptpayDTO.setUserAmount("-");
             rewrite_UserReceiptpayDTO.setCreateTime(x.getCreatedate());
             rewrite_UserReceiptpayDTO.setOther("-");
             rewrite_UserReceiptpayDTO.setOrderid("-");
