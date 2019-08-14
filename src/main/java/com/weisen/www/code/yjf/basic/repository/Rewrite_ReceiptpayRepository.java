@@ -52,4 +52,6 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
     @Query(value = "select * from receiptpay where (?1 is null or userid = ?1) order by createdate desc limit ?2,?3 " , nativeQuery = true)
     List<Receiptpay> getAllByUserSomething(String userid,int pageIndex,int pageSize);
 
+    Long countAllByUserid(String userid);
+
 }
