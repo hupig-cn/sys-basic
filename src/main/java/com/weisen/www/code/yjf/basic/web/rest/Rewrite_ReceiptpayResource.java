@@ -110,4 +110,12 @@ public class Rewrite_ReceiptpayResource {
         Result result = rewrite_ReceiptpayService.findMerchantProfitInfo(userid,startPage,pageSize);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
+
+    @GetMapping("admin/findByUserAccountOrSomething/{userAccount}&{startPage}&{pageSize}")
+    @ApiOperation(value = "根据用户账号查询详细收益（分页，暂时没有多条件）admin")
+    @Timed
+    public ResponseEntity<Result> findByUserAccountOrSomething(@PathVariable String userAccount, @PathVariable int startPage, @PathVariable int pageSize) {
+        Result result = rewrite_ReceiptpayService.findByUserAccountOrSomething(userAccount,startPage,pageSize);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
 }

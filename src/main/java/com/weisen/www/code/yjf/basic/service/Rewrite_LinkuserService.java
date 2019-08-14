@@ -21,4 +21,8 @@ public interface Rewrite_LinkuserService {
 
     //绑定支付宝或微信账号
     Result bindALiPayOrWeChat(Rewrite_BIndAliWechat rewrite_BIndAliWechat);
+
+    // 会员列表
+    Result findAllUserList(int pageIndex,int pageSize);
+
 }

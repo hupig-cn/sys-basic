@@ -337,8 +337,22 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
         List<Receiptpay> list = rewrite_ReceiptpayRepository.getAllByUserSomething(
             linkuser.getUserid(), pageIndex * pageSize,pageSize);
 
+        List<Rewrite_UserReceiptpayDTO> userList = new ArrayList<>();
+        list.forEach(x -> {
+            Rewrite_UserReceiptpayDTO rewrite_UserReceiptpayDTO = new Rewrite_UserReceiptpayDTO();
+            rewrite_UserReceiptpayDTO.setId(x.getId().toString());
+            rewrite_UserReceiptpayDTO.setAmount(x.getAmount().toString());
+            rewrite_UserReceiptpayDTO.setUserAccount(linkuser.getPhone());
+            rewrite_UserReceiptpayDTO.setCreateTime(x.getCreatedate());
+            rewrite_UserReceiptpayDTO.setOther("-");
+            rewrite_UserReceiptpayDTO.setOrderid("-");
+            rewrite_UserReceiptpayDTO.setRelationOrder("-");
+            rewrite_UserReceiptpayDTO.setDescribe("-");
+            userList.add(rewrite_UserReceiptpayDTO);
+        });
 
-        return null;
+        Long count = rewrite_ReceiptpayRepository.countAllByUserid(linkuser.getUserid());
+        return Result.suc("成功",userList,count.intValue());
     }
 
 }

@@ -112,4 +112,13 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
 
         return Result.suc("成功");
     }
+
+    // 会员列表(上面已有)
+    @Override
+    public Result findAllUserList(int pageIndex, int pageSize) {
+
+
+
+        return null;
+    }
 }
