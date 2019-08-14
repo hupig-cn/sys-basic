@@ -107,7 +107,6 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
         if(rewrite_BIndAliWechat.getWechatName() != null){
             linkuser.setWechatname(rewrite_BIndAliWechat.getWechatName());
         }
-
         rewrite_LinkuserRepository.saveAndFlush(linkuser);
 
         return Result.suc("成功");
