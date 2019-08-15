@@ -77,6 +77,12 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     @Override
     public List<UserorderDTO> getUnpaidOrder(Long userId) {
         List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndOrderstatus(userId.toString(), OrderConstant.UN_PAID);
+        List<UserorderDTO> dto = userorderMapper.toDto(list);
+        dto.forEach(x->{
+            if(x.getOrdercode().length() == 32){
+                dto.remove(x);
+            }
+        });
         return userorderMapper.toDto(list);
     }
 
@@ -84,14 +90,26 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     @Override
     public List<UserorderDTO> getPaidOrder(Long userId) {
         List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndOrderstatus(userId.toString(), OrderConstant.PAID);
-        return userorderMapper.toDto(list);
+        List<UserorderDTO> dto = userorderMapper.toDto(list);
+        dto.forEach(x->{
+            if(x.getOrdercode().length() == 32){
+                dto.remove(x);
+            }
+        });
+        return dto;
     }
 
     // 获取退款订单
     @Override
     public List<UserorderDTO> getRefundOrder(Long userId) {
         List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndOrderstatus(userId.toString(), OrderConstant.REFUNDED);
-        return userorderMapper.toDto(list);
+        List<UserorderDTO> dto = userorderMapper.toDto(list);
+        dto.forEach(x->{
+            if(x.getOrdercode().length() == 32){
+                dto.remove(x);
+            }
+        });
+        return dto;
     }
 
     // 获取当日订单
@@ -123,7 +141,13 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     @Override
     public List<UserorderDTO> getAllOrder(Long userId) {
         List<Userorder> userorder = rewrite_UserorderRepository.findAllByUserid(userId.toString());
-        return userorderMapper.toDto(userorder);
+        List<UserorderDTO> dto = userorderMapper.toDto(userorder);
+        dto.forEach(x->{
+            if(x.getOrdercode().length() == 32){
+                dto.remove(x);
+            }
+        });
+        return dto;
     }
 
     //用户下单
