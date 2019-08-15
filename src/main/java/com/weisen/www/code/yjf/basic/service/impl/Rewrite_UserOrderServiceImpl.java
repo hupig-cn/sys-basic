@@ -78,12 +78,13 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     public List<UserorderDTO> getUnpaidOrder(Long userId) {
         List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndOrderstatus(userId.toString(), OrderConstant.UN_PAID);
         List<UserorderDTO> dto = userorderMapper.toDto(list);
+        List<UserorderDTO> show = new ArrayList<>();
         dto.forEach(x->{
-            if(x.getOrdercode().length() == 32){
-                dto.remove(x);
+            if(x.getOrdercode().length() != 32){
+                show.add(x);
             }
         });
-        return userorderMapper.toDto(list);
+        return show;
     }
 
     // 获取已支付订单
@@ -91,12 +92,13 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     public List<UserorderDTO> getPaidOrder(Long userId) {
         List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndOrderstatus(userId.toString(), OrderConstant.PAID);
         List<UserorderDTO> dto = userorderMapper.toDto(list);
+        List<UserorderDTO> show = new ArrayList<>();
         dto.forEach(x->{
-            if(x.getOrdercode().length() == 32){
-                dto.remove(x);
+            if(x.getOrdercode().length() != 32){
+                show.add(x);
             }
         });
-        return dto;
+        return show;
     }
 
     // 获取退款订单
@@ -104,12 +106,13 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     public List<UserorderDTO> getRefundOrder(Long userId) {
         List<Userorder> list = rewrite_UserorderRepository.findAllByUseridAndOrderstatus(userId.toString(), OrderConstant.REFUNDED);
         List<UserorderDTO> dto = userorderMapper.toDto(list);
+        List<UserorderDTO> show = new ArrayList<>();
         dto.forEach(x->{
-            if(x.getOrdercode().length() == 32){
-                dto.remove(x);
+            if(x.getOrdercode().length() != 32){
+                show.add(x);
             }
         });
-        return dto;
+        return show;
     }
 
     // 获取当日订单
@@ -142,12 +145,13 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     public List<UserorderDTO> getAllOrder(Long userId) {
         List<Userorder> userorder = rewrite_UserorderRepository.findAllByUserid(userId.toString());
         List<UserorderDTO> dto = userorderMapper.toDto(userorder);
+        List<UserorderDTO> show = new ArrayList<>();
         dto.forEach(x->{
-            if(x.getOrdercode().length() == 32){
-                dto.remove(x);
+            if(x.getOrdercode().length() != 32){
+                show.add(x);
             }
         });
-        return dto;
+        return show;
     }
 
     //用户下单
