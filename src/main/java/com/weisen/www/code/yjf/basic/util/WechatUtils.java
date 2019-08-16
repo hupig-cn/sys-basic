@@ -146,7 +146,6 @@ public class WechatUtils {
             EntityUtils.consume(response.getEntity());
             response.close();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         String return_code = resultMap.get("return_code");
@@ -172,7 +171,6 @@ public class WechatUtils {
             EntityUtils.consume(response.getEntity());
             response.close();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return resultMap;

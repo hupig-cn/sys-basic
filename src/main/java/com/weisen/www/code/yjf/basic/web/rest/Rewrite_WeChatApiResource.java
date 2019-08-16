@@ -86,7 +86,6 @@ public class Rewrite_WeChatApiResource {
             Map<String, String> map = WechatUtils.parseXml(request.getInputStream());
             userorderService.weChatRefundNotify(map);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return "SUCCESS";
