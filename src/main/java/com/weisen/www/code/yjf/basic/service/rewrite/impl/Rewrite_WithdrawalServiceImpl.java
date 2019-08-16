@@ -75,7 +75,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
      * @param rewrite_withdrawalDTO
      * @return
      */
-    public Result insertWithdrawal(WithdrawalDTO rewrite_withdrawalDTO) {
+    public synchronized Result insertWithdrawal(WithdrawalDTO rewrite_withdrawalDTO) {
         if (!CheckUtils.checkObj(rewrite_withdrawalDTO))
             return Result.fail("提交信息异常");
         else if (!CheckUtils.checkString(rewrite_withdrawalDTO.getUserid()))
@@ -212,7 +212,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
      * @param type
      * @return
      */
-    public Result auditWithdrawal(Long withdrawalid, String type,String content) {
+    public synchronized Result auditWithdrawal(Long withdrawalid, String type,String content) {
         log.debug("auditWithdrawal",withdrawalid,type);
         if (!CheckUtils.checkLongByZero(withdrawalid))
             return Result.fail("审核数据异常");
@@ -226,6 +226,16 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 
         if(type.equals(WithdrawalConstant.SUCCESS)){
             Withdrawal withdrawal = rewrite_withdrawalRepository.getOne(withdrawalid);
+            Userassets userassets = rewrite_UserassetsRepository.findByUserid(withdrawal.getUserid());
+
+            BigDecimal balance = new BigDecimal(userassets.getBalance());
+            BigDecimal frozen = new BigDecimal(userassets.getFrozenbalance());
+            BigDecimal amount = new BigDecimal(withdrawal.getWithdrawalamount());
+
+            if(balance.subtract(amount).compareTo(new BigDecimal("0"))  < 0 ){
+                return Result.fail("用户数据库资金出现异常");
+            }
+
             withdrawal.setWithdrawaltype(WithdrawalConstant.ALREADY);
             withdrawal.setModifierdate(TimeUtil.getDate());
             rewrite_withdrawalRepository.saveAndFlush(withdrawal);
@@ -234,12 +244,6 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
             withdrawaldetails.setState(WithdrawalConstant.ALREADY);
             withdrawaldetails.setModifierdate(TimeUtil.getDate());
             rewrite_WithdrawaldetailsRepository.save(withdrawaldetails);
-
-            Userassets userassets = rewrite_UserassetsRepository.findByUserid(withdrawaldetails.getUserid());
-
-            BigDecimal balance = new BigDecimal(userassets.getBalance());
-            BigDecimal frozen = new BigDecimal(userassets.getFrozenbalance());
-            BigDecimal amount = new BigDecimal(withdrawaldetails.getAmount());
 
             userassets.setBalance(balance.subtract(amount).setScale(3).toString());
             userassets.setFrozenbalance(frozen.subtract(amount).setScale(3).toString());
