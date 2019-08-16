@@ -330,15 +330,26 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
     // 根据用户账号查询详细收益（分页，暂时没有多条件）admin
     @Override
     public Result findByUserAccountOrSomething(String userAccount,int pageIndex,int pageSize) {
-        Linkuser linkuser = rewrite_LinkuserRepository.findByPhone(userAccount);
-        if (linkuser == null) {
-            return Result.fail("用户不存在");
+        List<Receiptpay> list = new ArrayList<>();
+        Long count = 0l;
+        if(userAccount != null && !userAccount.equals("")){
+            Linkuser linkuser = rewrite_LinkuserRepository.findByPhone(userAccount);
+            if (linkuser == null) {
+                return Result.fail("用户不存在");
+            }
+            list = rewrite_ReceiptpayRepository.getAllByUserSomething(
+                linkuser.getUserid(), pageIndex * pageSize,pageSize);
+
+            count = rewrite_ReceiptpayRepository.countAllByUserid(linkuser.getUserid());
+        }else {
+            list = rewrite_ReceiptpayRepository.getAllByUserSomething(
+                null, pageIndex * pageSize,pageSize);
+            count = rewrite_ReceiptpayRepository.findAll().stream().count();
         }
-        List<Receiptpay> list = rewrite_ReceiptpayRepository.getAllByUserSomething(
-            linkuser.getUserid(), pageIndex * pageSize,pageSize);
 
         List<Rewrite_UserReceiptpayDTO> userList = new ArrayList<>();
         list.forEach(x -> {
+            Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(x.getUserid());
             Rewrite_UserReceiptpayDTO rewrite_UserReceiptpayDTO = new Rewrite_UserReceiptpayDTO();
             rewrite_UserReceiptpayDTO.setId(x.getId().toString());
             rewrite_UserReceiptpayDTO.setAmount(x.getAmount().toString());
@@ -353,7 +364,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
             userList.add(rewrite_UserReceiptpayDTO);
         });
 
-        Long count = rewrite_ReceiptpayRepository.countAllByUserid(linkuser.getUserid());
+
         return Result.suc("成功",userList,count.intValue());
     }
 
