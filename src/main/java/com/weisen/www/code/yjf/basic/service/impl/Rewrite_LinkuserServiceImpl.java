@@ -83,7 +83,8 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
                 rewrite_submitMemberDTO.getPageNum() * rewrite_submitMemberDTO.getPageSize(), rewrite_submitMemberDTO.getPageSize());
             if(!CheckUtils.checkList(memberInfo))
                 return Result.suc("数据为空");
-            return Result.suc("获取成功",memberInfo);
+            Integer memberInfoCount = rewrite_LinkuserRepository.getMemberInfoCount(rewrite_submitMemberDTO.getUserName(), rewrite_submitMemberDTO.getRealName());
+            return Result.suc("获取成功",memberInfo,memberInfoCount);
         }
     }
 
