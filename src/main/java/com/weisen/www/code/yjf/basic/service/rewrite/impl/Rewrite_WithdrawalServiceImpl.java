@@ -76,6 +76,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
      * @return
      */
     public synchronized Result insertWithdrawal(WithdrawalDTO rewrite_withdrawalDTO) {
+        log.debug("insertWithdrawal"+rewrite_withdrawalDTO);
         if (!CheckUtils.checkObj(rewrite_withdrawalDTO))
             return Result.fail("提交信息异常");
         else if (!CheckUtils.checkString(rewrite_withdrawalDTO.getUserid()))
@@ -232,7 +233,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
             BigDecimal frozen = new BigDecimal(userassets.getFrozenbalance());
             BigDecimal amount = new BigDecimal(withdrawal.getWithdrawalamount());
 
-            if(balance.subtract(amount).compareTo(new BigDecimal("0"))  < 0 ){
+            if(balance.subtract(amount).compareTo(new BigDecimal("0"))  < 0 ){  // 用户余额减掉后如果是负数的话
                 return Result.fail("用户数据库资金出现异常");
             }
 
