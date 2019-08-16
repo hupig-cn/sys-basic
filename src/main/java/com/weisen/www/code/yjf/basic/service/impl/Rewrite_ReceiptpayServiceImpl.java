@@ -332,7 +332,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
     public Result findByUserAccountOrSomething(String userAccount,int pageIndex,int pageSize) {
         List<Receiptpay> list = new ArrayList<>();
         Long count = 0l;
-        if(userAccount != null && !userAccount.equals("")){
+        if(userAccount != null && !userAccount.equals("1")){
             Linkuser linkuser = rewrite_LinkuserRepository.findByPhone(userAccount);
             if (linkuser == null) {
                 return Result.fail("用户不存在");
