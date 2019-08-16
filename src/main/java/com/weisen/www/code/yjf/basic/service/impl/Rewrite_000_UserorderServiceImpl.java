@@ -156,7 +156,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
                         if (!Rewrite_Constant.ORDER_WAIT_PAY.equals(userorder.getOrderstatus())) {
                             return;
                         }
-                        // TODO 翻转订单状态
+                        // 翻转订单状态
                         userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_DELIVER); //将订单状态更改成待发货
                         userorder.setPayway(OrderConstant.ALI_PAY);
                         userorder.setPaytime(TimeUtil.getDate());
@@ -466,7 +466,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
     public Result weChatRefundNotify(Map<String, String> map) {
         System.out.println("微信开始回调");
         log.debug("微信支付開始回調");
-        // TODO 解析微信服务器回调过来的数据。
+        // 解析微信服务器回调过来的数据。
         String result_code = "";
         String return_code = "";
         String out_trade_no = "";
@@ -485,7 +485,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
             if (!Rewrite_Constant.ORDER_WAIT_PAY.equals(userorder.getOrderstatus())) {
                 return Result.fail("订单状态不正确");
             }
-            // TODO 翻转订单状态
+            // 翻转订单状态
             userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_DELIVER); //将订单状态更改成待发货
             userorder.setPayway(OrderConstant.WECHAT_PAY);
             userorder.setPaytime(TimeUtil.getDate());
