@@ -5,6 +5,7 @@ import java.util.Objects;
 /**
  * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Paymethod} entity.
  */
+@SuppressWarnings("serial")
 public class PaymethodDTO implements Serializable {
 
     private Long id;

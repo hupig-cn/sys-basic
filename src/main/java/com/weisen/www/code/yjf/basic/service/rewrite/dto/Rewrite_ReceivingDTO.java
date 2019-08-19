@@ -5,6 +5,7 @@ import com.weisen.www.code.yjf.basic.service.dto.ReceivingDTO;
 import java.io.Serializable;
 import java.util.Objects;
 
+@SuppressWarnings("serial")
 public class Rewrite_ReceivingDTO implements Serializable {
 
     private Long id;

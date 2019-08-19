@@ -4,8 +4,6 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,8 +24,6 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/api/feedback")
 @Api(tags = "000-反馈管理")
 public class Rewrite_FeedbackResource {
-
-    private final Logger log = LoggerFactory.getLogger(Rewrite_FeedbackResource.class);
 
     private final Rewrite_FeedbackService rewrite_FeedbackService;
 

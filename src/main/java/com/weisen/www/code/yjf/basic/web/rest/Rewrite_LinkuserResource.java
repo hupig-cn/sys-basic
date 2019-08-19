@@ -27,8 +27,6 @@ public class Rewrite_LinkuserResource {
 
 	private final Logger log = LoggerFactory.getLogger(Rewrite_LinkuserResource.class);
 
-	private static final String ENTITY_NAME = "basicLinkuser";
-
 	@Value("${jhipster.clientApp.name}")
 	private String applicationName;
 

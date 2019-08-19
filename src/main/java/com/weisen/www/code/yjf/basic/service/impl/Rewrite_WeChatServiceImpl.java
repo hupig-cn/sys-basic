@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
-import com.alipay.api.response.AlipaySystemOauthTokenResponse;
 import com.weisen.www.code.yjf.basic.domain.Linkaccount;
 import com.weisen.www.code.yjf.basic.domain.Linkuser;
 import com.weisen.www.code.yjf.basic.domain.Userassets;
@@ -18,7 +17,6 @@ import com.weisen.www.code.yjf.basic.repository.Rewrite_UserassetsRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlocationRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_WeChatService;
-import com.weisen.www.code.yjf.basic.util.AlipayUtil;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.HttpRequest;
 

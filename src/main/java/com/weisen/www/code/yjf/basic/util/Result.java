@@ -51,13 +51,12 @@ public class Result implements Serializable {
 		this.code = code;
 		this.message = message;
 		this.totalElements = totalElements;
-		if (data == null) {
-			this.totalElements = null;
-		} else if (data != null && !(data instanceof List<?>)) {
+		if (data != null && !(data instanceof List<?>)) {
 			this.data = Arrays.asList(data);
-		} else if(data == null){
-            this.data = "";
-        }else{
+		} else if (data == null) {
+			this.totalElements = null;
+			this.data = "";
+        } else {
 			if (!((List<?>) data).isEmpty()) this.data = data;
 		}
 	}

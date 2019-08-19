@@ -1,8 +1,11 @@
 package com.weisen.www.code.yjf.basic.service.rewrite.impl;
 
-import com.weisen.www.code.yjf.basic.domain.Area;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.weisen.www.code.yjf.basic.domain.Receiving;
-import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_AreaRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_ReceivingRepository;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_ReceivingService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ReceivingDTO;
@@ -10,11 +13,6 @@ import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_ReceivingMap
 import com.weisen.www.code.yjf.basic.util.CheckUtils;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -24,12 +22,9 @@ public class Rewrite_ReceivingServiceImpl implements Rewrite_ReceivingService {
 
     private final Rewrite_ReceivingRepository rewrite_receivingRepository;
 
-    private final Rewrite_AreaRepository rewrite_areaRepository;
-
-    public Rewrite_ReceivingServiceImpl(Rewrite_ReceivingMapper rewrite_receivingMapper, Rewrite_ReceivingRepository rewrite_receivingRepository, Rewrite_AreaRepository rewrite_areaRepository) {
+    public Rewrite_ReceivingServiceImpl(Rewrite_ReceivingMapper rewrite_receivingMapper, Rewrite_ReceivingRepository rewrite_receivingRepository ) {
         this.rewrite_receivingMapper = rewrite_receivingMapper;
         this.rewrite_receivingRepository = rewrite_receivingRepository;
-        this.rewrite_areaRepository = rewrite_areaRepository;
     }
 
 

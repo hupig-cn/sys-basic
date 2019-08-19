@@ -2,6 +2,7 @@ package com.weisen.www.code.yjf.basic.service.rewrite.dto;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Rewrite_submitInformationDTO implements Serializable {
     private String type;
     private String senduserid;
@@ -11,8 +12,6 @@ public class Rewrite_submitInformationDTO implements Serializable {
     private String other;
     private String Creator;
     private String weight;
-    private Long ids;
-    private String userId;
 
     public Rewrite_submitInformationDTO(){
 

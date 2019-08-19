@@ -5,6 +5,7 @@ import java.util.Objects;
 /**
  * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Userlocation} entity.
  */
+@SuppressWarnings("serial")
 public class UserlocationDTO implements Serializable {
 
     private Long id;

@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +24,6 @@ import com.weisen.www.code.yjf.basic.util.TimeUtil;
 @Service
 @Transactional
 public class Rewrite_FeedbackServiceImpl implements Rewrite_FeedbackService {
-
-    private final Logger log = LoggerFactory.getLogger(Rewrite_FeedbackServiceImpl.class);
 
     private final Rewrite_FeedbackRepository rewrite_FeedbackRepository;
 

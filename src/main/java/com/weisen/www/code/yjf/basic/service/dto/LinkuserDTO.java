@@ -5,6 +5,7 @@ import java.util.Objects;
 /**
  * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Linkuser} entity.
  */
+@SuppressWarnings("serial")
 public class LinkuserDTO implements Serializable {
 
     private Long id;

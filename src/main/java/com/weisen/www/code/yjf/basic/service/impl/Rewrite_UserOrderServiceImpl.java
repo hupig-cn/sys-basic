@@ -1,5 +1,14 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.weisen.www.code.yjf.basic.domain.Userlinkuser;
 import com.weisen.www.code.yjf.basic.domain.Userorder;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
@@ -14,22 +23,10 @@ import com.weisen.www.code.yjf.basic.service.mapper.UserorderMapper;
 import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Service
 @Transactional
 public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
-
-    private final Logger log = LoggerFactory.getLogger(Rewrite_UserOrderServiceImpl.class);
 
     private final Rewrite_UserorderRepository rewrite_UserorderRepository;
 
@@ -125,7 +122,6 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         List<Userorder> dto = new ArrayList<>();
-        int count = 0;
         for (Userorder x :list){
             try {
                 if(sdf.parse(x.getCreatedate()).compareTo(sdf.parse(startTime)) >= 0 &&

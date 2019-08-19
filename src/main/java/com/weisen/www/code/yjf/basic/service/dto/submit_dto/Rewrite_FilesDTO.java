@@ -2,12 +2,10 @@ package com.weisen.www.code.yjf.basic.service.dto.submit_dto;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Lob;
-
 /**
  * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Files} entity.
  */
+@SuppressWarnings("serial")
 public class Rewrite_FilesDTO implements Serializable {
 
     private Long id;

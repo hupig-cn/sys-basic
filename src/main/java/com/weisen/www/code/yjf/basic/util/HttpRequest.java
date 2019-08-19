@@ -7,9 +7,6 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-
 public class HttpRequest {
 	/**
 	 * 向指定URL发送GET方法的请求

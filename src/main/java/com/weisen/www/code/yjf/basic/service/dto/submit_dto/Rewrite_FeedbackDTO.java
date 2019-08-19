@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Feedback} entity.
  */
+@SuppressWarnings("serial")
 public class Rewrite_FeedbackDTO implements Serializable {
 
 	@ApiModelProperty(value="反馈人id")

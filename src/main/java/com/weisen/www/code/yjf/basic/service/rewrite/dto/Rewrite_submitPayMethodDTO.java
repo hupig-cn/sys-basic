@@ -2,6 +2,7 @@ package com.weisen.www.code.yjf.basic.service.rewrite.dto;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Rewrite_submitPayMethodDTO implements Serializable {
     private String os;
     private Boolean online;
