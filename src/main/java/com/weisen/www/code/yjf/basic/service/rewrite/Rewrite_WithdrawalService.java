@@ -1,7 +1,6 @@
 package com.weisen.www.code.yjf.basic.service.rewrite;
 
 import com.weisen.www.code.yjf.basic.service.dto.WithdrawalDTO;
-import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_WithdrawalDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 /**

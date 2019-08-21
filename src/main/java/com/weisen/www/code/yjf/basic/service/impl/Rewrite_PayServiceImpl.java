@@ -1,8 +1,23 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import java.math.BigDecimal;
+import java.util.Optional;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.weisen.www.code.yjf.basic.config.Constants;
-import com.weisen.www.code.yjf.basic.domain.*;
-import com.weisen.www.code.yjf.basic.repository.*;
+import com.weisen.www.code.yjf.basic.domain.Linkuser;
+import com.weisen.www.code.yjf.basic.domain.Receiptpay;
+import com.weisen.www.code.yjf.basic.domain.Userassets;
+import com.weisen.www.code.yjf.basic.domain.Userlinkuser;
+import com.weisen.www.code.yjf.basic.domain.Userorder;
+import com.weisen.www.code.yjf.basic.repository.ReceiptpayRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_000_UserassetsRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_000_UserorderRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_PayService;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_DistributionDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_PayDTO;
@@ -12,26 +27,12 @@ import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
 import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.util.Optional;
 
 @Service
 @Transactional
 public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 
-    private final Logger log = LoggerFactory.getLogger(Rewrite_PayServiceImpl.class);
-
     private final Rewrite_000_UserorderRepository userorderRepository;
-
-    private final Rewrite_UserlinkuserRepository userlinkuserRepository;
-
-    private final Rewrite_PercentageRepository percentageRepository;
 
     private final Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository;
 
@@ -39,23 +40,22 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 
     private final Rewrite_000_UserassetsRepository userassetsRepository;
 
-    private final LinkuserRepository linkuserRepository;
-
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
 
     private final Rewrite_InformationService rewrite_informationService;
 
-    public Rewrite_PayServiceImpl(Rewrite_000_UserorderRepository userorderRepository, Rewrite_UserlinkuserRepository userlinkuserRepository, Rewrite_PercentageRepository percentageRepository, ReceiptpayRepository receiptpayRepository, Rewrite_000_UserassetsRepository userassetsRepository
-            ,LinkuserRepository linkuserRepository,Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository, PasswordEncoder passwordEncoder, Rewrite_LinkuserRepository rewrite_LinkuserRepository ,
-                                  Rewrite_InformationService rewrite_informationService) {
+    public Rewrite_PayServiceImpl(Rewrite_000_UserorderRepository userorderRepository,
+    		Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository,
+    		ReceiptpayRepository receiptpayRepository,
+    		Rewrite_000_UserassetsRepository userassetsRepository,
+    		PasswordEncoder passwordEncoder,
+    		Rewrite_LinkuserRepository rewrite_LinkuserRepository,
+    		Rewrite_InformationService rewrite_informationService) {
         this.userorderRepository = userorderRepository;
-        this.userlinkuserRepository = userlinkuserRepository;
-        this.percentageRepository = percentageRepository;
         this.receiptpayRepository = receiptpayRepository;
         this.userassetsRepository = userassetsRepository;
-        this.linkuserRepository = linkuserRepository;
         this.rewrite_UserlinkuserRepository = rewrite_UserlinkuserRepository;
         this.passwordEncoder = passwordEncoder;
         this.rewrite_LinkuserRepository = rewrite_LinkuserRepository;

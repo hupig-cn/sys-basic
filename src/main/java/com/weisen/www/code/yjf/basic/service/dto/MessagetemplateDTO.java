@@ -5,6 +5,7 @@ import java.util.Objects;
 /**
  * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Messagetemplate} entity.
  */
+@SuppressWarnings("serial")
 public class MessagetemplateDTO implements Serializable {
 
     private Long id;

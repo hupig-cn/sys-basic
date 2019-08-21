@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 
+@SuppressWarnings("serial")
 public class Rewrite_AreaDTO implements Serializable {
 
     private Long id;

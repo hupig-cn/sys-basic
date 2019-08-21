@@ -1,9 +1,8 @@
 package com.weisen.www.code.yjf.basic.service.dto.show_dto;
 
-import com.weisen.www.code.yjf.basic.domain.Receiptpay;
-import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
-
 import java.util.List;
+
+import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
 
 public class Rewrite_MerchantShow<T> {
 

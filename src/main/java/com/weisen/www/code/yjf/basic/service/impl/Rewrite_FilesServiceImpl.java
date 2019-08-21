@@ -1,11 +1,8 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
@@ -112,7 +109,7 @@ public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
     public List<Rewrite_FilesDTO> findList(Long[] ids) {
         if (0 == ids.length)
             throw new RuntimeException("数据异常");
-        ArrayList arrayList = new ArrayList();
+        ArrayList<Rewrite_FilesDTO> arrayList = new ArrayList<Rewrite_FilesDTO>();
         for (int i = 0; i < ids.length; i++) {
             Rewrite_FilesDTO one = findOne(ids[i]);
             arrayList.add(one);

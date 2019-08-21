@@ -1,5 +1,11 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.weisen.www.code.yjf.basic.domain.Linkuser;
 import com.weisen.www.code.yjf.basic.domain.Userbankcard;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
@@ -10,19 +16,10 @@ import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_BackCardInfo;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_BankCardDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Transactional
 public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardService {
-
-    private final Logger log = LoggerFactory.getLogger(UserbankcardServiceImpl.class);
 
     private final Rewrite_UserbankcardRepository rewrite_UserbankcardRepository;
 

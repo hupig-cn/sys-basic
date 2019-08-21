@@ -1,20 +1,24 @@
 package com.weisen.www.code.yjf.basic.web.rest;
 
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.weisen.www.code.yjf.basic.service.Rewrite_UserbankcardService;
-import com.weisen.www.code.yjf.basic.service.Rewrite_UserlinkuserService;
 import com.weisen.www.code.yjf.basic.service.dto.UserbankcardDTO;
-import com.weisen.www.code.yjf.basic.service.dto.UsercardDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/userbankcard")

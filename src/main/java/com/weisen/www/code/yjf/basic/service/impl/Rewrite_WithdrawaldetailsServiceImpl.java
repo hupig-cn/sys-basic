@@ -1,27 +1,21 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
-import com.weisen.www.code.yjf.basic.domain.Withdrawaldetails;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_UserorderRepository;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_WithdrawaldetailsRepository;
-import com.weisen.www.code.yjf.basic.service.Rewrite_ReceiptpayService;
-import com.weisen.www.code.yjf.basic.service.Rewrite_WithdrawaldetailsService;
-import com.weisen.www.code.yjf.basic.service.dto.WithdrawaldetailsDTO;
-import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithdrawaldetailsDto;
-import com.weisen.www.code.yjf.basic.service.mapper.UserorderMapper;
-import com.weisen.www.code.yjf.basic.util.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.weisen.www.code.yjf.basic.domain.Withdrawaldetails;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_WithdrawaldetailsRepository;
+import com.weisen.www.code.yjf.basic.service.Rewrite_WithdrawaldetailsService;
+import com.weisen.www.code.yjf.basic.service.dto.WithdrawaldetailsDTO;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithdrawaldetailsDto;
+import com.weisen.www.code.yjf.basic.util.Result;
 
 @Service
 @Transactional
 public class Rewrite_WithdrawaldetailsServiceImpl implements Rewrite_WithdrawaldetailsService {
-
-    private final Logger log = LoggerFactory.getLogger(Rewrite_WithdrawaldetailsServiceImpl.class);
 
     private final Rewrite_WithdrawaldetailsRepository rewrite_WithdrawaldetailsRepository;
 

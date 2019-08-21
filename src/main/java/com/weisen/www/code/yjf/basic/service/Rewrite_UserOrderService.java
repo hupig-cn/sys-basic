@@ -1,12 +1,11 @@
 package com.weisen.www.code.yjf.basic.service;
 
-import com.weisen.www.code.yjf.basic.domain.Userorder;
+import java.util.List;
+
 import com.weisen.www.code.yjf.basic.service.dto.UserorderDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_OrderCoDto;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_AnOrder;
 import com.weisen.www.code.yjf.basic.util.Result;
-
-import java.util.List;
 
 public interface Rewrite_UserOrderService {
 

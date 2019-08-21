@@ -6,6 +6,7 @@ import java.util.Objects;
 /**
  * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Receiptpay} entity.
  */
+@SuppressWarnings("serial")
 public class ReceiptpayDTO implements Serializable {
 
     private Long id;

@@ -1,17 +1,22 @@
 package com.weisen.www.code.yjf.basic.web.rest.rewrite_007_收货信息;
 
+import java.util.Optional;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_ReceivingService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ReceivingDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 /**
  * REST controller for managing Receiving.
@@ -20,10 +25,6 @@ import java.util.Optional;
 @RequestMapping("/api")
 @Api(tags = "收货信息")
 public class Rewrite_ReceivingResource {
-
-    private final Logger log = LoggerFactory.getLogger(Rewrite_ReceivingResource.class);
-
-    private static final String ENTITY_NAME = "basicReceiving";
 
     private final Rewrite_ReceivingService receivingService;
 

@@ -5,6 +5,7 @@ import java.util.Objects;
 /**
  * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Userassets} entity.
  */
+@SuppressWarnings("serial")
 public class UserassetsDTO implements Serializable {
 
     private Long id;

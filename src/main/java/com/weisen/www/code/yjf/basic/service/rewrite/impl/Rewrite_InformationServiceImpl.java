@@ -1,28 +1,24 @@
 package com.weisen.www.code.yjf.basic.service.rewrite.impl;
 
-import com.alibaba.fastjson.JSONObject;
-import com.weisen.www.code.yjf.basic.domain.Information;
-import com.weisen.www.code.yjf.basic.domain.Messagetemplate;
-import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_InformationRepository;
-import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_MessageTemplateRepository;
-import com.weisen.www.code.yjf.basic.service.dto.InformationDTO;
-import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_InformationService;
-import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitInformationDTO;
-import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_InformationMapper;
-import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_MessageTemplateMapper;
-import com.weisen.www.code.yjf.basic.service.rewrite.submit_dto.Rewrite_InformationDetailsDTO;
-import com.weisen.www.code.yjf.basic.util.CheckUtils;
-import com.weisen.www.code.yjf.basic.util.DateUtils;
-import com.weisen.www.code.yjf.basic.util.Result;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import com.weisen.www.code.yjf.basic.domain.Information;
+import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_InformationRepository;
+import com.weisen.www.code.yjf.basic.service.dto.InformationDTO;
+import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_InformationService;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitInformationDTO;
+import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_InformationMapper;
+import com.weisen.www.code.yjf.basic.service.rewrite.submit_dto.Rewrite_InformationDetailsDTO;
+import com.weisen.www.code.yjf.basic.util.CheckUtils;
+import com.weisen.www.code.yjf.basic.util.DateUtils;
+import com.weisen.www.code.yjf.basic.util.Result;
 
 @Service
 @Transactional
@@ -32,18 +28,12 @@ public class Rewrite_InformationServiceImpl implements Rewrite_InformationServic
 
     private final Rewrite_InformationMapper rewrite_informationMapper;
 
-    private final Rewrite_MessageTemplateRepository rewrite_messageTemplateRepository;
-
-    private final Rewrite_MessageTemplateMapper rewrite_messageTemplateMapper;
-
     @Autowired
     private SimpMessageSendingOperations simpMessageSendingOperations;
 
-    public Rewrite_InformationServiceImpl(Rewrite_InformationRepository rewrite_informationRepository, Rewrite_InformationMapper rewrite_informationMapper, Rewrite_MessageTemplateRepository rewrite_messageTemplateRepository, Rewrite_MessageTemplateMapper rewrite_messageTemplateMapper) {
+    public Rewrite_InformationServiceImpl(Rewrite_InformationRepository rewrite_informationRepository, Rewrite_InformationMapper rewrite_informationMapper ) {
         this.rewrite_informationRepository = rewrite_informationRepository;
         this.rewrite_informationMapper = rewrite_informationMapper;
-        this.rewrite_messageTemplateRepository = rewrite_messageTemplateRepository;
-        this.rewrite_messageTemplateMapper = rewrite_messageTemplateMapper;
     }
 
     /**

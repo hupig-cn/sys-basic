@@ -1,15 +1,8 @@
 package com.weisen.www.code.yjf.basic.web.rest.rewrite_004_支付方式;
 
-import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_PaymethodRepository;
-import com.weisen.www.code.yjf.basic.service.dto.PaymethodDTO;
-import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_PaymethodService;
-import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitPayMethodDTO;
-import com.weisen.www.code.yjf.basic.util.Result;
-import io.github.jhipster.web.util.ResponseUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.net.URISyntaxException;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +10,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URISyntaxException;
-import java.util.Optional;
+import com.weisen.www.code.yjf.basic.service.dto.PaymethodDTO;
+import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_PaymethodService;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitPayMethodDTO;
+import com.weisen.www.code.yjf.basic.util.Result;
+
+import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing {@link com.weisen.www.code.yjf.basic.domain.Paymethod}.
@@ -28,20 +27,13 @@ import java.util.Optional;
 @Api(tags = "000-支付方式")
 public class Rewrite_PaymethodResource {
 
-    private final Logger log = LoggerFactory.getLogger(Rewrite_PaymethodResource.class);
-
-    private static final String ENTITY_NAME = "basicPaymethod";
-
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
     private final Rewrite_PaymethodService paymethodService;
 
-    private final Rewrite_PaymethodRepository rewrite_paymethodRepository;
 
-    public Rewrite_PaymethodResource(Rewrite_PaymethodService paymethodService,
-       Rewrite_PaymethodRepository rewrite_paymethodRepository) {
-        this.rewrite_paymethodRepository = rewrite_paymethodRepository;
+    public Rewrite_PaymethodResource(Rewrite_PaymethodService paymethodService ) {
         this.paymethodService = paymethodService;
     }
 

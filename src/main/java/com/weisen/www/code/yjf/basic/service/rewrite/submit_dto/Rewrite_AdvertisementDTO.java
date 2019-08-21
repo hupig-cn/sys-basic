@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Objects;
 
+@SuppressWarnings("serial")
 @ApiModel(value="广告DTO")
 public class Rewrite_AdvertisementDTO implements Serializable {
 

@@ -1,9 +1,8 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
-import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_BIndAliWechat;
-import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitMemberDTO;
-import com.weisen.www.code.yjf.basic.util.CheckUtils;
-import com.weisen.www.code.yjf.basic.util.Result;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,10 +12,10 @@ import com.weisen.www.code.yjf.basic.domain.Linkuser;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_LinkuserService;
 import com.weisen.www.code.yjf.basic.service.dto.LinkuserDTO;
-import com.weisen.www.code.yjf.basic.service.mapper.LinkuserMapper;
-
-import java.util.List;
-import java.util.Map;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_BIndAliWechat;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitMemberDTO;
+import com.weisen.www.code.yjf.basic.util.CheckUtils;
+import com.weisen.www.code.yjf.basic.util.Result;
 
 /**
  * Service Implementation for managing {@link Linkuser}.
@@ -29,12 +28,8 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
 
 	private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
 
-	private final LinkuserMapper linkuserMapper;
-
-	public Rewrite_LinkuserServiceImpl(Rewrite_LinkuserRepository rewrite_LinkuserRepository,
-			LinkuserMapper linkuserMapper) {
+	public Rewrite_LinkuserServiceImpl(Rewrite_LinkuserRepository rewrite_LinkuserRepository ) {
 		this.rewrite_LinkuserRepository = rewrite_LinkuserRepository;
-		this.linkuserMapper = linkuserMapper;
 	}
 
 	@Override

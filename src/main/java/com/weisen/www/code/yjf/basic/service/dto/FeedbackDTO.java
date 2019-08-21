@@ -5,6 +5,7 @@ import java.util.Objects;
 /**
  * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Feedback} entity.
  */
+@SuppressWarnings("serial")
 public class FeedbackDTO implements Serializable {
 
     private Long id;
