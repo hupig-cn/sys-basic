@@ -35,7 +35,7 @@ public class Rewrite_AlipayApiResource {
 	 * 1.扫码判断用户是否存在，若存在，直接跳出该流程；若不存在，执行以下步骤<br>
 	 * 2.前端从{basic服务}中的checkUserExist接口获取的userId作为账号调用{login服务}创建用户，密码随机生成<br>
 	 * 3.前端从{login服务}创建用户之后获取userId，调用{basic服务}中的createUserByScan接口创建用户，判断改接口返回数据，若suc则结束<br>
-	 * 
+	 *
 	 * @param authCode
 	 * @return
 	 */
@@ -59,13 +59,14 @@ public class Rewrite_AlipayApiResource {
 
 	/**
 	 * 支付宝付款
-	 * 
+	 *
 	 * @param orderId
 	 * @return
 	 */
 	@GetMapping("/payOrder/{id}")
 	@ApiOperation(value = "支付订单")
 	public Result payOrder(@PathVariable("id") Long orderId) {
+
 		log.debug("支付订单:{}", orderId);
 		return userorderService.alipay(orderId);
 	}
@@ -76,14 +77,14 @@ public class Rewrite_AlipayApiResource {
 			Integer concession, Integer rebate, String name) {
 		return userorderService.merchantPayment(authCode, money, merchantid, concession, rebate, name);
 	}
-	
+
 	@GetMapping("/public/merchantPayment-yue")
 	@ApiOperation(value = "根据金额生成随机订单,用于余额")
 	public Long merchantPaymentYue(@RequestParam String userid, String money, String merchantid,
 			Integer concession, Integer rebate) {
 		return userorderService.merchantPaymentYue(userid, money, merchantid, concession, rebate);
 	}
-	
+
 	@GetMapping("/public/merchantPayment-coupon")
 	@ApiOperation(value = "根据金额生成随机订单,用于优惠券")
 	public Long merchantPaymentCoupon(@RequestParam String userid, String money, String merchantid,
@@ -93,7 +94,7 @@ public class Rewrite_AlipayApiResource {
 
 	/**
 	 * 支付宝付款(线下)
-	 * 
+	 *
 	 * @param merchantId
 	 * @return
 	 */
@@ -107,21 +108,26 @@ public class Rewrite_AlipayApiResource {
 
 	/**
 	 * 支付异步回调
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return
 	 */
 	@PostMapping("/public/notify")
 	@ApiOperation(value = "异步地址")
-	public void notifyMessage(HttpServletRequest request, HttpServletResponse response) {
+	public String notifyMessage(HttpServletRequest request, HttpServletResponse response) {
 		log.debug("回调地址");
-		userorderService.notifyMessage(request, response);
+		try {
+            userorderService.notifyMessage(request, response);
+        }catch (Exception e){
+		    e.printStackTrace();
+        }
+        return "success";
 	}
 
 	/**
 	 * 支付同步回调
-	 * 
+	 *
 	 * @param orderId
 	 * @return
 	 */
