@@ -1,11 +1,5 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.weisen.www.code.yjf.basic.domain.Linkuser;
 import com.weisen.www.code.yjf.basic.domain.Userbankcard;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
@@ -16,6 +10,11 @@ import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_BackCardInfo;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_BankCardDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -70,6 +69,8 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
         userbankcard.setRealname(userbankcardDTO.getRealname());
         userbankcard.setCreatedate(TimeUtil.getDate());
         userbankcard.setUserid(userbankcardDTO.getUserid());
+        userbankcard.setBankcity(userbankcardDTO.getBankcity());
+        userbankcard.setBanksubbranch(userbankcardDTO.getBanksubbranch());
         rewrite_UserbankcardRepository.save(userbankcard);
 
         return Result.suc("success");
