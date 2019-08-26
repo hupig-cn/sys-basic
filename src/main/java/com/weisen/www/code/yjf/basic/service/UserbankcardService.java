@@ -8,23 +8,23 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 /**
- * Service Interface for managing {@link com.weisen.www.code.yjf.basic.domain.Userbankcard}.
+ * Service Interface for managing Userbankcard.
  */
 public interface UserbankcardService {
 
     /**
      * Save a userbankcard.
      *
-     * @param userbankcardDTO the entity to save.
-     * @return the persisted entity.
+     * @param userbankcardDTO the entity to save
+     * @return the persisted entity
      */
     UserbankcardDTO save(UserbankcardDTO userbankcardDTO);
 
     /**
      * Get all the userbankcards.
      *
-     * @param pageable the pagination information.
-     * @return the list of entities.
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     Page<UserbankcardDTO> findAll(Pageable pageable);
 
@@ -32,15 +32,15 @@ public interface UserbankcardService {
     /**
      * Get the "id" userbankcard.
      *
-     * @param id the id of the entity.
-     * @return the entity.
+     * @param id the id of the entity
+     * @return the entity
      */
     Optional<UserbankcardDTO> findOne(Long id);
 
     /**
      * Delete the "id" userbankcard.
      *
-     * @param id the id of the entity.
+     * @param id the id of the entity
      */
     void delete(Long id);
 }

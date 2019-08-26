@@ -1,22 +1,15 @@
 package com.weisen.www.code.yjf.basic.web.rest.rewrite_007_收货信息;
 
-import java.util.Optional;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_ReceivingService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ReceivingDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
-
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 /**
  * REST controller for managing Receiving.
@@ -45,7 +38,7 @@ public class Rewrite_ReceivingResource {
        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
    }
     @PostMapping("/update-user-address")
-    @ApiOperation(value = "新增收获地址")
+    @ApiOperation(value = "修改收获地址")
     public ResponseEntity<?> updateUserAddress(@RequestBody Rewrite_ReceivingDTO rewrite_receivingDTO){
         Result result = receivingService.updateUserAddress(rewrite_receivingDTO);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));

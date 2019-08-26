@@ -1,10 +1,14 @@
 package com.weisen.www.code.yjf.basic.domain;
+
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A Userbankcard.
@@ -15,7 +19,7 @@ import java.io.Serializable;
 public class Userbankcard implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -61,6 +65,13 @@ public class Userbankcard implements Serializable {
 
     @Column(name = "other")
     private String other;
+
+    @Column(name = "bankcity")
+    private String bankcity;
+
+    @Size(max = 255)
+    @Column(name = "banksubbranch", length = 255)
+    private String banksubbranch;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -252,6 +263,32 @@ public class Userbankcard implements Serializable {
     public void setOther(String other) {
         this.other = other;
     }
+
+    public String getBankcity() {
+        return bankcity;
+    }
+
+    public Userbankcard bankcity(String bankcity) {
+        this.bankcity = bankcity;
+        return this;
+    }
+
+    public void setBankcity(String bankcity) {
+        this.bankcity = bankcity;
+    }
+
+    public String getBanksubbranch() {
+        return banksubbranch;
+    }
+
+    public Userbankcard banksubbranch(String banksubbranch) {
+        this.banksubbranch = banksubbranch;
+        return this;
+    }
+
+    public void setBanksubbranch(String banksubbranch) {
+        this.banksubbranch = banksubbranch;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -259,15 +296,19 @@ public class Userbankcard implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Userbankcard)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        return id != null && id.equals(((Userbankcard) o).id);
+        Userbankcard userbankcard = (Userbankcard) o;
+        if (userbankcard.getId() == null || getId() == null) {
+            return false;
+        }
+        return Objects.equals(getId(), userbankcard.getId());
     }
 
     @Override
     public int hashCode() {
-        return 31;
+        return Objects.hashCode(getId());
     }
 
     @Override
@@ -288,6 +329,8 @@ public class Userbankcard implements Serializable {
             ", state='" + getState() + "'" +
             ", logicdelete='" + isLogicdelete() + "'" +
             ", other='" + getOther() + "'" +
+            ", bankcity='" + getBankcity() + "'" +
+            ", banksubbranch='" + getBanksubbranch() + "'" +
             "}";
     }
 }

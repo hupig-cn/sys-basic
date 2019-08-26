@@ -1,11 +1,11 @@
 package com.weisen.www.code.yjf.basic.service.dto;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Userbankcard} entity.
+ * A DTO for the Userbankcard entity.
  */
-@SuppressWarnings("serial")
 public class UserbankcardDTO implements Serializable {
 
     private Long id;
@@ -37,6 +37,11 @@ public class UserbankcardDTO implements Serializable {
     private Boolean logicdelete;
 
     private String other;
+
+    private String bankcity;
+
+    @Size(max = 255)
+    private String banksubbranch;
 
 
     public Long getId() {
@@ -159,6 +164,22 @@ public class UserbankcardDTO implements Serializable {
         this.other = other;
     }
 
+    public String getBankcity() {
+        return bankcity;
+    }
+
+    public void setBankcity(String bankcity) {
+        this.bankcity = bankcity;
+    }
+
+    public String getBanksubbranch() {
+        return banksubbranch;
+    }
+
+    public void setBanksubbranch(String banksubbranch) {
+        this.banksubbranch = banksubbranch;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -198,6 +219,8 @@ public class UserbankcardDTO implements Serializable {
             ", state='" + getState() + "'" +
             ", logicdelete='" + isLogicdelete() + "'" +
             ", other='" + getOther() + "'" +
+            ", bankcity='" + getBankcity() + "'" +
+            ", banksubbranch='" + getBanksubbranch() + "'" +
             "}";
     }
 }

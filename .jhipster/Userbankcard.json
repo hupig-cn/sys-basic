@@ -1,5 +1,7 @@
 {
-    "name": "Userbankcard",
+    "fluentMethods": true,
+    "clientRootFolder": "basic",
+    "relationships": [],
     "fields": [
         {
             "fieldName": "userid",
@@ -56,17 +58,28 @@
         {
             "fieldName": "other",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "bankcity",
+            "fieldType": "String",
+            "fieldValidateRules": []
+        },
+        {
+            "fieldName": "banksubbranch",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "255"
         }
     ],
-    "relationships": [],
     "changelogDate": "20190808113832",
-    "entityTableName": "userbankcard",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
+    "searchEngine": false,
     "service": "serviceImpl",
+    "entityTableName": "userbankcard",
+    "databaseType": "sql",
     "jpaMetamodelFiltering": false,
-    "fluentMethods": true,
-    "clientRootFolder": "basic",
-    "applications": "*",
+    "pagination": "infinite-scroll",
     "microserviceName": "basic"
 }

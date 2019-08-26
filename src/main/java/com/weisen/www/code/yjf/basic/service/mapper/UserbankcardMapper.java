@@ -6,7 +6,7 @@ import com.weisen.www.code.yjf.basic.service.dto.UserbankcardDTO;
 import org.mapstruct.*;
 
 /**
- * Mapper for the entity {@link Userbankcard} and its DTO {@link UserbankcardDTO}.
+ * Mapper for the entity Userbankcard and its DTO UserbankcardDTO.
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface UserbankcardMapper extends EntityMapper<UserbankcardDTO, Userbankcard> {
