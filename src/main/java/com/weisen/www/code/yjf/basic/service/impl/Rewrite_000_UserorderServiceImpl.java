@@ -129,7 +129,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
             // 解析支付宝服务器回调过来的数据。
             Map<String, String> params = new HashMap<>();
             try {
-                for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext(); ) {
+                for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext(); ) {
                     String name = (String) iter.next();
                     String[] values = requestParams.get(name);
                     String valueStr = "";

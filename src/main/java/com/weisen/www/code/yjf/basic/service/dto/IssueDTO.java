@@ -7,7 +7,12 @@ import java.util.Objects;
  */
 public class IssueDTO implements Serializable {
 
-    private Long id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
 
     private String answer;
 
