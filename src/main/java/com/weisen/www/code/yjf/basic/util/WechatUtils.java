@@ -318,8 +318,8 @@ public class WechatUtils {
 
     public static String createSign(SortedMap<String, String> parameters) {
         StringBuffer sb = new StringBuffer();
-        Set es = parameters.entrySet();
-        Iterator it = es.iterator();
+        Set<?> es = parameters.entrySet();
+        Iterator<?> it = es.iterator();
         while (it.hasNext()) {
             Map.Entry entry = (Map.Entry) it.next();
             String k = (String) entry.getKey();
@@ -363,8 +363,8 @@ public class WechatUtils {
             Map<String, String> map = new HashMap<String, String>();
             Document document = DocumentHelper.parseText(xml);
             Element nodeElement = document.getRootElement();
-            List node = nodeElement.elements();
-            for (Iterator it = node.iterator(); it.hasNext(); ) {
+            List<?> node = nodeElement.elements();
+            for (Iterator<?> it = node.iterator(); it.hasNext(); ) {
                 Element elm = (Element) it.next();
                 String val = elm.getText();
                 val = val.replace("<![CDATA[", "");

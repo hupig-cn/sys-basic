@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data  repository for the Userorder entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface UserorderRepository extends JpaRepository<Userorder, Long> {
 

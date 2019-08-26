@@ -88,7 +88,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 		String endTime = today + " 23:59:59";
 		List<Receiptpay> receiptpay = rewrite_ReceiptpayRepository.getReceiptpayByUseridAndTime(userId.toString(),
 				startTime, endTime, ReceiptpayConstant.BALANCE_INCOME);
-        Optional thisPrice = receiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
+        Optional<?> thisPrice = receiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
         if(thisPrice.isPresent()){
             rewrite_PriceDTO.setPrice(thisPrice.get().toString());
         }else{
@@ -132,7 +132,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
         List<Receiptpay> receiptpay = rewrite_ReceiptpayRepository.getReceiptpayByUseridAndTime(userId.toString(),
             startTime, endTime, ReceiptpayConstant.BALANCE_INCOME);
         log.debug("getProfitInfo--------------" +receiptpay.toString());
-        Optional thisPrice = receiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
+        Optional<?> thisPrice = receiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
         if(thisPrice.isPresent()){
             rewrite_MercProfitDto.setThis_month(new BigDecimal(thisPrice.get().toString()));
         }else{
@@ -143,7 +143,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
         //上个月
         List<Receiptpay> lastreceiptpay = rewrite_ReceiptpayRepository.getReceiptpayByUseridAndTime(userId.toString(),
             lastTime, startTime, ReceiptpayConstant.BALANCE_INCOME);
-        Optional lastPrice = lastreceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
+        Optional<?> lastPrice = lastreceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
         if(lastPrice.isPresent()){
             rewrite_MercProfitDto.setLast_month(new BigDecimal(lastPrice.get().toString()));
         }else{
@@ -237,7 +237,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
         // 今日分销的收入数量
         List<Receiptpay> todayReceiptpay = rewrite_ReceiptpayRepository.
             findInfoByTime(userid,startTime,endTime,ReceiptpayConstant.BALANCE_INCOME_DIR,ReceiptpayConstant.BALANCE_INCOME_PER);
-        Optional todayPrice = todayReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
+        Optional<?> todayPrice = todayReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
         if(todayPrice.isPresent()){
             rewrite_ProfitDTO.setTodayprofit(todayPrice.get().toString());
         }else{
@@ -253,7 +253,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 
         List<Receiptpay> lastReceiptpay = rewrite_ReceiptpayRepository.
             findInfoByTime(userid,restartTime,reendTime,ReceiptpayConstant.BALANCE_INCOME_DIR,ReceiptpayConstant.BALANCE_INCOME_PER);
-        Optional lastPrice = lastReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
+        Optional<?> lastPrice = lastReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
         if(lastPrice.isPresent()){
             rewrite_ProfitDTO.setTodaylastprofit(lastPrice.get().toString());
         }else{
@@ -268,7 +268,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 
         List<Receiptpay> thisMonthReceiptpay = rewrite_ReceiptpayRepository.
             findInfoByTime(userid,toMonthTime,nextTime,ReceiptpayConstant.BALANCE_INCOME_DIR,ReceiptpayConstant.BALANCE_INCOME_PER);
-        Optional thisMonth = thisMonthReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
+        Optional<?> thisMonth = thisMonthReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
         if(thisMonth.isPresent()){
             rewrite_ProfitDTO.setMonthprofit(thisMonth.get().toString());
         }else{
@@ -280,7 +280,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 
         List<Receiptpay> lastMonthReceiptpay = rewrite_ReceiptpayRepository.
             findInfoByTime(userid,lastMonthTime,toMonthTime,ReceiptpayConstant.BALANCE_INCOME_DIR,ReceiptpayConstant.BALANCE_INCOME_PER);
-        Optional lastMonth = lastMonthReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
+        Optional<?> lastMonth = lastMonthReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
         if(lastMonth.isPresent()){
             rewrite_ProfitDTO.setMonthlastprofit(lastMonth.get().toString());
         }else{
@@ -289,7 +289,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 
         // 总分销收入
         List<Receiptpay> allReceiptpay = rewrite_ReceiptpayRepository.getAllInfo(userid,ReceiptpayConstant.BALANCE_INCOME_DIR,ReceiptpayConstant.BALANCE_INCOME_PER);
-        Optional allprice = allReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
+        Optional<?> allprice = allReceiptpay.stream().map(Receiptpay::getAmount).reduce(BigDecimal::add);
         if(allprice.isPresent()){
             rewrite_ProfitDTO.setTotalprofit(allprice.get().toString());
         }else{

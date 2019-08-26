@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data  repository for the Userlinkuser entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface UserlinkuserRepository extends JpaRepository<Userlinkuser, Long> {
 

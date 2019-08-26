@@ -5,6 +5,8 @@ import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,6 +14,7 @@ import com.weisen.www.code.yjf.basic.service.Rewrite_UserassetsService;
 import com.weisen.www.code.yjf.basic.service.dto.UserassetsDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_PriceDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_UserPriceDTO;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_000_RechangeDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 import io.github.jhipster.web.util.ResponseUtil;
@@ -29,6 +32,34 @@ public class Rewrite_UserassetsResource {
     public Rewrite_UserassetsResource(Rewrite_UserassetsService rewrite_UserassetsService) {
         this.rewrite_UserassetsService = rewrite_UserassetsService;
     }
+    
+    /**
+     * 
+     * @author Carson
+     * @date 2019-08-23 20:39:22
+     * @param rechangeDTO
+     * @return
+     */
+    @PostMapping(value = "/admin/rechange-yue")
+	@Timed
+	@ApiOperation(value = "余额充值")
+	public Result rechangeYue (@RequestBody Rewrite_000_RechangeDTO rechangeDTO) {
+		return rewrite_UserassetsService.rechangeYue(rechangeDTO.getAccount(), rechangeDTO.getYue());
+	}
+    
+    /**
+     * 
+     * @author Carson
+     * @date 2019-08-23 20:39:54
+     * @param rechangeDTO
+     * @return
+     */
+    @PostMapping(value = "/admin/deduct-yue")
+	@Timed
+	@ApiOperation(value = "余额扣减")
+	public Result deductYue (@RequestBody Rewrite_000_RechangeDTO rechangeDTO) {
+		return rewrite_UserassetsService.deductYue(rechangeDTO.getAccount(), rechangeDTO.getYue());
+	}
 
     /**
      * 查询用户余额

@@ -124,7 +124,7 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 					userlinkuser.setRecommendid(recommendr);
 					userlinkuser.setModifierdate(recommenddate);
 					userlinkuser.setOther("支付宝");
-			} else if (userlinkuser == null && getToLong(userlinkuser.getModifierdate()) > getToLong(recommenddate)) {// 没有推荐人，并且没有数据
+			} else if (userlinkuser == null) {// 没有推荐人，并且没有数据
 				userlinkuser = new Userlinkuser();
 				userlinkuser.setUserid(userid);
 				userlinkuser.setRecommendid(recommendr);

@@ -12,7 +12,6 @@ import com.weisen.www.code.yjf.basic.domain.Advertisement;
 /**
  * Spring Data  repository for the Advertisement entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface Rewrite_AdvertisementRepository extends JpaRepository<Advertisement, Long> {
 	

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data  repository for the Userlocation entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface UserlocationRepository extends JpaRepository<Userlocation, Long> {
 

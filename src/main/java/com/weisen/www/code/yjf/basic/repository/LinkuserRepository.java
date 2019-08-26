@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data  repository for the Linkuser entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface LinkuserRepository extends JpaRepository<Linkuser, Long> {
 

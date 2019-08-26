@@ -13,7 +13,6 @@ import java.util.List;
 /**
  * Spring Data  repository for the Withdrawal entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface Rewrite_WithdrawalRepository extends JpaRepository<Withdrawal, Long> {
 

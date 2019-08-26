@@ -129,7 +129,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
             // 解析支付宝服务器回调过来的数据。
             Map<String, String> params = new HashMap<>();
             try {
-                for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext(); ) {
+                for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext(); ) {
                     String name = (String) iter.next();
                     String[] values = requestParams.get(name);
                     String valueStr = "";
@@ -148,8 +148,8 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
                     String trade_status = params.get("trade_status");
                     if ("TRADE_SUCCESS".equals(trade_status)) { // 判断是否是支付成功的状态
                         String tradeNo = params.get("out_trade_no");// 订单号
-                        String totalAmount = params.get("total_amount");
-                        String payWay = Rewrite_Constant.ACCOUNTTYPE_ALIPAY;
+//                        String totalAmount = params.get("total_amount");
+//                        String payWay = Rewrite_Constant.ACCOUNTTYPE_ALIPAY;
                         // 根据解析出来的数据验证订单，用户
                         Userorder userorder = userorderRepository.findByOrdercode(tradeNo);
                         //不是待支付订单不能支付
@@ -389,7 +389,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
             resultMap = WechatUtils.unifiedOrder(xml);
             System.out.println(resultMap);
             String return_code = resultMap.get("return_code");
-            String return_msg = resultMap.get("return_msg");
+//            String return_msg = resultMap.get("return_msg");
             String result_code = resultMap.get("result_code");
 //            System.out.println("return_code返回的=" + return_code);
 //            System.out.println("return_msg返回的=" + return_msg);
@@ -470,12 +470,12 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
         String result_code = "";
         String return_code = "";
         String out_trade_no = "";
-        String total_fee = "";
-        String mPayWay = "2";
+//        String total_fee = "";
+//        String mPayWay = "2";
         result_code = map.get("result_code");
         out_trade_no = map.get("out_trade_no");
         return_code = map.get("return_code");
-        total_fee = map.get("total_fee");
+//        total_fee = map.get("total_fee");
         if ("SUCCESS".equals(result_code) && "SUCCESS".equals(return_code)) {
             //这是成功
             System.out.println("微信调用成功");

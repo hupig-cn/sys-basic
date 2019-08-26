@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data  repository for the Linkaccount entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface LinkaccountRepository extends JpaRepository<Linkaccount, Long> {
 

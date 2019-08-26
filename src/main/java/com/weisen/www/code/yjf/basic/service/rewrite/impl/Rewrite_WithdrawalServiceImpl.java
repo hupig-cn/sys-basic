@@ -125,7 +125,8 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
         withdrawaldetails.setState(WithdrawalConstant.IN_READY);
         rewrite_WithdrawaldetailsRepository.save(withdrawaldetails);
 
-        String result = SendCode.issue("13794340607", "用户注册", "0000");
+//        String result = 
+        		SendCode.issue("13794340607", "用户注册", "0000");
 
         return Result.suc("提交成功");
     }
@@ -296,7 +297,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
     @Override
     public Result getUserInfo(Long id) {
         List<Receiptpay> rec= rewrite_ReceiptpayRepository.findAllByUseridAndDealtype(id.toString(), ReceiptpayConstant.BALANCE_INCOME_DIR);
-        Optional sum = rec.stream().map(x -> x.getAmount()).reduce(BigDecimal::add);
+        Optional<?> sum = rec.stream().map(x -> x.getAmount()).reduce(BigDecimal::add);
 
         // 可提现
 //        List<Withdrawal> reday = rewrite_withdrawalRepository.findAllByUseridAndtyOrWithdrawaltype(id.toString(), WithdrawalConstant.READY);
@@ -305,10 +306,10 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 //        Optional sumFROZEN = FROZEN.stream().map(x -> new BigDecimal(x.getWithdrawalamount())).reduce(BigDecimal::add);
         // 提现中
         List<Withdrawal> IN_READY = rewrite_withdrawalRepository.findAllByUseridAndWithdrawaltype(id.toString(), WithdrawalConstant.IN_READY);
-        Optional sumIN_READY= IN_READY.stream().map(x -> new BigDecimal(x.getWithdrawalamount())).reduce(BigDecimal::add);
+        Optional<?> sumIN_READY= IN_READY.stream().map(x -> new BigDecimal(x.getWithdrawalamount())).reduce(BigDecimal::add);
         // 已提现
         List<Withdrawal> ALREADY = rewrite_withdrawalRepository.findAllByUseridAndWithdrawaltype(id.toString(), WithdrawalConstant.ALREADY);
-        Optional sumALREADY = ALREADY.stream().map(x -> new BigDecimal(x.getWithdrawalamount())).reduce(BigDecimal::add);
+        Optional<?> sumALREADY = ALREADY.stream().map(x -> new BigDecimal(x.getWithdrawalamount())).reduce(BigDecimal::add);
 
         long count = rewrite_UserlinkuserRepository.countAllByRecommendid(id.toString());
 

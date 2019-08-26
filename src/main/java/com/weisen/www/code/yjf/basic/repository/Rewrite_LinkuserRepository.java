@@ -12,7 +12,6 @@ import java.util.Map;
 /**
  * Spring Data repository for the Linkuser entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface Rewrite_LinkuserRepository extends JpaRepository<Linkuser, Long> {
 
