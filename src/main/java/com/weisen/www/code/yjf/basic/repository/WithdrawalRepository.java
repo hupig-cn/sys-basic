@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data  repository for the Withdrawal entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface WithdrawalRepository extends JpaRepository<Withdrawal, Long> {
 

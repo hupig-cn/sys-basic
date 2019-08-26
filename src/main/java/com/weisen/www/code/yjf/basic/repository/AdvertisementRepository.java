@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data  repository for the Advertisement entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface AdvertisementRepository extends JpaRepository<Advertisement, Long> {
 

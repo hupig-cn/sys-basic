@@ -12,7 +12,6 @@ import java.util.List;
 /**
  * Spring Data  repository for the Paymethod entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface Rewrite_PaymethodRepository extends JpaRepository<Paymethod, Long> {
     @Query(value = "select * from paymethod where os = :os and online = :online and switchs = 1",nativeQuery = true)

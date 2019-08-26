@@ -14,7 +14,6 @@ import java.util.Optional;
 /**
  * Spring Data  repository for the Information entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface Rewrite_InformationRepository extends JpaRepository<Information, Long> {
     @Query(value = "select * from information where id = ?2 and  readuserid = ?1 and logicdelete = 0", nativeQuery = true)

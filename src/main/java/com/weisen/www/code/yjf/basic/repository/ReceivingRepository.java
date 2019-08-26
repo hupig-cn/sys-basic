@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data  repository for the Receiving entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface ReceivingRepository extends JpaRepository<Receiving, Long> {
 

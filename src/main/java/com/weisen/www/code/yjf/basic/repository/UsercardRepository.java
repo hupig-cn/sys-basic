@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data  repository for the Usercard entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface UsercardRepository extends JpaRepository<Usercard, Long> {
 

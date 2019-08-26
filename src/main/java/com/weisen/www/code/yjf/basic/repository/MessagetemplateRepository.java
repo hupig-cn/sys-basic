@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data  repository for the Messagetemplate entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface MessagetemplateRepository extends JpaRepository<Messagetemplate, Long> {
 

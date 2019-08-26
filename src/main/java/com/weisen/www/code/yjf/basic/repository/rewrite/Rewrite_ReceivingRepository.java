@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * Spring Data  repository for the Receiving entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface Rewrite_ReceivingRepository extends JpaRepository<Receiving, Long> {
     @Query(value = "select * from receiving where userid = ?1", nativeQuery = true)

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data  repository for the Receiptpay entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface ReceiptpayRepository extends JpaRepository<Receiptpay, Long> {
 

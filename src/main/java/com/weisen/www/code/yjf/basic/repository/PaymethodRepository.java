@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data  repository for the Paymethod entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface PaymethodRepository extends JpaRepository<Paymethod, Long> {
 
