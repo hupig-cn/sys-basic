@@ -20,7 +20,7 @@ public interface Rewrite_LinkuserRepository extends JpaRepository<Linkuser, Long
 	Linkuser findByIdcard(String idcard);
 
 	Linkuser findByPhone(String phone);
-    @Query(value = "select l.id as id ,l.phone as phone ,l.name as name , a.balance as balance,a.integral as integral , (case when l.paypassword IS NOT NULL THEN '已设置' ELSE '未设置' END ) as password," +
+    @Query(value = "select l.userid as userid ,l.phone as phone ,l.name as name , a.balance as balance,a.integral as integral , (case when l.paypassword IS NOT NULL THEN '已设置' ELSE '未设置' END ) as password," +
         "(CASE WHEN l.name IS NOT NULL THEN '已实名' ELSE '未实名' END ) as realname,l.createdate as createtime ,ulu.recommendid as recommendid from linkuser l RIGHT JOIN userassets a ON l.userid = a.userid JOIN userlinkuser ulu ON ulu.userid = l.userid " +
         "where (:userName IS NULL OR :userName = phone) AND (CASE WHEN :realName IS NULL THEN 1 = 1  WHEN :realName = 1 THEN l.name IS NOT NULL  ELSE  l.name IS NULL END ) ORDER BY l.createdate DESC LIMIT :pageNum,:pageSize ",nativeQuery = true)
     List<Map<String,Object>> getMemberInfo(@Param("userName") String userName,@Param("realName") Integer realName,@Param("pageNum") Integer pageNum,@Param("pageSize") Integer pageSize);

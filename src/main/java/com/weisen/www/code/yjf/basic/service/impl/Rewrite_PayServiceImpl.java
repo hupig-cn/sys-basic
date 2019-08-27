@@ -318,16 +318,15 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 mPrice = mPrice.multiply(kma).setScale(3, BigDecimal.ROUND_HALF_UP);
                 craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_PER,userorder.getPayee(),kid,mPrice,rewrite_DistributionDTO.getPayWay(),rewrite_DistributionDTO.getAmount());
             }
-
-            //分配积分，
-            if(userorder.getPayee() != null && !"".equals(userorder.getPayee())){ // 线下
-                handleIntgerl(userorder.getRebate().toString(),userorder.getUserid(),userorder.getSum(),rewrite_DistributionDTO.getPayWay());
-            }else{  // 线上
-                handleIntgerl("50",userorder.getUserid(),userorder.getSum(),rewrite_DistributionDTO.getPayWay());
-                //分配优惠券
-                handleCoupon("50",userorder.getUserid(),userorder.getSum(),rewrite_DistributionDTO.getPayWay());
-            }
-
+        }
+        
+        //分配积分，
+        if(userorder.getPayee() != null && !"".equals(userorder.getPayee())){ // 线下
+            handleIntgerl(userorder.getRebate().toString(),userorder.getUserid(),userorder.getSum(),rewrite_DistributionDTO.getPayWay());
+        }else{  // 线上
+            handleIntgerl("50",userorder.getUserid(),userorder.getSum(),rewrite_DistributionDTO.getPayWay());
+            //分配优惠券
+            handleCoupon("50",userorder.getUserid(),userorder.getSum(),rewrite_DistributionDTO.getPayWay());
         }
 
         return Result.suc("成功");

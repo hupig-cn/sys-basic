@@ -2,7 +2,7 @@ package com.weisen.www.code.yjf.basic.service.dto.show_dto;
 
 public class Rewrite_UserReceiptpayDTO {
 
-    private String id;
+    private String userid;
 
     private String orderid;
 
@@ -22,83 +22,84 @@ public class Rewrite_UserReceiptpayDTO {
 
     private String dealtype;
 
-    public String getDealtype() {
-        return dealtype;
-    }
+	public String getUserid() {
+		return userid;
+	}
 
-    public void setDealtype(String dealtype) {
-        this.dealtype = dealtype;
-    }
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public String getOrderid() {
+		return orderid;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setOrderid(String orderid) {
+		this.orderid = orderid;
+	}
 
-    public String getOrderid() {
-        return orderid;
-    }
+	public String getUserAccount() {
+		return userAccount;
+	}
 
-    public void setOrderid(String orderid) {
-        this.orderid = orderid;
-    }
+	public void setUserAccount(String userAccount) {
+		this.userAccount = userAccount;
+	}
 
-    public String getUserAccount() {
-        return userAccount;
-    }
+	public String getDescribe() {
+		return describe;
+	}
 
-    public void setUserAccount(String userAccount) {
-        this.userAccount = userAccount;
-    }
+	public void setDescribe(String describe) {
+		this.describe = describe;
+	}
 
-    public String getDescribe() {
-        return describe;
-    }
+	public String getAmount() {
+		return amount;
+	}
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
-    }
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
 
-    public String getAmount() {
-        return amount;
-    }
+	public String getUserAmount() {
+		return userAmount;
+	}
 
-    public void setAmount(String amount) {
-        this.amount = amount;
-    }
+	public void setUserAmount(String userAmount) {
+		this.userAmount = userAmount;
+	}
 
-    public String getUserAmount() {
-        return userAmount;
-    }
+	public String getCreateTime() {
+		return createTime;
+	}
 
-    public void setUserAmount(String userAmount) {
-        this.userAmount = userAmount;
-    }
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
 
-    public String getCreateTime() {
-        return createTime;
-    }
+	public String getRelationOrder() {
+		return relationOrder;
+	}
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
+	public void setRelationOrder(String relationOrder) {
+		this.relationOrder = relationOrder;
+	}
 
-    public String getRelationOrder() {
-        return relationOrder;
-    }
+	public String getOther() {
+		return other;
+	}
 
-    public void setRelationOrder(String relationOrder) {
-        this.relationOrder = relationOrder;
-    }
+	public void setOther(String other) {
+		this.other = other;
+	}
 
-    public String getOther() {
-        return other;
-    }
+	public String getDealtype() {
+		return dealtype;
+	}
 
-    public void setOther(String other) {
-        this.other = other;
-    }
+	public void setDealtype(String dealtype) {
+		this.dealtype = dealtype;
+	}
+
 }

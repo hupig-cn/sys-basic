@@ -94,8 +94,8 @@ public class Rewrite_UserassetsServiceImpl implements Rewrite_UserassetsService 
         if (useableBalance.subtract(deductYue).compareTo(BigDecimal.ZERO) < 0) {
 			return Result.fail("操作失败，扣减余额不能大于可用金额");
 		}
-        userassets.setBalance(balance.add(deductYue).setScale(3).toString());
-        userassets.setUsablebalance(useableBalance.add(deductYue).setScale(3).toString());
+        userassets.setBalance(balance.subtract(deductYue).setScale(3).toString());
+        userassets.setUsablebalance(useableBalance.subtract(deductYue).setScale(3).toString());
         rewrite_UserassetsRepository.saveAndFlush(userassets);
 		return Result.suc("扣减成功");
 	}

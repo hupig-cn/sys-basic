@@ -358,7 +358,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
         list.forEach(x -> {
             Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(x.getUserid());
             Rewrite_UserReceiptpayDTO rewrite_UserReceiptpayDTO = new Rewrite_UserReceiptpayDTO();
-            rewrite_UserReceiptpayDTO.setId(x.getId().toString());
+            rewrite_UserReceiptpayDTO.setUserid(x.getUserid());
             rewrite_UserReceiptpayDTO.setAmount(x.getAmount().toString());
             rewrite_UserReceiptpayDTO.setUserAccount(linkuser.getPhone());
             rewrite_UserReceiptpayDTO.setUserAmount("-");
