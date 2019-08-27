@@ -4,9 +4,8 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Receiptpay} entity.
+ * A DTO for the Receiptpay entity.
  */
-@SuppressWarnings("serial")
 public class ReceiptpayDTO implements Serializable {
 
     private Long id;
@@ -44,6 +43,16 @@ public class ReceiptpayDTO implements Serializable {
     private Boolean logicdelete;
 
     private String other;
+
+    private BigDecimal balance;
+
+    private BigDecimal useablebalance;
+
+    private BigDecimal freezebalance;
+
+    private BigDecimal coupon;
+
+    private BigDecimal integral;
 
 
     public Long getId() {
@@ -190,6 +199,46 @@ public class ReceiptpayDTO implements Serializable {
         this.other = other;
     }
 
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public BigDecimal getUseablebalance() {
+        return useablebalance;
+    }
+
+    public void setUseablebalance(BigDecimal useablebalance) {
+        this.useablebalance = useablebalance;
+    }
+
+    public BigDecimal getFreezebalance() {
+        return freezebalance;
+    }
+
+    public void setFreezebalance(BigDecimal freezebalance) {
+        this.freezebalance = freezebalance;
+    }
+
+    public BigDecimal getCoupon() {
+        return coupon;
+    }
+
+    public void setCoupon(BigDecimal coupon) {
+        this.coupon = coupon;
+    }
+
+    public BigDecimal getIntegral() {
+        return integral;
+    }
+
+    public void setIntegral(BigDecimal integral) {
+        this.integral = integral;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -232,6 +281,11 @@ public class ReceiptpayDTO implements Serializable {
             ", modifiernum=" + getModifiernum() +
             ", logicdelete='" + isLogicdelete() + "'" +
             ", other='" + getOther() + "'" +
+            ", balance=" + getBalance() +
+            ", useablebalance=" + getUseablebalance() +
+            ", freezebalance=" + getFreezebalance() +
+            ", coupon=" + getCoupon() +
+            ", integral=" + getIntegral() +
             "}";
     }
 }

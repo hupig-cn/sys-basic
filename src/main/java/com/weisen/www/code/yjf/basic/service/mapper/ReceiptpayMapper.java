@@ -6,7 +6,7 @@ import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
 import org.mapstruct.*;
 
 /**
- * Mapper for the entity {@link Receiptpay} and its DTO {@link ReceiptpayDTO}.
+ * Mapper for the entity Receiptpay and its DTO ReceiptpayDTO.
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface ReceiptpayMapper extends EntityMapper<ReceiptpayDTO, Receiptpay> {

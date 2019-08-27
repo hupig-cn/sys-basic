@@ -1,5 +1,7 @@
 {
-    "name": "Receiptpay",
+    "fluentMethods": true,
+    "clientRootFolder": "basic",
+    "relationships": [],
     "fields": [
         {
             "fieldName": "dealtype",
@@ -68,17 +70,35 @@
         {
             "fieldName": "other",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "balance",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "useablebalance",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "freezebalance",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "coupon",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "integral",
+            "fieldType": "BigDecimal"
         }
     ],
-    "relationships": [],
     "changelogDate": "20190808113842",
-    "entityTableName": "receiptpay",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
+    "searchEngine": false,
     "service": "serviceImpl",
+    "entityTableName": "receiptpay",
+    "databaseType": "sql",
     "jpaMetamodelFiltering": false,
-    "fluentMethods": true,
-    "clientRootFolder": "basic",
-    "applications": "*",
+    "pagination": "infinite-scroll",
     "microserviceName": "basic"
 }

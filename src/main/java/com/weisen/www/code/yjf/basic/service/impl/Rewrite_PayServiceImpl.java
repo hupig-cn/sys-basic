@@ -1,23 +1,8 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
-import java.math.BigDecimal;
-import java.util.Optional;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.weisen.www.code.yjf.basic.config.Constants;
-import com.weisen.www.code.yjf.basic.domain.Linkuser;
-import com.weisen.www.code.yjf.basic.domain.Receiptpay;
-import com.weisen.www.code.yjf.basic.domain.Userassets;
-import com.weisen.www.code.yjf.basic.domain.Userlinkuser;
-import com.weisen.www.code.yjf.basic.domain.Userorder;
-import com.weisen.www.code.yjf.basic.repository.ReceiptpayRepository;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_000_UserassetsRepository;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_000_UserorderRepository;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
+import com.weisen.www.code.yjf.basic.domain.*;
+import com.weisen.www.code.yjf.basic.repository.*;
 import com.weisen.www.code.yjf.basic.service.Rewrite_PayService;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_DistributionDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_PayDTO;
@@ -27,6 +12,12 @@ import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
 import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -93,16 +84,6 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         userorder.setOrderstatus(OrderConstant.PAID);
         userorderRepository.saveAndFlush(userorder);
 
-        // 支出流水
-        Receiptpay receiptpay = new Receiptpay();
-        receiptpay.setAmount(userorder.getSum());
-        receiptpay.setDealtype(ReceiptpayConstant.BALANCE_PAY); //余额支出
-        receiptpay.setDealstate(ReceiptpayConstant.PAY);
-        receiptpay.setPayway(userorder.getPayway());
-        receiptpay.setUserid(userorder.getUserid());
-        receiptpay.setCreatedate(TimeUtil.getDate());
-        receiptpayRepository.save(receiptpay);
-
         Rewrite_submitInformationDTO rewrite_submitInformationDTO = new Rewrite_submitInformationDTO(
             Constants.CONSUMPTION.toString(),
             userorder.getUserid(),
@@ -115,6 +96,21 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         userassets.setUsablebalance((new BigDecimal(userassets.getUsablebalance()).subtract(userorder.getSum())).setScale(3).toString());
         userassets.setBalance((new BigDecimal(userassets.getBalance()).subtract(userorder.getSum())).setScale(3).toString());
         userassetsRepository.save(userassets);
+
+        // 支出流水
+        Receiptpay receiptpay = new Receiptpay();
+        receiptpay.setAmount(userorder.getSum());
+        receiptpay.setDealtype(ReceiptpayConstant.BALANCE_PAY); //余额支出
+        receiptpay.setDealstate(ReceiptpayConstant.PAY);
+        receiptpay.setPayway(userorder.getPayway());
+        receiptpay.setUserid(userorder.getUserid());
+        receiptpay.setCreatedate(TimeUtil.getDate());
+        receiptpay.setBalance(new BigDecimal(userassets.getBalance()));
+        receiptpay.setCoupon(new BigDecimal(userassets.getCouponsum()));
+        receiptpay.setFreezebalance(new BigDecimal(userassets.getFrozenbalance()));
+        receiptpay.setIntegral(new BigDecimal(userassets.getIntegral()));
+        receiptpay.setUseablebalance(new BigDecimal(userassets.getUsablebalance()));
+        receiptpayRepository.save(receiptpay);
 
         Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId(),userorder.getPayway());
 
@@ -159,16 +155,6 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         userorder.setOrderstatus(OrderConstant.PAID);
         userorderRepository.saveAndFlush(userorder);
 
-        // 支出流水
-        Receiptpay receiptpay = new Receiptpay();
-        receiptpay.setAmount(userorder.getSum());
-        receiptpay.setDealtype(ReceiptpayConstant.INTEGRAL_PAY); //积分支出
-        receiptpay.setDealstate(ReceiptpayConstant.PAY);
-        receiptpay.setPayway(userorder.getPayway());
-        receiptpay.setUserid(userorder.getUserid());
-        receiptpay.setCreatedate(TimeUtil.getDate());
-        receiptpayRepository.save(receiptpay);
-
         Rewrite_submitInformationDTO rewrite_submitInformationDTO = new Rewrite_submitInformationDTO(
             Constants.CONSUMPTION.toString(),
             userorder.getUserid(),
@@ -181,6 +167,20 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         userassets.setIntegral((new BigDecimal(userassets.getIntegral()).subtract(userorder.getSum()).setScale(3).toString()));
         userassetsRepository.save(userassets);
 
+        // 支出流水
+        Receiptpay receiptpay = new Receiptpay();
+        receiptpay.setAmount(userorder.getSum());
+        receiptpay.setDealtype(ReceiptpayConstant.INTEGRAL_PAY); //积分支出
+        receiptpay.setDealstate(ReceiptpayConstant.PAY);
+        receiptpay.setPayway(userorder.getPayway());
+        receiptpay.setUserid(userorder.getUserid());
+        receiptpay.setCreatedate(TimeUtil.getDate());
+        receiptpay.setBalance(new BigDecimal(userassets.getBalance()));
+        receiptpay.setCoupon(new BigDecimal(userassets.getCouponsum()));
+        receiptpay.setFreezebalance(new BigDecimal(userassets.getFrozenbalance()));
+        receiptpay.setIntegral(new BigDecimal(userassets.getIntegral()));
+        receiptpay.setUseablebalance(new BigDecimal(userassets.getUsablebalance()));
+        receiptpayRepository.save(receiptpay);
 
         return Result.suc("支付成功");
     }
@@ -215,16 +215,6 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         userorder.setOrderstatus(OrderConstant.PAID);
         userorderRepository.saveAndFlush(userorder);
 
-        // 支出流水
-        Receiptpay receiptpay = new Receiptpay();
-        receiptpay.setAmount(userorder.getSum());
-        receiptpay.setDealtype(ReceiptpayConstant.COUPON_PAY); // 优惠券支出
-        receiptpay.setDealstate(ReceiptpayConstant.PAY);
-        receiptpay.setPayway(userorder.getPayway());
-        receiptpay.setUserid(userorder.getUserid());
-        receiptpay.setCreatedate(TimeUtil.getDate());
-        receiptpayRepository.save(receiptpay);
-
         Rewrite_submitInformationDTO rewrite_submitInformationDTO = new Rewrite_submitInformationDTO(
             Constants.CONSUMPTION.toString(),
             userorder.getUserid(),
@@ -236,6 +226,21 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         //更新我的资产
         userassets.setCouponsum((new BigDecimal(userassets.getCouponsum()).subtract(userorder.getSum()).setScale(3).toString()));
         userassetsRepository.save(userassets);
+
+        // 支出流水
+        Receiptpay receiptpay = new Receiptpay();
+        receiptpay.setAmount(userorder.getSum());
+        receiptpay.setDealtype(ReceiptpayConstant.COUPON_PAY); // 优惠券支出
+        receiptpay.setDealstate(ReceiptpayConstant.PAY);
+        receiptpay.setPayway(userorder.getPayway());
+        receiptpay.setUserid(userorder.getUserid());
+        receiptpay.setCreatedate(TimeUtil.getDate());
+        receiptpay.setBalance(new BigDecimal(userassets.getBalance()));
+        receiptpay.setCoupon(new BigDecimal(userassets.getCouponsum()));
+        receiptpay.setFreezebalance(new BigDecimal(userassets.getFrozenbalance()));
+        receiptpay.setIntegral(new BigDecimal(userassets.getIntegral()));
+        receiptpay.setUseablebalance(new BigDecimal(userassets.getUsablebalance()));
+        receiptpayRepository.save(receiptpay);
 
         if(userorder.getPayee() != null && !"".equals(userorder.getPayee())) {
             BigDecimal am = userorder.getSum();
@@ -336,6 +341,16 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 
     // 创建收支明细
     private void craeteReceiptpay(String Dealtype,String userId,String sourcerId,BigDecimal amount,String payway,String total){
+
+        Userassets userassets = userassetsRepository.findByUserId(sourcerId);
+        BigDecimal balance = new BigDecimal(userassets.getBalance());
+        balance = balance.add(amount);
+        userassets.setBalance(balance.toString());
+        BigDecimal usebalance = new BigDecimal(userassets.getUsablebalance());
+        usebalance = usebalance.add(amount);
+        userassets.setUsablebalance(usebalance.toString());
+        userassetsRepository.saveAndFlush(userassets);
+        // 收支记录
         Receiptpay receiptpay = new Receiptpay();
         receiptpay.setDealtype(Dealtype);
         receiptpay.setDealstate(ReceiptpayConstant.INCOME);
@@ -346,16 +361,12 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpay.setCreatedate(TimeUtil.getDate());
         receiptpay.setLogicdelete(false);
         receiptpay.setPayway(payway);
+        receiptpay.setBalance(new BigDecimal(userassets.getBalance()));
+        receiptpay.setCoupon(new BigDecimal(userassets.getCouponsum()));
+        receiptpay.setFreezebalance(new BigDecimal(userassets.getFrozenbalance()));
+        receiptpay.setIntegral(new BigDecimal(userassets.getIntegral()));
+        receiptpay.setUseablebalance(new BigDecimal(userassets.getUsablebalance()));
         receiptpayRepository.save(receiptpay);
-
-        Userassets userassets = userassetsRepository.findByUserId(sourcerId);
-        BigDecimal balance = new BigDecimal(userassets.getBalance());
-        balance = balance.add(amount);
-        userassets.setBalance(balance.toString());
-        BigDecimal usebalance = new BigDecimal(userassets.getUsablebalance());
-        usebalance = usebalance.add(amount);
-        userassets.setUsablebalance(usebalance.toString());
-        userassetsRepository.saveAndFlush(userassets);
 
         if(Dealtype.equals(ReceiptpayConstant.BALANCE_INCOME)){
             Rewrite_submitInformationDTO rewrite_submitInformationDTO = new Rewrite_submitInformationDTO(
@@ -404,6 +415,11 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpay.setUserid(userId);
         receiptpay.setPayway(payway);
         receiptpay.setCreatedate(TimeUtil.getDate());
+        receiptpay.setBalance(new BigDecimal(userassets.getBalance()));
+        receiptpay.setCoupon(new BigDecimal(userassets.getCouponsum()));
+        receiptpay.setFreezebalance(new BigDecimal(userassets.getFrozenbalance()));
+        receiptpay.setIntegral(new BigDecimal(userassets.getIntegral()));
+        receiptpay.setUseablebalance(new BigDecimal(userassets.getUsablebalance()));
         receiptpayRepository.save(receiptpay);
 
             Rewrite_submitInformationDTO rewrite_submitInformationDTO = new Rewrite_submitInformationDTO(
@@ -438,6 +454,11 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpay.setDealstate(ReceiptpayConstant.INCOME);
         receiptpay.setUserid(userId);
         receiptpay.setCreatedate(TimeUtil.getDate());
+        receiptpay.setBalance(new BigDecimal(userassets.getBalance()));
+        receiptpay.setCoupon(new BigDecimal(userassets.getCouponsum()));
+        receiptpay.setFreezebalance(new BigDecimal(userassets.getFrozenbalance()));
+        receiptpay.setIntegral(new BigDecimal(userassets.getIntegral()));
+        receiptpay.setUseablebalance(new BigDecimal(userassets.getUsablebalance()));
         receiptpayRepository.save(receiptpay);
 
 
@@ -475,7 +496,5 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         }
         return Result.suc("成功");
     }
-
-
 
 }
