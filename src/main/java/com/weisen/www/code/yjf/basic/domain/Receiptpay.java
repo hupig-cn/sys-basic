@@ -1,4 +1,6 @@
 package com.weisen.www.code.yjf.basic.domain;
+
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -6,6 +8,7 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * A Receiptpay.
@@ -36,10 +39,10 @@ public class Receiptpay implements Serializable {
     @Column(name = "payway")
     private String payway;
 
-    @Column(name = "amount", precision = 21, scale = 2)
+    @Column(name = "amount", precision = 21, scale = 3)
     private BigDecimal amount;
 
-    @Column(name = "bonus", precision = 21, scale = 2)
+    @Column(name = "bonus", precision = 21, scale = 3)
     private BigDecimal bonus;
 
     @Column(name = "happendate")
@@ -71,6 +74,21 @@ public class Receiptpay implements Serializable {
 
     @Column(name = "other")
     private String other;
+
+    @Column(name = "balance", precision = 21, scale = 3)
+    private BigDecimal balance;
+
+    @Column(name = "useablebalance", precision = 21, scale =3)
+    private BigDecimal useablebalance;
+
+    @Column(name = "freezebalance", precision = 21, scale = 3)
+    private BigDecimal freezebalance;
+
+    @Column(name = "coupon", precision = 21, scale = 3)
+    private BigDecimal coupon;
+
+    @Column(name = "integral", precision = 21, scale = 3)
+    private BigDecimal integral;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -301,6 +319,71 @@ public class Receiptpay implements Serializable {
     public void setOther(String other) {
         this.other = other;
     }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public Receiptpay balance(BigDecimal balance) {
+        this.balance = balance;
+        return this;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public BigDecimal getUseablebalance() {
+        return useablebalance;
+    }
+
+    public Receiptpay useablebalance(BigDecimal useablebalance) {
+        this.useablebalance = useablebalance;
+        return this;
+    }
+
+    public void setUseablebalance(BigDecimal useablebalance) {
+        this.useablebalance = useablebalance;
+    }
+
+    public BigDecimal getFreezebalance() {
+        return freezebalance;
+    }
+
+    public Receiptpay freezebalance(BigDecimal freezebalance) {
+        this.freezebalance = freezebalance;
+        return this;
+    }
+
+    public void setFreezebalance(BigDecimal freezebalance) {
+        this.freezebalance = freezebalance;
+    }
+
+    public BigDecimal getCoupon() {
+        return coupon;
+    }
+
+    public Receiptpay coupon(BigDecimal coupon) {
+        this.coupon = coupon;
+        return this;
+    }
+
+    public void setCoupon(BigDecimal coupon) {
+        this.coupon = coupon;
+    }
+
+    public BigDecimal getIntegral() {
+        return integral;
+    }
+
+    public Receiptpay integral(BigDecimal integral) {
+        this.integral = integral;
+        return this;
+    }
+
+    public void setIntegral(BigDecimal integral) {
+        this.integral = integral;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -308,15 +391,19 @@ public class Receiptpay implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Receiptpay)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        return id != null && id.equals(((Receiptpay) o).id);
+        Receiptpay receiptpay = (Receiptpay) o;
+        if (receiptpay.getId() == null || getId() == null) {
+            return false;
+        }
+        return Objects.equals(getId(), receiptpay.getId());
     }
 
     @Override
     public int hashCode() {
-        return 31;
+        return Objects.hashCode(getId());
     }
 
     @Override
@@ -340,6 +427,11 @@ public class Receiptpay implements Serializable {
             ", modifiernum=" + getModifiernum() +
             ", logicdelete='" + isLogicdelete() + "'" +
             ", other='" + getOther() + "'" +
+            ", balance=" + getBalance() +
+            ", useablebalance=" + getUseablebalance() +
+            ", freezebalance=" + getFreezebalance() +
+            ", coupon=" + getCoupon() +
+            ", integral=" + getIntegral() +
             "}";
     }
 }

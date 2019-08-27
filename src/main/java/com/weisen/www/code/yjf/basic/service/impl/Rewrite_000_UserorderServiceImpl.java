@@ -304,6 +304,11 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
 		userassets.setBalance(balanceBigDecimal.toString());// 更新余额
 		Receiptpay receiptpay = new Receiptpay();
 		receiptpay.setDealtype(dealtype);
+        receiptpay.setBalance(new BigDecimal(userassets.getBalance()));
+        receiptpay.setCoupon(new BigDecimal(userassets.getCouponsum()));
+        receiptpay.setFreezebalance(new BigDecimal(userassets.getFrozenbalance()));
+        receiptpay.setIntegral(new BigDecimal(userassets.getIntegral()));
+        receiptpay.setUseablebalance(new BigDecimal(userassets.getUsablebalance()));
 		receiptpay.setUserid(userId);
 		receiptpay.setBenefit(benegit);
 		receiptpay.setAmount(bigDecimal);
