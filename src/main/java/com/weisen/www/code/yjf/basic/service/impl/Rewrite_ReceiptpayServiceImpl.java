@@ -14,8 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.weisen.www.code.yjf.basic.domain.Linkaccount;
 import com.weisen.www.code.yjf.basic.domain.Linkuser;
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkaccountRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
@@ -50,16 +52,20 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 	private final Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository;
 
 	private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
+	
+	private final Rewrite_LinkaccountRepository rewrite_LinkaccountRepository;
 
 	public Rewrite_ReceiptpayServiceImpl(Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository,
 			ReceiptpayMapper receiptpayMapper,Rewrite_UserassetsService rewrite_UserassetsService,
                                          Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository,
-                                         Rewrite_LinkuserRepository rewrite_LinkuserRepository) {
+                                         Rewrite_LinkuserRepository rewrite_LinkuserRepository,
+                                         Rewrite_LinkaccountRepository rewrite_LinkaccountRepository) {
 		this.rewrite_ReceiptpayRepository = rewrite_ReceiptpayRepository;
 		this.receiptpayMapper = receiptpayMapper;
 		this.rewrite_UserassetsService = rewrite_UserassetsService;
 		this.rewrite_UserlinkuserRepository = rewrite_UserlinkuserRepository;
 		this.rewrite_LinkuserRepository = rewrite_LinkuserRepository;
+		this.rewrite_LinkaccountRepository = rewrite_LinkaccountRepository;
 	}
 
 	// 查询商家今日收入 (商家端)
@@ -368,6 +374,19 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
             rewrite_UserReceiptpayDTO.setRelationOrder("-");
             rewrite_UserReceiptpayDTO.setDescribe("-");
             rewrite_UserReceiptpayDTO.setDealtype(x.getDealstate());  // 1 支出 2 收入
+            rewrite_UserReceiptpayDTO.setRegister("APP注册");
+            Linkaccount linkaccountWeChat = rewrite_LinkaccountRepository.findFirstByUseridAndAccounttype(x.getUserid(), "微信");
+            if(linkaccountWeChat != null) {
+	        	if(linkaccountWeChat.getOther() != null) {
+	        		rewrite_UserReceiptpayDTO.setRegister(linkaccountWeChat.getOther());
+	        	}
+            }
+            Linkaccount linkaccountAli = rewrite_LinkaccountRepository.findFirstByUseridAndAccounttype(x.getUserid(), "支付宝");
+            if(linkaccountAli != null) {
+	        	if(linkaccountAli.getOther() != null) {
+	        		rewrite_UserReceiptpayDTO.setRegister(linkaccountAli.getOther());
+	        	}
+            }
             userList.add(rewrite_UserReceiptpayDTO);
         });
 

@@ -21,6 +21,8 @@ public class Rewrite_UserReceiptpayDTO {
     private String other;
 
     private String dealtype;
+    
+    private String register;
 
 	public String getUserid() {
 		return userid;
@@ -100,6 +102,14 @@ public class Rewrite_UserReceiptpayDTO {
 
 	public void setDealtype(String dealtype) {
 		this.dealtype = dealtype;
+	}
+
+	public String getRegister() {
+		return register;
+	}
+
+	public void setRegister(String register) {
+		this.register = register;
 	}
 
 }

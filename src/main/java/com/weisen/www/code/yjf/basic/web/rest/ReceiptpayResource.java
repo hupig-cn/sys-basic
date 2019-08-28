@@ -1,8 +1,8 @@
 package com.weisen.www.code.yjf.basic.web.rest;
 import com.weisen.www.code.yjf.basic.service.ReceiptpayService;
 import com.weisen.www.code.yjf.basic.web.rest.errors.BadRequestAlertException;
-import com.weisen.www.code.yjf.basic.web.rest.util.HeaderUtil;
-import com.weisen.www.code.yjf.basic.web.rest.util.PaginationUtil;
+//import com.weisen.www.code.yjf.basic.web.rest.util.HeaderUtil;
+//import com.weisen.www.code.yjf.basic.web.rest.util.PaginationUtil;
 import com.weisen.www.code.yjf.basic.service.dto.ReceiptpayDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -52,7 +52,7 @@ public class ReceiptpayResource {
         }
         ReceiptpayDTO result = receiptpayService.save(receiptpayDTO);
         return ResponseEntity.created(new URI("/api/receiptpays/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+//            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
@@ -73,7 +73,7 @@ public class ReceiptpayResource {
         }
         ReceiptpayDTO result = receiptpayService.save(receiptpayDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, receiptpayDTO.getId().toString()))
+//            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, receiptpayDTO.getId().toString()))
             .body(result);
     }
 
@@ -87,8 +87,10 @@ public class ReceiptpayResource {
     public ResponseEntity<List<ReceiptpayDTO>> getAllReceiptpays(Pageable pageable) {
         log.debug("REST request to get a page of Receiptpays");
         Page<ReceiptpayDTO> page = receiptpayService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/receiptpays");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+//        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/receiptpays");
+        return ResponseEntity.ok()
+//        		.headers(headers)
+        		.body(page.getContent());
     }
 
     /**
@@ -114,6 +116,8 @@ public class ReceiptpayResource {
     public ResponseEntity<Void> deleteReceiptpay(@PathVariable Long id) {
         log.debug("REST request to delete Receiptpay : {}", id);
         receiptpayService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        return ResponseEntity.ok()
+//        		.headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString()))
+        		.build();
     }
 }
