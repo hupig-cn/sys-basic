@@ -12,8 +12,7 @@ public class WebSocketStompConfig extends AbstractWebSocketMessageBrokerConfigur
 
 	@Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/api/stomp/*")
-            .setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/api/stomp/*").setAllowedOrigins("*").withSockJS();
         registry.addEndpoint("/marcopolo/*").setAllowedOrigins("*").withSockJS();//为/marcopolo路径启用SockJS功能
         registry.addEndpoint("/marco/*").setAllowedOrigins("*").withSockJS();//为/marcopolo路径启用SockJS功能
 		registry.addEndpoint("/sys-basic/app/marcopolo/*").setAllowedOrigins("*").withSockJS();//为/marcopolo路径启用SockJS功能

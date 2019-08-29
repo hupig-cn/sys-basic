@@ -115,14 +115,13 @@ public class Rewrite_AlipayApiResource {
 	 */
 	@PostMapping("/public/notify")
 	@ApiOperation(value = "异步地址")
-	public String notifyMessage(HttpServletRequest request, HttpServletResponse response) {
+	public void notifyMessage(HttpServletRequest request, HttpServletResponse response) {
 		log.debug("回调地址");
 		try {
             userorderService.notifyMessage(request, response);
         }catch (Exception e){
 		    e.printStackTrace();
         }
-        return "success";
 	}
 
 	/**
