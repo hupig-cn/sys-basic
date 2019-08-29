@@ -1,0 +1,24 @@
+entity Statistics {
+    userid String,//用户id
+    balance BigDecimal,//当日余额
+    useablebalance BigDecimal,//当日可用余额
+    freezebalance BigDecimal,//当日冻结余额
+    integral BigDecimal,//当日积分
+    coupon  BigDecimal,//当日优惠券
+    expendintegral BigDecimal,//今日支出积分
+    incomeintegral BigDecimal,//今日收入积分
+    expendcoupon BigDecimal,//今日支出优惠券
+    incomecoupon BigDecimal,//今日收入优惠券
+    proceeds BigDecimal,//今日商家收入
+    earnings BigDecimal,//今日分享收益
+    createdate String,//时间
+    expense BigDecimal,//今日消费额
+    withdraw BigDecimal,//今日提现中金额
+    withdrawsuccess BigDecimal//今日提现成功金额
+}
+
+// Use Data Transfert Objects (DTO)
+dto all with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl

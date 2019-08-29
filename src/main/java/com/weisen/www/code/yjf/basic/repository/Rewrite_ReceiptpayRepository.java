@@ -51,4 +51,8 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
 
     Long countAllByUserid(String userid);
 
+    @Query(value = "SELECT * FROM receiptpay WHERE userid = ?1 AND DATE_FORMAT(createdate,'%Y-%m-%d') = CURRENT_DATE() ORDER BY createdate DESC",nativeQuery = true)
+    List<Receiptpay> findAllByUserIdAndDate(Long userId);
+    @Query(value = "SELECT * FROM receiptpay WHERE userid = ?1 AND DATE_FORMAT(createdate,'%Y-%m-%d') = DATE_SUB(CURRENT_DATE(),interval 1 day) ORDER BY createdate DESC",nativeQuery = true)
+    List<Receiptpay> findYesToDayAsset(Long userId);
 }
