@@ -44,7 +44,7 @@ public class Rewrite_OsversionResource {
     @PostMapping("/insert-os-version")
     @ApiOperation(value = "保存版本信息")
     public ResponseEntity<?> insertOsVersion(@RequestBody Rewrite_OsversionDTO rewrite_osversionDTO){
-        osversionService.insertOsVersion(rewrite_osversionDTO);
-        return null;
+        Result result = osversionService.insertOsVersion(rewrite_osversionDTO);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 }
