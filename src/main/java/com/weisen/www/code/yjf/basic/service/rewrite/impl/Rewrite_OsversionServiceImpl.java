@@ -5,6 +5,7 @@ import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_OsversionReposit
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_submitOsVersionDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_OsversionService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_OsversionDTO;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitOsVersionListDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_OsversionMapper;
 import com.weisen.www.code.yjf.basic.util.CheckUtils;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,6 +46,7 @@ public class Rewrite_OsversionServiceImpl implements Rewrite_OsversionService {
         else if(!CheckUtils.checkString(rewrite_submitOsVersionDTO.getVersion()))
             return Result.fail("版本信息错误");
         else {
+            // 根据设备获取最新的版本号数据
             Map<String,String> versionByOs = osversionRepository.findVersionByOs(rewrite_submitOsVersionDTO.getOs());
             HashMap<String,String>  version = new HashMap<>();
             version.putAll(versionByOs);
@@ -57,6 +60,7 @@ public class Rewrite_OsversionServiceImpl implements Rewrite_OsversionService {
     }
 
     /**
+     * 版本控制只插入不修改
      * 未测试，更新日志保存的格式为： 修改字体 | 修改主题 | 修改界面
      * 版本号格式为：1.0.0 如果切割后不能转化为数字会出错
      * @param rewrite_osversionDTO
@@ -80,6 +84,20 @@ public class Rewrite_OsversionServiceImpl implements Rewrite_OsversionService {
             if(!CheckUtils.checkObj(save))
                 return Result.fail("数据库繁忙保存失败");
             return Result.suc("保存成功");
+        }
+    }
+
+    public Result getOsVersionList(Rewrite_submitOsVersionListDTO rewrite_submitOsVersionListDTO) {
+        if(!CheckUtils.checkObj(rewrite_submitOsVersionListDTO))
+            return Result.fail("提交数据错误");
+        else if(!CheckUtils.checkPageInfo(rewrite_submitOsVersionListDTO.getPageNum(),rewrite_submitOsVersionListDTO.getPageSize()))
+            return Result.fail("分页信息错误");
+        else {
+            List<Osversion> versionByPage = osversionRepository.findVersionByPage(rewrite_submitOsVersionListDTO.getPageNum() * rewrite_submitOsVersionListDTO.getPageSize(), rewrite_submitOsVersionListDTO.getPageSize());
+            if(!CheckUtils.checkList(versionByPage))
+                return Result.fail("列表数据为空");
+            Integer count = osversionRepository.getCount();
+            return Result.suc("",versionByPage,count);
         }
     }
 }
