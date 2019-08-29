@@ -1,0 +1,15 @@
+entity Osversion {
+    version String,//用户id
+    loginfo String,//日志
+    os String,//设备类型
+    osversion String,//设备版本号
+    apkurl String,//APK下载地址
+    type Integer,//类型
+    picture String
+}
+
+// Use Data Transfert Objects (DTO)
+dto all with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
