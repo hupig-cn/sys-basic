@@ -1,0 +1,80 @@
+{
+    "name": "Statistics",
+    "fields": [
+        {
+            "fieldName": "userid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "balance",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "useablebalance",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "freezebalance",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "integral",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "coupon",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "expendintegral",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "incomeintegral",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "expendcoupon",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "incomecoupon",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "proceeds",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "earnings",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "createdate",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "expense",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "withdraw",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "withdrawsuccess",
+            "fieldType": "BigDecimal"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20190827083907",
+    "entityTableName": "statistics",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "basic",
+    "applications": "*",
+    "microserviceName": "basic"
+}
