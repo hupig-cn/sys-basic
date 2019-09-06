@@ -2,6 +2,7 @@ package com.weisen.www.code.yjf.basic.service.impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,8 @@ import com.weisen.www.code.yjf.basic.service.dto.UserorderDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_OrderCoDto;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_PriceDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_AnOrder;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_UserOrderPage;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_UserSendGoods;
 import com.weisen.www.code.yjf.basic.service.mapper.UserorderMapper;
 import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
 import com.weisen.www.code.yjf.basic.util.Result;
@@ -45,6 +48,53 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
         this.rewrite_ReceiptpayService = rewrite_ReceiptpayService;
         this.rewrite_UserlinkuserRepository = rewrite_UserlinkuserRepository;
     }
+    
+    // 获取用户全部订单
+    @Override
+    public Result getOrderList(Rewrite_UserOrderPage rewrite_UserOrderPage) {
+        List<Userorder> userorderList = rewrite_UserorderRepository.getOrderList(rewrite_UserOrderPage.getUserid(),
+        		rewrite_UserOrderPage.getOrdercode(),
+        		rewrite_UserOrderPage.getOrderstatus(),
+        		rewrite_UserOrderPage.getPageNum() * rewrite_UserOrderPage.getPageSize(),
+        		rewrite_UserOrderPage.getPageSize());
+        int count = rewrite_UserorderRepository.getOrderListCount(rewrite_UserOrderPage.getUserid(),
+        		rewrite_UserOrderPage.getOrdercode(),rewrite_UserOrderPage.getOrderstatus());
+        List<UserorderDTO> dtoList = userorderMapper.toDto(userorderList);
+        List<UserorderDTO> show = new ArrayList<>();
+        dtoList.forEach(x->{
+        	show.add(x);
+        });
+        return Result.suc("成功", show, count);
+    }
+    
+    // 回填快递单号，改变发货状态（后台）
+	@Override
+	public Result sendGoods(Rewrite_UserSendGoods rewrite_UserSendGoods) {
+		if ("".equals(rewrite_UserSendGoods.getOrderId()) || null == rewrite_UserSendGoods.getOrderId()) {
+			return Result.fail("订单编号不能为空");
+		}
+		if ("".equals(rewrite_UserSendGoods.getExpressNo()) || null == rewrite_UserSendGoods.getExpressNo()) {
+			return Result.fail("快递单号不能为空");
+		}
+		if ("".equals(rewrite_UserSendGoods.getExpressCompany()) || null == rewrite_UserSendGoods.getExpressCompany()) {
+			return Result.fail("快递公司不能为空");
+		}
+		Userorder userorder = rewrite_UserorderRepository.getOne(rewrite_UserSendGoods.getOrderId());
+		if (null == userorder) {
+			return Result.fail("该订单不存在");
+		}
+		try {
+			// 保存入库
+			userorder.setExpressNo(rewrite_UserSendGoods.getExpressNo());
+			userorder.setExpressCompany(rewrite_UserSendGoods.getExpressCompany());
+			userorder.setOrderstatus("3");
+			rewrite_UserorderRepository.saveAndFlush(userorder);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Result.fail("操作失败");
+		}
+		return Result.suc("操作成功");
+	}
 
     // 获取用户当日的订单量（区分端）
     @Override

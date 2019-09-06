@@ -102,7 +102,7 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20190728202123-1-data" author="jhipster" context="faker">
+    <!-- <changeSet id="20190728202123-1-data" author="jhipster" context="faker">
         <loadData
                   file="config/liquibase/data/userorder.csv"
                   separator=";"
@@ -125,8 +125,13 @@
             <column name="modifiernum" type="numeric"/>
             <column name="logicdelete" type="boolean"/>
             <column name="other" type="string"/>
-            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
+            jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove
         </loadData>
+    </changeSet> -->
+    <changeSet id="add_column" author="carson">
+        <addColumn tableName="userorder">
+            <column name="expressCompany" type="varchar(255)"/>
+            <column name="expressNo" type="varchar(255)"/>
+        </addColumn>
     </changeSet>
-
 </databaseChangeLog>

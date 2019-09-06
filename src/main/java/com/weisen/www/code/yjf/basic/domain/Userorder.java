@@ -72,6 +72,12 @@ public class Userorder implements Serializable {
     @Column(name = "other")
     private String other;
 
+    @Column(name = "express_company")
+    private String expressCompany;
+
+    @Column(name = "express_no")
+    private String expressNo;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -301,6 +307,32 @@ public class Userorder implements Serializable {
     public void setOther(String other) {
         this.other = other;
     }
+
+    public String getExpressCompany() {
+        return expressCompany;
+    }
+
+    public Userorder expressCompany(String expressCompany) {
+        this.expressCompany = expressCompany;
+        return this;
+    }
+
+    public void setExpressCompany(String expressCompany) {
+        this.expressCompany = expressCompany;
+    }
+
+    public String getExpressNo() {
+        return expressNo;
+    }
+
+    public Userorder expressNo(String expressNo) {
+        this.expressNo = expressNo;
+        return this;
+    }
+
+    public void setExpressNo(String expressNo) {
+        this.expressNo = expressNo;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -340,6 +372,8 @@ public class Userorder implements Serializable {
             ", modifiernum=" + getModifiernum() +
             ", logicdelete='" + isLogicdelete() + "'" +
             ", other='" + getOther() + "'" +
+            ", expressCompany='" + getExpressCompany() + "'" +
+            ", expressNo='" + getExpressNo() + "'" +
             "}";
     }
 }

@@ -1,14 +1,25 @@
 package com.weisen.www.code.yjf.basic.repository;
 
-import com.weisen.www.code.yjf.basic.domain.Userorder;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.weisen.www.code.yjf.basic.domain.Userorder;
 
 @Repository
 public interface Rewrite_UserorderRepository extends JpaRepository<Userorder, Long> {
 
+	// 分页查询订单列表
+    @Query(value = "select id,ordercode,orderstatus,sum,userid,payee,payway,payresult,paytime,concession,rebate,creator,createdate,modifier,modifierdate,modifiernum,logicdelete,other,express_company,express_no "
+    		+ "from userorder where (?1 is null or userid = ?1) and (?2 is null or ordercode = ?2) and (?3 is null or orderstatus = ?3) and other > 1 order by createdate DESC limit ?4,?5",nativeQuery = true)
+    List<Userorder> getOrderList(String userid,String ordercode,String orderstatus,int pageNum,int pageSize);
+    
+	// 分页查询订单列表
+    @Query(value = "select count(*) from userorder where (?1 is null or userid = ?1) and (?2 is null or ordercode = ?2) and (?3 is null or orderstatus = ?3) and other > 1",nativeQuery = true)
+    int getOrderListCount(String userid,String ordercode,String orderstatus);
+	
     //根据收款id查询订单
     List<Userorder> findAllByPayee(String payeeId);
 

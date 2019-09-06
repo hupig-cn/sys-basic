@@ -89,6 +89,12 @@ public class UserorderResourceIT {
     private static final String DEFAULT_OTHER = "AAAAAAAAAA";
     private static final String UPDATED_OTHER = "BBBBBBBBBB";
 
+    private static final String DEFAULT_EXPRESS_COMPANY = "AAAAAAAAAA";
+    private static final String UPDATED_EXPRESS_COMPANY = "BBBBBBBBBB";
+
+    private static final String DEFAULT_EXPRESS_NO = "AAAAAAAAAA";
+    private static final String UPDATED_EXPRESS_NO = "BBBBBBBBBB";
+
     @Autowired
     private UserorderRepository userorderRepository;
 
@@ -153,7 +159,9 @@ public class UserorderResourceIT {
             .modifierdate(DEFAULT_MODIFIERDATE)
             .modifiernum(DEFAULT_MODIFIERNUM)
             .logicdelete(DEFAULT_LOGICDELETE)
-            .other(DEFAULT_OTHER);
+            .other(DEFAULT_OTHER)
+            .expressCompany(DEFAULT_EXPRESS_COMPANY)
+            .expressNo(DEFAULT_EXPRESS_NO);
         return userorder;
     }
     /**
@@ -180,7 +188,9 @@ public class UserorderResourceIT {
             .modifierdate(UPDATED_MODIFIERDATE)
             .modifiernum(UPDATED_MODIFIERNUM)
             .logicdelete(UPDATED_LOGICDELETE)
-            .other(UPDATED_OTHER);
+            .other(UPDATED_OTHER)
+            .expressCompany(UPDATED_EXPRESS_COMPANY)
+            .expressNo(UPDATED_EXPRESS_NO);
         return userorder;
     }
 
@@ -222,6 +232,8 @@ public class UserorderResourceIT {
         assertThat(testUserorder.getModifiernum()).isEqualTo(DEFAULT_MODIFIERNUM);
         assertThat(testUserorder.isLogicdelete()).isEqualTo(DEFAULT_LOGICDELETE);
         assertThat(testUserorder.getOther()).isEqualTo(DEFAULT_OTHER);
+        assertThat(testUserorder.getExpressCompany()).isEqualTo(DEFAULT_EXPRESS_COMPANY);
+        assertThat(testUserorder.getExpressNo()).isEqualTo(DEFAULT_EXPRESS_NO);
     }
 
     @Test
@@ -272,7 +284,9 @@ public class UserorderResourceIT {
             .andExpect(jsonPath("$.[*].modifierdate").value(hasItem(DEFAULT_MODIFIERDATE.toString())))
             .andExpect(jsonPath("$.[*].modifiernum").value(hasItem(DEFAULT_MODIFIERNUM.intValue())))
             .andExpect(jsonPath("$.[*].logicdelete").value(hasItem(DEFAULT_LOGICDELETE.booleanValue())))
-            .andExpect(jsonPath("$.[*].other").value(hasItem(DEFAULT_OTHER.toString())));
+            .andExpect(jsonPath("$.[*].other").value(hasItem(DEFAULT_OTHER.toString())))
+            .andExpect(jsonPath("$.[*].expressCompany").value(hasItem(DEFAULT_EXPRESS_COMPANY.toString())))
+            .andExpect(jsonPath("$.[*].expressNo").value(hasItem(DEFAULT_EXPRESS_NO.toString())));
     }
     
     @Test
@@ -302,7 +316,9 @@ public class UserorderResourceIT {
             .andExpect(jsonPath("$.modifierdate").value(DEFAULT_MODIFIERDATE.toString()))
             .andExpect(jsonPath("$.modifiernum").value(DEFAULT_MODIFIERNUM.intValue()))
             .andExpect(jsonPath("$.logicdelete").value(DEFAULT_LOGICDELETE.booleanValue()))
-            .andExpect(jsonPath("$.other").value(DEFAULT_OTHER.toString()));
+            .andExpect(jsonPath("$.other").value(DEFAULT_OTHER.toString()))
+            .andExpect(jsonPath("$.expressCompany").value(DEFAULT_EXPRESS_COMPANY.toString()))
+            .andExpect(jsonPath("$.expressNo").value(DEFAULT_EXPRESS_NO.toString()));
     }
 
     @Test
@@ -342,7 +358,9 @@ public class UserorderResourceIT {
             .modifierdate(UPDATED_MODIFIERDATE)
             .modifiernum(UPDATED_MODIFIERNUM)
             .logicdelete(UPDATED_LOGICDELETE)
-            .other(UPDATED_OTHER);
+            .other(UPDATED_OTHER)
+            .expressCompany(UPDATED_EXPRESS_COMPANY)
+            .expressNo(UPDATED_EXPRESS_NO);
         UserorderDTO userorderDTO = userorderMapper.toDto(updatedUserorder);
 
         restUserorderMockMvc.perform(put("/api/userorders")
@@ -371,6 +389,8 @@ public class UserorderResourceIT {
         assertThat(testUserorder.getModifiernum()).isEqualTo(UPDATED_MODIFIERNUM);
         assertThat(testUserorder.isLogicdelete()).isEqualTo(UPDATED_LOGICDELETE);
         assertThat(testUserorder.getOther()).isEqualTo(UPDATED_OTHER);
+        assertThat(testUserorder.getExpressCompany()).isEqualTo(UPDATED_EXPRESS_COMPANY);
+        assertThat(testUserorder.getExpressNo()).isEqualTo(UPDATED_EXPRESS_NO);
     }
 
     @Test

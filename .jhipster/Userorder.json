@@ -1,5 +1,7 @@
 {
-    "name": "Userorder",
+    "fluentMethods": true,
+    "clientRootFolder": "basic",
+    "relationships": [],
     "fields": [
         {
             "fieldName": "ordercode",
@@ -68,17 +70,23 @@
         {
             "fieldName": "other",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "expressCompany",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "expressNo",
+            "fieldType": "String"
         }
     ],
-    "relationships": [],
     "changelogDate": "20190808113841",
-    "entityTableName": "userorder",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
+    "searchEngine": false,
     "service": "serviceImpl",
+    "entityTableName": "userorder",
+    "databaseType": "sql",
     "jpaMetamodelFiltering": false,
-    "fluentMethods": true,
-    "clientRootFolder": "basic",
-    "applications": "*",
+    "pagination": "infinite-scroll",
     "microserviceName": "basic"
 }

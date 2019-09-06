@@ -6,7 +6,6 @@ import java.util.Objects;
 /**
  * A DTO for the {@link com.weisen.www.code.yjf.basic.domain.Userorder} entity.
  */
-@SuppressWarnings("serial")
 public class UserorderDTO implements Serializable {
 
     private Long id;
@@ -44,6 +43,10 @@ public class UserorderDTO implements Serializable {
     private Boolean logicdelete;
 
     private String other;
+
+    private String expressCompany;
+
+    private String expressNo;
 
 
     public Long getId() {
@@ -190,6 +193,22 @@ public class UserorderDTO implements Serializable {
         this.other = other;
     }
 
+    public String getExpressCompany() {
+        return expressCompany;
+    }
+
+    public void setExpressCompany(String expressCompany) {
+        this.expressCompany = expressCompany;
+    }
+
+    public String getExpressNo() {
+        return expressNo;
+    }
+
+    public void setExpressNo(String expressNo) {
+        this.expressNo = expressNo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -232,6 +251,8 @@ public class UserorderDTO implements Serializable {
             ", modifiernum=" + getModifiernum() +
             ", logicdelete='" + isLogicdelete() + "'" +
             ", other='" + getOther() + "'" +
+            ", expressCompany='" + getExpressCompany() + "'" +
+            ", expressNo='" + getExpressNo() + "'" +
             "}";
     }
 }

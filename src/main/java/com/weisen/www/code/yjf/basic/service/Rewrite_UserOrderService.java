@@ -5,10 +5,17 @@ import java.util.List;
 import com.weisen.www.code.yjf.basic.service.dto.UserorderDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_OrderCoDto;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_AnOrder;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_UserOrderPage;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_UserSendGoods;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 public interface Rewrite_UserOrderService {
 
+	// 获取订单列表（后台）
+	Result getOrderList(Rewrite_UserOrderPage rewrite_UserOrderPage);
+	
+	// 回填快递单号，改变发货状态（后台）
+	Result sendGoods(Rewrite_UserSendGoods rewrite_UserSendGoods);
 
     // 获取用户当日的订单量（区分端）
     int getTodayOrderNum(Long userId);

@@ -1,18 +1,28 @@
 package com.weisen.www.code.yjf.basic.web.rest;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.weisen.www.code.yjf.basic.service.Rewrite_UserOrderService;
 import com.weisen.www.code.yjf.basic.service.dto.UserorderDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_AnOrder;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_UserOrderPage;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_UserSendGoods;
 import com.weisen.www.code.yjf.basic.util.Result;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import io.micrometer.core.annotation.Timed;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/userorder")
@@ -24,6 +34,36 @@ public class Rewrite_UserOrderResource {
     public Rewrite_UserOrderResource(Rewrite_UserOrderService rewrite_UserOrderService) {
         this.rewrite_UserOrderService = rewrite_UserOrderService;
     }
+
+    /**
+     * 订单详情列表（方便发货+回填物流单号）
+     * @author Carson
+     * @date 2019-09-04 14:26:12
+     * @param rewrite_UserOrderPage
+     * @return
+     */
+    @PostMapping("/admin/getOrderList")
+    @ApiOperation(value = "订单详情列表（方便发货+回填物流单号）")
+    @Timed
+    public ResponseEntity<Result> getOrderList(@RequestBody Rewrite_UserOrderPage rewrite_UserOrderPage) {
+        Result result = rewrite_UserOrderService.getOrderList(rewrite_UserOrderPage);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+    
+    /**
+     * 发货（后台）
+     * @author Carson
+     * @date 2019-09-04 14:25:55
+     * @param rewrite_UserSendGoods
+     * @return
+     */
+    @PostMapping("/admin/send-goods")
+	@ApiOperation(value = "发货（后台）")
+    @Timed
+	public ResponseEntity<Result> sendGoods(@RequestBody Rewrite_UserSendGoods rewrite_UserSendGoods) {
+		Result result = rewrite_UserOrderService.sendGoods(rewrite_UserSendGoods);
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+	}
 
     /**
      * 获取用户当日的订单量（区分端）
