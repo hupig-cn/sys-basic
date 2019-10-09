@@ -19,6 +19,8 @@ public class Rewrite_FilesDTO implements Serializable {
     private byte[] file;
 
     private String fileContentType;
+    
+    private String target;
 
     public Long getId() {
         return id;
@@ -68,7 +70,15 @@ public class Rewrite_FilesDTO implements Serializable {
         this.fileContentType = fileContentType;
     }
 
-    @Override
+    public String getTarget() {
+		return target;
+	}
+
+	public void setTarget(String target) {
+		this.target = target;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
