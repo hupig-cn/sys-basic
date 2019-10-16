@@ -334,7 +334,10 @@ public class Rewrite_OsversionServiceImpl implements Rewrite_OsversionService {
 		appVersionUpdateDTO.setDownloadUrl(returnDownloadUrl);
 		appVersionUpdateDTO.setState(returnState);
 		appVersionUpdateDTO.setPublishTime(returnPublishTime);
-		appVersionUpdateDTO.setUpdateStatus(returnForceUpdate);
+		//如果当前版本不用强制更新，客户端与当前版本中有版本需要强制更新，则将最新版本改为强制更新
+		if (appVersionUpdateDTO.getUpdateStatus()!="2") {
+			appVersionUpdateDTO.setUpdateStatus(returnForceUpdate);
+		}
 		appVersionUpdateDTO.setModifyContent(returnUpdateLog);
 	}
 
