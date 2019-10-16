@@ -85,7 +85,7 @@ public class Rewrite_OsversionResource {
 	 */
 	@PostMapping("/public/appVersionUpdate")
 	@ApiOperation(value = "App版本更新")
-	public ResponseEntity<Result> adminAppVersionUpdate(@RequestBody AppControlUpdateDTO appControllerUpdateDTO) {
+	public ResponseEntity<Result> adminAppVersionUpdate(AppControlUpdateDTO appControllerUpdateDTO) {
 		Result result = osversionService.appVersionUpdate(appControllerUpdateDTO);
 		log.debug("访问地址: {},传入值: {},返回值: {}", "/public/AppVersionUpdate", appControllerUpdateDTO, result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
