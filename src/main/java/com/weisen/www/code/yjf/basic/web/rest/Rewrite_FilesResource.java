@@ -62,9 +62,9 @@ public class Rewrite_FilesResource {
 			response.setStatus(404);
 			return;
 		}
-		File targetFile = new File(rewrite_FilesDTO.getTarget());
+		File targetFile = new File("C:\\Users\\Gavin\\Desktop\\images\\"+rewrite_FilesDTO.getName());
 		try {
-			InputStream fis = new BufferedInputStream(new FileInputStream(rewrite_FilesDTO.getTarget()));
+			InputStream fis = new BufferedInputStream(new FileInputStream("C:\\Users\\Gavin\\Desktop\\images\\"+rewrite_FilesDTO.getName()));
 			byte[] buffer = new byte[fis.available()];
 			fis.read(buffer);
 			fis.close();
