@@ -88,8 +88,7 @@ public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
         Optional<FilesDTO> files = filesRepository.findById(id).map(filesMapper::toDto);
         Rewrite_FilesDTO rewrite_FilesDTO = new Rewrite_FilesDTO();
         rewrite_FilesDTO.setId(files.get().getId());
-        // rewrite_FilesDTO.setFile(FileOperation.getFile(files.get().getFile() + "/" + files.get().getName()));
-        rewrite_FilesDTO.setFile(FileOperation.getFile("C:\\Users\\Gavin\\Desktop\\images\\" + files.get().getName()));
+        rewrite_FilesDTO.setFile(FileOperation.getFile(files.get().getFile() + "/" + files.get().getName()));
         rewrite_FilesDTO.setFileContentType(files.get().getFileContentType());
         rewrite_FilesDTO.setUserid(files.get().getUserid());
         rewrite_FilesDTO.setName(files.get().getName());
