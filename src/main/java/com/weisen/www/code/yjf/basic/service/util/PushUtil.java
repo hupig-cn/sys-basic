@@ -139,11 +139,12 @@ public class PushUtil {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, ClientConfig.getInstance());
 
         // For push, all you need do is to build PushPayload object.
-        PushPayload payload = buildPushObject_all_alias_alert("388","111");
+        PushPayload payload = buildPushObject_all_alias_alert("79","支付宝到账99999元");
+        
 
         try {
             PushResult result = jpushClient.sendPush(payload);

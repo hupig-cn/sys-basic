@@ -99,29 +99,30 @@ public class Rewrite_InformationServiceImpl implements Rewrite_InformationServic
 //                else if ("1".equals(rewrite_submitInformationDTO.getWeight()) && !"所有人".equals(rewrite_submitInformationDTO.getReaduserid())) {
 //                    simpMessageSendingOperations.convertAndSendToUser(information.getReaduserid(), "/message", information.getContent());
 //                }
-                // 商家收款时推送
-				if (rewrite_submitInformationDTO.getType().equals("2")) {
-                	// 极光推送 --阮铭辉
-                	JPushClient jpushClient = new JPushClient(PushUtil.MASTER_SECRET, PushUtil.APP_KEY, null,
-                			ClientConfig.getInstance());
-                	// For push, all you need do is to build PushPayload object.
-                	String readuserid = rewrite_submitInformationDTO.getReaduserid();
-                	String content = rewrite_submitInformationDTO.getContent();
-                	PushPayload payload = PushUtil.buildPushObject_all_alias_alert(readuserid + "", "原积分" + content);
-                	try {
-                		PushResult result = jpushClient.sendPush(payload);
-                		LOG.info("Got result - " + result);
-                	} catch (APIConnectionException e) {
-                		// Connection error, should retry later
-                		LOG.error("Connection error, should retry later", e);
-                	} catch (APIRequestException e) {
-                		// Should review the error, and fix the request
-                		LOG.error("Should review the error, and fix the request", e);
-                		LOG.info("HTTP Status: " + e.getStatus());
-                		LOG.info("Error Code: " + e.getErrorCode());
-                		LOG.info("Error Message: " + e.getErrorMessage());
-                	}
-                }
+				// 商家收款时推送
+				if (rewrite_submitInformationDTO.getType().equals("2")
+						&& rewrite_submitInformationDTO.getTotal() != null) {
+					// 极光推送 --阮铭辉
+					JPushClient jpushClient = new JPushClient(PushUtil.MASTER_SECRET, PushUtil.APP_KEY, null,
+							ClientConfig.getInstance());
+					// For push, all you need do is to build PushPayload object.
+					String readuserid = rewrite_submitInformationDTO.getReaduserid();
+					PushPayload payload = PushUtil.buildPushObject_all_alias_alert(readuserid + "",
+							"圆积分收款" + rewrite_submitInformationDTO.getTotal() + "元");
+					try {
+						PushResult result = jpushClient.sendPush(payload);
+						LOG.info("Got result - " + result);
+					} catch (APIConnectionException e) {
+						// Connection error, should retry later
+						LOG.error("Connection error, should retry later", e);
+					} catch (APIRequestException e) {
+						// Should review the error, and fix the request
+						LOG.error("Should review the error, and fix the request", e);
+						LOG.info("HTTP Status: " + e.getStatus());
+						LOG.info("Error Code: " + e.getErrorCode());
+						LOG.info("Error Message: " + e.getErrorMessage());
+					}
+				}
             } else {
                 return Result.fail("消息类型不能为空");
 //                Messagetemplate templateByType = rewrite_messageTemplateRepository.findTemplateByType(rewrite_submitInformationDTO.getType());
