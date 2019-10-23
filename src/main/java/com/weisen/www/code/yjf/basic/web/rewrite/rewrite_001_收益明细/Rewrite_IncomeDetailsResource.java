@@ -40,9 +40,9 @@ public class Rewrite_IncomeDetailsResource {
      */
     @PostMapping("/getRecommend/Total")
     @ApiOperation("获取各推荐人总数")
-    public ResponseEntity<?> getRecommendTotal(String userId){
-		Result result = incomeDetailsService.getRecommendTotal(userId);
-		log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",userId , result);
+    public ResponseEntity<?> getRecommendTotal(String recommendId){
+		Result result = incomeDetailsService.getRecommendTotal(recommendId);
+		log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",recommendId , result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
     
