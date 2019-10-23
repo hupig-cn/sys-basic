@@ -35,6 +35,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
     //获取各推荐人总数
 	@Override
 	public Result getRecommendTotal(String recommendId) {
+		//通过id找到
 		Long findByUserIdCount = incomeDetailsRepository.findByRecommendIdCount(recommendId);
 		return Result.suc("访问成功", findByUserIdCount);
 	}
@@ -50,15 +51,13 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			Linkuser linkuser = linkuserRepository.findByUserid(userid);
 			String phone = linkuser.getPhone();
 			String createdate = linkuser.getCreatedate();
-			Receiptpay receiptpayUid = receiptpayRepository.findReceiptpayByUid(userid);
+//			Receiptpay receiptpayUid = receiptpayRepository.findReceiptpayByUid(userid);
 			
-			getIncomeListDTO.setNickName("好友："+phone.substring(0, 2)+"****"+phone.substring(7, 10));
+			getIncomeListDTO.setNickName("用户："+phone.substring(0, 2)+"****"+phone.substring(7, 10));
 			getIncomeListDTO.setCreatedate(createdate);
 			getIncomeListDTO.setRecommendIdCount(recommendIdCount);
-			
-			
 		}
-		return null;
+		return Result.suc("访问成功！",getIncomeListDTO);
 	}
 
 }

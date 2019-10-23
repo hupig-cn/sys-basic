@@ -88,18 +88,22 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
     }
 
     @Override
-    public Result receiptpays(Long id) {
+    public Result receiptpays(Long id,String userid) {
         Receiptpay byId = rewrite_receiptpayRepository.findReceiptpayById(id);
         Rewrite_ReceiptpayDTO b = new Rewrite_ReceiptpayDTO();
         b.setId(byId.getId()+"");
         b.setAmount(byId.getAmount());
         b.setSourcer(byId.getSourcer());
         b.setDealtype(byId.getDealtype());
-        b.setHappendate(byId.getHappendate());
+        b.setHappendate(byId.getCreatedate());
         b.setUserid(byId.getUserid());
         b.setSourcername(".");//todo
         b.setPayway(byId.getPayway());
-
+        if (byId.getUserid().equals(userid)){
+            b.setStats(1L);
+        }else {
+            b.setStats(0L);
+        }
         return Result.suc("查询成功",b);
     }
 }
