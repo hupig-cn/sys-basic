@@ -53,7 +53,7 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
             b.setAmount(receiptpay.getAmount());
             b.setSourcer(receiptpay.getSourcer());
             b.setDealtype(receiptpay.getDealtype());
-            b.setHappendate(receiptpay.getHappendate());
+            b.setHappendate(receiptpay.getCreatedate());
             b.setUserid(receiptpay.getUserid());
             b.setSourcername(".");//todo
             b.setPayway(receiptpay.getPayway());
@@ -68,7 +68,7 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
             b.setAmount(receiptpay.getAmount());
             b.setSourcer(receiptpay.getSourcer());
             b.setDealtype(receiptpay.getDealtype());
-            b.setHappendate(receiptpay.getHappendate());
+            b.setHappendate(receiptpay.getCreatedate());
             b.setUserid(receiptpay.getUserid());
             b.setSourcername(".");//todo
             b.setPayway(receiptpay.getPayway());
