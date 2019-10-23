@@ -25,8 +25,19 @@ public class Rewrite_ReceiptpayDTO implements Serializable {
     private String payway;//支付方式
 
     private String Id;
+    
+    private Long stats;// 0 为减少 1 为增加
+   
 
-    public String getId() {
+    public Long getStats() {
+		return stats;
+	}
+
+	public void setStats(Long stats) {
+		this.stats = stats;
+	}
+
+	public String getId() {
         return Id;
     }
 

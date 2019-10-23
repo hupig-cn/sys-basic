@@ -57,6 +57,7 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
             b.setUserid(receiptpay.getUserid());
             b.setSourcername(".");//todo
             b.setPayway(receiptpay.getPayway());
+            b.setStats(1L);
             a.add(b);
         }
         for (int i = 0; i < sourcer.size(); i++) {
@@ -71,6 +72,7 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
             b.setUserid(receiptpay.getUserid());
             b.setSourcername(".");//todo
             b.setPayway(receiptpay.getPayway());
+            b.setStats(0L);
             a.add(b);
         }
         List<Rewrite_ReceiptpayDTO> c = new ArrayList<>(a);
