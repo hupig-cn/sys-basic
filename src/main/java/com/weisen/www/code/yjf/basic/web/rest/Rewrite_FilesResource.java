@@ -1,7 +1,16 @@
 package com.weisen.www.code.yjf.basic.web.rest;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +54,61 @@ public class Rewrite_FilesResource {
     public Rewrite_FilesResource(Rewrite_FilesService rewrite_FilesService) {
         this.rewrite_FilesService = rewrite_FilesService;
     }
+    
+    @GetMapping("/public/getFiles/{id}")
+	public void detail(@PathVariable Long id, HttpServletResponse response) {
+		Rewrite_FilesDTO rewrite_FilesDTO = rewrite_FilesService.findOne(id);
+		if (rewrite_FilesDTO == null) {
+			response.setStatus(404);
+			return;
+		}
+		File targetFile = new File("/data/files/"+rewrite_FilesDTO.getName());
+		try {
+			InputStream fis = new BufferedInputStream(new FileInputStream("/data/files/"+rewrite_FilesDTO.getName()));
+			byte[] buffer = new byte[fis.available()];
+			fis.read(buffer);
+			fis.close();
+
+			response.reset();
+			response.addHeader("Content-Length", "" + targetFile.length());
+			OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+
+			String fileName = rewrite_FilesDTO.getName();
+			String suffix = fileName.substring(fileName.lastIndexOf("."));
+			String contentType = getContentType(suffix);
+			if (contentType != null) {
+				response.setContentType(contentType);
+			} else {
+				// 其余文件以下载形式
+				response.setContentType("application/octet-stream");
+				response.addHeader("Content-Disposition", "attachment;filename=" + rewrite_FilesDTO.getName());
+			}
+			toClient.write(buffer);
+			toClient.flush();
+			toClient.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+    
+    private String getContentType(String suffix) {
+		String contentType = null;
+		switch (suffix) {
+		case ".jpg":
+			contentType = "image/jpeg";
+			break;
+		case ".jpeg":
+			contentType = "image/jpeg";
+			break;
+		case ".png":
+			contentType = "image/png";
+			break;
+		case ".bmp":
+			contentType = "application/x-bmp";
+			break;
+		}
+		return contentType;
+	}
 
     /**
      * {@code POST  /files} : Create a new files.

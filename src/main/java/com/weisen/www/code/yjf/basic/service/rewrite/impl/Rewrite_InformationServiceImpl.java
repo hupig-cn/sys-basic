@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
@@ -16,13 +18,23 @@ import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_InformationService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitInformationDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_InformationMapper;
 import com.weisen.www.code.yjf.basic.service.rewrite.submit_dto.Rewrite_InformationDetailsDTO;
+import com.weisen.www.code.yjf.basic.service.util.PushUtil;
 import com.weisen.www.code.yjf.basic.util.CheckUtils;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
 
+import cn.jiguang.common.ClientConfig;
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
+import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.PushResult;
+import cn.jpush.api.push.model.PushPayload;
+
 @Service
 @Transactional
 public class Rewrite_InformationServiceImpl implements Rewrite_InformationService {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(Rewrite_InformationServiceImpl.class);
 
     private final Rewrite_InformationRepository rewrite_informationRepository;
 
@@ -87,6 +99,30 @@ public class Rewrite_InformationServiceImpl implements Rewrite_InformationServic
 //                else if ("1".equals(rewrite_submitInformationDTO.getWeight()) && !"所有人".equals(rewrite_submitInformationDTO.getReaduserid())) {
 //                    simpMessageSendingOperations.convertAndSendToUser(information.getReaduserid(), "/message", information.getContent());
 //                }
+				// 商家收款时推送
+				if (rewrite_submitInformationDTO.getType().equals("2")
+						&& rewrite_submitInformationDTO.getTotal() != null) {
+					// 极光推送 --阮铭辉
+					JPushClient jpushClient = new JPushClient(PushUtil.MASTER_SECRET, PushUtil.APP_KEY, null,
+							ClientConfig.getInstance());
+					// For push, all you need do is to build PushPayload object.
+					String readuserid = rewrite_submitInformationDTO.getReaduserid();
+					PushPayload payload = PushUtil.buildPushObject_all_alias_alert(readuserid + "",
+							"圆积分收款" + rewrite_submitInformationDTO.getTotal() + "元");
+					try {
+						PushResult result = jpushClient.sendPush(payload);
+						LOG.info("Got result - " + result);
+					} catch (APIConnectionException e) {
+						// Connection error, should retry later
+						LOG.error("Connection error, should retry later", e);
+					} catch (APIRequestException e) {
+						// Should review the error, and fix the request
+						LOG.error("Should review the error, and fix the request", e);
+						LOG.info("HTTP Status: " + e.getStatus());
+						LOG.info("Error Code: " + e.getErrorCode());
+						LOG.info("Error Message: " + e.getErrorMessage());
+					}
+				}
             } else {
                 return Result.fail("消息类型不能为空");
 //                Messagetemplate templateByType = rewrite_messageTemplateRepository.findTemplateByType(rewrite_submitInformationDTO.getType());

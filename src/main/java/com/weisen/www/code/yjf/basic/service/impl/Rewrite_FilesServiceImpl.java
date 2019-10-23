@@ -92,6 +92,7 @@ public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
         rewrite_FilesDTO.setFileContentType(files.get().getFileContentType());
         rewrite_FilesDTO.setUserid(files.get().getUserid());
         rewrite_FilesDTO.setName(files.get().getName());
+        rewrite_FilesDTO.setTarget(files.get().getFile());
         return rewrite_FilesDTO;
     }
 

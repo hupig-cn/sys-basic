@@ -12,16 +12,18 @@ public class Rewrite_submitInformationDTO implements Serializable {
     private String other;
     private String Creator;
     private String weight;
+    private String total;
 
     public Rewrite_submitInformationDTO(){
 
     }
 
-    public Rewrite_submitInformationDTO(String type,String senduserid,String readuserid,String content){
+    public Rewrite_submitInformationDTO(String type,String senduserid,String readuserid,String content,String total){
         this.type = type;
         this.senduserid = senduserid;
         this.readuserid = readuserid;
         this.content = content;
+        this.total = total;
     }
 
     public String getWeight() {
@@ -87,4 +89,13 @@ public class Rewrite_submitInformationDTO implements Serializable {
     public void setOther(String other) {
         this.other = other;
     }
+
+	public String getTotal() {
+		return total;
+	}
+
+	public void setTotal(String total) {
+		this.total = total;
+	}
+    
 }

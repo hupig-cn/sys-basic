@@ -111,6 +111,12 @@
     </dependencyManagement>
 
     <dependencies>
+    	<!--推送-->
+		<dependency>
+		    <groupId>cn.jpush.api</groupId>
+		    <artifactId>jpush-client</artifactId>
+		    <version>3.3.10</version>
+		</dependency>
         <!-- 短信发送 -->
         <dependency>
             <groupId>com.aliyun</groupId>
