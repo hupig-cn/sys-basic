@@ -69,6 +69,4 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
 
     Receiptpay findReceiptpayById(Long id);
     
-    Receiptpay findReceiptpayByUid(String Uid);
-    
 }
