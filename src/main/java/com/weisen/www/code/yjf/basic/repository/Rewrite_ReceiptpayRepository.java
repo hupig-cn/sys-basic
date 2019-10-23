@@ -68,4 +68,7 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
     List<Receiptpay> findByTimeAndSourcer(String sourcer, String startTime, String endTime);
 
     Receiptpay findReceiptpayById(Long id);
+    
+    Receiptpay findReceiptpayByUid(String Uid);
+    
 }
