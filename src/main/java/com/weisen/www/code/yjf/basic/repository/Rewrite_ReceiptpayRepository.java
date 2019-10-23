@@ -55,20 +55,20 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
     List<Receiptpay> findAllByUserIdAndDate(Long userId);
     @Query(value = "SELECT * FROM receiptpay WHERE userid = ?1 AND DATE_FORMAT(createdate,'%Y-%m-%d') = DATE_SUB(CURRENT_DATE(),interval 1 day) ORDER BY createdate DESC",nativeQuery = true)
     List<Receiptpay> findYesToDayAsset(Long userId);
-    
+
  // 根据类型，查询时间段内的收益数据
     @Query(value = "select * "
         + "from receiptpay where userid=?1 and createdate > str_to_date(?2,'%Y-%m-%d %H:%i:%s') "
-        + "and createdate < str_to_date(?3,'%Y-%m-%d %H:%i:%s') ", nativeQuery = true)
+        + "and createdate < str_to_date(?3,'%Y-%m-%d %H:%i:%s') and dealtype != 6 ", nativeQuery = true)
     List<Receiptpay> findByTimeAndUserid(String userId, String startTime, String endTime);
 
     @Query(value = "select * "
         + "from receiptpay where sourcer=?1 and createdate > str_to_date(?2,'%Y-%m-%d %H:%i:%s') "
-        + "and createdate < str_to_date(?3,'%Y-%m-%d %H:%i:%s') ", nativeQuery = true)
+        + "and createdate < str_to_date(?3,'%Y-%m-%d %H:%i:%s') and dealtype != 6 ", nativeQuery = true)
     List<Receiptpay> findByTimeAndSourcer(String sourcer, String startTime, String endTime);
 
     Receiptpay findReceiptpayById(Long id);
-    
+
     Receiptpay findReceiptpayByUid(String Uid);
-    
+
 }

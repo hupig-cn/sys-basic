@@ -34,7 +34,7 @@ public class Rewrite_IncomeDetailsResource {
     }
     /**
      * 获取各推荐人总数
-     * 
+     *
     	 * @author sxx
     	 * @date 2019-10-23 15:55:31
      */
@@ -45,10 +45,10 @@ public class Rewrite_IncomeDetailsResource {
 		log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",recommendId , result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
-    
+
     /**
      * 获取推荐人列表
-     * 
+     *
     	 * @author sxx
     	 * @date 2019-10-23 15:55:31
      */
@@ -59,6 +59,14 @@ public class Rewrite_IncomeDetailsResource {
     	log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",userId , result);
     	return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
-    
-    
+//
+//    @PostMapping("/Recommend/List")
+//    @ApiOperation("收益列表")
+//    public ResponseEntity<?> getRecosmmendList(String userId){
+//        Result result = incomeDetailsService.getRecommendList(userId);
+//        log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",userId , result);
+//        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+//    }
+//
+
 }
