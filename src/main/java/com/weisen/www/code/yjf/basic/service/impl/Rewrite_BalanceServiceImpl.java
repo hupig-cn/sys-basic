@@ -48,6 +48,7 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
         for (int i = 0; i < Receiptpay.size(); i++) {
             Rewrite_ReceiptpayDTO b = new Rewrite_ReceiptpayDTO();
             Receiptpay receiptpay = Receiptpay.get(i);
+            String user = receiptpay.getUserid();
 
             b.setId(receiptpay.getId()+"");
             b.setAmount(receiptpay.getAmount());
