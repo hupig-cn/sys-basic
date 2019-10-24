@@ -15,11 +15,24 @@ public class Rewrite_GetIncomeListDTO implements Serializable {
 	@ApiModelProperty(value = "推荐人总数", example = "50")
 	private Long recommendIdCount;
 
-	@ApiModelProperty(value = "昵称", example = "好友：136****1111")
-	private String nickName;
+	@ApiModelProperty(value = "昵称", example = "哈哈")
+    private String firstName;
 
 	@ApiModelProperty(value = "创建时间", example = "2018-11-12")
     private String createdate;
+	
+	@ApiModelProperty(value = "头像url", example = "www.baidu.com")
+    private String imageUrl;
+	
+	
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 
 	public Long getRecommendIdCount() {
 		return recommendIdCount;
@@ -29,12 +42,14 @@ public class Rewrite_GetIncomeListDTO implements Serializable {
 		this.recommendIdCount = recommendIdCount;
 	}
 
-	public String getNickName() {
-		return nickName;
+
+
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	public String getCreatedate() {
