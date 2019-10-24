@@ -55,7 +55,7 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
     List<Receiptpay> findAllByUserIdAndDate(Long userId);
     @Query(value = "SELECT * FROM receiptpay WHERE userid = ?1 AND DATE_FORMAT(createdate,'%Y-%m-%d') = DATE_SUB(CURRENT_DATE(),interval 1 day) ORDER BY createdate DESC",nativeQuery = true)
     List<Receiptpay> findYesToDayAsset(Long userId);
-
+    
  // 根据类型，查询时间段内的收益数据
     @Query(value = "select * "
         + "from receiptpay where userid=?1 and createdate > str_to_date(?2,'%Y-%m-%d %H:%i:%s') "

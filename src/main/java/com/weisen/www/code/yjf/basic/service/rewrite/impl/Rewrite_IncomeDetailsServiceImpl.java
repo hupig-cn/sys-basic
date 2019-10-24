@@ -12,6 +12,7 @@ import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_IncomeDetailsRepository;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_IncomeDetailsService;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeListDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 @Service
@@ -34,6 +35,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
     //获取各推荐人总数
 	@Override
 	public Result getRecommendTotal(String recommendId) {
+		//通过id找到
 		Long findByUserIdCount = incomeDetailsRepository.findByRecommendIdCount(recommendId);
 		return Result.suc("访问成功", findByUserIdCount);
 	}
@@ -41,19 +43,21 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
     //获取推荐人列表
 	@Override
 	public Result getRecommendList(String recommendId) {
+		Long recommendIdCount = incomeDetailsRepository.findByRecommendIdCount(recommendId);
 		List<Userlinkuser> recommends = incomeDetailsRepository.findByUserid(recommendId);
+		Rewrite_GetIncomeListDTO getIncomeListDTO = new Rewrite_GetIncomeListDTO();
 		for (Userlinkuser recommend : recommends) {
 			String userid = recommend.getUserid();
 			Linkuser linkuser = linkuserRepository.findByUserid(userid);
 			String phone = linkuser.getPhone();
-			Receiptpay receiptpayUid = receiptpayRepository.findReceiptpayByUid(userid);
+			String createdate = linkuser.getCreatedate();
+//			Receiptpay receiptpayUid = receiptpayRepository.findReceiptpayByUid(userid);
 			
-//			Receiptpay findReceiptpayByUid = receiptpayRepository.findReceiptpayByUid(userlinkuser.getRecommendid());
-//			findReceiptpayByUid.getDealtype();
-			
-			
+			getIncomeListDTO.setNickName("用户："+phone.substring(0, 2)+"****"+phone.substring(7, 10));
+			getIncomeListDTO.setCreatedate(createdate);
+			getIncomeListDTO.setRecommendIdCount(recommendIdCount);
 		}
-		return null;
+		return Result.suc("访问成功！",getIncomeListDTO);
 	}
 
 }
