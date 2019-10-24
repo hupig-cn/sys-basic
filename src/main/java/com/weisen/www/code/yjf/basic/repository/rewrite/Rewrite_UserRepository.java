@@ -11,5 +11,5 @@ public interface Rewrite_UserRepository  extends JpaRepository<User, Long> {
 	//根据id查找login库中的数据
 	@Query(value = "select * from login.jhi_user where id = ?1", nativeQuery = true)
 	User findJhiUserById(Long id);
-	
+
 }

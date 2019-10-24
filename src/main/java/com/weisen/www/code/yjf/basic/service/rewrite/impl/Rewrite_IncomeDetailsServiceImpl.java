@@ -23,13 +23,13 @@ import com.weisen.www.code.yjf.basic.util.Result;
 public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsService {
 
     private final Rewrite_IncomeDetailsRepository incomeDetailsRepository;
-    
+
     private final Rewrite_UserRepository userRepository;
-    
+
     private final Rewrite_ReceiptpayRepository receiptpayRepository;
-    
+
     private final Rewrite_LinkuserRepository linkuserRepository;
-    
+
     public Rewrite_IncomeDetailsServiceImpl(Rewrite_IncomeDetailsRepository incomeDetailsRepository,
     		Rewrite_ReceiptpayRepository receiptpayRepository,
     		Rewrite_UserRepository userRepository,
@@ -46,7 +46,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		Long findByUserIdCount = incomeDetailsRepository.findByRecommendIdCount(recommendId);
 		return Result.suc("访问成功", findByUserIdCount);
 	}
-	
+
     //获取推荐人列表
 	@Override
 	public Result getRecommendList(Rewrite_GetIncomeAfferentDTO getIncomeAfferentDTO) {
@@ -61,26 +61,26 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		if (firstTime!=null && lastTime !=null || !(firstTime.equals("") && lastTime.equals(""))) {
 			//如果有时间值，根据时间值来查找
 			recommends = incomeDetailsRepository.findByRecommendIdAndTime(recommendId,firstTime,lastTime);
-			
+
 		} else {
 			//获取推荐人列表
-			recommends = incomeDetailsRepository.findByRecommendId(recommendId);
+			recommends = incomeDetailsRepository.findByRecommendid(recommendId);
 
 		}
-		
+
 		receiptpayRepository.getReceiptpayByUserid(recommendId);
 		Rewrite_GetIncomeListDTO getIncomeListDTO = new Rewrite_GetIncomeListDTO();
 		for (Userlinkuser recommend : recommends) {
 			String userid = recommend.getUserid();
-			
+
 			User findJhiUserById = userRepository.findJhiUserById(Long.parseLong(userid));
 			String firstName = findJhiUserById.getFirstName();
 			String imageUrl = findJhiUserById.getImageUrl();
 			System.out.println(firstName);
 			System.out.println(imageUrl);
-			
+
 			findJhiUserById.getImageUrl();
-			
+
 			getIncomeListDTO.setFirstName(firstName);
 //			getIncomeListDTO.setCreatedate();
 			getIncomeListDTO.setRecommendIdCount(recommendIdCount);
