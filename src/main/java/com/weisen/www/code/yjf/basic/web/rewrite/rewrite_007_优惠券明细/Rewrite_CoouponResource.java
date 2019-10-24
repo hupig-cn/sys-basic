@@ -1,4 +1,4 @@
-package com.weisen.www.code.yjf.basic.web.rest.rewrite_007_优惠券;
+package com.weisen.www.code.yjf.basic.web.rewrite.rewrite_007_优惠券明细;
 
 import java.util.Optional;
 
@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 查询用户优惠券明细页
+ * 
  * @author LuoJinShui
  *
  */

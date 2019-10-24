@@ -9,7 +9,8 @@ import com.weisen.www.code.yjf.basic.util.Result;
  */
 public interface Rewrite_CouponService {
 
-	// 查询优惠券
+	// 根据用户UserId和创建时间createDate查询优惠券明细
+	// 查询用户优惠券
 	Result getCoupon(String userId);
 
 }
