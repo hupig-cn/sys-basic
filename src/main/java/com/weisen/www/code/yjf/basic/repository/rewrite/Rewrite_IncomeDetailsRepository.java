@@ -19,7 +19,7 @@ public interface Rewrite_IncomeDetailsRepository  extends JpaRepository<Userlink
 	List<Userlinkuser> findByRecommendIdAndPage(String userId,Integer pageNum,Integer pagesize);
 	
 	//根据用户id和时间段找到信息,当userid等于1或者空时，相当于没有推荐人
-	@Query(value = "select userid,createdate from userlinkuser where recommendid = ?1 and createdate between  ?2 and  ?3 limit ?4 , ?5", nativeQuery = true)
+	@Query(value = "select * from userlinkuser where recommendid = ?1 and createdate between  ?2 and  ?3 limit ?4 , ?5", nativeQuery = true)
 	List<Userlinkuser> findByRecommendIdAndTimeAndPage(String recommendid,String firstTime,String lastTime,Integer pageNum,Integer pagesize);
 	
 }

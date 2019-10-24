@@ -26,15 +26,15 @@ public class Rewrite_GetIncomeListDTO implements Serializable {
     private String imageUrl;
 	
 	@ApiModelProperty(value = "获取的红利总和", example = "6666.66")
-	private BigDecimal bonus;
+	private BigDecimal amount;
 	
 
-	public BigDecimal getBonus() {
-		return bonus;
+	public BigDecimal getAmount() {
+		return amount;
 	}
 
-	public void setBonus(BigDecimal bonus) {
-		this.bonus = bonus;
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
 	}
 
 	public String getImageUrl() {

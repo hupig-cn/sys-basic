@@ -81,7 +81,7 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
             touchbalancelist.add(t);
             //给钱订单
         }
-        return Result.suc("查询成功",payee,payee.size());
+        return Result.suc("查询成功",touchbalancelist,touchbalancelist.size());
     }
 
     @Override

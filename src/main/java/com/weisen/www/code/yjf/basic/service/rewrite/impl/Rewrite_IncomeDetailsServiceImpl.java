@@ -3,6 +3,7 @@ package com.weisen.www.code.yjf.basic.service.rewrite.impl;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,11 +55,10 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	@Override
 	public Result getRecommendList(Rewrite_GetIncomeAfferentDTO getIncomeAfferentDTO) {
 		//封装返回DTO
-		Rewrite_GetIncomeListDTO getIncomeListDTO = new Rewrite_GetIncomeListDTO();
+		List<Rewrite_GetIncomeListDTO> incomeListDTO = new ArrayList<Rewrite_GetIncomeListDTO>();
+
 		//获取当前用户id
 		String recommendId = getIncomeAfferentDTO.getRecommendId();
-		//获取推荐人总数
-		Long recommendIdCount = incomeDetailsRepository.findByRecommendIdCount(recommendId);
 		//前端返回的查找时间
 		Long first = getIncomeAfferentDTO.getFirstTime();
 		Long last = getIncomeAfferentDTO.getLastTime();
@@ -78,9 +78,10 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			recommends = incomeDetailsRepository.findByRecommendIdAndTimeAndPage(recommendId,firstTime,lastTime,pageNum*pageSize,pageSize);
 			//如果有数据，进行遍历，并到收支明细表和login库中获取数据
 			if (recommends != null || !recommendId.equals("")) {
-
+				
 				//遍历数据
 				for (Userlinkuser userlinkuser : recommends) {
+					Rewrite_GetIncomeListDTO getIncomeListDTO = new Rewrite_GetIncomeListDTO();
 					//获取被推荐人用户id
 					String userid = userlinkuser.getUserid();
 					//获取创建时间
@@ -88,45 +89,48 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					//获取收支明细表中对应
 					List<Receiptpay> receiptpays = receiptpayRepository.getReceiptpayByUseridAndSourcerAndTime(recommendId,userid,firstTime,lastTime);
 					//如果找得到数据
-					BigDecimal bonus = new BigDecimal(0);
+					BigDecimal sumAmount = new BigDecimal(0);
 					if (receiptpays != null) {
 						for (Receiptpay receiptpay : receiptpays) {
-							BigDecimal bonu = receiptpay.getBonus();
-							bonus.add(bonu);
+							BigDecimal amount = receiptpay.getAmount();
+							if(amount!=null) {
+								sumAmount.add(amount);
+							}
 						}
 					}
 					//获取被推荐人longin库资料
+					System.out.println(userid);
 					User jhiUser = userRepository.findJhiUserById(Long.parseLong(userid));
 					String firstName = jhiUser.getFirstName();
 					String imageUrl = jhiUser.getImageUrl();
-
+					
+					//将数据返回
 					getIncomeListDTO.setImageUrl(imageUrl);
 					getIncomeListDTO.setCreatedate(createdate);
-					getIncomeListDTO.setRecommendIdCount(recommendIdCount);
 					getIncomeListDTO.setFirstName(firstName);
-					getIncomeListDTO.setBonus(bonus);
-
-				}
+					getIncomeListDTO.setAmount(sumAmount);
+					incomeListDTO.add(getIncomeListDTO);
+					}
+				
 			} else {
-
-				System.out.println("没有数据！");
-
+				return Result.suc("暂时没有数据");
 			}
 		} else {
 			//如果没有时间值，则查找的时候进行分页查找
 			List<Userlinkuser> recommendData = incomeDetailsRepository.findByRecommendIdAndPage(recommendId,pageNum*pageSize,pageSize);
 			for (Userlinkuser userlinkuser : recommendData) {
+				Rewrite_GetIncomeListDTO getIncomeListDTO = new Rewrite_GetIncomeListDTO();
 				String userid = userlinkuser.getUserid();
 				//获取创建时间
 				String createdate = userlinkuser.getCreatedate();
 				//获取收支明细表中对应
 				List<Receiptpay> receiptpays = receiptpayRepository.findByUseridAndSourcer(recommendId,userid);
 				//如果找得到数据
-				BigDecimal bonus = new BigDecimal(0);
+				BigDecimal sumAmount = new BigDecimal(0);
 				if (receiptpays != null) {
 					for (Receiptpay receiptpay : receiptpays) {
-						BigDecimal bonu = receiptpay.getBonus();
-						bonus.add(bonu);
+						BigDecimal amount = receiptpay.getAmount();
+						sumAmount.add(amount);
 					}
 				}
 				//获取被推荐人longin库资料
@@ -136,13 +140,13 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 				getIncomeListDTO.setImageUrl(imageUrl);
 				getIncomeListDTO.setCreatedate(createdate);
-				getIncomeListDTO.setRecommendIdCount(recommendIdCount);
 				getIncomeListDTO.setFirstName(firstName);
-				getIncomeListDTO.setBonus(bonus);
+				getIncomeListDTO.setAmount(sumAmount);
+				incomeListDTO.add(getIncomeListDTO);
 			}
 		}
 
-		return Result.suc("访问成功！",getIncomeListDTO);
+		return Result.suc("访问成功！",incomeListDTO);
 	}
 
 }
