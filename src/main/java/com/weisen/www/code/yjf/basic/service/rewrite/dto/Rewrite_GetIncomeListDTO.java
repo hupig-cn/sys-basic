@@ -1,6 +1,7 @@
 package com.weisen.www.code.yjf.basic.service.rewrite.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
@@ -24,7 +25,17 @@ public class Rewrite_GetIncomeListDTO implements Serializable {
 	@ApiModelProperty(value = "头像url", example = "www.baidu.com")
     private String imageUrl;
 	
+	@ApiModelProperty(value = "获取的红利总和", example = "6666.66")
+	private BigDecimal bonus;
 	
+
+	public BigDecimal getBonus() {
+		return bonus;
+	}
+
+	public void setBonus(BigDecimal bonus) {
+		this.bonus = bonus;
+	}
 
 	public String getImageUrl() {
 		return imageUrl;
