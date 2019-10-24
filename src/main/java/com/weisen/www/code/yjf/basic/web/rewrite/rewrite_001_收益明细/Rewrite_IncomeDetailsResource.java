@@ -5,12 +5,15 @@ import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_IncomeDetailsService;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeAfferentDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 import io.github.jhipster.web.util.ResponseUtil;
@@ -34,31 +37,39 @@ public class Rewrite_IncomeDetailsResource {
     }
     /**
      * 获取各推荐人总数
-     * 
+     *
     	 * @author sxx
     	 * @date 2019-10-23 15:55:31
      */
     @PostMapping("/getRecommend/Total")
     @ApiOperation("获取各推荐人总数")
-    public ResponseEntity<?> getRecommendTotal(String userId){
-		Result result = incomeDetailsService.getRecommendTotal(userId);
-		log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",userId , result);
+    public ResponseEntity<?> getRecommendTotal(@RequestParam String recommendId){
+		Result result = incomeDetailsService.getRecommendTotal(recommendId);
+		log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",recommendId , result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
-    
+
     /**
      * 获取推荐人列表
-     * 
+     *
     	 * @author sxx
     	 * @date 2019-10-23 15:55:31
      */
     @PostMapping("/getRecommend/List")
     @ApiOperation("获取推荐人列表")
-    public ResponseEntity<?> getRecommendList(String userId){
-    	Result result = incomeDetailsService.getRecommendList(userId);
-    	log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",userId , result);
+    public ResponseEntity<?> getRecommendList(@RequestBody Rewrite_GetIncomeAfferentDTO getIncomeAfferentDTO){
+    	Result result = incomeDetailsService.getRecommendList(getIncomeAfferentDTO);
+    	log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",getIncomeAfferentDTO , result);
     	return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
-    
-    
+//
+//    @PostMapping("/Recommend/List")
+//    @ApiOperation("收益列表")
+//    public ResponseEntity<?> getRecosmmendList(String userId){
+//        Result result = incomeDetailsService.getRecommendList(userId);
+//        log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",userId , result);
+//        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+//    }
+//
+
 }

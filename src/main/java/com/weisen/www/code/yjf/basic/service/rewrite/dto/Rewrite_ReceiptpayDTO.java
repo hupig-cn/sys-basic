@@ -9,72 +9,50 @@ import java.util.Objects;
  * @Date: 2019/10/23 15:01
  */
 public class Rewrite_ReceiptpayDTO implements Serializable {
+    private String ordercode;//订单编号
 
-    private BigDecimal amount;//交易金额
+    private String orderstatus;//订单状态
 
-    private String sourcer;//来源id
+    private BigDecimal sum;//总价
 
-    private String dealtype;//交易类型
+    private String userid;//下单用户
 
-    private String happendate;//产生时间
+    private String username;//下单用户姓名
 
-    private String userid;//我方账户id
+    private String payee;//收款人
 
-    private String sourcername;//对方姓名
+    private String payeeName;//收款人姓名
 
     private String payway;//支付方式
 
-    private String Id;
-    
+    private String payresult;//支付结果
+
+    private String paytime;//支付时间
+
     private Long stats;// 0 为减少 1 为增加
-   
 
-    public Long getStats() {
-		return stats;
-	}
-
-	public void setStats(Long stats) {
-		this.stats = stats;
-	}
-
-	public String getId() {
-        return Id;
+    public String getOrdercode() {
+        return ordercode;
     }
 
-    public void setId(String id) {
-        Id = id;
+    public void setOrdercode(String ordercode) {
+        this.ordercode = ordercode;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
+    public String getOrderstatus() {
+        return orderstatus;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+    public void setOrderstatus(String orderstatus) {
+        this.orderstatus = orderstatus;
     }
 
-    public String getSourcer() {
-        return sourcer;
+    public BigDecimal getSum() {
+        return sum;
     }
 
-    public void setSourcer(String sourcer) {
-        this.sourcer = sourcer;
-    }
-
-    public String getDealtype() {
-        return dealtype;
-    }
-
-    public void setDealtype(String dealtype) {
-        this.dealtype = dealtype;
-    }
-
-    public String getHappendate() {
-        return happendate;
-    }
-
-    public void setHappendate(String happendate) {
-        this.happendate = happendate;
+    public void setSum(BigDecimal sum) {
+        this.sum = sum;
     }
 
     public String getUserid() {
@@ -85,12 +63,28 @@ public class Rewrite_ReceiptpayDTO implements Serializable {
         this.userid = userid;
     }
 
-    public String getSourcername() {
-        return sourcername;
+    public String getUsername() {
+        return username;
     }
 
-    public void setSourcername(String sourcername) {
-        this.sourcername = sourcername;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPayee() {
+        return payee;
+    }
+
+    public void setPayee(String payee) {
+        this.payee = payee;
+    }
+
+    public String getPayeeName() {
+        return payeeName;
+    }
+
+    public void setPayeeName(String payeeName) {
+        this.payeeName = payeeName;
     }
 
     public String getPayway() {
@@ -101,24 +95,27 @@ public class Rewrite_ReceiptpayDTO implements Serializable {
         this.payway = payway;
     }
 
-    @Override
-    public String toString() {
-        return "Rewrite_ReceiptpayDTO{" +
-            "happendate='" + happendate + '\'' +
-            '}';
+    public String getPayresult() {
+        return payresult;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Rewrite_ReceiptpayDTO that = (Rewrite_ReceiptpayDTO) o;
-        return Objects.equals(Id, that.Id);
+    public void setPayresult(String payresult) {
+        this.payresult = payresult;
     }
 
-    @Override
-    public int hashCode() {
+    public String getPaytime() {
+        return paytime;
+    }
 
-        return Objects.hash(Id);
+    public void setPaytime(String paytime) {
+        this.paytime = paytime;
+    }
+
+    public Long getStats() {
+        return stats;
+    }
+
+    public void setStats(Long stats) {
+        this.stats = stats;
     }
 }

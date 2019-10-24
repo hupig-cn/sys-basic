@@ -36,4 +36,7 @@ public interface Rewrite_WithdrawalRepository extends JpaRepository<Withdrawal, 
 
     @Query(value = "SELECT * FROM withdrawal WHERE userid = ?1 AND DATE_FORMAT(createdate,'%Y-%m-%d') = CURRENT_DATE()",nativeQuery = true)
     List<Withdrawal> findAllByUserIdAndDate(Long userId);
+
+    @Query(value = "SELECT * FROM withdrawal WHERE userid = ?1 ",nativeQuery = true)
+    List<Withdrawal> findAllByUserid(String userid);
 }

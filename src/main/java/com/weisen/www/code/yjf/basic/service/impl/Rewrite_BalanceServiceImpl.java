@@ -1,18 +1,24 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 import java.math.BigDecimal;
 
-import com.weisen.www.code.yjf.basic.domain.Receiptpay;
+import com.weisen.www.code.yjf.basic.domain.User;
 import com.weisen.www.code.yjf.basic.domain.Userassets;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
+import com.weisen.www.code.yjf.basic.domain.Userorder;
+import com.weisen.www.code.yjf.basic.domain.Withdrawal;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserassetsRepository;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_UserorderRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_WithdrawaldetailsRepository;
+import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
+import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_WithdrawalRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_BalanceService;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.TouchBalanceDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ReceiptpayDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
-import java.util.*;
-
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: 阮铭辉
@@ -23,14 +29,20 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
 
     private final Rewrite_UserassetsRepository rewrite_userassetsRepository;
 
-    private final Rewrite_ReceiptpayRepository rewrite_receiptpayRepository;
+    private final Rewrite_UserRepository rewrite_userRepository;
 
-    private final Rewrite_UserlinkuserRepository rewrite_userlinkuserRepository;
+    private final Rewrite_UserorderRepository rewrite_userorderRepository;
 
-    public Rewrite_BalanceServiceImpl(Rewrite_UserassetsRepository rewrite_userassetsRepository, Rewrite_ReceiptpayRepository rewrite_receiptpayRepository, Rewrite_UserlinkuserRepository rewrite_userlinkuserRepository) {
+    private final Rewrite_WithdrawalRepository rewrite_withdrawalRepository;
+
+    private final Rewrite_WithdrawaldetailsRepository rewrite_withdrawaldetailsRepository;
+
+    public Rewrite_BalanceServiceImpl(Rewrite_UserassetsRepository rewrite_userassetsRepository, Rewrite_UserRepository rewrite_userRepository, Rewrite_UserorderRepository rewrite_userorderRepository, Rewrite_WithdrawalRepository rewrite_withdrawalRepository, Rewrite_WithdrawaldetailsRepository rewrite_withdrawaldetailsRepository) {
         this.rewrite_userassetsRepository = rewrite_userassetsRepository;
-        this.rewrite_receiptpayRepository = rewrite_receiptpayRepository;
-        this.rewrite_userlinkuserRepository = rewrite_userlinkuserRepository;
+        this.rewrite_userRepository = rewrite_userRepository;
+        this.rewrite_userorderRepository = rewrite_userorderRepository;
+        this.rewrite_withdrawalRepository = rewrite_withdrawalRepository;
+        this.rewrite_withdrawaldetailsRepository = rewrite_withdrawaldetailsRepository;
     }
 
 
@@ -42,64 +54,58 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
 
     @Override
     public Result Receiptpaylist(String userid, String endTime, String startTime) {
-        List<Receiptpay> Receiptpay = rewrite_receiptpayRepository.findByTimeAndUserid(userid,startTime,endTime);
-        List<Receiptpay> sourcer = rewrite_receiptpayRepository.findByTimeAndSourcer(userid, startTime, endTime);
-        Set<Rewrite_ReceiptpayDTO> a = new HashSet<>();
-        for (int i = 0; i < Receiptpay.size(); i++) {
-            Rewrite_ReceiptpayDTO b = new Rewrite_ReceiptpayDTO();
-            Receiptpay receiptpay = Receiptpay.get(i);
+        List<Userorder> payee = rewrite_userorderRepository.findByTimeAndUserid(userid, startTime, endTime);
+        //所有的消费订单
 
-            b.setId(receiptpay.getId()+"");
-            b.setAmount(receiptpay.getAmount());
-            b.setSourcer(receiptpay.getSourcer());
-            b.setDealtype(receiptpay.getDealtype());
-            b.setHappendate(receiptpay.getCreatedate());
-            b.setUserid(receiptpay.getUserid());
-            b.setSourcername(".");//todo
-            b.setPayway(receiptpay.getPayway());
-            b.setStats(1L);
-            a.add(b);
-        }
-        for (int i = 0; i < sourcer.size(); i++) {
-            Rewrite_ReceiptpayDTO b = new Rewrite_ReceiptpayDTO();
-            Receiptpay receiptpay = sourcer.get(i);
-
-            b.setId(receiptpay.getId()+"");
-            b.setAmount(receiptpay.getAmount());
-            b.setSourcer(receiptpay.getSourcer());
-            b.setDealtype(receiptpay.getDealtype());
-            b.setHappendate(receiptpay.getCreatedate());
-            b.setUserid(receiptpay.getUserid());
-            b.setSourcername(".");//todo
-            b.setPayway(receiptpay.getPayway());
-            b.setStats(0L);
-            a.add(b);
-        }
-        List<Rewrite_ReceiptpayDTO> c = new ArrayList<>(a);
-
-        c.sort(new Comparator<Rewrite_ReceiptpayDTO>() {
-            @Override
-            public int compare(Rewrite_ReceiptpayDTO o1, Rewrite_ReceiptpayDTO o2) {
-                return o1.getHappendate().compareTo(o2.getHappendate());
+        List<TouchBalanceDTO> touchbalancelist = new ArrayList<>();
+        for (int i = 0; i < payee.size(); i++) {
+            Userorder userorder = payee.get(i);
+            String userid1 = userorder.getUserid();
+            User id = rewrite_userRepository.findJhiUserById(Long.valueOf(userid1));
+            TouchBalanceDTO t = new TouchBalanceDTO();
+            String payway = userorder.getPayway();
+            if (payway.equals("1")){
+                t.setPayeeTitle(id.getFirstName()+"支付宝支付"+userorder.getSum());
+            }else if(payway.equals("2")){
+                t.setPayeeTitle(id.getFirstName()+"微信支付"+userorder.getSum());
+            }else if(payway.equals("3")){
+                t.setPayeeTitle(id.getFirstName()+"余额"+userorder.getSum());
+            }else if(payway.equals("4")){
+                t.setPayeeTitle(id.getFirstName()+"积分支付"+userorder.getSum());
+            }else if(payway.equals("5")){
+                t.setPayeeTitle(id.getFirstName()+"优惠卷支付"+userorder.getSum());
             }
-        });
-
-        return Result.suc("查询成功",c,c.size());
+            t.setUserorderid(userorder.getId()+"");
+            t.setPaytime(userorder.getPaytime());
+            t.setPayway(userorder.getPayway());
+            touchbalancelist.add(t);
+            //给钱订单
+        }
+        return Result.suc("查询成功",touchbalancelist,touchbalancelist.size());
     }
 
     @Override
-    public Result receiptpays(Long id) {
-        Receiptpay byId = rewrite_receiptpayRepository.findReceiptpayById(id);
-        Rewrite_ReceiptpayDTO b = new Rewrite_ReceiptpayDTO();
-        b.setId(byId.getId()+"");
-        b.setAmount(byId.getAmount());
-        b.setSourcer(byId.getSourcer());
-        b.setDealtype(byId.getDealtype());
-        b.setHappendate(byId.getHappendate());
-        b.setUserid(byId.getUserid());
-        b.setSourcername(".");//todo
-        b.setPayway(byId.getPayway());
+    public Result receiptpays(Long id,String userid) {
+        Userorder user = rewrite_userorderRepository.findUserorderById(id);
+        String payee = user.getPayee();
+        User jhiUserById = rewrite_userRepository.findJhiUserById(Long.valueOf(payee));
+        String firstName = jhiUserById.getFirstName();
+        User byId = rewrite_userRepository.findJhiUserById(Long.valueOf(userid));
+        String userName = byId.getFirstName();
+        Rewrite_ReceiptpayDTO rewrite_receiptpayDTO = new Rewrite_ReceiptpayDTO();
 
-        return Result.suc("查询成功",b);
+        rewrite_receiptpayDTO.setOrdercode(user.getOrdercode());
+        rewrite_receiptpayDTO.setOrderstatus(user.getOrderstatus());
+        rewrite_receiptpayDTO.setSum(user.getSum());
+        rewrite_receiptpayDTO.setUserid(user.getUserid());
+        rewrite_receiptpayDTO.setUsername(userName);
+        rewrite_receiptpayDTO.setPayee(user.getPayee());
+        rewrite_receiptpayDTO.setPayeeName(firstName);
+        rewrite_receiptpayDTO.setPayway(user.getPayway());
+        rewrite_receiptpayDTO.setPayresult(user.getPayresult());
+        rewrite_receiptpayDTO.setPaytime(user.getPaytime());
+        rewrite_receiptpayDTO.setStats(0L);
+
+        return Result.suc("查询成功",rewrite_receiptpayDTO);
     }
 }
