@@ -13,11 +13,15 @@ import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_WithdrawalReposi
 import com.weisen.www.code.yjf.basic.service.Rewrite_BalanceService;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.TouchBalanceDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ReceiptpayDTO;
+import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
 
+import com.weisen.www.code.yjf.basic.util.TimeUtil;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,12 +57,27 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
     }
 
     @Override
-    public Result Receiptpaylist(String userid, String endTime, String startTime) {
+    public Result Receiptpaylist(String userid, String endTime, String startTime,Integer pageNum,Integer pageSize) {
+        if (pageNum == null || pageSize == null ){
+            pageNum = 0;
+            pageSize = 10;
+        }
+        if (startTime == null || startTime.equals("") || endTime== null || endTime.equals("")){
+            endTime = TimeUtil.getDate();
+            long time = System.currentTimeMillis();
+            Date date = new Date(time - 1000 * 60 * 60 * 24 * 7);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            startTime = format.format(date);
+        }
         List<Userorder> payee = rewrite_userorderRepository.findByTimeAndUserid(userid, startTime, endTime);
         //所有的消费订单
 
         List<TouchBalanceDTO> touchbalancelist = new ArrayList<>();
-        for (int i = 0; i < payee.size(); i++) {
+
+        for (int i = 1 + (pageSize * pageNum); i <= (pageNum + 1) * (pageSize); i++) {
+            if (i >= payee.size()) {
+                return Result.suc("查询成功，这是最后一页了", touchbalancelist, touchbalancelist.size());
+            }
             Userorder userorder = payee.get(i);
             String userid1 = userorder.getUserid();
             User id = rewrite_userRepository.findJhiUserById(Long.valueOf(userid1));

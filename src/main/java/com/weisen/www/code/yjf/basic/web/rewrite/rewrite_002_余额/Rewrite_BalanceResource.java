@@ -44,8 +44,10 @@ public class Rewrite_BalanceResource {
     @ApiOperation("消费明细")
     public ResponseEntity<?> Receiptpaylist(@RequestParam(required = false) String startTime,
                                             @RequestParam(required = false) String endTime,
-                                            @RequestParam(required = false) String userid) {
-        Result result = rewrite_balanceService.Receiptpaylist(userid,endTime,startTime);
+                                            @RequestParam(required = false) String userid,
+                                            @RequestParam(required = false) Integer pageNum,
+                                            @RequestParam(required = false) Integer pageSize) {
+        Result result = rewrite_balanceService.Receiptpaylist(userid,endTime,startTime,pageNum,pageSize);
         log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/balancelist", "传入值:"+userid+":"+startTime+":"+endTime, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
