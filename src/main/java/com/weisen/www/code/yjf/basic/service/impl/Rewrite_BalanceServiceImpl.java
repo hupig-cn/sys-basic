@@ -78,6 +78,7 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
             t.setUserorderid(userorder.getId()+"");
             t.setPaytime(userorder.getPaytime());
             t.setPayway(userorder.getPayway());
+            t.setSum(userorder.getSum());
             touchbalancelist.add(t);
             //给钱订单
         }
