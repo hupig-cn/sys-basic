@@ -52,10 +52,9 @@ public class Rewrite_BalanceResource {
 
     @PostMapping("/receiptpays")
     @ApiOperation("消费明细")
-    public ResponseEntity<?> Receiptpay(@RequestParam(required = false) Long id,
-                                        @RequestParam(required = false) String userid) {
-        Result result = rewrite_balanceService.receiptpays(id,userid);
-        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/receiptpays", "传入值:"+id+":"+userid, result);
+    public ResponseEntity<?> Receiptpay(@RequestParam(required = false) Long id) {
+        Result result = rewrite_balanceService.receiptpays(id);
+        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/receiptpays", "传入值:"+id, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 
     }

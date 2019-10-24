@@ -85,11 +85,12 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
     }
 
     @Override
-    public Result receiptpays(Long id,String userid) {
+    public Result receiptpays(Long id) {
         Userorder user = rewrite_userorderRepository.findUserorderById(id);
         String payee = user.getPayee();
         User jhiUserById = rewrite_userRepository.findJhiUserById(Long.valueOf(payee));
         String firstName = jhiUserById.getFirstName();
+        String userid = user.getUserid();
         User byId = rewrite_userRepository.findJhiUserById(Long.valueOf(userid));
         String userName = byId.getFirstName();
         Rewrite_ReceiptpayDTO rewrite_receiptpayDTO = new Rewrite_ReceiptpayDTO();
