@@ -65,15 +65,15 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
             TouchBalanceDTO t = new TouchBalanceDTO();
             String payway = userorder.getPayway();
             if (payway.equals("1")){
-                t.setPayeeTitle(id.getFirstName()+"支付宝支付"+userorder.getSum());
+                t.setPayeeTitle("支付宝支付");
             }else if(payway.equals("2")){
-                t.setPayeeTitle(id.getFirstName()+"微信支付"+userorder.getSum());
+                t.setPayeeTitle("微信支付");
             }else if(payway.equals("3")){
-                t.setPayeeTitle(id.getFirstName()+"余额"+userorder.getSum());
+                t.setPayeeTitle("余额支付");
             }else if(payway.equals("4")){
-                t.setPayeeTitle(id.getFirstName()+"积分支付"+userorder.getSum());
+                t.setPayeeTitle("积分支付");
             }else if(payway.equals("5")){
-                t.setPayeeTitle(id.getFirstName()+"优惠卷支付"+userorder.getSum());
+                t.setPayeeTitle("优惠卷支付");
             }
             t.setUserorderid(userorder.getId()+"");
             t.setPaytime(userorder.getPaytime());
