@@ -13,9 +13,6 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "获取邀请人列表DTO")
 public class Rewrite_GetIncomeListDTO implements Serializable {
 
-	@ApiModelProperty(value = "推荐人总数", example = "50")
-	private Long recommendIdCount;
-
 	@ApiModelProperty(value = "昵称", example = "哈哈")
     private String firstName;
 
@@ -44,15 +41,6 @@ public class Rewrite_GetIncomeListDTO implements Serializable {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
-
-	public Long getRecommendIdCount() {
-		return recommendIdCount;
-	}
-
-	public void setRecommendIdCount(Long recommendIdCount) {
-		this.recommendIdCount = recommendIdCount;
-	}
-
 
 
 	public String getFirstName() {

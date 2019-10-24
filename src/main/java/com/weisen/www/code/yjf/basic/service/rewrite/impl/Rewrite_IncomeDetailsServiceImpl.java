@@ -89,17 +89,17 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					//获取收支明细表中对应
 					List<Receiptpay> receiptpays = receiptpayRepository.getReceiptpayByUseridAndSourcerAndTime(recommendId,userid,firstTime,lastTime);
 					//如果找得到数据
-					BigDecimal sumAmount = new BigDecimal(0);
+					BigDecimal sumAmount = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
+					//如果收支明细表中有数据，查找获利金额
 					if (receiptpays != null) {
 						for (Receiptpay receiptpay : receiptpays) {
-							BigDecimal amount = receiptpay.getAmount();
+							BigDecimal amount = receiptpay.getAmount().setScale(4, BigDecimal.ROUND_DOWN);
 							if(amount!=null) {
-								sumAmount.add(amount);
+								sumAmount=sumAmount.add(amount);
 							}
 						}
 					}
 					//获取被推荐人longin库资料
-					System.out.println(userid);
 					User jhiUser = userRepository.findJhiUserById(Long.parseLong(userid));
 					String firstName = jhiUser.getFirstName();
 					String imageUrl = jhiUser.getImageUrl();
@@ -126,11 +126,13 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 				//获取收支明细表中对应
 				List<Receiptpay> receiptpays = receiptpayRepository.findByUseridAndSourcer(recommendId,userid);
 				//如果找得到数据
-				BigDecimal sumAmount = new BigDecimal(0);
+				BigDecimal sumAmount = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
 				if (receiptpays != null) {
 					for (Receiptpay receiptpay : receiptpays) {
 						BigDecimal amount = receiptpay.getAmount();
-						sumAmount.add(amount);
+						if (amount!=null || !(amount.equals(""))) {
+							sumAmount=sumAmount.add(amount);
+						}
 					}
 				}
 				//获取被推荐人longin库资料
@@ -145,7 +147,6 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 				incomeListDTO.add(getIncomeListDTO);
 			}
 		}
-
 		return Result.suc("访问成功！",incomeListDTO);
 	}
 
