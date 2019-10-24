@@ -13,5 +13,5 @@ public interface Rewrite_BalanceService {
 
     Result Receiptpaylist(String userid, String endTime, String startTime);
 
-    Result receiptpays(Long id,String userid);
+    Result receiptpays(Long id);
 }
