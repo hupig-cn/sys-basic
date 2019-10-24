@@ -17,11 +17,11 @@ public class Rewrite_GetIncomeAfferentDTO implements Serializable {
 	@ApiModelProperty(value = "用户id", example = "50")
 	private String recommendId;
 
-	@ApiModelProperty(value = "开始时间", example = "2018-11-12")
-    private String firstTime;
+	@ApiModelProperty(value = "开始时间", example = "1564329600")
+    private Long firstTime;
 
-	@ApiModelProperty(value = "结束时间", example = "2018-11-12")
-    private String lastTime;
+	@ApiModelProperty(value = "结束时间", example = "1564416000")
+    private Long lastTime;
 	
 	@ApiModelProperty(value = "页数", example = "0")
 	private Integer pageNum;
@@ -53,19 +53,19 @@ public class Rewrite_GetIncomeAfferentDTO implements Serializable {
 		this.recommendId = recommendId;
 	}
 
-	public String getFirstTime() {
+	public Long getFirstTime() {
 		return firstTime;
 	}
 
-	public void setFirstTime(String firstTime) {
+	public void setFirstTime(Long firstTime) {
 		this.firstTime = firstTime;
 	}
 
-	public String getLastTime() {
+	public Long getLastTime() {
 		return lastTime;
 	}
 
-	public void setLastTime(String lastTime) {
+	public void setLastTime(Long lastTime) {
 		this.lastTime = lastTime;
 	}
 

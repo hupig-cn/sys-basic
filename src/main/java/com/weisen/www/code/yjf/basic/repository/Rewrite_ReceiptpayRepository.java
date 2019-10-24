@@ -73,6 +73,8 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
 	@Query(value = "select sum(bonus) from receiptpay where user= ?1 and sourcer = ?2 and createdate between firstTime = ?3 and lastTime = ?4", nativeQuery = true)
 	List<Receiptpay> getReceiptpayByUseridAndSourcerAndTime(String userid,String sourcer,String firstTime ,String lastTime);
     
+	
+	List<Receiptpay> findByUseridAndSourcer(String userid,String sourcer);
 
 
 }
