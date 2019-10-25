@@ -11,16 +11,16 @@ public class operatingIncomeDTO {
     public operatingIncomeDTO() {
     }
 
-    private BigDecimal o;
+    private BigDecimal earn;
 
     private String date;
 
-    public BigDecimal o() {
-        return o;
+    public BigDecimal getEarn() {
+        return earn;
     }
 
-    public void setO(BigDecimal o) {
-        this.o = o;
+    public void setEarn(BigDecimal earn) {
+        this.earn = earn;
     }
 
     public String getDate() {

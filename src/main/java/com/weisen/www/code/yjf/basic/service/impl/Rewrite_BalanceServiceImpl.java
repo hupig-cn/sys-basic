@@ -180,16 +180,13 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
                 for (int j = 0; j < payee.size(); j++) {
                     Userorder userorder = payee.get(j);
                     BigDecimal sum = userorder.getSum();
-                    System.out.println(endTime+":"+sum);
                     one = one.add(sum);
                 }
             operatingIncomeDTO operatingIncomeDTO = new operatingIncomeDTO();
-            operatingIncomeDTO.setO(one);
+            operatingIncomeDTO.setEarn(one);
             operatingIncomeDTO.setDate(startTime);
-
             list.add(operatingIncomeDTO);
             endTime = startTime;
-
 
         }
         return Result.suc("查询成功",list);
