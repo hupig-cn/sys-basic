@@ -22,4 +22,7 @@ public interface Rewrite_IncomeDetailsRepository  extends JpaRepository<Userlink
 	@Query(value = "select * from userlinkuser where recommendid = ?1 and createdate between  ?2 and  ?3 limit ?4 , ?5", nativeQuery = true)
 	List<Userlinkuser> findByRecommendIdAndTimeAndPage(String recommendid,String firstTime,String lastTime,Integer pageNum,Integer pagesize);
 	
+	//获取推荐人列表
+	@Query(value = "select userid from userlinkuser where recommendid = ?1", nativeQuery = true)
+	List<String> findByRecommendid(String recommendid);
 }

@@ -3,6 +3,10 @@ package com.weisen.www.code.yjf.basic.service.rewrite.impl;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +30,7 @@ import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_IncomeDetailsServic
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeAfferentDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeListDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ProfitListDTO;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_RecommondCountDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
 
@@ -54,20 +59,46 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		this.merchantRepository = merchantRepository;
 		this.userLinkUserRepository = userLinkUserRepository;
 	}
-	//获取各推荐人总数
+	//获取推荐人收益信息
 	@Override
 	public Result getRecommendTotal(String recommendId) {
-		//通过id找到
-		Long findByUserIdCount = incomeDetailsRepository.findByRecommendIdCount(recommendId);
-		//		BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
-		//		List<BigDecimal> amounts = receiptpayRepository.findReceiptpayByUserid(recommendId);
-		//		if (amounts!=null) {
-		//			
-		//			for (BigDecimal amount : amounts) {
-		//			bigDecimal = bigDecimal.add(amount);
-		//			}
-		//		}
-		return Result.suc("访问成功", findByUserIdCount);
+		
+		Rewrite_RecommondCountDTO recommondCountDTO = new Rewrite_RecommondCountDTO();
+		//通过id找到推荐人数量
+		List<String> recommendIdfindByUserId = incomeDetailsRepository.findByRecommendid(recommendId);
+		Long merchantCount = 0L;
+		Long partnerCount = 0L;
+		Long allCount = 0L;
+		for (String userid : recommendIdfindByUserId) {
+//			String userid = userlinkuser.getUserid();
+			//是否是商家
+			Merchant merchant = merchantRepository.findByUserid(userid);
+			if (merchant!=null) {
+				merchantCount += 1L;
+			}
+			//是否是事业合伙人
+			Userlinkuser partner = userLinkUserRepository.findByUserid(userid);
+			if (partner.getPartner()) {
+				partnerCount += 1L;
+			}
+			allCount +=1;
+		}
+
+		//获取总推荐收益
+		BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
+		List<BigDecimal> amounts = receiptpayRepository.findReceiptpayByUserid(recommendId);
+		if (amounts!=null) {
+			for (BigDecimal amount : amounts) {
+//				BigDecimal amount = receiptpay.getAmount();
+				bigDecimal = bigDecimal.add(amount);
+			}
+		}
+		recommondCountDTO.setPartnerCount(partnerCount);
+		recommondCountDTO.setMerchantCount(merchantCount);
+		recommondCountDTO.setAllCount(allCount);
+		recommondCountDTO.setAmount(bigDecimal);
+		
+		return Result.suc("访问成功", recommondCountDTO);
 	}
 
 	//获取推荐人列表
@@ -106,16 +137,15 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					//获取创建时间
 					String createdate = userlinkuser.getCreatedate();
 					//获取收支明细表中对应
-					List<Receiptpay> receiptpays = receiptpayRepository.getReceiptpayByUseridAndSourcerAndTime(recommendId,userid,firstTime,lastTime);
+					List<BigDecimal> amounts = receiptpayRepository.getReceiptpayByUseridAndSourcerAndTime(recommendId,userid,firstTime,lastTime);
 					//如果找得到数据
 					BigDecimal sumAmount = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
 					//如果收支明细表中有数据，查找获利金额
-					if (receiptpays != null) {
-						for (Receiptpay receiptpay : receiptpays) {
-							BigDecimal amount = receiptpay.getAmount().setScale(4, BigDecimal.ROUND_DOWN);
-							if(amount!=null) {
-								sumAmount=sumAmount.add(amount);
-							}
+					if (amounts != null) {
+						for (BigDecimal amount : amounts) {
+
+							sumAmount=sumAmount.add(amount);
+
 						}
 					}
 					//获取被推荐人longin库资料
@@ -224,10 +254,11 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	@Override
 	public Result getProfitList(String userId,Long first,Long last) {
 		List<Rewrite_ProfitListDTO> list = new ArrayList<>();
-
+		LocalDateTime today_start = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);//当天零点
+		String endTime = today_start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String endTime = TimeUtil.getDate();
-		endTime = TimeUtil.getDate();
+		//		String endTime = TimeUtil.getDate();
+		//		endTime = TimeUtil.getDate();
 		long time = System.currentTimeMillis();
 		Date date = new Date(time - 1000 * 60 * 60 * 24 * 7);
 		String startTime = format.format(date);
@@ -268,14 +299,14 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 		return Result.suc("访问成功！", list);
 	}
-	
+
 }
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 //		
 //		Rewrite_ProfitListDTO profitListDTO = null;
 //		long currentTime=System.currentTimeMillis();
@@ -312,4 +343,3 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 //			}
 //			profitListDTO.setAllAmount(bigDecimal);
 //		}
-		

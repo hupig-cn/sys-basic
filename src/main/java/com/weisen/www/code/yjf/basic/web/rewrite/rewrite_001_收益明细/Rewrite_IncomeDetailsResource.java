@@ -42,7 +42,7 @@ public class Rewrite_IncomeDetailsResource {
     	 * @date 2019-10-23 15:55:31
      */
     @PostMapping("/getRecommend/Total")
-    @ApiOperation("获取各推荐人总数")
+    @ApiOperation("获取推荐人数量信息")
     public ResponseEntity<?> getRecommendTotal(@RequestParam String recommendId){
 		Result result = incomeDetailsService.getRecommendTotal(recommendId);
 		log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",recommendId , result);
@@ -56,7 +56,7 @@ public class Rewrite_IncomeDetailsResource {
     	 * @date 2019-10-23 15:55:31
      */
     @PostMapping("/getRecommend/List")
-    @ApiOperation("获取推荐人列表")
+    @ApiOperation("获取推荐人明细")
     public ResponseEntity<?> getRecommendList(@RequestBody Rewrite_GetIncomeAfferentDTO getIncomeAfferentDTO){
     	Result result = incomeDetailsService.getRecommendList(getIncomeAfferentDTO);
     	log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",getIncomeAfferentDTO , result);
