@@ -55,6 +55,14 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	public Result getRecommendTotal(String recommendId) {
 		//通过id找到
 		Long findByUserIdCount = incomeDetailsRepository.findByRecommendIdCount(recommendId);
+//		BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
+//		List<BigDecimal> amounts = receiptpayRepository.findReceiptpayByUserid(recommendId);
+//		if (amounts!=null) {
+//			
+//			for (BigDecimal amount : amounts) {
+//			bigDecimal = bigDecimal.add(amount);
+//			}
+//		}
 		return Result.suc("访问成功", findByUserIdCount);
 	}
 
@@ -206,6 +214,20 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			}
 		}
 		return Result.suc("访问成功！",incomeListDTO);
+	}
+	
+	//获取收益列表
+	@Override
+	public Result getProfitList(String userId) {
+		List<BigDecimal> amounts = receiptpayRepository.findReceiptpayByUserid(userId);
+		BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
+		if (amounts!=null) {
+			
+			for (BigDecimal amount : amounts) {
+			bigDecimal = bigDecimal.add(amount);
+			}
+		}
+		return Result.suc("访问成功！", bigDecimal);
 	}
 
 }

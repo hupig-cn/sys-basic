@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -79,5 +80,7 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
 	@Transactional
 	@Query(value = "select * FROM receiptpay where userid = ?1 and dealtype in (6,5) ORDER BY createdate DESC", nativeQuery = true)
 	List<Receiptpay> findByUserid(String userId);
-
+	
+	@Query(value = "select amount FROM receiptpay where userid = ?1 and dealtype in (9,10) ", nativeQuery = true)
+	List<BigDecimal> findReceiptpayByUserid(String userid);
 }
