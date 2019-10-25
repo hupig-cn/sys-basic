@@ -12,6 +12,7 @@ import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_WithdrawalRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_BalanceService;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.TouchBalanceDTO;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.operatingIncomeDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ReceiptpayDTO;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
@@ -165,7 +166,7 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
 //            statTime = format.format(date);
         }
         //将时间分成7份
-        List<BigDecimal> list = new ArrayList<>();
+        List<operatingIncomeDTO> list = new ArrayList<>();
         Long end = format.parse(endTime).getTime();
         Long start = format.parse(startTime).getTime();
         long l = (end - start) / (1000 * 60 * 60 * 24);
@@ -182,8 +183,13 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
                     System.out.println(endTime+":"+sum);
                     one = one.add(sum);
                 }
+            operatingIncomeDTO operatingIncomeDTO = new operatingIncomeDTO();
+            operatingIncomeDTO.setO(one);
+            operatingIncomeDTO.setDate(startTime);
+
+            list.add(operatingIncomeDTO);
             endTime = startTime;
-            list.add(one);
+
 
         }
         return Result.suc("查询成功",list);
