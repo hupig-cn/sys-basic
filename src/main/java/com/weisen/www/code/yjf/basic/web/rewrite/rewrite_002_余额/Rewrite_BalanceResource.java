@@ -42,7 +42,7 @@ public class Rewrite_BalanceResource {
     }
 
     @PostMapping("/Receiptpaylist")
-    @ApiOperation("消费明细")
+    @ApiOperation("消费明细列表")
     public ResponseEntity<?> Receiptpaylist(@RequestParam(required = false) String startTime,
                                             @RequestParam(required = false) String endTime,
                                             @RequestParam(required = false) String userid,
