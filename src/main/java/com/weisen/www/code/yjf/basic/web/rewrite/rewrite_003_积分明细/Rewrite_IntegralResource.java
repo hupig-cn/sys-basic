@@ -47,9 +47,10 @@ public class Rewrite_IntegralResource {
 
 	@PostMapping(value = "/user/get/Expenditure")
 	@ApiOperation(value = "查询用户积分支出收入")
-	public ResponseEntity<Result> getExpenditure(@RequestParam(value = "userId") String userId) {
-		Result result = rewrite_IntegralService.getExpenditure(userId);
-		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/get/Expenditure", userId, result);
+	public ResponseEntity<Result> getExpenditure(@RequestParam(value = "userId") String userId,
+			@RequestParam(required = false) Integer pageNum, @RequestParam(required = false) Integer pageSize) {
+		Result result = rewrite_IntegralService.getExpenditure(userId, pageNum, pageSize);
+		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/get/Expenditure", userId + "," + pageNum + "," + pageSize, result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 
 	}

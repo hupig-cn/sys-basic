@@ -23,6 +23,7 @@ import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_IncomeDetailsService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeAfferentDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeListDTO;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ProfitListDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 @Service
@@ -36,7 +37,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	private final Rewrite_ReceiptpayRepository receiptpayRepository;
 
 	private final Rewrite_MerchantRepository merchantRepository;
-	
+
 	private final Rewrite_UserlinkuserRepository userLinkUserRepository;
 
 	public Rewrite_IncomeDetailsServiceImpl(Rewrite_IncomeDetailsRepository incomeDetailsRepository,
@@ -55,14 +56,14 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	public Result getRecommendTotal(String recommendId) {
 		//通过id找到
 		Long findByUserIdCount = incomeDetailsRepository.findByRecommendIdCount(recommendId);
-//		BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
-//		List<BigDecimal> amounts = receiptpayRepository.findReceiptpayByUserid(recommendId);
-//		if (amounts!=null) {
-//			
-//			for (BigDecimal amount : amounts) {
-//			bigDecimal = bigDecimal.add(amount);
-//			}
-//		}
+		//		BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
+		//		List<BigDecimal> amounts = receiptpayRepository.findReceiptpayByUserid(recommendId);
+		//		if (amounts!=null) {
+		//			
+		//			for (BigDecimal amount : amounts) {
+		//			bigDecimal = bigDecimal.add(amount);
+		//			}
+		//		}
 		return Result.suc("访问成功", findByUserIdCount);
 	}
 
@@ -84,16 +85,16 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		//如果有时间值，根据时间值查找推荐人数
 		if ((first!=null && last !=null) && (first!=0 && last != 0)) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-			String firstTime = sdf.format(new Date(first * 1000L));
+			String firstTime = sdf.format(new Date(first));
 			System.out.println("开始时间:"+firstTime);
-			String lastTime = sdf.format(new Date(last * 1000L));
+			String lastTime = sdf.format(new Date(last));
 			System.out.println("结束时间:"+lastTime);
 
 			//如果有时间值，根据时间值来查找
 			recommends = incomeDetailsRepository.findByRecommendIdAndTimeAndPage(recommendId,firstTime,lastTime,pageNum*pageSize,pageSize);
 			//如果有数据，进行遍历，并到收支明细表和login库中获取数据
 			if (recommends != null || !recommendId.equals("")) {
-				
+
 				//遍历数据
 				for (Userlinkuser userlinkuser : recommends) {
 					Rewrite_GetIncomeListDTO getIncomeListDTO = new Rewrite_GetIncomeListDTO();
@@ -143,7 +144,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 						getIncomeListDTO.setVip("会员");
 						getIncomeListDTO.setMerchant("");
 					}
-					
+
 
 					//将数据返回
 					getIncomeListDTO.setImageUrl(imageUrl);
@@ -151,8 +152,8 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					getIncomeListDTO.setFirstName(firstName);
 					getIncomeListDTO.setAmount(sumAmount);
 					incomeListDTO.add(getIncomeListDTO);
-					}
-				
+				}
+
 			} else {
 				return Result.suc("暂时没有数据");
 			}
@@ -215,19 +216,39 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		}
 		return Result.suc("访问成功！",incomeListDTO);
 	}
-	
+
 	//获取收益列表
 	@Override
-	public Result getProfitList(String userId) {
-		List<BigDecimal> amounts = receiptpayRepository.findReceiptpayByUserid(userId);
+	public Result getProfitList(String userId,Long first,Long last) {
+		Rewrite_ProfitListDTO profitListDTO = null;
 		BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
-		if (amounts!=null) {
-			
-			for (BigDecimal amount : amounts) {
-			bigDecimal = bigDecimal.add(amount);
+		Long oneDayTime = 86400000L;
+		Long lastDayTime = first+oneDayTime;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+
+		while (lastDayTime<last){
+
+			profitListDTO = new Rewrite_ProfitListDTO();
+			String firstTime = sdf.format(new Date(first));
+			String lastTime = sdf.format(new Date(lastDayTime));
+			List<Receiptpay> receiptpays = receiptpayRepository.findReceiptpayByUseridAndTime(userId,firstTime,lastTime);
+			for (Receiptpay receiptpay : receiptpays) {
+				BigDecimal amount = receiptpay.getAmount();
+				bigDecimal = bigDecimal.add(amount);
+				profitListDTO.setAmount(bigDecimal);
 			}
+
+			lastDayTime += oneDayTime;
 		}
-		return Result.suc("访问成功！", bigDecimal);
+		List<Receiptpay> receiptpays = receiptpayRepository.findReceiptpayByUserid(userId);
+		if (receiptpays!=null) {
+			for (Receiptpay receiptpay : receiptpays) {
+				BigDecimal amount = receiptpay.getAmount();
+				bigDecimal = bigDecimal.add(amount);
+			}
+			profitListDTO.setAllAmount(bigDecimal);
+		}
+		return Result.suc("访问成功！", profitListDTO);
 	}
 
 }
