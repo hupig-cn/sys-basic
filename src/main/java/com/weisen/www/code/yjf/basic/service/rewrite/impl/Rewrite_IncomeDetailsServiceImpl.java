@@ -10,12 +10,15 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.weisen.www.code.yjf.basic.domain.Merchant;
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
 import com.weisen.www.code.yjf.basic.domain.User;
 import com.weisen.www.code.yjf.basic.domain.Userlinkuser;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_IncomeDetailsRepository;
+import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_MerchantRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_IncomeDetailsService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeAfferentDTO;
@@ -32,16 +35,20 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 	private final Rewrite_ReceiptpayRepository receiptpayRepository;
 
-	private final Rewrite_LinkuserRepository linkuserRepository;
+	private final Rewrite_MerchantRepository merchantRepository;
+	
+	private final Rewrite_UserlinkuserRepository userLinkUserRepository;
 
 	public Rewrite_IncomeDetailsServiceImpl(Rewrite_IncomeDetailsRepository incomeDetailsRepository,
 			Rewrite_ReceiptpayRepository receiptpayRepository,
 			Rewrite_UserRepository userRepository,
-			Rewrite_LinkuserRepository linkuserRepository) {
+			Rewrite_MerchantRepository merchantRepository,
+			Rewrite_UserlinkuserRepository userLinkUserRepository) {
 		this.incomeDetailsRepository = incomeDetailsRepository;
 		this.receiptpayRepository = receiptpayRepository;
 		this.userRepository = userRepository;
-		this.linkuserRepository = linkuserRepository;
+		this.merchantRepository = merchantRepository;
+		this.userLinkUserRepository = userLinkUserRepository;
 	}
 	//获取各推荐人总数
 	@Override
@@ -67,7 +74,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		Integer pageSize = getIncomeAfferentDTO.getPageSize();
 		List<Userlinkuser> recommends= null;
 		//如果有时间值，根据时间值查找推荐人数
-		if (first!=null && last !=null || !(first.equals("") && last.equals(""))) {
+		if ((first!=null && last !=null) && (first!=0 && last != 0)) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 			String firstTime = sdf.format(new Date(first * 1000L));
 			System.out.println("开始时间:"+firstTime);
@@ -103,7 +110,33 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					User jhiUser = userRepository.findJhiUserById(Long.parseLong(userid));
 					String firstName = jhiUser.getFirstName();
 					String imageUrl = jhiUser.getImageUrl();
+					//是否是商家
+					Merchant merchant = merchantRepository.findByUserid(userid);
+					//是否是事业合伙人
+					Userlinkuser partner = userLinkUserRepository.findByUserid(userid);
+					//是商家不是事业合伙人
+					if (merchant!=null && !(partner.getPartner())) {
+						getIncomeListDTO.setMerchant("商家");
+						getIncomeListDTO.setPartner("");
+						getIncomeListDTO.setVip("");
+					}else if (partner.getPartner() && merchant==null) {
+						//是事业合伙人不是商家
+						getIncomeListDTO.setPartner("事业合伙人");
+						getIncomeListDTO.setVip("");
+						getIncomeListDTO.setMerchant("");
+					}else if (partner.getPartner() && merchant!=null) {
+						//既是事业合伙人，也是商家
+						getIncomeListDTO.setPartner("事业合伙人");
+						getIncomeListDTO.setVip("");
+						getIncomeListDTO.setMerchant("商家");
+					}else if (merchant==null && !(partner.getPartner())) {
+						//既不是事业合伙人，也不是商家     会员
+						getIncomeListDTO.setPartner("");
+						getIncomeListDTO.setVip("会员");
+						getIncomeListDTO.setMerchant("");
+					}
 					
+
 					//将数据返回
 					getIncomeListDTO.setImageUrl(imageUrl);
 					getIncomeListDTO.setCreatedate(createdate);
@@ -139,6 +172,31 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 				User jhiUser = userRepository.findJhiUserById(Long.parseLong(userid));
 				String firstName = jhiUser.getFirstName();
 				String imageUrl = jhiUser.getImageUrl();
+				//是否是商家
+				Merchant merchant = merchantRepository.findByUserid(userid);
+				//是否是事业合伙人
+				Userlinkuser partner = userLinkUserRepository.findByUserid(userid);
+				//是商家不是事业合伙人
+				if (merchant!=null && !(partner.getPartner())) {
+					getIncomeListDTO.setMerchant("商家");
+					getIncomeListDTO.setPartner("");
+					getIncomeListDTO.setVip("");
+				}else if (partner.getPartner() && merchant==null) {
+					//是事业合伙人不是商家
+					getIncomeListDTO.setPartner("事业合伙人");
+					getIncomeListDTO.setVip("");
+					getIncomeListDTO.setMerchant("");
+				}else if (partner.getPartner() && merchant!=null) {
+					//既是事业合伙人，也是商家
+					getIncomeListDTO.setPartner("事业合伙人");
+					getIncomeListDTO.setVip("");
+					getIncomeListDTO.setMerchant("商家");
+				}else if (merchant==null && !(partner.getPartner())) {
+					//既不是事业合伙人，也不是商家     会员
+					getIncomeListDTO.setPartner("");
+					getIncomeListDTO.setVip("会员");
+					getIncomeListDTO.setMerchant("");
+				}
 
 				getIncomeListDTO.setImageUrl(imageUrl);
 				getIncomeListDTO.setCreatedate(createdate);

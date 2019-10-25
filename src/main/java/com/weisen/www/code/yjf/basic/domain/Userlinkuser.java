@@ -29,7 +29,11 @@ public class Userlinkuser implements Serializable {
     @Column(name = "partner")
     private Boolean partner;
 
-    @Column(name = "province")
+    public Boolean getPartner() {
+		return partner;
+	}
+
+	@Column(name = "province")
     private Boolean province;
 
     @Column(name = "city")
