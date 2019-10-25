@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public interface Rewrite_BalanceService {
     Result findAllBalance(String userid);
 
-    Result Receiptpaylist(String userid, String endTime, String startTime);
+    Result Receiptpaylist(String userid, String endTime, String startTime,Integer pageNum,Integer pageSize);
 
-    Result receiptpays(Long id,String userid);
+    Result receiptpays(Long id);
 }

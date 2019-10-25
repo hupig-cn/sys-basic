@@ -75,9 +75,5 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
 
 	List<Receiptpay> findByUseridAndSourcer(String userid, String sourcer);
 
-	// 查询用户积分支出收入
-	@Transactional
-	@Query(value = "select * FROM receiptpay where userid = ?1 and dealtype in (6,5) ORDER BY createdate DESC", nativeQuery = true)
-	List<Receiptpay> findByUserid(String userId);
 
 }

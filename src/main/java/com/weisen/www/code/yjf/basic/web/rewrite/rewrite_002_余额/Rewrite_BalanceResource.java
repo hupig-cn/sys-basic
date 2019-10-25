@@ -44,18 +44,19 @@ public class Rewrite_BalanceResource {
     @ApiOperation("消费明细")
     public ResponseEntity<?> Receiptpaylist(@RequestParam(required = false) String startTime,
                                             @RequestParam(required = false) String endTime,
-                                            @RequestParam(required = false) String userid) {
-        Result result = rewrite_balanceService.Receiptpaylist(userid,endTime,startTime);
+                                            @RequestParam(required = false) String userid,
+                                            @RequestParam(required = false) Integer pageNum,
+                                            @RequestParam(required = false) Integer pageSize) {
+        Result result = rewrite_balanceService.Receiptpaylist(userid,endTime,startTime,pageNum,pageSize);
         log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/balancelist", "传入值:"+userid+":"+startTime+":"+endTime, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
     @PostMapping("/receiptpays")
     @ApiOperation("消费明细")
-    public ResponseEntity<?> Receiptpay(@RequestParam(required = false) Long id,
-                                        @RequestParam(required = false) String userid) {
-        Result result = rewrite_balanceService.receiptpays(id,userid);
-        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/receiptpays", "传入值:"+id+":"+userid, result);
+    public ResponseEntity<?> Receiptpay(@RequestParam(required = false) Long id) {
+        Result result = rewrite_balanceService.receiptpays(id);
+        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/receiptpays", "传入值:"+id, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 
     }
