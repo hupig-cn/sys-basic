@@ -221,6 +221,9 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	@Override
 	public Result getProfitList(String userId,Long first,Long last) {
 		Rewrite_ProfitListDTO profitListDTO = null;
+		long currentTime=System.currentTimeMillis();
+		
+		List<BigDecimal> list = new ArrayList<>();
 		BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
 		Long oneDayTime = 86400000L;
 		Long lastDayTime = first+oneDayTime;
@@ -228,18 +231,22 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 		while (lastDayTime<last){
 
-			profitListDTO = new Rewrite_ProfitListDTO();
+
 			String firstTime = sdf.format(new Date(first));
 			String lastTime = sdf.format(new Date(lastDayTime));
 			List<Receiptpay> receiptpays = receiptpayRepository.findReceiptpayByUseridAndTime(userId,firstTime,lastTime);
 			for (Receiptpay receiptpay : receiptpays) {
+				profitListDTO = new Rewrite_ProfitListDTO();
 				BigDecimal amount = receiptpay.getAmount();
 				bigDecimal = bigDecimal.add(amount);
-				profitListDTO.setAmount(bigDecimal);
 			}
+			list.add(bigDecimal);
 
+
+			first += oneDayTime;
 			lastDayTime += oneDayTime;
 		}
+		profitListDTO.setAmount(list);
 		List<Receiptpay> receiptpays = receiptpayRepository.findReceiptpayByUserid(userId);
 		if (receiptpays!=null) {
 			for (Receiptpay receiptpay : receiptpays) {
