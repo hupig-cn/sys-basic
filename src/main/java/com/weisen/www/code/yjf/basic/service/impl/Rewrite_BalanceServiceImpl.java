@@ -23,6 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -159,7 +163,8 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
     public Result operatingIncome(String userid, String startTime, String endTime) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if (startTime == null || startTime.equals("") || endTime== null || endTime.equals("")){
-            endTime = TimeUtil.getDate();
+            LocalDateTime today_start = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);//当天零点
+            endTime = today_start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             long time = System.currentTimeMillis();
             Date date = new Date(time - 1000 * 60 * 60 * 24 * 7);////
 //            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -170,7 +175,7 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
         Long end = format.parse(endTime).getTime();
         Long start = format.parse(startTime).getTime();
         long l = (end - start) / (1000 * 60 * 60 * 24);
-        for (int i = 1; i <= l; i++) {
+        for (int i = 0; i <= l; i++) {
 
             BigDecimal one = new BigDecimal(0.00).setScale(4, BigDecimal.ROUND_DOWN);
             Long time = format.parse(endTime).getTime();
@@ -184,7 +189,7 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
                 }
             operatingIncomeDTO operatingIncomeDTO = new operatingIncomeDTO();
             operatingIncomeDTO.setEarn(one);
-            operatingIncomeDTO.setDate(startTime);
+            operatingIncomeDTO.setDate(endTime);
             list.add(operatingIncomeDTO);
             endTime = startTime;
 

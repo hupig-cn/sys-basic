@@ -76,7 +76,7 @@ public class Rewrite_BalanceResource {
                                              @RequestParam(required = false) String endTime,
                                              @RequestParam(required = false) String userid) throws ParseException {
         Result result = rewrite_balanceService.operatingIncome(userid,startTime,endTime);
-        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Isitamerchant", "传入值:"+userid, result);
+        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/operatingIncome", "传入值:"+userid+":"+startTime+":"+endTime, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 
     }
