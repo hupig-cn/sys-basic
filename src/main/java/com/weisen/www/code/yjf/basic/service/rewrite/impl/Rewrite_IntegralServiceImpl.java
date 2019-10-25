@@ -54,10 +54,14 @@ public class Rewrite_IntegralServiceImpl implements Rewrite_IntegralService {
 	}
 
 	/**
-	 * 查询用户积分支出收入
+	 * 分页查询用户积分支出收入按最新时间排序
 	 */
 	@Override
-	public Result getExpenditure(String userId) {
+	public Result getExpenditure(String userId, Integer pageNum, Integer pageSize) {
+		if (pageNum == null || pageSize == null) {
+			pageNum = 0;
+			pageSize = 10;
+		}
 		// 判断是否有该用户
 		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userId);
 		if (linkuser == null) {
@@ -65,21 +69,27 @@ public class Rewrite_IntegralServiceImpl implements Rewrite_IntegralService {
 		} else {
 			List<Rewrite_IntegralDTO> rewrite_IntegralDTOs = new ArrayList<Rewrite_IntegralDTO>();
 			// 查询用户积分支出收入数据
-			List<Receiptpay> receiptpayExpenditureList = rewrite_ReceiptpayRepository.findByUserid(userId);
+			List<Receiptpay> receiptpayExpenditureList = rewrite_ReceiptpayRepository.findByUserid(userId, pageNum,
+					pageSize);
 			for (Receiptpay receiptpayExpenditure : receiptpayExpenditureList) {
 				Rewrite_IntegralDTO rewrite_IntegralExpenditureDTO = new Rewrite_IntegralDTO();
 				rewrite_IntegralExpenditureDTO.setAmount(receiptpayExpenditure.getAmount());
 				rewrite_IntegralExpenditureDTO.setCreateDate(receiptpayExpenditure.getCreatedate());
-				rewrite_IntegralExpenditureDTO.setOther(receiptpayExpenditure.getOther());
 				if (receiptpayExpenditure.getDealtype().equals("5")) {
 					rewrite_IntegralExpenditureDTO.setStatus(0);
+					rewrite_IntegralExpenditureDTO.setOther("兑换商品");
 				} else {
 					rewrite_IntegralExpenditureDTO.setStatus(1);
+					rewrite_IntegralExpenditureDTO.setOther("签到");
 				}
 				rewrite_IntegralDTOs.add(rewrite_IntegralExpenditureDTO);
 			}
-			return Result.suc("查询成功!", rewrite_IntegralDTOs);
+			for (int i = 1 + (pageSize * pageNum); i <= (pageNum + 1) * (pageSize); i++) {
+				if (i >= receiptpayExpenditureList.size()) {
+					return Result.suc("查询成功!", rewrite_IntegralDTOs, rewrite_IntegralDTOs.size());
+				}
+			}
+			return Result.suc("查询成功!", rewrite_IntegralDTOs, rewrite_IntegralDTOs.size());
 		}
 	}
-
 }
