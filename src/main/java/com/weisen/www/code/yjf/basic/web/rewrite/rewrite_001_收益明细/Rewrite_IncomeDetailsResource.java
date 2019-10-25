@@ -62,14 +62,14 @@ public class Rewrite_IncomeDetailsResource {
     	log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",getIncomeAfferentDTO , result);
     	return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
-//
-//    @PostMapping("/Recommend/List")
-//    @ApiOperation("收益列表")
-//    public ResponseEntity<?> getRecosmmendList(String userId){
-//        Result result = incomeDetailsService.getRecommendList(userId);
-//        log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",userId , result);
-//        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
-//    }
-//
+
+    @PostMapping("/Profit/List")
+    @ApiOperation("收益列表")
+    public ResponseEntity<?> getProfitList(String userId){
+        Result result = incomeDetailsService.getProfitList(userId);
+        log.debug("访问地址: {},传入值: {},返回值: {}", "/Profit/List",userId , result);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
 
 }

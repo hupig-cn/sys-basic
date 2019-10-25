@@ -1,5 +1,6 @@
 package com.weisen.www.code.yjf.basic.service.dto.submit_dto;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -16,6 +17,15 @@ public class TouchBalanceDTO {
 
     private String paytime;//支付时间
 
+    private BigDecimal sum;
+
+    public BigDecimal getSum() {
+        return sum;
+    }
+
+    public void setSum(BigDecimal sum) {
+        this.sum = sum;
+    }
 
     public String getPayway() {
         return payway;
