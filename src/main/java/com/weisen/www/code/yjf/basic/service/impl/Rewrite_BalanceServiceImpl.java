@@ -3,6 +3,7 @@ package com.weisen.www.code.yjf.basic.service.impl;
 import com.weisen.www.code.yjf.basic.domain.User;
 import com.weisen.www.code.yjf.basic.domain.Userassets;
 import com.weisen.www.code.yjf.basic.domain.Userorder;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserassetsRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserorderRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_WithdrawaldetailsRepository;
@@ -126,5 +127,19 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
         rewrite_receiptpayDTO.setStats(0L);
 
         return Result.suc("查询成功",rewrite_receiptpayDTO);
+    }
+
+    @Override
+    public Result Isitamerchant(String userid) {
+        //判断这个用户是否存在
+        if (userid == null|| userid.equals("")){
+            return Result.fail("传入参数有误");
+        }
+        User jhiUserById = rewrite_userRepository.findJhiUserById(Long.valueOf(userid));
+        if (jhiUserById == null){
+            return Result.fail("没有这个用户");
+        }
+
+        return null;
     }
 }

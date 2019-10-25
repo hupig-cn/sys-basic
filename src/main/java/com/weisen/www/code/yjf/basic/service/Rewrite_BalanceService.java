@@ -13,4 +13,6 @@ public interface Rewrite_BalanceService {
     Result Receiptpaylist(String userid, String endTime, String startTime,Integer pageNum,Integer pageSize);
 
     Result receiptpays(Long id);
+
+    Result Isitamerchant(String userid);
 }

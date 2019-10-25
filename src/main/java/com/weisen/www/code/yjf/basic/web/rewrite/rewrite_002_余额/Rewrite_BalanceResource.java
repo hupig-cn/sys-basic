@@ -60,4 +60,13 @@ public class Rewrite_BalanceResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 
     }
+
+    @PostMapping("/Isitamerchant")
+    @ApiOperation("消费明细")
+    public ResponseEntity<?> Isitamerchant(@RequestParam(required = false) String userid) {
+        Result result = rewrite_balanceService.Isitamerchant(userid);
+        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Isitamerchant", "传入值:"+userid, result);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+
+    }
 }
