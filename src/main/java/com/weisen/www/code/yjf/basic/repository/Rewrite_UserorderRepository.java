@@ -38,5 +38,10 @@ public interface Rewrite_UserorderRepository extends JpaRepository<Userorder, Lo
         + "and paytime < str_to_date(?3,'%Y-%m-%d %H:%i:%s') ", nativeQuery = true)
     List<Userorder> findByTimeAndUserid(String userid, String startTime, String endTime);
 
+    @Query(value = "select * "
+        + "from userorder where payee =?1 and paytime > str_to_date(?2,'%Y-%m-%d %H:%i:%s') "
+        + "and paytime < str_to_date(?3,'%Y-%m-%d %H:%i:%s') ", nativeQuery = true)
+    List<Userorder> findByTimeAndPayee (String payee , String startTime, String endTime);
+
     Userorder findUserorderById(Long id);
 }

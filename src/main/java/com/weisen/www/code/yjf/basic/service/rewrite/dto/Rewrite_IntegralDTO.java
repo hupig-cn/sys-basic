@@ -17,7 +17,7 @@ public class Rewrite_IntegralDTO implements Serializable {
 	private String createDate;
 
 	@ApiModelProperty(value = "用户单笔支出积分详细说明")
-	private String other;
+	private String explain;
 
 	@ApiModelProperty(value = "用户支出、收入积分0=支出,1=收入", example = "1")
 	private Integer status;
@@ -38,12 +38,12 @@ public class Rewrite_IntegralDTO implements Serializable {
 		this.createDate = createDate;
 	}
 
-	public String getOther() {
-		return other;
+	public String getExplain() {
+		return explain;
 	}
 
-	public void setOther(String other) {
-		this.other = other;
+	public void setExplain(String explain) {
+		this.explain = explain;
 	}
 
 	public Integer getStatus() {
