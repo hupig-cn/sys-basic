@@ -25,6 +25,38 @@ public class Rewrite_GetIncomeListDTO implements Serializable {
 	@ApiModelProperty(value = "获取的红利总和", example = "6666.66")
 	private BigDecimal amount;
 	
+	@ApiModelProperty(value = "商家", example = "商家")
+	private String merchant;
+	
+	@ApiModelProperty(value = "事业合伙人    数据库表中的字段   ： 1:是事业合伙人", example = "事业合伙人")
+	private String partner;
+
+	@ApiModelProperty(value = "会员", example = "会员")
+	private String vip;
+	
+	public String getVip() {
+		return vip;
+	}
+
+	public void setVip(String vip) {
+		this.vip = vip;
+	}
+
+	public String getMerchant() {
+		return merchant;
+	}
+
+	public void setMerchant(String merchant) {
+		this.merchant = merchant;
+	}
+
+	public String getPartner() {
+		return partner;
+	}
+
+	public void setPartner(String partner) {
+		this.partner = partner;
+	}
 
 	public BigDecimal getAmount() {
 		return amount;
