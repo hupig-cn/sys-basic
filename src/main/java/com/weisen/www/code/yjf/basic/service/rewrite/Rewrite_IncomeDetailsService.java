@@ -12,5 +12,5 @@ public interface Rewrite_IncomeDetailsService {
 	 Result getRecommendList(Rewrite_GetIncomeAfferentDTO getIncomeAfferentDTO);
 	 
 	 //获取各推荐人列表
-	 Result getProfitList(String userId);
+	 Result getProfitList(String userId,Long first,Long last);
 }

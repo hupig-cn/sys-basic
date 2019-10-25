@@ -81,6 +81,6 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
 	@Query(value = "select * FROM receiptpay where userid = ?1 and dealtype in (6,5) ORDER BY createdate DESC", nativeQuery = true)
 	List<Receiptpay> findByUserid(String userId);
 	
-	@Query(value = "select amount FROM receiptpay where userid = ?1 and dealtype in (9,10) ", nativeQuery = true)
-	List<BigDecimal> findReceiptpayByUserid(String userid);
+	@Query(value = "select amount FROM receiptpay where userid = ?1 and dealtype in (9,10) between firstTime= ?2 and lastTime = ?3", nativeQuery = true)
+	List<BigDecimal> findReceiptpayByUserid(String userid , String firstTime,String lastTime);
 }
