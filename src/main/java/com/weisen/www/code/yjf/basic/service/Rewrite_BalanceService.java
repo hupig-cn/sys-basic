@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
  * @Author: 阮铭辉
  * @Date: 2019/10/23 11:37
  */
-@Service
 public interface Rewrite_BalanceService {
     Result findAllBalance(String userid);
 

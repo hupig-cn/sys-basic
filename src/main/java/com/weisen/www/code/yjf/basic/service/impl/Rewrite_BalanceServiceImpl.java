@@ -1,10 +1,8 @@
 package com.weisen.www.code.yjf.basic.service.impl;
-import java.math.BigDecimal;
 
 import com.weisen.www.code.yjf.basic.domain.User;
 import com.weisen.www.code.yjf.basic.domain.Userassets;
 import com.weisen.www.code.yjf.basic.domain.Userorder;
-import com.weisen.www.code.yjf.basic.domain.Withdrawal;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserassetsRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserorderRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_WithdrawaldetailsRepository;
@@ -13,11 +11,10 @@ import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_WithdrawalReposi
 import com.weisen.www.code.yjf.basic.service.Rewrite_BalanceService;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.TouchBalanceDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ReceiptpayDTO;
-import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
-
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,6 +26,7 @@ import java.util.List;
  * @Date: 2019/10/23 11:38
  */
 @Service
+@Transactional
 public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
 
     private final Rewrite_UserassetsRepository rewrite_userassetsRepository;
