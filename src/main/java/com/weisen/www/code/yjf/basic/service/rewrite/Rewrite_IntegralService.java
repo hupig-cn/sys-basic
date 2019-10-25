@@ -13,6 +13,6 @@ public interface Rewrite_IntegralService {
 	Result getIntegral(String userId);
 
 	// 查询用户积分支出收入
-	Result getExpenditure(String userId);
+	Result getExpenditure(String userId, Integer pageNum, Integer pageSize);
 
 }
