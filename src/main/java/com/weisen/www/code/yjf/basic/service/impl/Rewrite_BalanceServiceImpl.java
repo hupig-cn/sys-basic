@@ -161,9 +161,9 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
         if (startTime == null || startTime.equals("") || endTime== null || endTime.equals("")){
             endTime = TimeUtil.getDate();
             long time = System.currentTimeMillis();
-            Date date = new Date(time - 1000 * 60 * 60 * 24 * 7);
+            Date date = new Date(time - 1000 * 60 * 60 * 24 * 7);////
 //            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String statTime = format.format(date);
+            startTime = format.format(date);
         }
         //将时间分成7份
         List<operatingIncomeDTO> list = new ArrayList<>();
@@ -180,16 +180,13 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
                 for (int j = 0; j < payee.size(); j++) {
                     Userorder userorder = payee.get(j);
                     BigDecimal sum = userorder.getSum();
-                    System.out.println(endTime+":"+sum);
                     one = one.add(sum);
                 }
             operatingIncomeDTO operatingIncomeDTO = new operatingIncomeDTO();
-            operatingIncomeDTO.setO(one);
+            operatingIncomeDTO.setEarn(one);
             operatingIncomeDTO.setDate(startTime);
-
             list.add(operatingIncomeDTO);
             endTime = startTime;
-
 
         }
         return Result.suc("查询成功",list);
