@@ -2,6 +2,8 @@ package com.weisen.www.code.yjf.basic.web.rewrite.rewrite_003_积分明细;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,8 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "003-查询用户积分明细页")
 public class Rewrite_IntegralResource {
 
+	private final Logger logger = LoggerFactory.getLogger(Rewrite_IntegralResource.class);
+
 	private final Rewrite_IntegralService rewrite_IntegralService;
 
 	public Rewrite_IntegralResource(Rewrite_IntegralService rewrite_IntegralService) {
@@ -36,6 +40,7 @@ public class Rewrite_IntegralResource {
 	@ApiOperation(value = "查询用户总积分")
 	public ResponseEntity<Result> getIntegral(@RequestParam(value = "userId") String userId) {
 		Result result = rewrite_IntegralService.getIntegral(userId);
+		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/get/Integral", userId, result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 
 	}
@@ -44,6 +49,7 @@ public class Rewrite_IntegralResource {
 	@ApiOperation(value = "查询用户积分支出收入")
 	public ResponseEntity<Result> getExpenditure(@RequestParam(value = "userId") String userId) {
 		Result result = rewrite_IntegralService.getExpenditure(userId);
+		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/get/Expenditure", userId, result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 
 	}
