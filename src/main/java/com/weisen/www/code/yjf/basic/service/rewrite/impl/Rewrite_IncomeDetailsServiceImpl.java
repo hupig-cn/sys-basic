@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -297,43 +298,49 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		}
 
 
-		return Result.suc("访问成功！", list);
-	}
-
-}
-
-
-
-
-
-
+		
+		
 //		
 //		Rewrite_ProfitListDTO profitListDTO = null;
-//		long currentTime=System.currentTimeMillis();
-//		
-//		List<BigDecimal> list = new ArrayList<>();
-//		BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
-//		Long oneDayTime = 86400000L;
-//		Long lastDayTime = first+oneDayTime;
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-//
-//		while (lastDayTime<last){
-//
-//
-//			String firstTime = sdf.format(new Date(first));
-//			String lastTime = sdf.format(new Date(lastDayTime));
-//			List<Receiptpay> receiptpays = receiptpayRepository.findReceiptpayByUseridAndTime(userId,firstTime,lastTime);
-//			for (Receiptpay receiptpay : receiptpays) {
-//				profitListDTO = new Rewrite_ProfitListDTO();
-//				BigDecimal amount = receiptpay.getAmount();
-//				bigDecimal = bigDecimal.add(amount);
-//			}
-//			list.add(bigDecimal);
-//
-//
-//			first += oneDayTime;
-//			lastDayTime += oneDayTime;
-//		}
+		//获取现在的时间戳
+		long nowCurrentTime=System.currentTimeMillis();
+		Rewrite_ProfitListDTO profitListDTO = null;
+		//获取今天零点的时间戳
+        Calendar calendar = Calendar.getInstance();// 获取当前日期
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        Long nowZeroTime = calendar.getTimeInMillis();
+        //7天前零点的时间
+        Long oldZeroTime = nowZeroTime+(86400000L * 6);
+		
+        List<BigDecimal> setList = new ArrayList<>();
+        BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
+		
+		//一天的毫秒值
+		Long oneDayTime = 86400000L;
+		//7天前零点到6天前零点
+		Long lastDayTime = oldZeroTime+oneDayTime;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		//如果7天前的时间加上每一天的时间小于现在时间，说明是今天到七天前的数据
+		while ((lastDayTime+oneDayTime)>nowZeroTime){
+
+
+			String firstTime = sdf.format(new Date(oldZeroTime));
+			String lastTime = sdf.format(new Date(lastDayTime));
+			List<Receiptpay> receiptpays = receiptpayRepository.findReceiptpayByUseridAndTime(userId,firstTime,lastTime);
+			profitListDTO = new Rewrite_ProfitListDTO();
+			for (Receiptpay receiptpay : receiptpays) {
+				BigDecimal amount = receiptpay.getAmount();
+				bigDecimal = bigDecimal.add(amount);
+			}
+			profitListDTO.setAmount(bigDecimal);
+			profitListDTO.setDate(lastTime);
+
+
+			first += oneDayTime;
+			lastDayTime += oneDayTime;
+		}
 //		profitListDTO.setAmount(list);
 //		List<Receiptpay> receiptpays = receiptpayRepository.findReceiptpayByUserid(userId);
 //		if (receiptpays!=null) {
@@ -343,3 +350,11 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 //			}
 //			profitListDTO.setAllAmount(bigDecimal);
 //		}
+		return Result.suc("访问成功！", profitListDTO);
+	}
+
+}
+
+
+
+
