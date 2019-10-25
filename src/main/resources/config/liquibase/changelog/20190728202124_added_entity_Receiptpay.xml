@@ -154,9 +154,8 @@
     
     <changeSet id="20191025110230_add_column" author="jhipster">
         <addColumn tableName="receiptpay">
-            <column name="explain" type="varchar(20)">
-                <constraints nullable="true" />
-            </column>
+            <column name="explain" type="varchar(255)"/>
         </addColumn>
     </changeSet>
+    
 </databaseChangeLog>
