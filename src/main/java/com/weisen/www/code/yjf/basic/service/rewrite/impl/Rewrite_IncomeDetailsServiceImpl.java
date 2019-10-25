@@ -23,6 +23,7 @@ import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_IncomeDetailsService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeAfferentDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeListDTO;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ProfitListDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 @Service
@@ -220,18 +221,20 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	//获取收益列表
 	@Override
 	public Result getProfitList(String userId,Long first,Long last) {
-
+		Rewrite_ProfitListDTO profitListDTO = null;
 		BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
 		Long oneDayTime = 86400000L;
 		Long lastDayTime = last+oneDayTime;
 		while (true){
 			if (first<last) {
+				profitListDTO = new Rewrite_ProfitListDTO();
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 				String firstTime = sdf.format(new Date(first));
 				String lastTime = sdf.format(new Date(lastDayTime));
 				List<BigDecimal> amounts = receiptpayRepository.findReceiptpayByUserid(userId,firstTime,lastTime);
 				for (BigDecimal amount : amounts) {
 					bigDecimal = bigDecimal.add(amount);
+					profitListDTO.setAmount(bigDecimal);
 					}
 				if (lastDayTime<last) {
 					last += oneDayTime;
@@ -242,7 +245,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			first += oneDayTime;
 		}
 			
-		return Result.suc("访问成功！", bigDecimal);
+		return Result.suc("访问成功！", profitListDTO);
 	}
 
 }
