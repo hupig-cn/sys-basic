@@ -10,26 +10,30 @@ import io.swagger.annotations.ApiModel;
 @SuppressWarnings("serial")
 @ApiModel(value = "收益列表DTO")
 public class Rewrite_ProfitListDTO implements Serializable {
+	
+    public Rewrite_ProfitListDTO() {
+    }
 
-    private List<BigDecimal> amount;
-    
-    private BigDecimal allAmount;
+    private BigDecimal amount;
 
-	public BigDecimal getAllAmount() {
-		return allAmount;
-	}
+    private String date;
 
-	public void setAllAmount(BigDecimal allAmount) {
-		this.allAmount = allAmount;
-	}
-
-	public List<BigDecimal> getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
 
-	public void setAmount(List<BigDecimal> amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
 
 
 }

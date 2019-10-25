@@ -14,17 +14,20 @@ import com.weisen.www.code.yjf.basic.domain.Merchant;
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
 import com.weisen.www.code.yjf.basic.domain.User;
 import com.weisen.www.code.yjf.basic.domain.Userlinkuser;
+import com.weisen.www.code.yjf.basic.domain.Userorder;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_IncomeDetailsRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_MerchantRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.operatingIncomeDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_IncomeDetailsService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeAfferentDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeListDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ProfitListDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
+import com.weisen.www.code.yjf.basic.util.TimeUtil;
 
 @Service
 @Transactional
@@ -220,42 +223,93 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	//获取收益列表
 	@Override
 	public Result getProfitList(String userId,Long first,Long last) {
-		Rewrite_ProfitListDTO profitListDTO = null;
-		long currentTime=System.currentTimeMillis();
-		
-		List<BigDecimal> list = new ArrayList<>();
-		BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
-		Long oneDayTime = 86400000L;
-		Long lastDayTime = first+oneDayTime;
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		List<Rewrite_ProfitListDTO> list = new ArrayList<>();
 
-		while (lastDayTime<last){
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String endTime = TimeUtil.getDate();
+		endTime = TimeUtil.getDate();
+		long time = System.currentTimeMillis();
+		Date date = new Date(time - 1000 * 60 * 60 * 24 * 7);
+		String startTime = format.format(date);
 
+		//将时间分成7份
+		Long end;
+		try {
+			end = format.parse(endTime).getTime();
+			Long start = format.parse(startTime).getTime();
+			long l = (end - start) / (1000 * 60 * 60 * 24);
+			for (int i = 1; i <= l; i++) {
 
-			String firstTime = sdf.format(new Date(first));
-			String lastTime = sdf.format(new Date(lastDayTime));
-			List<Receiptpay> receiptpays = receiptpayRepository.findReceiptpayByUseridAndTime(userId,firstTime,lastTime);
-			for (Receiptpay receiptpay : receiptpays) {
-				profitListDTO = new Rewrite_ProfitListDTO();
-				BigDecimal amount = receiptpay.getAmount();
-				bigDecimal = bigDecimal.add(amount);
+				BigDecimal oneAmount = new BigDecimal(0.00).setScale(4, BigDecimal.ROUND_DOWN);
+				Long getEndTime = format.parse(endTime).getTime();
+
+				List<Receiptpay> receiptpays = receiptpayRepository.findReceiptpayByUseridAndTime(userId,startTime,endTime);
+				Date newDate = new Date(getEndTime - 1000 * 60 * 60 * 24 );
+				startTime = format.format(newDate);
+				for (int j = 0; j < receiptpays.size(); j++) {
+					Receiptpay receiptpay = receiptpays.get(j);
+					BigDecimal amount = receiptpay.getAmount();
+					System.out.println(endTime+":"+amount);
+					oneAmount = oneAmount.add(amount);
+				}
+
+				Rewrite_ProfitListDTO profitListDTO = new Rewrite_ProfitListDTO();
+				profitListDTO.setAmount(oneAmount);
+				profitListDTO.setDate(endTime);
+
+				list.add(profitListDTO);
+				endTime = startTime;
+
 			}
-			list.add(bigDecimal);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 
-			first += oneDayTime;
-			lastDayTime += oneDayTime;
-		}
-		profitListDTO.setAmount(list);
-		List<Receiptpay> receiptpays = receiptpayRepository.findReceiptpayByUserid(userId);
-		if (receiptpays!=null) {
-			for (Receiptpay receiptpay : receiptpays) {
-				BigDecimal amount = receiptpay.getAmount();
-				bigDecimal = bigDecimal.add(amount);
-			}
-			profitListDTO.setAllAmount(bigDecimal);
-		}
-		return Result.suc("访问成功！", profitListDTO);
+		return Result.suc("访问成功！", list);
 	}
-
+	
 }
+		
+		
+		
+		
+		
+		
+//		
+//		Rewrite_ProfitListDTO profitListDTO = null;
+//		long currentTime=System.currentTimeMillis();
+//		
+//		List<BigDecimal> list = new ArrayList<>();
+//		BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
+//		Long oneDayTime = 86400000L;
+//		Long lastDayTime = first+oneDayTime;
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+//
+//		while (lastDayTime<last){
+//
+//
+//			String firstTime = sdf.format(new Date(first));
+//			String lastTime = sdf.format(new Date(lastDayTime));
+//			List<Receiptpay> receiptpays = receiptpayRepository.findReceiptpayByUseridAndTime(userId,firstTime,lastTime);
+//			for (Receiptpay receiptpay : receiptpays) {
+//				profitListDTO = new Rewrite_ProfitListDTO();
+//				BigDecimal amount = receiptpay.getAmount();
+//				bigDecimal = bigDecimal.add(amount);
+//			}
+//			list.add(bigDecimal);
+//
+//
+//			first += oneDayTime;
+//			lastDayTime += oneDayTime;
+//		}
+//		profitListDTO.setAmount(list);
+//		List<Receiptpay> receiptpays = receiptpayRepository.findReceiptpayByUserid(userId);
+//		if (receiptpays!=null) {
+//			for (Receiptpay receiptpay : receiptpays) {
+//				BigDecimal amount = receiptpay.getAmount();
+//				bigDecimal = bigDecimal.add(amount);
+//			}
+//			profitListDTO.setAllAmount(bigDecimal);
+//		}
+		
