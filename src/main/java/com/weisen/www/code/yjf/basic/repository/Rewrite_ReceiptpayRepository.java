@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -71,21 +70,20 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
 
 	// 根据时间,用户关系表查询用户的明细
 	@Query(value = "select * from receiptpay where user= ?1 and sourcer = ?2 and createdate between ?3 and ?4", nativeQuery = true)
-	List<Receiptpay> getReceiptpayByUseridAndSourcerAndTime(String userid, String sourcer, String firstTime,String lastTime);
+	List<Receiptpay> getReceiptpayByUseridAndSourcerAndTime(String userid, String sourcer, String firstTime,
+			String lastTime);
 
 	List<Receiptpay> findByUseridAndSourcer(String userid, String sourcer);
 
-
 	@Query(value = "select * FROM receiptpay where userid = ?1 and dealtype in (9,10) and createdate between  ?2 and  ?3", nativeQuery = true)
-	List<Receiptpay> findReceiptpayByUseridAndTime(String userid , String firstTime,String lastTime);
-	
+	List<Receiptpay> findReceiptpayByUseridAndTime(String userid, String firstTime, String lastTime);
+
 	@Query(value = "select * FROM receiptpay where userid = ?1 and dealtype in (9,10)", nativeQuery = true)
-	List<Receiptpay> findReceiptpayByUserid(String userid );
-	
+	List<Receiptpay> findReceiptpayByUserid(String userid);
+
 	// 分页查询用户积分支出收入按最新时间排序
 	@Transactional
 	@Query(value = "select * FROM receiptpay where userid = ?1 and dealtype in (6,5) ORDER BY createdate DESC LIMIT ?2,?3 ", nativeQuery = true)
 	List<Receiptpay> findByUserid(String userId, Integer pageNum, Integer pageSize);
-
 
 }
