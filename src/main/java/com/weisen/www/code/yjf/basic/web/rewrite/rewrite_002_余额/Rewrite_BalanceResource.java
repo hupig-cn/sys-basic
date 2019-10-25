@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
 import java.util.Optional;
 
 /**
@@ -62,9 +63,19 @@ public class Rewrite_BalanceResource {
     }
 
     @PostMapping("/Isitamerchant")
-    @ApiOperation("消费明细")
+    @ApiOperation("判断用户是不是商家")
     public ResponseEntity<?> Isitamerchant(@RequestParam(required = false) String userid) {
         Result result = rewrite_balanceService.Isitamerchant(userid);
+        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Isitamerchant", "传入值:"+userid, result);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+
+    }
+    @PostMapping("/operatingIncome")
+    @ApiOperation("营业收益")
+    public ResponseEntity<?> operatingIncome(@RequestParam(required = false) String startTime,
+                                             @RequestParam(required = false) String endTime,
+                                             @RequestParam(required = false) String userid) throws ParseException {
+        Result result = rewrite_balanceService.operatingIncome(userid,startTime,endTime);
         log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Isitamerchant", "传入值:"+userid, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 

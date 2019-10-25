@@ -3,6 +3,8 @@ package com.weisen.www.code.yjf.basic.service;
 import com.weisen.www.code.yjf.basic.util.Result;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+
 /**
  * @Author: 阮铭辉
  * @Date: 2019/10/23 11:37
@@ -15,4 +17,6 @@ public interface Rewrite_BalanceService {
     Result receiptpays(Long id);
 
     Result Isitamerchant(String userid);
+
+    Result operatingIncome(String userid, String startTime, String endTime) throws ParseException;
 }

@@ -1,22 +1,26 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import com.weisen.www.code.yjf.basic.domain.Merchant;
 import com.weisen.www.code.yjf.basic.domain.User;
 import com.weisen.www.code.yjf.basic.domain.Userassets;
 import com.weisen.www.code.yjf.basic.domain.Userorder;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserassetsRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserorderRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_WithdrawaldetailsRepository;
+import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_MerchantRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_WithdrawalRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_BalanceService;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.TouchBalanceDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ReceiptpayDTO;
+import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,12 +44,15 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
 
     private final Rewrite_WithdrawaldetailsRepository rewrite_withdrawaldetailsRepository;
 
-    public Rewrite_BalanceServiceImpl(Rewrite_UserassetsRepository rewrite_userassetsRepository, Rewrite_UserRepository rewrite_userRepository, Rewrite_UserorderRepository rewrite_userorderRepository, Rewrite_WithdrawalRepository rewrite_withdrawalRepository, Rewrite_WithdrawaldetailsRepository rewrite_withdrawaldetailsRepository) {
+    private final Rewrite_MerchantRepository rewrite_merchantRepository;
+
+    public Rewrite_BalanceServiceImpl(Rewrite_UserassetsRepository rewrite_userassetsRepository, Rewrite_UserRepository rewrite_userRepository, Rewrite_UserorderRepository rewrite_userorderRepository, Rewrite_WithdrawalRepository rewrite_withdrawalRepository, Rewrite_WithdrawaldetailsRepository rewrite_withdrawaldetailsRepository, Rewrite_MerchantRepository rewrite_merchantRepository) {
         this.rewrite_userassetsRepository = rewrite_userassetsRepository;
         this.rewrite_userRepository = rewrite_userRepository;
         this.rewrite_userorderRepository = rewrite_userorderRepository;
         this.rewrite_withdrawalRepository = rewrite_withdrawalRepository;
         this.rewrite_withdrawaldetailsRepository = rewrite_withdrawaldetailsRepository;
+        this.rewrite_merchantRepository = rewrite_merchantRepository;
     }
 
 
@@ -139,7 +146,46 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
         if (jhiUserById == null){
             return Result.fail("没有这个用户");
         }
+        Merchant byUserid = rewrite_merchantRepository.findByUserid(userid);
+        if (byUserid == null){
+            return Result.suc("不是商家",0);
+        }
+        return Result.suc("是商家",1);
 
-        return null;
+    }
+
+    @Override
+    public Result operatingIncome(String userid, String startTime, String endTime) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if (startTime == null || startTime.equals("") || endTime== null || endTime.equals("")){
+            endTime = TimeUtil.getDate();
+//            long time = System.currentTimeMillis();
+//            Date date = new Date(time - 1000 * 60 * 60 * 24 * 7);
+//            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            statTime = format.format(date);
+        }
+        //将时间分成7份
+        List<BigDecimal> list = new ArrayList<>();
+        Long end = format.parse(endTime).getTime();
+        Long start = format.parse(startTime).getTime();
+        long l = (end - start) / (1000 * 60 * 60 * 24);
+        for (int i = 1; i <= l; i++) {
+
+            BigDecimal one = new BigDecimal(0.00).setScale(4, BigDecimal.ROUND_DOWN);
+            Long time = format.parse(endTime).getTime();
+            Date date = new Date(time - 1000 * 60 * 60 * 24 );
+            startTime = format.format(date);
+            List<Userorder> payee = rewrite_userorderRepository.findByTimeAndPayee(userid,startTime,endTime);
+                for (int j = 0; j < payee.size(); j++) {
+                    Userorder userorder = payee.get(j);
+                    BigDecimal sum = userorder.getSum();
+                    System.out.println(endTime+":"+sum);
+                    one = one.add(sum);
+                }
+            endTime = startTime;
+            list.add(one);
+
+        }
+        return Result.suc("查询成功",list);
     }
 }
