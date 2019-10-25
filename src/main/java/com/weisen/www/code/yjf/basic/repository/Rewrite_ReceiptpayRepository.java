@@ -70,9 +70,8 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
 	Receiptpay findReceiptpayById(Long id);
 
 	// 根据时间,用户关系表查询用户的明细
-	@Query(value = "select sum(bonus) from receiptpay where user= ?1 and sourcer = ?2 and createdate between firstTime = ?3 and lastTime = ?4", nativeQuery = true)
-	List<Receiptpay> getReceiptpayByUseridAndSourcerAndTime(String userid, String sourcer, String firstTime,
-			String lastTime);
+	@Query(value = "select * from receiptpay where user= ?1 and sourcer = ?2 and createdate between ?3 and ?4", nativeQuery = true)
+	List<Receiptpay> getReceiptpayByUseridAndSourcerAndTime(String userid, String sourcer, String firstTime,String lastTime);
 
 	List<Receiptpay> findByUseridAndSourcer(String userid, String sourcer);
 
@@ -81,6 +80,9 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
 	@Query(value = "select * FROM receiptpay where userid = ?1 and dealtype in (6,5) ORDER BY createdate DESC", nativeQuery = true)
 	List<Receiptpay> findByUserid(String userId);
 	
-	@Query(value = "select amount FROM receiptpay where userid = ?1 and dealtype in (9,10) between firstTime= ?2 and lastTime = ?3", nativeQuery = true)
-	List<BigDecimal> findReceiptpayByUserid(String userid , String firstTime,String lastTime);
+	@Query(value = "select * FROM receiptpay where userid = ?1 and dealtype in (9,10) and createdate between  ?2 and  ?3", nativeQuery = true)
+	List<Receiptpay> findReceiptpayByUseridAndTime(String userid , String firstTime,String lastTime);
+	
+	@Query(value = "select * FROM receiptpay where userid = ?1 and dealtype in (9,10)", nativeQuery = true)
+	List<Receiptpay> findReceiptpayByUserid(String userid );
 }

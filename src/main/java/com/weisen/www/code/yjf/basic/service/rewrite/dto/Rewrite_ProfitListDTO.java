@@ -12,6 +12,16 @@ import io.swagger.annotations.ApiModel;
 public class Rewrite_ProfitListDTO implements Serializable {
 
     private BigDecimal amount;
+    
+    private BigDecimal allAmount;
+
+	public BigDecimal getAllAmount() {
+		return allAmount;
+	}
+
+	public void setAllAmount(BigDecimal allAmount) {
+		this.allAmount = allAmount;
+	}
 
 	public BigDecimal getAmount() {
 		return amount;
