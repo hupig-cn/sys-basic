@@ -160,10 +160,10 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if (startTime == null || startTime.equals("") || endTime== null || endTime.equals("")){
             endTime = TimeUtil.getDate();
-//            long time = System.currentTimeMillis();
-//            Date date = new Date(time - 1000 * 60 * 60 * 24 * 7);
+            long time = System.currentTimeMillis();
+            Date date = new Date(time - 1000 * 60 * 60 * 24 * 7);////
 //            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//            statTime = format.format(date);
+            startTime = format.format(date);
         }
         //将时间分成7份
         List<operatingIncomeDTO> list = new ArrayList<>();
