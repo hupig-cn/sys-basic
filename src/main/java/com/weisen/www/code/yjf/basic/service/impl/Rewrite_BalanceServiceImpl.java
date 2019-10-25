@@ -163,9 +163,10 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
     public Result operatingIncome(String userid, String startTime, String endTime) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if (startTime == null || startTime.equals("") || endTime== null || endTime.equals("")){
-            LocalDateTime today_start = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);//当天零点
+            LocalDateTime today_start = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);//当天零点
             endTime = today_start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            long time = System.currentTimeMillis();
+
+            long time = format.parse(endTime).getTime();
             Date date = new Date(time - 1000 * 60 * 60 * 24 * 7);////
 //            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             startTime = format.format(date);
@@ -175,7 +176,7 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
         Long end = format.parse(endTime).getTime();
         Long start = format.parse(startTime).getTime();
         long l = (end - start) / (1000 * 60 * 60 * 24);
-        for (int i = 0; i <= l; i++) {
+        for (int i = 1; i <= l; i++) {
 
             BigDecimal one = new BigDecimal(0.00).setScale(4, BigDecimal.ROUND_DOWN);
             Long time = format.parse(endTime).getTime();
