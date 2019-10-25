@@ -17,10 +17,10 @@ public class Rewrite_GetIncomeAfferentDTO implements Serializable {
 	@ApiModelProperty(value = "用户id", example = "51")
 	private String recommendId;
 
-	@ApiModelProperty(value = "开始时间", example = "1564329600")
+	@ApiModelProperty(value = "开始时间", example = "1564329600000")
     private Long firstTime;
 
-	@ApiModelProperty(value = "结束时间", example = "1564502400")
+	@ApiModelProperty(value = "结束时间", example = "1564502400000")
     private Long lastTime;
 	
 	@ApiModelProperty(value = "页数", example = "0")

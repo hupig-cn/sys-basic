@@ -2,7 +2,7 @@ package com.weisen.www.code.yjf.basic.service.rewrite.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-
+import java.util.List;
 
 import io.swagger.annotations.ApiModel;
 
@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModel;
 @ApiModel(value = "收益列表DTO")
 public class Rewrite_ProfitListDTO implements Serializable {
 
-    private BigDecimal amount;
+    private List<BigDecimal> amount;
     
     private BigDecimal allAmount;
 
@@ -23,11 +23,13 @@ public class Rewrite_ProfitListDTO implements Serializable {
 		this.allAmount = allAmount;
 	}
 
-	public BigDecimal getAmount() {
+	public List<BigDecimal> getAmount() {
 		return amount;
 	}
 
-	public void setAmount(BigDecimal amount) {
+	public void setAmount(List<BigDecimal> amount) {
 		this.amount = amount;
 	}
+
+
 }
