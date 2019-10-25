@@ -23,6 +23,7 @@ import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_IncomeDetailsService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeAfferentDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeListDTO;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ProfitListDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 @Service
@@ -69,6 +70,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	//获取推荐人列表
 	@Override
 	public Result getRecommendList(Rewrite_GetIncomeAfferentDTO getIncomeAfferentDTO) {
+		System.out.println(new Date().getTime());
 		//封装返回DTO
 		List<Rewrite_GetIncomeListDTO> incomeListDTO = new ArrayList<Rewrite_GetIncomeListDTO>();
 
@@ -84,9 +86,9 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		//如果有时间值，根据时间值查找推荐人数
 		if ((first!=null && last !=null) && (first!=0 && last != 0)) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-			String firstTime = sdf.format(new Date(first * 1000L));
+			String firstTime = sdf.format(new Date(first));
 			System.out.println("开始时间:"+firstTime);
-			String lastTime = sdf.format(new Date(last * 1000L));
+			String lastTime = sdf.format(new Date(last));
 			System.out.println("结束时间:"+lastTime);
 
 			//如果有时间值，根据时间值来查找
@@ -218,16 +220,32 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	
 	//获取收益列表
 	@Override
-	public Result getProfitList(String userId) {
-		List<BigDecimal> amounts = receiptpayRepository.findReceiptpayByUserid(userId);
+	public Result getProfitList(String userId,Long first,Long last) {
+		Rewrite_ProfitListDTO profitListDTO = null;
 		BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
-		if (amounts!=null) {
-			
-			for (BigDecimal amount : amounts) {
-			bigDecimal = bigDecimal.add(amount);
+		Long oneDayTime = 86400000L;
+		Long lastDayTime = last+oneDayTime;
+		while (true){
+			if (first<last) {
+				profitListDTO = new Rewrite_ProfitListDTO();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+				String firstTime = sdf.format(new Date(first));
+				String lastTime = sdf.format(new Date(lastDayTime));
+				List<BigDecimal> amounts = receiptpayRepository.findReceiptpayByUserid(userId,firstTime,lastTime);
+				for (BigDecimal amount : amounts) {
+					bigDecimal = bigDecimal.add(amount);
+					profitListDTO.setAmount(bigDecimal);
+					}
+				if (lastDayTime<last) {
+					last += oneDayTime;
+				}
+			}else {
+				break;
 			}
+			first += oneDayTime;
 		}
-		return Result.suc("访问成功！", bigDecimal);
+			
+		return Result.suc("访问成功！", profitListDTO);
 	}
 
 }
