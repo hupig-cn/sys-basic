@@ -65,9 +65,9 @@ public class Rewrite_IncomeDetailsResource {
 
     @PostMapping("/Profit/List")
     @ApiOperation("收益列表")
-    public ResponseEntity<?> getProfitList(@RequestParam String userId,@RequestParam Long first,@RequestParam Long last){
-        Result result = incomeDetailsService.getProfitList(userId,first,last);
-        log.debug("访问地址: {},传入值: {},返回值: {}", "/Profit/List",userId+","+ first+","+last, result);
+    public ResponseEntity<?> getProfitList(@RequestParam String userId){
+        Result result = incomeDetailsService.getProfitList(userId);
+        log.debug("访问地址: {},传入值: {},返回值: {}", "/Profit/List",userId, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 

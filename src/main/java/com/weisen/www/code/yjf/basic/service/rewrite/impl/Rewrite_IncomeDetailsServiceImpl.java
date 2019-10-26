@@ -63,7 +63,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	//获取推荐人收益信息
 	@Override
 	public Result getRecommendTotal(String recommendId) {
-		
+
 		Rewrite_RecommondCountDTO recommondCountDTO = new Rewrite_RecommondCountDTO();
 		//通过id找到推荐人数量
 		List<String> recommendIdfindByUserId = incomeDetailsRepository.findByRecommendid(recommendId);
@@ -71,7 +71,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		Long partnerCount = 0L;
 		Long allCount = 0L;
 		for (String userid : recommendIdfindByUserId) {
-//			String userid = userlinkuser.getUserid();
+			//			String userid = userlinkuser.getUserid();
 			//是否是商家
 			Merchant merchant = merchantRepository.findByUserid(userid);
 			if (merchant!=null) {
@@ -88,9 +88,9 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		//获取总推荐收益
 		BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
 		List<BigDecimal> amounts = receiptpayRepository.findReceiptpayByUserid(recommendId);
+		//如果有数据，保存
 		if (amounts!=null) {
 			for (BigDecimal amount : amounts) {
-//				BigDecimal amount = receiptpay.getAmount();
 				bigDecimal = bigDecimal.add(amount);
 			}
 		}
@@ -98,7 +98,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		recommondCountDTO.setMerchantCount(merchantCount);
 		recommondCountDTO.setAllCount(allCount);
 		recommondCountDTO.setAmount(bigDecimal);
-		
+
 		return Result.suc("访问成功", recommondCountDTO);
 	}
 
@@ -107,9 +107,16 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	public Result getRecommendList(Rewrite_GetIncomeAfferentDTO getIncomeAfferentDTO) {
 		//封装返回DTO
 		List<Rewrite_GetIncomeListDTO> incomeListDTO = new ArrayList<Rewrite_GetIncomeListDTO>();
-
+		
 		//获取当前用户id
 		String recommendId = getIncomeAfferentDTO.getRecommendId();
+		
+		//获取被推荐人longin库资料
+		User jhiUser = userRepository.findJhiUserById(Long.parseLong(recommendId));
+		if (jhiUser == null) {
+			return Result.fail("不存在该用户！");
+		}
+		
 		//前端返回的查找时间
 		Long first = getIncomeAfferentDTO.getFirstTime();
 		Long last = getIncomeAfferentDTO.getLastTime();
@@ -120,6 +127,11 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		//如果有时间值，根据时间值查找推荐人数
 		if ((first!=null && last !=null) && (first!=0 && last != 0)) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+			//如果传过来的时间单位不是毫秒，时间要乘以1000
+			if (first < 111111111111L ||last < 111111111111L) {
+				first = first * 1000L;
+				last = last * 1000L;
+			}
 			String firstTime = sdf.format(new Date(first));
 			System.out.println("开始时间:"+firstTime);
 			String lastTime = sdf.format(new Date(last));
@@ -149,8 +161,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 						}
 					}
-					//获取被推荐人longin库资料
-					User jhiUser = userRepository.findJhiUserById(Long.parseLong(userid));
+					//获取被推荐人longin库jhi_user表头像和昵称
 					String firstName = jhiUser.getFirstName();
 					String imageUrl = jhiUser.getImageUrl();
 					//是否是商家
@@ -211,8 +222,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 						}
 					}
 				}
-				//获取被推荐人longin库资料
-				User jhiUser = userRepository.findJhiUserById(Long.parseLong(userid));
+				//获取被推荐人longin库jhi_user表头像和昵称
 				String firstName = jhiUser.getFirstName();
 				String imageUrl = jhiUser.getImageUrl();
 				//是否是商家
@@ -253,108 +263,52 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 	//获取收益列表
 	@Override
-	public Result getProfitList(String userId,Long first,Long last) {
-		List<Rewrite_ProfitListDTO> list = new ArrayList<>();
-		LocalDateTime today_start = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);//当天零点
-		String endTime = today_start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		//		String endTime = TimeUtil.getDate();
-		//		endTime = TimeUtil.getDate();
-		long time = System.currentTimeMillis();
-		Date date = new Date(time - 1000 * 60 * 60 * 24 * 7);
-		String startTime = format.format(date);
-
-		//将时间分成7份
-		Long end;
-		try {
-			end = format.parse(endTime).getTime();
-			Long start = format.parse(startTime).getTime();
-			long l = (end - start) / (1000 * 60 * 60 * 24);
-			for (int i = 1; i <= l; i++) {
-
-				BigDecimal oneAmount = new BigDecimal(0.00).setScale(4, BigDecimal.ROUND_DOWN);
-				Long getEndTime = format.parse(endTime).getTime();
-
-				List<Receiptpay> receiptpays = receiptpayRepository.findReceiptpayByUseridAndTime(userId,startTime,endTime);
-				Date newDate = new Date(getEndTime - 1000 * 60 * 60 * 24 );
-				startTime = format.format(newDate);
-				for (int j = 0; j < receiptpays.size(); j++) {
-					Receiptpay receiptpay = receiptpays.get(j);
-					BigDecimal amount = receiptpay.getAmount();
-					System.out.println(endTime+":"+amount);
-					oneAmount = oneAmount.add(amount);
-				}
-
-				Rewrite_ProfitListDTO profitListDTO = new Rewrite_ProfitListDTO();
-				profitListDTO.setAmount(oneAmount);
-				profitListDTO.setDate(endTime);
-
-				list.add(profitListDTO);
-				endTime = startTime;
-
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+	public Result getProfitList(String userId) {
 
 		
-		
-//		
-//		Rewrite_ProfitListDTO profitListDTO = null;
-		//获取现在的时间戳
-		long nowCurrentTime=System.currentTimeMillis();
-		Rewrite_ProfitListDTO profitListDTO = null;
+		List<Rewrite_ProfitListDTO> profitListDTO = new ArrayList<>();
 		//获取今天零点的时间戳
-        Calendar calendar = Calendar.getInstance();// 获取当前日期
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        Long nowZeroTime = calendar.getTimeInMillis();
-        //7天前零点的时间
-        Long oldZeroTime = nowZeroTime+(86400000L * 6);
+		Calendar calendar = Calendar.getInstance();// 获取当前日期
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		Long nowZeroTime = calendar.getTimeInMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 		
-        List<BigDecimal> setList = new ArrayList<>();
-        BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
-		
+		//7天前零点的时间
+		Long oldZeroTime = nowZeroTime-(86400000L * 6);
+//		String oldZTime = sdf.format(new Date(oldZeroTime));
+
 		//一天的毫秒值
 		Long oneDayTime = 86400000L;
-		//7天前零点到6天前零点
-		Long lastDayTime = oldZeroTime+oneDayTime;
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		//7天前零点到6天前的前一秒
+		Long lastDayTime = oldZeroTime+oneDayTime-1000L;
+
 		//如果7天前的时间加上每一天的时间小于现在时间，说明是今天到七天前的数据
-		while ((lastDayTime+oneDayTime)>nowZeroTime){
-
-
+		do{
+			BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
+			Rewrite_ProfitListDTO profitDTO = new Rewrite_ProfitListDTO();
+			//查找数据的开始时间
 			String firstTime = sdf.format(new Date(oldZeroTime));
+			//查找数据的结束时间
 			String lastTime = sdf.format(new Date(lastDayTime));
-			List<Receiptpay> receiptpays = receiptpayRepository.findReceiptpayByUseridAndTime(userId,firstTime,lastTime);
-			profitListDTO = new Rewrite_ProfitListDTO();
-			for (Receiptpay receiptpay : receiptpays) {
-				BigDecimal amount = receiptpay.getAmount();
-				bigDecimal = bigDecimal.add(amount);
+			List<BigDecimal> amounts = receiptpayRepository.findReceiptpayByUseridAndTime(userId,firstTime,lastTime);
+			//如果有数据，添加到DTO中
+			if (amounts!=null) {
+				for (BigDecimal amount : amounts) {
+					bigDecimal = bigDecimal.add(amount);
+				}
 			}
-			profitListDTO.setAmount(bigDecimal);
-			profitListDTO.setDate(lastTime);
-
-
-			first += oneDayTime;
+			profitDTO.setEarn(bigDecimal);
+			profitDTO.setDate(firstTime);
+			profitListDTO.add(profitDTO);
+			
+			//将时间加1天
+			oldZeroTime += oneDayTime;
 			lastDayTime += oneDayTime;
-		}
-//		profitListDTO.setAmount(list);
-//		List<Receiptpay> receiptpays = receiptpayRepository.findReceiptpayByUserid(userId);
-//		if (receiptpays!=null) {
-//			for (Receiptpay receiptpay : receiptpays) {
-//				BigDecimal amount = receiptpay.getAmount();
-//				bigDecimal = bigDecimal.add(amount);
-//			}
-//			profitListDTO.setAllAmount(bigDecimal);
-//		}
+		}while (oldZeroTime < (nowZeroTime + oneDayTime));
+
 		return Result.suc("访问成功！", profitListDTO);
 	}
 
 }
-
-
-
-

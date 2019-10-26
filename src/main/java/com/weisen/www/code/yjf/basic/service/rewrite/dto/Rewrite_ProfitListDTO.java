@@ -14,16 +14,16 @@ public class Rewrite_ProfitListDTO implements Serializable {
     public Rewrite_ProfitListDTO() {
     }
 
-    private BigDecimal amount;
+    private BigDecimal earn;
 
     private String date;
 
-	public BigDecimal getAmount() {
-		return amount;
+	public BigDecimal getEarn() {
+		return earn;
 	}
 
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
+	public void setEarn(BigDecimal earn) {
+		this.earn = earn;
 	}
 
 	public String getDate() {
