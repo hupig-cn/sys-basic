@@ -64,20 +64,28 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	@Override
 	public Result getRecommendTotal(String recommendId) {
 
-		Rewrite_RecommondCountDTO recommondCountDTO = new Rewrite_RecommondCountDTO();
+		//获取被推荐人longin库资料
+		User jhiUser = userRepository.findJhiUserById(Long.parseLong(recommendId));
+		if (jhiUser == null) {
+			return Result.fail("不存在该用户！");
+		}
 		//通过id找到推荐人数量
 		List<String> recommendIdfindByUserId = incomeDetailsRepository.findByRecommendid(recommendId);
+		if (recommendIdfindByUserId == null) {
+			return Result.suc("暂无推荐人数据！");
+		}
+		Rewrite_RecommondCountDTO recommondCountDTO = new Rewrite_RecommondCountDTO();
+		
 		Long merchantCount = 0L;
 		Long partnerCount = 0L;
 		Long allCount = 0L;
 		for (String userid : recommendIdfindByUserId) {
-			//			String userid = userlinkuser.getUserid();
-			//是否是商家
+			//是否是商家，如果是，每次加1
 			Merchant merchant = merchantRepository.findByUserid(userid);
 			if (merchant!=null) {
 				merchantCount += 1L;
 			}
-			//是否是事业合伙人
+			//是否是事业合伙人，如果是，每次加1
 			Userlinkuser partner = userLinkUserRepository.findByUserid(userid);
 			if (partner.getPartner()) {
 				partnerCount += 1L;
@@ -264,7 +272,11 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	//获取收益列表
 	@Override
 	public Result getProfitList(String userId) {
-
+		//获取被推荐人longin库资料
+		User jhiUser = userRepository.findJhiUserById(Long.parseLong(userId));
+		if (jhiUser == null) {
+			return Result.fail("不存在该用户！");
+		}
 		
 		List<Rewrite_ProfitListDTO> profitListDTO = new ArrayList<>();
 		//获取今天零点的时间戳
@@ -277,7 +289,6 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		
 		//7天前零点的时间
 		Long oldZeroTime = nowZeroTime-(86400000L * 6);
-//		String oldZTime = sdf.format(new Date(oldZeroTime));
 
 		//一天的毫秒值
 		Long oneDayTime = 86400000L;

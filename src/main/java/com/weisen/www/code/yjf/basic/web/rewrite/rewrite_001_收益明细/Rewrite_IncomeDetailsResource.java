@@ -63,6 +63,12 @@ public class Rewrite_IncomeDetailsResource {
     	return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
+    /**
+     * 收益列表
+     *
+    	 * @author sxx
+    	 * @date 2019-10-26 15:55:31
+     */
     @PostMapping("/Profit/List")
     @ApiOperation("收益列表")
     public ResponseEntity<?> getProfitList(@RequestParam String userId){
