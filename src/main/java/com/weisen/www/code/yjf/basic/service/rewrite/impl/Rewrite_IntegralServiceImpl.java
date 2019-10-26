@@ -8,10 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.weisen.www.code.yjf.basic.domain.Linkuser;
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
+import com.weisen.www.code.yjf.basic.domain.User;
 import com.weisen.www.code.yjf.basic.domain.Userassets;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserassetsRepository;
+import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_IntegralService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_IntegralDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_UserassetsDTO;
@@ -27,12 +29,15 @@ public class Rewrite_IntegralServiceImpl implements Rewrite_IntegralService {
 
 	private final Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository;
 
+	private final Rewrite_UserRepository rewrite_UserRepository;
+
 	public Rewrite_IntegralServiceImpl(Rewrite_LinkuserRepository rewrite_LinkuserRepository,
 			Rewrite_UserassetsRepository rewrite_UserassetsRepository,
-			Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository) {
+			Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository, Rewrite_UserRepository rewrite_UserRepository) {
 		this.rewrite_LinkuserRepository = rewrite_LinkuserRepository;
 		this.rewrite_UserassetsRepository = rewrite_UserassetsRepository;
 		this.rewrite_ReceiptpayRepository = rewrite_ReceiptpayRepository;
+		this.rewrite_UserRepository = rewrite_UserRepository;
 	}
 
 	/**
@@ -41,8 +46,9 @@ public class Rewrite_IntegralServiceImpl implements Rewrite_IntegralService {
 	@Override
 	public Result getIntegral(String userId) {
 		// 判断是否有该用户
-		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userId);
-		if (linkuser == null) {
+		// 获取被推荐人Login库资料
+		User jhiUser = rewrite_UserRepository.findJhiUserById(Long.parseLong(userId));
+		if (jhiUser == null) {
 			return Result.fail("没有该用户!请重新输入查找!");
 		} else {
 			// 查询用户总积分
@@ -63,8 +69,9 @@ public class Rewrite_IntegralServiceImpl implements Rewrite_IntegralService {
 			pageSize = 10;
 		}
 		// 判断是否有该用户
-		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userId);
-		if (linkuser == null) {
+		// 获取被推荐人Login库资料
+		User jhiUser = rewrite_UserRepository.findJhiUserById(Long.parseLong(userId));
+		if (jhiUser == null) {
 			return Result.fail("没有该用户!请重新输入查找!");
 		} else {
 			List<Rewrite_IntegralDTO> rewrite_IntegralDTOs = new ArrayList<Rewrite_IntegralDTO>();
