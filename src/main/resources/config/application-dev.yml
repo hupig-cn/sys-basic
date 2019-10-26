@@ -158,3 +158,4 @@ oauth2:
 # ===================================================================
 
 # application:
+images-path: http://192.168.1.142:8084/services/basic/api/public/getFiles/

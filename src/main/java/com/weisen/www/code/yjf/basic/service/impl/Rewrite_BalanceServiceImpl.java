@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -193,8 +194,8 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
             operatingIncomeDTO.setDate(endTime);
             list.add(operatingIncomeDTO);
             endTime = startTime;
-
         }
+        Collections.reverse(list);
         return Result.suc("查询成功",list);
     }
 }

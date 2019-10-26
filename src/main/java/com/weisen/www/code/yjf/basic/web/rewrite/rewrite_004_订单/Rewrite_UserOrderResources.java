@@ -36,12 +36,36 @@ public class Rewrite_UserOrderResources {
 
     @PostMapping("/myUserOrder")
     @ApiOperation("全部订单")
-    public ResponseEntity<?> myUserOrder(@RequestParam(required = false) String startTime,
-                                         @RequestParam(required = false) String endTime,
-                                         @RequestParam(required = false) String userid){
+    public ResponseEntity<?> myUserOrder(@RequestParam(required = false) String userid){
         Result result = rewrite_001_userorderService.myUserOrder(userid);
         log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/myUserOrder", "传入值:"+userid, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 
+    }
+
+    @PostMapping("/OrderState")
+    @ApiOperation("全部订单")
+    public ResponseEntity<?> OrderState(@RequestParam(required = false) String userid,
+                                        @RequestParam(required = false) String orderState){
+        Result result = rewrite_001_userorderService.OrderState(userid,orderState);
+        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/OrderState", "传入值:"+userid+":"+orderState, result);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
+    @PostMapping("/OrdersConfirmation")
+    @ApiOperation("对订单的操作")
+    public ResponseEntity<?> OrdersConfirmation(@RequestParam(required = false) String userid,
+                                                @RequestParam(required = false) String ordercode){
+        Result result = rewrite_001_userorderService.OrdersConfirmation(userid,ordercode);
+        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/OrdersConfirmation", "传入值:"+userid+":"+ordercode, result);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+    @PostMapping("/Orderdetail")
+    @ApiOperation("订单详情")
+    public ResponseEntity<?> Orderdetail(@RequestParam(required = false) String userid,
+                                         @RequestParam(required = false) String orderid){
+        Result result = rewrite_001_userorderService.Orderdetail(userid,orderid);
+        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Orderdetail", "传入值:"+userid+":"+orderid, result);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 }
