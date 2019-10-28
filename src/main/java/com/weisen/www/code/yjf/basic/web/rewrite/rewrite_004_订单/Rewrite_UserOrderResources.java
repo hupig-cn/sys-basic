@@ -44,7 +44,7 @@ public class Rewrite_UserOrderResources {
     }
 
     @PostMapping("/OrderState")
-    @ApiOperation("全部订单")
+    @ApiOperation("订单状态")
     public ResponseEntity<?> OrderState(@RequestParam(required = false) String userid,
                                         @RequestParam(required = false) String orderState){
         Result result = rewrite_001_userorderService.OrderState(userid,orderState);
@@ -63,9 +63,9 @@ public class Rewrite_UserOrderResources {
     @PostMapping("/Orderdetail")
     @ApiOperation("订单详情")
     public ResponseEntity<?> Orderdetail(@RequestParam(required = false) String userid,
-                                         @RequestParam(required = false) String orderid){
-        Result result = rewrite_001_userorderService.Orderdetail(userid,orderid);
-        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Orderdetail", "传入值:"+userid+":"+orderid, result);
+                                         @RequestParam(required = false) String ordercode){
+        Result result = rewrite_001_userorderService.Orderdetail(userid,ordercode);
+        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Orderdetail", "传入值:"+userid+":"+ordercode, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 }

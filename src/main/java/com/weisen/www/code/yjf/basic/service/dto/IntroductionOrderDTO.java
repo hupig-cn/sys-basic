@@ -22,6 +22,36 @@ public class IntroductionOrderDTO implements Serializable {
 
     private String orderid;
 
+    private String num;
+
+    private String oneprice;
+
+    private String MerchantName;
+
+    public String getMerchantName() {
+        return MerchantName;
+    }
+
+    public void setMerchantName(String merchantName) {
+        MerchantName = merchantName;
+    }
+
+    public String getOneprice() {
+        return oneprice;
+    }
+
+    public void setOneprice(String oneprice) {
+        this.oneprice = oneprice;
+    }
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
+    }
+
     public String getOrderid() {
         return orderid;
     }

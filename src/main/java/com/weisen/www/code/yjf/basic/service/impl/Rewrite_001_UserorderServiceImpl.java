@@ -4,6 +4,7 @@ import com.weisen.www.code.yjf.basic.domain.Order;
 import com.weisen.www.code.yjf.basic.domain.Specifications;
 import com.weisen.www.code.yjf.basic.domain.Userorder;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_001_UserorderRepository;
+import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_MerchantRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_OrderRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_SpecificationsRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_001_UserorderService;
@@ -33,15 +34,23 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
 
     private final Rewrite_OrderRepository rewrite_orderRepository;
 
-    public Rewrite_001_UserorderServiceImpl(Rewrite_001_UserorderRepository rewrite_001_userorderRepository, Rewrite_SpecificationsRepository rewrite_specificationsRepository, Rewrite_OrderRepository rewrite_orderRepository) {
+    private final Rewrite_MerchantRepository rewrite_merchantRepository;
+
+    public Rewrite_001_UserorderServiceImpl(Rewrite_001_UserorderRepository rewrite_001_userorderRepository, Rewrite_SpecificationsRepository rewrite_specificationsRepository, Rewrite_OrderRepository rewrite_orderRepository, Rewrite_MerchantRepository rewrite_merchantRepository) {
         this.rewrite_001_userorderRepository = rewrite_001_userorderRepository;
         this.rewrite_specificationsRepository = rewrite_specificationsRepository;
         this.rewrite_orderRepository = rewrite_orderRepository;
+        this.rewrite_merchantRepository = rewrite_merchantRepository;
     }
 
     @Override
     public Result myUserOrder(String userid) {
         List<Userorder> list = rewrite_001_userorderRepository.findUserorderByUserid(userid);
+        if (list == null){
+            return Result.fail("输入参数有误");
+        }else if (list.size() == 0){
+            return Result.fail("暂无订单");
+        }
         List<IntroductionOrderDTO> aa = useerorder(list);
         return Result.suc("??",aa,aa.size());
     }
@@ -52,6 +61,11 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
             return Result.fail("传入参数有误");
         }
         List<Userorder> userorder = rewrite_001_userorderRepository.findUserorderByUseridAndOrderstatus(userid, orderState);
+        if (userorder == null) {
+            return Result.fail("输入参数有误");
+        }else if (userorder.size() == 0){
+            return Result.fail("暂无这个状态的订单");
+        }
         List<IntroductionOrderDTO> aa = useerorder(userorder);
         return Result.suc("??",aa,aa.size());
     }
@@ -59,7 +73,9 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
     @Override
     public Result OrdersConfirmation(String userid, String ordercode) {
         Userorder userorderByOrdercode = rewrite_001_userorderRepository.findUserorderByOrdercode(ordercode);
-        if (!userorderByOrdercode.getUserid().equals(userid)) {
+        if (userorderByOrdercode == null){
+            return Result.fail("传入参数有误");
+        } else if (!userorderByOrdercode.getUserid().equals(userid)) {
             return Result.fail("你不是本人不能操作");
         }
         userorderByOrdercode.setOrderstatus("2");//代发货 todo
@@ -69,9 +85,11 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
     }
 
     @Override
-    public Result Orderdetail(String userid, String orderid) {
-        Userorder userorderByOrdercode = rewrite_001_userorderRepository.findUserorderByOrdercode(orderid);
-        if (!userorderByOrdercode.getUserid().equals(userid)) {
+    public Result Orderdetail(String userid, String ordercode) {
+        Userorder userorderByOrdercode = rewrite_001_userorderRepository.findUserorderByOrdercode(ordercode);
+        if (userorderByOrdercode == null){
+            return Result.fail("请输入正确的订单编号");
+        } else if (!userorderByOrdercode.getUserid().equals(userid)) {
             return Result.fail("你不是本人不能操作");
         }
         List<Userorder> list = new ArrayList<>();
@@ -79,6 +97,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
         List<IntroductionOrderDTO> useerorder = useerorder(list);
         IntroductionOrderDTO dto = useerorder.get(0);//todo
         Order order = rewrite_orderRepository.findOrderByBigorder(dto.getOrderid());
+
         return Result.suc("ojbk",order);
     }
 
@@ -91,6 +110,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
             IntroductionOrderDTO introductionOrderDTO = new IntroductionOrderDTO();
             introductionOrderDTO.setOrderid(userorder.getId()+"");
             introductionOrderDTO.setOrdercode(userorder.getOrdercode());
+
             Specifications s = rewrite_specificationsRepository.findSpecificationsByCommodityid(userorder.getOther());
             Long fileid = s.getFileid();
             introductionOrderDTO.setUrl(imagesPath+fileid);
@@ -98,6 +118,10 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
             introductionOrderDTO.setSpecificatinons(s.getSpecifications());
             introductionOrderDTO.setStaus(userorder.getOrderstatus());
             introductionOrderDTO.setPaytime(userorder.getPaytime());
+            introductionOrderDTO.setOneprice(s.getPrice()+"");
+
+            Order orderByBigorder = rewrite_orderRepository.findOrderByBigorder(userorder.getId() + "");
+            introductionOrderDTO.setNum(orderByBigorder.getNum());
             aa.add(introductionOrderDTO);
         }
         return aa;

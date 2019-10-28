@@ -17,7 +17,7 @@ public interface Rewrite_001_UserorderService {
 
     Result OrdersConfirmation(String userid, String orderid);
 
-    Result Orderdetail(String userid, String orderid);
+    Result Orderdetail(String userid, String ordercode);
 
     List<IntroductionOrderDTO> useerorder(List<Userorder> a);
 
