@@ -57,7 +57,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
 
     @Override
     public Result OrderState(String userid, String orderState) {
-        if (!orderState.equals("1")||!orderState.equals("2")||!orderState.equals("3")||!orderState.equals("4")){
+        if (!orderState.equals("1")&&!orderState.equals("2")&&!orderState.equals("3")&&!orderState.equals("4")){
             return Result.fail("传入参数有误");
         }
         List<Userorder> userorder = rewrite_001_userorderRepository.findUserorderByUseridAndOrderstatus(userid, orderState);
@@ -121,7 +121,11 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
             introductionOrderDTO.setOneprice(s.getPrice()+"");
 
             Order orderByBigorder = rewrite_orderRepository.findOrderByBigorder(userorder.getId() + "");
-            introductionOrderDTO.setNum(orderByBigorder.getNum());
+            if (orderByBigorder != null){
+                introductionOrderDTO.setNum(orderByBigorder.getNum());
+            }else {
+                introductionOrderDTO.setNum("1");
+            }
             aa.add(introductionOrderDTO);
         }
         return aa;
