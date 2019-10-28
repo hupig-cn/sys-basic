@@ -37,8 +37,10 @@ public class Rewrite_UserOrderResources {
     @PostMapping("/myUserOrder")
     @ApiOperation("全部订单")
     public ResponseEntity<?> myUserOrder(@RequestParam(required = false) String userid,
-                                         @RequestParam(required = false) String orderState){
-        Result result = rewrite_001_userorderService.myUserOrder(userid,orderState);
+                                         @RequestParam(required = false) String orderState,
+                                         @RequestParam(required = false) Integer pageNum,
+                                         @RequestParam(required = false) Integer pageSize){
+        Result result = rewrite_001_userorderService.myUserOrder(userid,orderState,pageNum,pageSize);
         log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/myUserOrder", "传入值:"+userid, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 

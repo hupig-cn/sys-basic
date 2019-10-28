@@ -20,6 +20,8 @@ public class IntroductionOrderDTO implements Serializable {
 
     private String paytime;
 
+    private String payway;
+
     private String orderid;
 
     private String num;
@@ -29,6 +31,24 @@ public class IntroductionOrderDTO implements Serializable {
     private String MerchantName;
 
     private String createdate;
+
+    private String other;
+
+    public String getOther() {
+        return other;
+    }
+
+    public void setOther(String other) {
+        this.other = other;
+    }
+
+    public String getPayway() {
+        return payway;
+    }
+
+    public void setPayway(String payway) {
+        this.payway = payway;
+    }
 
     public String getCreatedate() {
         return createdate;

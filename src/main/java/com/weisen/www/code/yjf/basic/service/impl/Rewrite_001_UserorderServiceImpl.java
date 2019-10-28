@@ -45,7 +45,13 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
     }
 
     @Override
-    public Result myUserOrder(String userid,String orderState) {
+    public Result myUserOrder(String userid,String orderState,Integer pageNum,Integer pageSize) {
+        List<IntroductionOrderDTO> aaa = new ArrayList<>();
+        List<IntroductionOrderDTO> aa ;
+        if (pageNum == null || pageSize == null ){
+            pageNum = 0;
+            pageSize = 10;
+        }
         if (orderState.equals("0")){
             List<Userorder> list = rewrite_001_userorderRepository.findUserorderByUserid(userid);
             if (list == null){
@@ -53,20 +59,28 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
             }else if (list.size() == 0){
                 return Result.fail("暂无订单");
             }
-            List<IntroductionOrderDTO> aa = useerorder(list);
-            return Result.suc("查询成功",aa,aa.size());
+            aa = useerorder(list);
         }else if (!orderState.equals("1") && !orderState.equals("2") && !orderState.equals("3")&& !orderState.equals("4")&& !orderState.equals("5")){
             return Result.fail("传入参数有误");
-        }
+        }else {
         List<Userorder> userorder = rewrite_001_userorderRepository.findUserorderByUseridAndOrderstatus(userid, orderState);
         if (userorder == null) {
             return Result.fail("输入参数有误");
         }else if (userorder.size() == 0){
             return Result.fail("暂无这个状态的订单");
         }
-        List<IntroductionOrderDTO> aa = useerorder(userorder);
-        return Result.suc("查询成功",aa,aa.size());
+            aa = useerorder(userorder);
+        }
 
+        for (int i = 1 + (pageSize * (pageNum)); i <= (pageNum+1) * (pageSize); i++) {
+            if (i > aa.size()) {
+                return Result.suc("查询成功，这是最后一页了", aaa, aaa.size());
+            }
+            IntroductionOrderDTO introductionOrderDTO = aa.get(i-1);
+            aaa.add(introductionOrderDTO);
+        }
+
+        return Result.suc("查询成功",aaa,aaa.size());
     }
 
 
@@ -78,7 +92,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
         } else if (!userorderByOrdercode.getUserid().equals(userid)) {
             return Result.fail("你不是本人不能操作");
         }
-        userorderByOrdercode.setOrderstatus("2");//代发货 todo
+        userorderByOrdercode.setOrderstatus("2");
         userorderByOrdercode.setId(userorderByOrdercode.getId());
         rewrite_001_userorderRepository.save(userorderByOrdercode);
         return Result.suc("修改成功");
@@ -95,7 +109,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
         List<Userorder> list = new ArrayList<>();
         list.add(userorderByOrdercode);
         List<IntroductionOrderDTO> useerorder = useerorder(list);
-        IntroductionOrderDTO dto = useerorder.get(0);//todo
+        IntroductionOrderDTO dto = useerorder.get(0);
         Order order = rewrite_orderRepository.findOrderByBigorder(dto.getOrderid());
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setOrder(dto);
@@ -124,7 +138,20 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
             introductionOrderDTO.setPaytime(userorder.getPaytime());
             introductionOrderDTO.setOneprice(s.getPrice()+"");
             introductionOrderDTO.setCreatedate(userorder.getCreatedate());
-
+            introductionOrderDTO.setOther(userorder.getOther());
+            if (userorder.getPayway() == null || userorder.getPayway().equals("")){
+                introductionOrderDTO.setPayway("未支付");
+            }else if (userorder.getPayway().equals("1")){
+                introductionOrderDTO.setPayway("支付宝支付");
+            }else if(userorder.getPayway().equals("2")){
+                introductionOrderDTO.setPayway("微信支付");
+            }else if(userorder.getPayway().equals("3")){
+                introductionOrderDTO.setPayway("余额支付");
+            }else if(userorder.getPayway().equals("4")){
+                introductionOrderDTO.setPayway("积分支付");
+            }else if(userorder.getPayway().equals("5")){
+                introductionOrderDTO.setPayway("优惠卷支付");
+            }
             Order orderByBigorder = rewrite_orderRepository.findOrderByBigorder(userorder.getId() + "");
             if (orderByBigorder != null){
                 introductionOrderDTO.setNum(orderByBigorder.getNum());
