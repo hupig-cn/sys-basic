@@ -53,7 +53,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
             return Result.fail("暂无订单");
         }
         List<IntroductionOrderDTO> aa = useerorder(list);
-        return Result.suc("??",aa,aa.size());
+        return Result.suc("查询成功",aa,aa.size());
     }
 
     @Override
@@ -68,7 +68,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
             return Result.fail("暂无这个状态的订单");
         }
         List<IntroductionOrderDTO> aa = useerorder(userorder);
-        return Result.suc("??",aa,aa.size());
+        return Result.suc("查询成功",aa,aa.size());
     }
 
     @Override
@@ -103,7 +103,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
         orderDTO.setConsignee(order.getConsignee());
         orderDTO.setMobile(order.getMobile());
         orderDTO.setAddress(order.getAddress());
-        return Result.suc("ojbk",orderDTO);
+        return Result.suc("查询成功",orderDTO);
     }
 
     @Override
