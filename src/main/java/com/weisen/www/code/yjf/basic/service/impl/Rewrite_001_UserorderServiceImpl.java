@@ -55,7 +55,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
             }
             List<IntroductionOrderDTO> aa = useerorder(list);
             return Result.suc("查询成功",aa,aa.size());
-        }else if (!orderState.equals("1") && !orderState.equals("2") && !orderState.equals("3")){
+        }else if (!orderState.equals("1") && !orderState.equals("2") && !orderState.equals("3")&& !orderState.equals("4")&& !orderState.equals("5")){
             return Result.fail("传入参数有误");
         }
         List<Userorder> userorder = rewrite_001_userorderRepository.findUserorderByUseridAndOrderstatus(userid, orderState);
