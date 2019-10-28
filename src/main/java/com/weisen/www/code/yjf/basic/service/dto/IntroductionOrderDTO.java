@@ -28,6 +28,16 @@ public class IntroductionOrderDTO implements Serializable {
 
     private String MerchantName;
 
+    private String createdate;
+
+    public String getCreatedate() {
+        return createdate;
+    }
+
+    public void setCreatedate(String createdate) {
+        this.createdate = createdate;
+    }
+
     public String getMerchantName() {
         return MerchantName;
     }

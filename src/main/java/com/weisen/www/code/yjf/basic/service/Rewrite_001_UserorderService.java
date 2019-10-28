@@ -11,9 +11,7 @@ import java.util.List;
  * @Date: 2019/10/25 16:03
  */
 public interface Rewrite_001_UserorderService {
-    Result myUserOrder(String userid);
-
-    Result OrderState(String userid, String orderState);
+    Result myUserOrder(String userid,String orderState);
 
     Result OrdersConfirmation(String userid, String orderid);
 

@@ -45,20 +45,17 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
     }
 
     @Override
-    public Result myUserOrder(String userid) {
-        List<Userorder> list = rewrite_001_userorderRepository.findUserorderByUserid(userid);
-        if (list == null){
-            return Result.fail("输入参数有误");
-        }else if (list.size() == 0){
-            return Result.fail("暂无订单");
-        }
-        List<IntroductionOrderDTO> aa = useerorder(list);
-        return Result.suc("查询成功",aa,aa.size());
-    }
-
-    @Override
-    public Result OrderState(String userid, String orderState) {
-        if (!orderState.equals("1")&&!orderState.equals("2")&&!orderState.equals("3")&&!orderState.equals("4")){
+    public Result myUserOrder(String userid,String orderState) {
+        if (orderState.equals("0")){
+            List<Userorder> list = rewrite_001_userorderRepository.findUserorderByUserid(userid);
+            if (list == null){
+                return Result.fail("输入参数有误");
+            }else if (list.size() == 0){
+                return Result.fail("暂无订单");
+            }
+            List<IntroductionOrderDTO> aa = useerorder(list);
+            return Result.suc("查询成功",aa,aa.size());
+        }else if (!orderState.equals("1") && !orderState.equals("2") && !orderState.equals("3")){
             return Result.fail("传入参数有误");
         }
         List<Userorder> userorder = rewrite_001_userorderRepository.findUserorderByUseridAndOrderstatus(userid, orderState);
@@ -69,7 +66,9 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
         }
         List<IntroductionOrderDTO> aa = useerorder(userorder);
         return Result.suc("查询成功",aa,aa.size());
+
     }
+
 
     @Override
     public Result OrdersConfirmation(String userid, String ordercode) {
@@ -124,6 +123,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
             introductionOrderDTO.setStaus(userorder.getOrderstatus());
             introductionOrderDTO.setPaytime(userorder.getPaytime());
             introductionOrderDTO.setOneprice(s.getPrice()+"");
+            introductionOrderDTO.setCreatedate(userorder.getCreatedate());
 
             Order orderByBigorder = rewrite_orderRepository.findOrderByBigorder(userorder.getId() + "");
             if (orderByBigorder != null){
