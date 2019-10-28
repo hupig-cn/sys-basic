@@ -9,6 +9,7 @@ import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_OrderRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_SpecificationsRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_001_UserorderService;
 import com.weisen.www.code.yjf.basic.service.dto.IntroductionOrderDTO;
+import com.weisen.www.code.yjf.basic.service.dto.OrderDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -97,7 +98,11 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
         List<IntroductionOrderDTO> useerorder = useerorder(list);
         IntroductionOrderDTO dto = useerorder.get(0);//todo
         Order order = rewrite_orderRepository.findOrderByBigorder(dto.getOrderid());
-
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setOrder(dto);
+        orderDTO.setConsignee(order.getConsignee());
+        orderDTO.setMobile(order.getMobile());
+        orderDTO.setAddress(order.getAddress());
         return Result.suc("ojbk",order);
     }
 

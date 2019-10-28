@@ -16,4 +16,35 @@ public class OrderDTO implements Serializable {
 
     private String address;
 
+    public IntroductionOrderDTO getOrder() {
+        return order;
+    }
+
+    public void setOrder(IntroductionOrderDTO order) {
+        this.order = order;
+    }
+
+    public String getConsignee() {
+        return consignee;
+    }
+
+    public void setConsignee(String consignee) {
+        this.consignee = consignee;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }
