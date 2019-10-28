@@ -103,7 +103,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
         orderDTO.setConsignee(order.getConsignee());
         orderDTO.setMobile(order.getMobile());
         orderDTO.setAddress(order.getAddress());
-        return Result.suc("ojbk",order);
+        return Result.suc("ojbk",orderDTO);
     }
 
     @Override
