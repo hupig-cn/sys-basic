@@ -74,9 +74,6 @@ public class Receiptpay implements Serializable {
 	@Column(name = "other")
 	private String other;
 
-	@Column(name = "explain")
-	private String explain;
-
 	@Column(name = "balance", precision = 21, scale = 3)
 	private BigDecimal balance;
 
@@ -91,6 +88,9 @@ public class Receiptpay implements Serializable {
 
 	@Column(name = "integral", precision = 21, scale = 3)
 	private BigDecimal integral;
+
+	@Column(name = "explains")
+	private String explain;
 
 	// jhipster-needle-entity-add-field - JHipster will add fields here, do not
 	// remove
