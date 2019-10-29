@@ -34,6 +34,26 @@ public class IntroductionOrderDTO implements Serializable {
 
     private String other;
 
+    private String express_company;
+
+    private String express_no;
+
+    public String getExpress_company() {
+        return express_company;
+    }
+
+    public void setExpress_company(String express_company) {
+        this.express_company = express_company;
+    }
+
+    public String getExpress_no() {
+        return express_no;
+    }
+
+    public void setExpress_no(String express_no) {
+        this.express_no = express_no;
+    }
+
     public String getOther() {
         return other;
     }

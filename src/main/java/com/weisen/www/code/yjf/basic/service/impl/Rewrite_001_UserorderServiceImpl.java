@@ -139,6 +139,19 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
             introductionOrderDTO.setOneprice(s.getPrice()+"");
             introductionOrderDTO.setCreatedate(userorder.getCreatedate());
             introductionOrderDTO.setOther(userorder.getOther());
+
+            if (userorder.getExpressCompany() == null || userorder.getExpressCompany().equals("")){
+                introductionOrderDTO.setExpress_company("未支付暂时还未发货");
+            }else {
+                introductionOrderDTO.setExpress_company(userorder.getExpressCompany());
+            }
+
+            if (userorder.getExpressNo() == null || userorder.getExpressNo().equals("")){
+                introductionOrderDTO.setExpress_no("未支付暂无订单号");
+            }else {
+                introductionOrderDTO.setExpress_no(userorder.getExpressNo());
+            }
+
             if (userorder.getPayway() == null || userorder.getPayway().equals("")){
                 introductionOrderDTO.setPayway("未支付");
             }else if (userorder.getPayway().equals("1")){
