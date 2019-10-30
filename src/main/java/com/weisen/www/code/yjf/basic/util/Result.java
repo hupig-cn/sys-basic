@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.weisen.www.code.quanquan.basic.service.util.Result;
 
 @SuppressWarnings("serial")
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
