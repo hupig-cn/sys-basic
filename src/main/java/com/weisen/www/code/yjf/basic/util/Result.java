@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.weisen.www.code.quanquan.basic.service.util.Result;
 
 @SuppressWarnings("serial")
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
@@ -14,43 +13,43 @@ public class Result implements Serializable {
 	private int code;
 
 	private String message;
-	
+
 	private Integer totalElements;
-	
+
 	private Object data;
 
 	public static final int SUCCESS = 1;
-	
+
 	public static final int FAILURE = 0;
-	
-	public static Result suc (String message, Object data, Integer totalElements) {
+
+	public static Result suc(String message, Object data, Integer totalElements) {
 		return new Result(SUCCESS, message, totalElements, data);
 	}
-	
-	public static Result suc (String message, Object data) {
+
+	public static Result suc(String message, Object data) {
 		return new Result(SUCCESS, message, 1, data);
 	}
-	
-	public static Result suc (String message) {
+
+	public static Result suc(String message) {
 		return suc(message, null, null);
 	}
-	
-	public static Result suc () {
+
+	public static Result suc() {
 		return suc("操作成功");
 	}
-	
-	public static Result fail(String message,Object data) {
+
+	public static Result fail(String message, Object data) {
 		return new Result(FAILURE, message, 0, data);
 	}
-	
-	public static Result fail (String message) {
+
+	public static Result fail(String message) {
 		return new Result(FAILURE, message, null, null);
 	}
-	
-	public static Result fail () {
+
+	public static Result fail() {
 		return fail("操作失败");
 	}
-	
+
 	private Result(int code, String message, Integer totalElements, Object data) {
 		super();
 		this.code = code;
@@ -61,7 +60,7 @@ public class Result implements Serializable {
 		} else if (data == null) {
 			this.totalElements = 0;
 			this.data = Arrays.asList();
-        } else {
+		} else {
 			if (!((List<?>) data).isEmpty()) {
 				this.data = data;
 			} else {
@@ -102,8 +101,7 @@ public class Result implements Serializable {
 	public void setData(Object data) {
 		this.data = data;
 	}
-	
-	
+
 	public static void main(String[] args) {
 		String s = "Gasd asda";
 		String str = s.toUpperCase();
