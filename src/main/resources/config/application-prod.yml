@@ -170,3 +170,4 @@ oauth2:
 # ===================================================================
 
 # application:
+images-path: http://app.yuanscore.com:8083/services/basic/api/public/getFiles/

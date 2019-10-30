@@ -57,7 +57,11 @@ public class Result implements Serializable {
 			this.totalElements = null;
 			this.data = "";
         } else {
-			if (!((List<?>) data).isEmpty()) this.data = data;
+			if (!((List<?>) data).isEmpty()) {
+				this.data = data;
+			} else {
+				this.data = Arrays.asList();
+			}
 		}
 	}
 
