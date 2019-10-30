@@ -55,7 +55,7 @@ public class Rewrite_IntegralServiceImpl implements Rewrite_IntegralService {
 			Userassets userassets = rewrite_UserassetsRepository.findByUserid(userId);
 			Rewrite_UserassetsDTO userassetsDTO = new Rewrite_UserassetsDTO();
 			userassetsDTO.setIntegral(userassets.getIntegral());
-			return Result.suc("查询成功!", userassetsDTO);
+			return Result.suc("查询成功!", userassetsDTO.getIntegral());
 		}
 	}
 
