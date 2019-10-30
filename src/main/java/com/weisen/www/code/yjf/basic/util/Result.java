@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.weisen.www.code.quanquan.basic.service.util.Result;
 
 @SuppressWarnings("serial")
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
@@ -38,6 +39,10 @@ public class Result implements Serializable {
 		return suc("操作成功");
 	}
 	
+	public static Result fail(String message,Object data) {
+		return new Result(FAILURE, message, 0, data);
+	}
+	
 	public static Result fail (String message) {
 		return new Result(FAILURE, message, null, null);
 	}
@@ -61,6 +66,7 @@ public class Result implements Serializable {
 				this.data = data;
 			} else {
 				this.data = Arrays.asList();
+				this.totalElements = 0;
 			}
 		}
 	}
