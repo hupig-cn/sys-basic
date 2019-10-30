@@ -158,4 +158,8 @@
         </addColumn>
     </changeSet>
     
+    <changeSet id="20191030173100_renameColumn" author="jhipster">
+    	<renameColumn tableName="receiptpay" oldColumnName="explain" newColumnName="explains"/>
+    </changeSet>
+    
 </databaseChangeLog>
