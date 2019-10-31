@@ -94,7 +94,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		}
 
 		//获取总推荐收益
-		BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
+		BigDecimal bigDecimal = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
 		List<BigDecimal> amounts = receiptpayRepository.findReceiptpayByUserid(recommendId);
 		//如果有数据，保存
 		if (amounts!=null) {
@@ -160,7 +160,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					//获取收支明细表中对应
 					List<BigDecimal> amounts = receiptpayRepository.getReceiptpayByUseridAndSourcerAndTime(recommendId,userid,firstTime,lastTime);
 					//如果找得到数据
-					BigDecimal sumAmount = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
+					BigDecimal sumAmount = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
 					//如果收支明细表中有数据，查找获利金额
 					if (amounts != null) {
 						for (BigDecimal amount : amounts) {
@@ -221,7 +221,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 				//获取收支明细表中对应
 				List<Receiptpay> receiptpays = receiptpayRepository.findByUseridAndSourcer(recommendId,userid);
 				//如果找得到数据
-				BigDecimal sumAmount = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
+				BigDecimal sumAmount = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
 				if (receiptpays != null) {
 					for (Receiptpay receiptpay : receiptpays) {
 						BigDecimal amount = receiptpay.getAmount();
@@ -297,7 +297,8 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 		//如果7天前的时间加上每一天的时间小于现在时间，说明是今天到七天前的数据
 		do{
-			BigDecimal bigDecimal = new BigDecimal(0).setScale(4, BigDecimal.ROUND_DOWN);
+			BigDecimal bigDecimal = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
+			System.out.println(bigDecimal);
 			Rewrite_ProfitListDTO profitDTO = new Rewrite_ProfitListDTO();
 			//查找数据的开始时间
 			String firstTime = sdf.format(new Date(oldZeroTime));
@@ -310,7 +311,8 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					bigDecimal = bigDecimal.add(amount);
 				}
 			}
-			profitDTO.setEarn(bigDecimal);
+			System.out.println(bigDecimal);
+			profitDTO.setEarn(""+bigDecimal);
 			profitDTO.setDate(firstTime);
 			profitListDTO.add(profitDTO);
 			
