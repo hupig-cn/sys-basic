@@ -1,18 +1,21 @@
 package com.weisen.www.code.yjf.basic.domain;
+
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
- * A Userlinkuser.
+ * A Specifications.
  */
 @Entity
-@Table(name = "userlinkuser")
+@Table(name = "specifications")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Userlinkuser implements Serializable {
+public class Specifications implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,27 +23,29 @@ public class Userlinkuser implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "userid")
-    private String userid;
+    @Column(name = "commodityid")
+    private String commodityid;
 
-    @Column(name = "recommendid")
-    private String recommendid;
+    @Column(name = "model")
+    private String model;
 
-    @Column(name = "partner")
-    private Boolean partner;
+    @Column(name = "fileid")
+    private Long fileid;
 
-    public Boolean getPartner() {
-		return partner;
-	}
+    @Column(name = "specifications")
+    private String specifications;
 
-	@Column(name = "province")
-    private Boolean province;
+    @Column(name = "integral", precision = 10, scale = 2)
+    private BigDecimal integral;
 
-    @Column(name = "city")
-    private Boolean city;
+    @Column(name = "num")
+    private Integer num;
 
-    @Column(name = "county")
-    private Boolean county;
+    @Column(name = "price")
+    private String price;
+
+    @Column(name = "discount")
+    private String discount;
 
     @Column(name = "creator")
     private String creator;
@@ -72,89 +77,115 @@ public class Userlinkuser implements Serializable {
         this.id = id;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getCommodityid() {
+        return commodityid;
     }
 
-    public Userlinkuser userid(String userid) {
-        this.userid = userid;
+    public Specifications commodityid(String commodityid) {
+        this.commodityid = commodityid;
         return this;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setCommodityid(String commodityid) {
+        this.commodityid = commodityid;
     }
 
-    public String getRecommendid() {
-        return recommendid;
+    public String getModel() {
+        return model;
     }
 
-    public Userlinkuser recommendid(String recommendid) {
-        this.recommendid = recommendid;
+    public Specifications model(String model) {
+        this.model = model;
         return this;
     }
 
-    public void setRecommendid(String recommendid) {
-        this.recommendid = recommendid;
+    public void setModel(String model) {
+        this.model = model;
     }
 
-    public Boolean isPartner() {
-        return partner;
+    public Long getFileid() {
+        return fileid;
     }
 
-    public Userlinkuser partner(Boolean partner) {
-        this.partner = partner;
+    public Specifications fileid(Long fileid) {
+        this.fileid = fileid;
         return this;
     }
 
-    public void setPartner(Boolean partner) {
-        this.partner = partner;
+    public void setFileid(Long fileid) {
+        this.fileid = fileid;
     }
 
-    public Boolean isProvince() {
-        return province;
+    public String getSpecifications() {
+        return specifications;
     }
 
-    public Userlinkuser province(Boolean province) {
-        this.province = province;
+    public Specifications specifications(String specifications) {
+        this.specifications = specifications;
         return this;
     }
 
-    public void setProvince(Boolean province) {
-        this.province = province;
+    public void setSpecifications(String specifications) {
+        this.specifications = specifications;
     }
 
-    public Boolean isCity() {
-        return city;
+    public BigDecimal getIntegral() {
+        return integral;
     }
 
-    public Userlinkuser city(Boolean city) {
-        this.city = city;
+    public Specifications integral(BigDecimal integral) {
+        this.integral = integral;
         return this;
     }
 
-    public void setCity(Boolean city) {
-        this.city = city;
+    public void setIntegral(BigDecimal integral) {
+        this.integral = integral;
     }
 
-    public Boolean isCounty() {
-        return county;
+    public Integer getNum() {
+        return num;
     }
 
-    public Userlinkuser county(Boolean county) {
-        this.county = county;
+    public Specifications num(Integer num) {
+        this.num = num;
         return this;
     }
 
-    public void setCounty(Boolean county) {
-        this.county = county;
+    public void setNum(Integer num) {
+        this.num = num;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public Specifications price(String price) {
+        this.price = price;
+        return this;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public Specifications discount(String discount) {
+        this.discount = discount;
+        return this;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
     }
 
     public String getCreator() {
         return creator;
     }
 
-    public Userlinkuser creator(String creator) {
+    public Specifications creator(String creator) {
         this.creator = creator;
         return this;
     }
@@ -167,7 +198,7 @@ public class Userlinkuser implements Serializable {
         return createdate;
     }
 
-    public Userlinkuser createdate(String createdate) {
+    public Specifications createdate(String createdate) {
         this.createdate = createdate;
         return this;
     }
@@ -180,7 +211,7 @@ public class Userlinkuser implements Serializable {
         return modifier;
     }
 
-    public Userlinkuser modifier(String modifier) {
+    public Specifications modifier(String modifier) {
         this.modifier = modifier;
         return this;
     }
@@ -193,7 +224,7 @@ public class Userlinkuser implements Serializable {
         return modifierdate;
     }
 
-    public Userlinkuser modifierdate(String modifierdate) {
+    public Specifications modifierdate(String modifierdate) {
         this.modifierdate = modifierdate;
         return this;
     }
@@ -206,7 +237,7 @@ public class Userlinkuser implements Serializable {
         return modifiernum;
     }
 
-    public Userlinkuser modifiernum(Long modifiernum) {
+    public Specifications modifiernum(Long modifiernum) {
         this.modifiernum = modifiernum;
         return this;
     }
@@ -219,7 +250,7 @@ public class Userlinkuser implements Serializable {
         return logicdelete;
     }
 
-    public Userlinkuser logicdelete(Boolean logicdelete) {
+    public Specifications logicdelete(Boolean logicdelete) {
         this.logicdelete = logicdelete;
         return this;
     }
@@ -232,7 +263,7 @@ public class Userlinkuser implements Serializable {
         return other;
     }
 
-    public Userlinkuser other(String other) {
+    public Specifications other(String other) {
         this.other = other;
         return this;
     }
@@ -247,27 +278,33 @@ public class Userlinkuser implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Userlinkuser)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        return id != null && id.equals(((Userlinkuser) o).id);
+        Specifications specifications = (Specifications) o;
+        if (specifications.getId() == null || getId() == null) {
+            return false;
+        }
+        return Objects.equals(getId(), specifications.getId());
     }
 
     @Override
     public int hashCode() {
-        return 31;
+        return Objects.hashCode(getId());
     }
 
     @Override
     public String toString() {
-        return "Userlinkuser{" +
+        return "Specifications{" +
             "id=" + getId() +
-            ", userid='" + getUserid() + "'" +
-            ", recommendid='" + getRecommendid() + "'" +
-            ", partner='" + isPartner() + "'" +
-            ", province='" + isProvince() + "'" +
-            ", city='" + isCity() + "'" +
-            ", county='" + isCounty() + "'" +
+            ", commodityid='" + getCommodityid() + "'" +
+            ", model='" + getModel() + "'" +
+            ", fileid=" + getFileid() +
+            ", specifications='" + getSpecifications() + "'" +
+            ", integral=" + getIntegral() +
+            ", num=" + getNum() +
+            ", price='" + getPrice() + "'" +
+            ", discount='" + getDiscount() + "'" +
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +

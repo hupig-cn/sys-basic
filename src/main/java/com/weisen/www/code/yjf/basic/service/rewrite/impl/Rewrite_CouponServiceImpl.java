@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.weisen.www.code.yjf.basic.domain.Coupon;
 import com.weisen.www.code.yjf.basic.domain.Linkuser;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_CouponRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
+import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_CouponRepository;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_CouponService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_CouponDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
@@ -42,6 +42,8 @@ public class Rewrite_CouponServiceImpl implements Rewrite_CouponService {
 		} else {
 			// 查询用户所有的优惠券
 			List<Coupon> couponList = rewrite_CouponRepository.findAllByUserid(userId);
+			// 按月份筛选优惠券数据
+//			List<Coupon> couponUserIdAndCretaeDateList = rewrite_CouponRepository.findCouponByUseridAndCreatedate(userId, createDate, number);
 			List<Rewrite_CouponDTO> couponDTOList = new ArrayList<>();
 			for (Coupon coupon : couponList) {
 				Rewrite_CouponDTO couponDTO = new Rewrite_CouponDTO();

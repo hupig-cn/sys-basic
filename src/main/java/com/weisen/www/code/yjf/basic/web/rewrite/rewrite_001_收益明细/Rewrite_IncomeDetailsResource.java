@@ -5,12 +5,15 @@ import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_IncomeDetailsService;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeAfferentDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 import io.github.jhipster.web.util.ResponseUtil;
@@ -34,31 +37,59 @@ public class Rewrite_IncomeDetailsResource {
     }
     /**
      * 获取各推荐人总数
-     * 
+     *
     	 * @author sxx
     	 * @date 2019-10-23 15:55:31
      */
     @PostMapping("/getRecommend/Total")
-    @ApiOperation("获取各推荐人总数")
-    public ResponseEntity<?> getRecommendTotal(String recommendId){
+    @ApiOperation("获取推荐人数量信息")
+    public ResponseEntity<?> getRecommendTotal(@RequestParam String recommendId){
 		Result result = incomeDetailsService.getRecommendTotal(recommendId);
 		log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",recommendId , result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
-    
+
     /**
      * 获取推荐人列表
-     * 
+     *
     	 * @author sxx
     	 * @date 2019-10-23 15:55:31
      */
     @PostMapping("/getRecommend/List")
-    @ApiOperation("获取推荐人列表")
-    public ResponseEntity<?> getRecommendList(String userId){
-    	Result result = incomeDetailsService.getRecommendList(userId);
-    	log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",userId , result);
+    @ApiOperation("获取推荐人明细")
+    public ResponseEntity<?> getRecommendList(@RequestBody Rewrite_GetIncomeAfferentDTO getIncomeAfferentDTO){
+    	Result result = incomeDetailsService.getRecommendList(getIncomeAfferentDTO);
+    	log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",getIncomeAfferentDTO , result);
     	return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
-    
-    
+
+    /**
+     * 收益列表
+     *
+    	 * @author sxx
+    	 * @date 2019-10-26 15:55:31
+     */
+    @PostMapping("/Profit/List")
+    @ApiOperation("收益列表")
+    public ResponseEntity<?> getProfitList(@RequestParam String userId){
+        Result result = incomeDetailsService.getProfitList(userId);
+        log.debug("访问地址: {},传入值: {},返回值: {}", "/Profit/List",userId, result);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
+    /**
+     * 推荐用户信息列表
+     *
+    	 * @author sxx
+    	 * @date 2019-10-31 15:55:31
+     */
+    @PostMapping("/UserInformation/List")
+    @ApiOperation("推荐用户信息列表")
+    public ResponseEntity<?> userInformationList(@RequestParam String userId,@RequestParam Integer Type){
+        Result result = incomeDetailsService.userInformationList(userId,Type);
+        log.debug("访问地址: {},传入值: {},返回值: {}", "/Profit/List",userId, result);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
+
 }

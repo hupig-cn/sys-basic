@@ -151,4 +151,15 @@
             </column>
         </addColumn>
     </changeSet>
+    
+    <changeSet id="20191025110230_add_column" author="jhipster">
+        <addColumn tableName="receiptpay">
+            <column name="explain" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="20191030173100_renameColumn" author="jhipster">
+    	<renameColumn tableName="receiptpay" oldColumnName="explain" newColumnName="explains"/>
+    </changeSet>
+    
 </databaseChangeLog>

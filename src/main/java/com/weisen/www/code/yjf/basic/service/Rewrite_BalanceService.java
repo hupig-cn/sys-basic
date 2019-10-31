@@ -3,15 +3,20 @@ package com.weisen.www.code.yjf.basic.service;
 import com.weisen.www.code.yjf.basic.util.Result;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+
 /**
  * @Author: 阮铭辉
  * @Date: 2019/10/23 11:37
  */
-@Service
 public interface Rewrite_BalanceService {
     Result findAllBalance(String userid);
 
-    Result Receiptpaylist(String userid, String endTime, String startTime);
+    Result Receiptpaylist(String userid, String endTime, String startTime,Integer pageNum,Integer pageSize);
 
-    Result receiptpays(Long id,String userid);
+    Result receiptpays(Long id);
+
+    Result Isitamerchant(String userid);
+
+    Result operatingIncome(String userid, String startTime, String endTime) throws ParseException;
 }
