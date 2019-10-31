@@ -76,11 +76,11 @@ public class Rewrite_IntegralServiceImpl implements Rewrite_IntegralService {
 				rewrite_IntegralExpenditureDTO.setCreateDate(receiptpayExpenditure.getCreatedate());
 				if (receiptpayExpenditure.getDealtype().equals("5")) {
 					rewrite_IntegralExpenditureDTO.setStatus(0);
-					rewrite_IntegralExpenditureDTO.setExplain(receiptpayExpenditure.getExplain());
+					rewrite_IntegralExpenditureDTO.setExplain("积分兑换");
 				}
 				if (receiptpayExpenditure.getDealtype().equals("6")) {
 					rewrite_IntegralExpenditureDTO.setStatus(1);
-					rewrite_IntegralExpenditureDTO.setExplain(receiptpayExpenditure.getExplain());
+					rewrite_IntegralExpenditureDTO.setExplain("消费收益");
 				}
 				rewrite_IntegralDTOs.add(rewrite_IntegralExpenditureDTO);
 			}
