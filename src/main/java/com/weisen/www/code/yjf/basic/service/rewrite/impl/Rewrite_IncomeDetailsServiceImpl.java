@@ -394,7 +394,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			if (Type==2) {
 				//是否是事业合伙人
 				Userlinkuser partner = userLinkUserRepository.findByUserid(userid);
-				if (!(partner.getPartner())) {
+				if (partner.getPartner()) {
 					String login = jhiUser.getLogin();
 					String sublogin = login.substring(login.length()-4);
 					Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(userid);
