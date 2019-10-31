@@ -363,10 +363,12 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					}else {
 						userInformationListDTO.setAccounttype("微信");
 					}
-					userInformationListDTO.setCreatedate(createdate);
-					userInformationListDTO.setLogin(sublogin);
-					userInformationList.add(userInformationListDTO);
+				}else {
+					userInformationListDTO.setAccounttype("圆积分");
 				}
+				userInformationListDTO.setCreatedate(createdate);
+				userInformationListDTO.setLogin(sublogin);
+				userInformationList.add(userInformationListDTO);
 			}
 			if (Type==1) {
 				//是否是商家
@@ -384,10 +386,12 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 						}else if (other.equals("微信")){
 							userInformationListDTO.setAccounttype("微信");
 						}
-						userInformationListDTO.setCreatedate(createdate);
-						userInformationListDTO.setLogin(sublogin);
-						userInformationList.add(userInformationListDTO);
+					}else {
+						userInformationListDTO.setAccounttype("圆积分");
 					}
+					userInformationListDTO.setCreatedate(createdate);
+					userInformationListDTO.setLogin(sublogin);
+					userInformationList.add(userInformationListDTO);
 				}
 
 			}
@@ -407,10 +411,12 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 						}else if (other.equals("微信")){
 							userInformationListDTO.setAccounttype("微信");
 						}
-						userInformationListDTO.setCreatedate(createdate);
-						userInformationListDTO.setLogin(sublogin);
-						userInformationList.add(userInformationListDTO);
+					}else {
+						userInformationListDTO.setAccounttype("圆积分");
 					}
+					userInformationListDTO.setCreatedate(createdate);
+					userInformationListDTO.setLogin(sublogin);
+					userInformationList.add(userInformationListDTO);
 
 				}
 
