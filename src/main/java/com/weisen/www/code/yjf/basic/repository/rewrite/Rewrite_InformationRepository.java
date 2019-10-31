@@ -36,5 +36,5 @@ public interface Rewrite_InformationRepository extends JpaRepository<Information
 	@Query(value = "select * from information where readuserid = ?1 AND logicdelete = 0 ORDER BY createdate DESC LIMIT ?2,?3", nativeQuery = true)
 	List<Information> getInformations(String userId, Integer pageNum, Integer pageSize);
 
-	List<Information> findByReaduserid(String userId);
+	List<Information> findByReaduseridAndLogicdelete(String userId, Boolean logicDelete);
 }

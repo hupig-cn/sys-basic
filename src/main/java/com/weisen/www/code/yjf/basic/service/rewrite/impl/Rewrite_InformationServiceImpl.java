@@ -303,11 +303,11 @@ public class Rewrite_InformationServiceImpl implements Rewrite_InformationServic
 	@Override
 	public Result deleteUserInformations(String userId) {
 		User jhiUser = rewrite_UserRepository.findJhiUserById(Long.parseLong(userId));
-		List<Information> informationList = rewrite_informationRepository.findByReaduserid(userId);
+		List<Information> informationList = rewrite_informationRepository.findByReaduseridAndLogicdelete(userId, false);
 		if (jhiUser == null) {
 			return Result.fail("没有该用户!请重新输入查找!");
 		}
-		if (informationList == null) {
+		if (informationList.isEmpty()) {
 			return Result.fail("没有消息!");
 		} else {
 			for (Information information : informationList) {
