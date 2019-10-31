@@ -84,7 +84,7 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
 
 	// 分页查询用户积分支出收入按最新时间排序
 	@Transactional
-	@Query(value = "select * FROM receiptpay where userid = ?1 and amount>0 and dealtype in (6,5) ORDER BY createdate DESC LIMIT ?2,?3 ", nativeQuery = true)
+	@Query(value = "select * FROM receiptpay where userid = ?1 and amount>0 and dealtype in (5,6) ORDER BY createdate DESC LIMIT ?2,?3 ", nativeQuery = true)
 	List<Receiptpay> findByUserid(String userId, Integer pageNum, Integer pageSize);
 
 }
