@@ -159,7 +159,7 @@
     </changeSet>
     
     <changeSet id="20191030173100_renameColumn" author="jhipster">
-    	<renameColumn tableName="receiptpay" oldColumnName="explain" newColumnName="explains"/>
+    	<renameColumn tableName="receiptpay" oldColumnName="explain" newColumnName="explains" columnDataType="varchar(50)"/>
     </changeSet>
     
 </databaseChangeLog>
