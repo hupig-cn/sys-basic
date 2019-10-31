@@ -43,4 +43,11 @@ public class Rewrite_AreaResource {
         simpMessageSendingOperations.convertAndSendToUser("11","/message","这是频道2");
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(""));
     }
+    
+    @ApiOperation(value = "查询下级城市 更改 添加public")
+    @GetMapping("/public/get-public-next-area-pname/{pname}")
+    public ResponseEntity<List<Area>> getpublicNextAreaByPname(@PathVariable String pname){
+    	List<Area> area = rewrite_AreaService.findNextAreaByPname(pname);
+    	return ResponseEntity.ok().body(area);
+    }
 }
