@@ -113,6 +113,7 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
             touchbalancelist.add(t);
             //给钱订单
         }
+        Collections.reverse(touchbalancelist);
         return Result.suc("查询成功",touchbalancelist,touchbalancelist.size());
     }
 
