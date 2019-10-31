@@ -2,15 +2,11 @@ package com.weisen.www.code.yjf.basic.service.rewrite.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.weisen.www.code.yjf.basic.domain.Linkuser;
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
 import com.weisen.www.code.yjf.basic.domain.User;
 import com.weisen.www.code.yjf.basic.domain.Userassets;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserassetsRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
@@ -23,18 +19,14 @@ import com.weisen.www.code.yjf.basic.util.Result;
 @Transactional
 public class Rewrite_IntegralServiceImpl implements Rewrite_IntegralService {
 
-	private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
-
 	private final Rewrite_UserassetsRepository rewrite_UserassetsRepository;
 
 	private final Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository;
 
 	private final Rewrite_UserRepository rewrite_UserRepository;
 
-	public Rewrite_IntegralServiceImpl(Rewrite_LinkuserRepository rewrite_LinkuserRepository,
-			Rewrite_UserassetsRepository rewrite_UserassetsRepository,
+	public Rewrite_IntegralServiceImpl(Rewrite_UserassetsRepository rewrite_UserassetsRepository,
 			Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository, Rewrite_UserRepository rewrite_UserRepository) {
-		this.rewrite_LinkuserRepository = rewrite_LinkuserRepository;
 		this.rewrite_UserassetsRepository = rewrite_UserassetsRepository;
 		this.rewrite_ReceiptpayRepository = rewrite_ReceiptpayRepository;
 		this.rewrite_UserRepository = rewrite_UserRepository;
