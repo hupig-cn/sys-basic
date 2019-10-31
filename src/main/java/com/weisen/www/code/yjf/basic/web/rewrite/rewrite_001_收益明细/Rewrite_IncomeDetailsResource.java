@@ -78,13 +78,13 @@ public class Rewrite_IncomeDetailsResource {
     }
 
     /**
-     * 用户信息列表
+     * 推荐用户信息列表
      *
     	 * @author sxx
     	 * @date 2019-10-31 15:55:31
      */
     @PostMapping("/UserInformation/List")
-    @ApiOperation("用户信息列表")
+    @ApiOperation("推荐用户信息列表")
     public ResponseEntity<?> userInformationList(@RequestParam String userId,@RequestParam Integer Type){
         Result result = incomeDetailsService.userInformationList(userId,Type);
         log.debug("访问地址: {},传入值: {},返回值: {}", "/Profit/List",userId, result);

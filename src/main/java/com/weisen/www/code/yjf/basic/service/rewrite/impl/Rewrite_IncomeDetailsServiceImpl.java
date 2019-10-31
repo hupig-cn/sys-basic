@@ -51,7 +51,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	private final Rewrite_MerchantRepository merchantRepository;
 
 	private final Rewrite_LinkaccountRepository linkaccountRepository;
-	
+
 	private final Rewrite_UserlinkuserRepository userLinkUserRepository;
 
 	public Rewrite_IncomeDetailsServiceImpl(Rewrite_IncomeDetailsRepository incomeDetailsRepository,
@@ -82,7 +82,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			return Result.suc("暂无推荐人数据！");
 		}
 		Rewrite_RecommondCountDTO recommondCountDTO = new Rewrite_RecommondCountDTO();
-		
+
 		Long merchantCount = 0L;
 		Long partnerCount = 0L;
 		Long allCount = 0L;
@@ -122,16 +122,16 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	public Result getRecommendList(Rewrite_GetIncomeAfferentDTO getIncomeAfferentDTO) {
 		//封装返回DTO
 		List<Rewrite_GetIncomeListDTO> incomeListDTO = new ArrayList<Rewrite_GetIncomeListDTO>();
-		
+
 		//获取当前用户id
 		String recommendId = getIncomeAfferentDTO.getRecommendId();
-		
+
 		//获取被推荐人longin库资料
 		User jhiUser = userRepository.findJhiUserById(Long.parseLong(recommendId));
 		if (jhiUser == null) {
 			return Result.fail("不存在该用户！");
 		}
-		
+
 		//前端返回的查找时间
 		Long first = getIncomeAfferentDTO.getFirstTime();
 		Long last = getIncomeAfferentDTO.getLastTime();
@@ -284,7 +284,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		if (jhiUser == null) {
 			return Result.fail("不存在该用户！");
 		}
-		
+
 		List<Rewrite_ProfitListDTO> profitListDTO = new ArrayList<>();
 		//获取今天零点的时间戳
 		Calendar calendar = Calendar.getInstance();// 获取当前日期
@@ -293,7 +293,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		calendar.set(Calendar.SECOND, 0);
 		Long nowZeroTime = calendar.getTimeInMillis();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-		
+
 		//7天前零点的时间
 		Long oldZeroTime = nowZeroTime-(86400000L * 6);
 
@@ -322,7 +322,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			profitDTO.setEarn(""+bigDecimal);
 			profitDTO.setDate(firstTime);
 			profitListDTO.add(profitDTO);
-			
+
 			//将时间加1天
 			oldZeroTime += oneDayTime;
 			lastDayTime += oneDayTime;
@@ -330,15 +330,15 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 		return Result.suc("访问成功！", profitListDTO);
 	}
-	
-	//用户信息列表
+
+	//推荐用户信息列表
 	@Override
 	public Result userInformationList(String recommendId,Integer Type) {
 		//通过id找到推荐人数量
 		List<Userlinkuser> recommendIdfindByUserId = incomeDetailsRepository.findByRecommendId(recommendId);
-		
+
 		List<Rewrite_UserInformationListDTO> userInformationList = new ArrayList<>() ;
-		
+
 		String createdate = null;
 		for (Userlinkuser recommender : recommendIdfindByUserId) {
 			String userid = recommender.getUserid();
@@ -375,17 +375,19 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					String login = jhiUser.getLogin();
 					String sublogin = login.substring(login.length()-4);
 					Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(userid);
-					String other = linkaccount.getOther();
-					if (other == null) {
-						userInformationListDTO.setAccounttype("圆积分");
-					}else if (other.equals("支付宝")) {
-						userInformationListDTO.setAccounttype("支付宝");	
-					}else if (other.equals("微信")){
-						userInformationListDTO.setAccounttype("微信");
+					if (linkaccount!=null) {
+						String other = linkaccount.getOther();
+						if (other == null) {
+							userInformationListDTO.setAccounttype("圆积分");
+						}else if (other.equals("支付宝")) {
+							userInformationListDTO.setAccounttype("支付宝");	
+						}else if (other.equals("微信")){
+							userInformationListDTO.setAccounttype("微信");
+						}
+						userInformationListDTO.setCreatedate(createdate);
+						userInformationListDTO.setLogin(sublogin);
+						userInformationList.add(userInformationListDTO);
 					}
-					userInformationListDTO.setCreatedate(createdate);
-					userInformationListDTO.setLogin(sublogin);
-					userInformationList.add(userInformationListDTO);
 				}
 
 			}
@@ -396,21 +398,24 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					String login = jhiUser.getLogin();
 					String sublogin = login.substring(login.length()-4);
 					Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(userid);
-					String other = linkaccount.getOther();
-					if (other == null) {
-						userInformationListDTO.setAccounttype("圆积分");
-					}else if (other.equals("支付宝")) {
-						userInformationListDTO.setAccounttype("支付宝");	
-					}else if (other.equals("微信")){
-						userInformationListDTO.setAccounttype("微信");
+					if (linkaccount!=null) {
+						String other = linkaccount.getOther();
+						if (other == null) {
+							userInformationListDTO.setAccounttype("圆积分");
+						}else if (other.equals("支付宝")) {
+							userInformationListDTO.setAccounttype("支付宝");	
+						}else if (other.equals("微信")){
+							userInformationListDTO.setAccounttype("微信");
+						}
+						userInformationListDTO.setCreatedate(createdate);
+						userInformationListDTO.setLogin(sublogin);
+						userInformationList.add(userInformationListDTO);
 					}
-					userInformationListDTO.setCreatedate(createdate);
-					userInformationListDTO.setLogin(sublogin);
-					userInformationList.add(userInformationListDTO);
+
 				}
-				
+
 			}
-			
+
 		}
 		if (userInformationList.isEmpty()) {
 			return Result.suc("暂时没有数据");
