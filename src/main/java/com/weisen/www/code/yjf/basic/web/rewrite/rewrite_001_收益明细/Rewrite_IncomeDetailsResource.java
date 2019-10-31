@@ -85,8 +85,9 @@ public class Rewrite_IncomeDetailsResource {
      */
     @PostMapping("/UserInformation/List")
     @ApiOperation("推荐用户信息列表")
-    public ResponseEntity<?> userInformationList(@RequestParam String userId,@RequestParam Integer Type){
-        Result result = incomeDetailsService.userInformationList(userId,Type);
+    public ResponseEntity<?> userInformationList(@RequestParam String userId,@RequestParam Integer Type,
+    		@RequestParam Integer pageNum,@RequestParam Integer pageSize){
+        Result result = incomeDetailsService.userInformationList(userId,Type,pageNum,pageSize);
         log.debug("访问地址: {},传入值: {},返回值: {}", "/Profit/List",userId, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
