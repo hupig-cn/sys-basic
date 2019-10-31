@@ -179,7 +179,7 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
         long l = (end - start) / (1000 * 60 * 60 * 24);
         for (int i = 1; i <= l; i++) {
 
-            BigDecimal one = new BigDecimal(0.00).setScale(4, BigDecimal.ROUND_DOWN);
+            BigDecimal one = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
             Long time = format.parse(endTime).getTime();
             Date date = new Date(time - 1000 * 60 * 60 * 24 );
             startTime = format.format(date);
@@ -190,7 +190,7 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
                     one = one.add(sum);
                 }
             operatingIncomeDTO operatingIncomeDTO = new operatingIncomeDTO();
-            operatingIncomeDTO.setEarn(one);
+            operatingIncomeDTO.setEarn(one+"");
             operatingIncomeDTO.setDate(endTime);
             list.add(operatingIncomeDTO);
             endTime = startTime;

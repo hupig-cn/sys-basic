@@ -11,15 +11,15 @@ public class operatingIncomeDTO {
     public operatingIncomeDTO() {
     }
 
-    private BigDecimal earn;
+    private String earn;
 
     private String date;
 
-    public BigDecimal getEarn() {
+    public String getEarn() {
         return earn;
     }
 
-    public void setEarn(BigDecimal earn) {
+    public void setEarn(String earn) {
         this.earn = earn;
     }
 
