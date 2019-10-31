@@ -15,11 +15,13 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.weisen.www.code.yjf.basic.domain.Linkaccount;
 import com.weisen.www.code.yjf.basic.domain.Merchant;
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
 import com.weisen.www.code.yjf.basic.domain.User;
 import com.weisen.www.code.yjf.basic.domain.Userlinkuser;
 import com.weisen.www.code.yjf.basic.domain.Userorder;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkaccountRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
@@ -32,6 +34,7 @@ import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeAffere
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeListDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ProfitListDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_RecommondCountDTO;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_UserInformationListDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
 
@@ -47,18 +50,22 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 	private final Rewrite_MerchantRepository merchantRepository;
 
+	private final Rewrite_LinkaccountRepository linkaccountRepository;
+	
 	private final Rewrite_UserlinkuserRepository userLinkUserRepository;
 
 	public Rewrite_IncomeDetailsServiceImpl(Rewrite_IncomeDetailsRepository incomeDetailsRepository,
 			Rewrite_ReceiptpayRepository receiptpayRepository,
 			Rewrite_UserRepository userRepository,
 			Rewrite_MerchantRepository merchantRepository,
+			Rewrite_LinkaccountRepository linkaccountRepository,
 			Rewrite_UserlinkuserRepository userLinkUserRepository) {
 		this.incomeDetailsRepository = incomeDetailsRepository;
 		this.receiptpayRepository = receiptpayRepository;
 		this.userRepository = userRepository;
 		this.merchantRepository = merchantRepository;
 		this.userLinkUserRepository = userLinkUserRepository;
+		this.linkaccountRepository = linkaccountRepository;
 	}
 	//获取推荐人收益信息
 	@Override
@@ -322,6 +329,94 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		}while (oldZeroTime < (nowZeroTime + oneDayTime));
 
 		return Result.suc("访问成功！", profitListDTO);
+	}
+	
+	//用户信息列表
+	@Override
+	public Result userInformationList(String recommendId,Integer Type) {
+		//通过id找到推荐人数量
+		List<Userlinkuser> recommendIdfindByUserId = incomeDetailsRepository.findByRecommendId(recommendId);
+		
+		List<Rewrite_UserInformationListDTO> userInformationList = new ArrayList<>() ;
+		
+		String createdate = null;
+		for (Userlinkuser recommender : recommendIdfindByUserId) {
+			String userid = recommender.getUserid();
+			createdate = recommender.getCreatedate();
+			//获取被推荐人login库资料
+			User jhiUser = userRepository.findJhiUserById(Long.parseLong(userid));
+			if (jhiUser == null) {
+				return Result.fail("不存在该用户！");
+			}
+			Rewrite_UserInformationListDTO userInformationListDTO = new Rewrite_UserInformationListDTO();
+			if (Type==0) {
+
+				String login = jhiUser.getLogin();
+				String sublogin = login.substring(login.length()-4);
+				Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(userid);
+				if (linkaccount!=null) {
+					String other = linkaccount.getOther();
+					if (other == null) {
+						userInformationListDTO.setAccounttype("圆积分");
+					}else if (other.equals("支付宝")) {
+						userInformationListDTO.setAccounttype("支付宝");	
+					}else {
+						userInformationListDTO.setAccounttype("微信");
+					}
+					userInformationListDTO.setCreatedate(createdate);
+					userInformationListDTO.setLogin(sublogin);
+					userInformationList.add(userInformationListDTO);
+				}
+			}
+			if (Type==1) {
+				//是否是商家
+				Merchant merchant = merchantRepository.findByUserid(userid);
+				if (merchant!=null) {
+					String login = jhiUser.getLogin();
+					String sublogin = login.substring(login.length()-4);
+					Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(userid);
+					String other = linkaccount.getOther();
+					if (other == null) {
+						userInformationListDTO.setAccounttype("圆积分");
+					}else if (other.equals("支付宝")) {
+						userInformationListDTO.setAccounttype("支付宝");	
+					}else if (other.equals("微信")){
+						userInformationListDTO.setAccounttype("微信");
+					}
+					userInformationListDTO.setCreatedate(createdate);
+					userInformationListDTO.setLogin(sublogin);
+					userInformationList.add(userInformationListDTO);
+				}
+
+			}
+			if (Type==2) {
+				//是否是事业合伙人
+				Userlinkuser partner = userLinkUserRepository.findByUserid(userid);
+				if (!(partner.getPartner())) {
+					String login = jhiUser.getLogin();
+					String sublogin = login.substring(login.length()-4);
+					Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(userid);
+					String other = linkaccount.getOther();
+					if (other == null) {
+						userInformationListDTO.setAccounttype("圆积分");
+					}else if (other.equals("支付宝")) {
+						userInformationListDTO.setAccounttype("支付宝");	
+					}else if (other.equals("微信")){
+						userInformationListDTO.setAccounttype("微信");
+					}
+					userInformationListDTO.setCreatedate(createdate);
+					userInformationListDTO.setLogin(sublogin);
+					userInformationList.add(userInformationListDTO);
+				}
+				
+			}
+			
+		}
+		if (userInformationList.isEmpty()) {
+			return Result.suc("暂时没有数据");
+		}
+
+		return Result.suc("访问成功！",userInformationList);
 	}
 
 }

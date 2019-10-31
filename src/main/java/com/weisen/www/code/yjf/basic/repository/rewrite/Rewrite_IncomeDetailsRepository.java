@@ -25,4 +25,8 @@ public interface Rewrite_IncomeDetailsRepository  extends JpaRepository<Userlink
 	//获取推荐人列表
 	@Query(value = "select userid from userlinkuser where recommendid = ?1", nativeQuery = true)
 	List<String> findByRecommendid(String recommendid);
+	
+	//获取推荐人列表
+	@Query(value = "select * from userlinkuser where recommendid = ?1", nativeQuery = true)
+	List<Userlinkuser> findByRecommendId(String recommendid);
 }

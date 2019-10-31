@@ -13,4 +13,7 @@ public interface Rewrite_IncomeDetailsService {
 	 
 	 //获取各推荐人列表
 	 Result getProfitList(String userId);
+	 
+	 //用户信息列表
+	 Result userInformationList(String userId,Integer Type);
 }
