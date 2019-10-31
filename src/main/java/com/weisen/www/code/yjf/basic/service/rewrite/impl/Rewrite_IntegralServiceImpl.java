@@ -76,7 +76,7 @@ public class Rewrite_IntegralServiceImpl implements Rewrite_IntegralService {
 				rewrite_IntegralExpenditureDTO.setCreateDate(receiptpayExpenditure.getCreatedate());
 				if (receiptpayExpenditure.getDealtype().equals("5")) {
 					rewrite_IntegralExpenditureDTO.setStatus(0);
-					rewrite_IntegralExpenditureDTO.setExplain("积分兑换");
+					rewrite_IntegralExpenditureDTO.setExplain("兑换商品");
 				}
 				if (receiptpayExpenditure.getDealtype().equals("6")) {
 					rewrite_IntegralExpenditureDTO.setStatus(1);
