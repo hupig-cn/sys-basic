@@ -28,13 +28,17 @@ import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_IncomeDetailsRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_MerchantRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
+import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_MerchantShow;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.operatingIncomeDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_IncomeDetailsService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeAfferentDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeListDTO;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_NewFindMerchantProfitInfoDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ProfitListDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_RecommondCountDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_UserInformationListDTO;
+import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
+import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
 
@@ -437,6 +441,35 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		}
 
 		return Result.suc("访问成功！",userInformationList);
+	}
+	
+	 //查询用户商家端收益列表倒叙(重写)
+	@Override
+	public Result newFindMerchantProfitInfo(String userid, Integer startPage, Integer pageSize) {
+		List<Receiptpay> list = receiptpayRepository.getAllByMerchantAndType(userid,
+				ReceiptpayConstant.BALANCE_INCOME, startPage * pageSize, pageSize);
+
+		List<Rewrite_NewFindMerchantProfitInfoDTO> newFindMerchantProfitInfoList = new ArrayList<>();
+		
+		for (Receiptpay receiptpay : list) {
+			Rewrite_NewFindMerchantProfitInfoDTO newFindMerchantProfitInfo = new Rewrite_NewFindMerchantProfitInfoDTO();
+			newFindMerchantProfitInfo.setCreatedate(receiptpay.getCreatedate());
+			newFindMerchantProfitInfo.setBenefit(receiptpay.getBenefit());
+			newFindMerchantProfitInfo.setAmount(receiptpay.getAmount());
+			newFindMerchantProfitInfo.setBonus(receiptpay.getBonus());
+			newFindMerchantProfitInfo.setCreator(receiptpay.getCreator());
+			newFindMerchantProfitInfo.setDealstate(receiptpay.getDealstate());
+			newFindMerchantProfitInfo.setDealtype(receiptpay.getDealtype());
+			newFindMerchantProfitInfo.setFreezedate(receiptpay.getFreezedate());
+			newFindMerchantProfitInfo.setHappendate(receiptpay.getHappendate());
+			newFindMerchantProfitInfo.setPayway(receiptpay.getPayway());
+			newFindMerchantProfitInfo.setOther("支付" + receiptpay.getBenefit() + "元，收款" + receiptpay.getAmount() + "元(" + 
+			OrderConstant.getpayInfo2(receiptpay.getPayway())+ ")");
+			newFindMerchantProfitInfoList.add(newFindMerchantProfitInfo);
+		}
+		
+
+		return Result.suc("访问成功！", newFindMerchantProfitInfoList);
 	}
 
 }

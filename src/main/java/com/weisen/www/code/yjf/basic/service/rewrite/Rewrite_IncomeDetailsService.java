@@ -1,6 +1,8 @@
 package com.weisen.www.code.yjf.basic.service.rewrite;
 
 
+import org.springframework.web.bind.annotation.PathVariable;
+
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeAfferentDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
@@ -17,4 +19,7 @@ public interface Rewrite_IncomeDetailsService {
 	 
 	 //用户信息列表
 	 Result userInformationList(String userId,Integer Type);
+	 
+	 //查询用户商家端收益列表倒叙(重写)
+	 Result newFindMerchantProfitInfo(String userid, Integer startPage, Integer pageSize);
 }
