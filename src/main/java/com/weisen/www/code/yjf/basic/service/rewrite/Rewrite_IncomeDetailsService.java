@@ -1,6 +1,5 @@
 package com.weisen.www.code.yjf.basic.service.rewrite;
 
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeAfferentDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
@@ -17,5 +16,5 @@ public interface Rewrite_IncomeDetailsService {
 	 Result getProfitList(String userId);
 	 
 	 //用户信息列表
-	 Result userInformationList(String userId,Integer Type,Integer pageNum,Integer pageSize);
+	 Result userInformationList(String userId,Integer Type);
 }
