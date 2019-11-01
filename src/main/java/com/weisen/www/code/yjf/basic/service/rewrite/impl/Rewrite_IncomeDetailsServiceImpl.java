@@ -443,22 +443,10 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 						userInformationList.add(userInformationListDTO);
 
 					}
-					Integer size = userInformationList.size();
-					Integer pageNo = pageNum*pageSize;
-					if (pageNo + pageSize > size) {
-						if(pageNo > size) {
-							userInformationList = null;
-						}else {
-							userInformationList = userInformationList.subList(pageNo, size);    
-						}
-					} else {
-						userInformationList = userInformationList.subList(pageNo, pageNo + pageSize);
-					}
-
 
 				}
 			}
-			if (userInformationList.isEmpty()) {
+			if (userInformationList==null) {
 				return Result.suc("暂时没有数据");
 			}
 			Integer size = userInformationList.size();
@@ -474,7 +462,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			}
 
 		}
-		if (userInformationList.isEmpty()) {
+		if (userInformationList==null) {
 			return Result.suc("暂时没有数据");
 		}
 
