@@ -27,10 +27,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author: 阮铭辉
@@ -91,8 +88,8 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
                 return Result.suc("查询成功，这是最后一页了", touchbalancelist, touchbalancelist.size());
             }
             Userorder userorder = payee.get(i);
-            String userid1 = userorder.getUserid();
-            User id = rewrite_userRepository.findJhiUserById(Long.valueOf(userid1));
+//            String userid1 = userorder.getUserid();
+//            User id = rewrite_userRepository.findJhiUserById(Long.valueOf(userid1));
             TouchBalanceDTO t = new TouchBalanceDTO();
             String payway = userorder.getPayway();
             if (payway.equals("1")){
@@ -113,7 +110,6 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
             touchbalancelist.add(t);
             //给钱订单
         }
-        Collections.reverse(touchbalancelist);
         return Result.suc("查询成功",touchbalancelist,touchbalancelist.size());
     }
 
