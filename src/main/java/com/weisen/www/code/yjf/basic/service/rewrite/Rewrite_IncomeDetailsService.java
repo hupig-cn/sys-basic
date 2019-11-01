@@ -18,7 +18,7 @@ public interface Rewrite_IncomeDetailsService {
 	 Result getProfitList(String userId);
 	 
 	 //用户信息列表
-	 Result userInformationList(String userId,Integer Type);
+	 Result userInformationList(String userId,Integer Type,Integer pageNum ,Integer pageSize);
 	 
 	 //查询用户商家端收益列表倒叙(重写)
 	 Result newFindMerchantProfitInfo(String userid, Integer startPage, Integer pageSize);

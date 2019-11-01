@@ -337,32 +337,32 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 	//推荐用户信息列表
 	@Override
-	public Result userInformationList(String recommendId,Integer Type) {
-//		//通过id找到推荐人数量
-//		List<Userlinkuser> recommendIdfindByUserId = null;
-//		if (Type==0) {
-//			//通过id找到推荐人数量
-//			recommendIdfindByUserId = incomeDetailsRepository.findByRecommendIdAndPage(recommendId,pageNum,pageSize);
-//		}else {
-//			//通过id找到推荐人数量
-//			recommendIdfindByUserId = incomeDetailsRepository.findByRecommendId(recommendId);
-//		}
+	public Result userInformationList(String recommendId,Integer Type,Integer pageNum ,Integer pageSize) {
 		//通过id找到推荐人数量
-		List<Userlinkuser> recommendIdfindByUserId = incomeDetailsRepository.findByRecommendId(recommendId);
+		List<Userlinkuser> recommendIdfindByUserId = null;
+		if (Type==0) {
+			//通过id找到推荐人数量
+			recommendIdfindByUserId = incomeDetailsRepository.findByRecommendIdAndPage(recommendId,pageNum,pageSize);
+		}else {
+			//通过id找到推荐人数量
+			recommendIdfindByUserId = incomeDetailsRepository.findByRecommendId(recommendId);
+		}
+		//		//通过id找到推荐人数量
+		//		List<Userlinkuser> recommendIdfindByUserId = incomeDetailsRepository.findByRecommendId(recommendId);
 
 		List<Rewrite_UserInformationListDTO> userInformationList = new ArrayList<>() ;
 
 		String createdate = null;
-		for (Userlinkuser recommender : recommendIdfindByUserId) {
-			String userid = recommender.getUserid();
-			createdate = recommender.getCreatedate();
-			//获取被推荐人login库资料
-			User jhiUser = userRepository.findJhiUserById(Long.parseLong(userid));
-			if (jhiUser == null) {
-				return Result.fail("不存在该用户！");
-			}
-			Rewrite_UserInformationListDTO userInformationListDTO = new Rewrite_UserInformationListDTO();
-			if (Type==0) {
+		if (Type==0) {
+			for (Userlinkuser recommender : recommendIdfindByUserId) {
+				String userid = recommender.getUserid();
+				createdate = recommender.getCreatedate();
+				//获取被推荐人login库资料
+				User jhiUser = userRepository.findJhiUserById(Long.parseLong(userid));
+				if (jhiUser == null) {
+					return Result.fail("不存在该用户！");
+				}
+				Rewrite_UserInformationListDTO userInformationListDTO = new Rewrite_UserInformationListDTO();
 
 				String login = jhiUser.getLogin();
 				String sublogin = login.substring(login.length()-4);
@@ -383,56 +383,94 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 				userInformationListDTO.setLogin(sublogin);
 				userInformationList.add(userInformationListDTO);
 			}
-			if (Type==1) {
-				//是否是商家
-				Merchant merchant = merchantRepository.findByUserid(userid);
-				if (merchant!=null) {
-					String login = jhiUser.getLogin();
-					String sublogin = login.substring(login.length()-4);
-					Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(userid);
-					if (linkaccount!=null) {
-						String other = linkaccount.getOther();
-						if (other == null) {
-							userInformationListDTO.setAccounttype("圆积分");
-						}else if (other.equals("支付宝")) {
-							userInformationListDTO.setAccounttype("支付宝");	
-						}else if (other.equals("微信")){
-							userInformationListDTO.setAccounttype("微信");
-						}
-					}else {
-						userInformationListDTO.setAccounttype("圆积分");
-					}
-					userInformationListDTO.setCreatedate(createdate);
-					userInformationListDTO.setLogin(sublogin);
-					userInformationList.add(userInformationListDTO);
-				}
+		}else {
 
+			for (Userlinkuser recommender : recommendIdfindByUserId) {
+				String userid = recommender.getUserid();
+				createdate = recommender.getCreatedate();
+				//获取被推荐人login库资料
+				User jhiUser = userRepository.findJhiUserById(Long.parseLong(userid));
+				if (jhiUser == null) {
+					return Result.fail("不存在该用户！");
+				}
+				Rewrite_UserInformationListDTO userInformationListDTO = new Rewrite_UserInformationListDTO();
+				if (Type==1) {
+					//是否是商家
+					Merchant merchant = merchantRepository.findByUserid(userid);
+					if (merchant!=null) {
+						String login = jhiUser.getLogin();
+						String sublogin = login.substring(login.length()-4);
+						Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(userid);
+						if (linkaccount!=null) {
+							String other = linkaccount.getOther();
+							if (other == null) {
+								userInformationListDTO.setAccounttype("圆积分");
+							}else if (other.equals("支付宝")) {
+								userInformationListDTO.setAccounttype("支付宝");	
+							}else if (other.equals("微信")){
+								userInformationListDTO.setAccounttype("微信");
+							}
+						}else {
+							userInformationListDTO.setAccounttype("圆积分");
+						}
+						userInformationListDTO.setCreatedate(createdate);
+						userInformationListDTO.setLogin(sublogin);
+						userInformationList.add(userInformationListDTO);
+					}
+
+				}
+				if (Type==2) {
+					//是否是事业合伙人
+					Userlinkuser partner = userLinkUserRepository.findByUserid(userid);
+					if (partner.getPartner()) {
+						String login = jhiUser.getLogin();
+						String sublogin = login.substring(login.length()-4);
+						Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(userid);
+						if (linkaccount!=null) {
+							String other = linkaccount.getOther();
+							if (other == null) {
+								userInformationListDTO.setAccounttype("圆积分");
+							}else if (other.equals("支付宝")) {
+								userInformationListDTO.setAccounttype("支付宝");	
+							}else if (other.equals("微信")){
+								userInformationListDTO.setAccounttype("微信");
+							}
+						}else {
+							userInformationListDTO.setAccounttype("圆积分");
+						}
+						userInformationListDTO.setCreatedate(createdate);
+						userInformationListDTO.setLogin(sublogin);
+						userInformationList.add(userInformationListDTO);
+
+					}
+					Integer size = userInformationList.size();
+					Integer pageNo = pageNum*pageSize;
+					if (pageNo + pageSize > size) {
+						if(pageNo > size) {
+							userInformationList = null;
+						}else {
+							userInformationList = userInformationList.subList(pageNo, size);    
+						}
+					} else {
+						userInformationList = userInformationList.subList(pageNo, pageNo + pageSize);
+					}
+
+
+				}
 			}
-			if (Type==2) {
-				//是否是事业合伙人
-				Userlinkuser partner = userLinkUserRepository.findByUserid(userid);
-				if (partner.getPartner()) {
-					String login = jhiUser.getLogin();
-					String sublogin = login.substring(login.length()-4);
-					Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(userid);
-					if (linkaccount!=null) {
-						String other = linkaccount.getOther();
-						if (other == null) {
-							userInformationListDTO.setAccounttype("圆积分");
-						}else if (other.equals("支付宝")) {
-							userInformationListDTO.setAccounttype("支付宝");	
-						}else if (other.equals("微信")){
-							userInformationListDTO.setAccounttype("微信");
-						}
-					}else {
-						userInformationListDTO.setAccounttype("圆积分");
-					}
-					userInformationListDTO.setCreatedate(createdate);
-					userInformationListDTO.setLogin(sublogin);
-					userInformationList.add(userInformationListDTO);
-
+			if (userInformationList.isEmpty()) {
+				return Result.suc("暂时没有数据");
+			}
+			Integer size = userInformationList.size();
+			Integer pageNo = pageNum*pageSize;
+			if (pageNo + pageSize > size) {
+				if(pageNo > size) {
+					userInformationList = null;
+				}else {
+					userInformationList = userInformationList.subList(pageNo, size);    
 				}
-
+			} else {
+				userInformationList = userInformationList.subList(pageNo, pageNo + pageSize);
 			}
 
 		}
@@ -442,8 +480,8 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 		return Result.suc("访问成功！",userInformationList);
 	}
-	
-	 //查询用户商家端收益列表倒叙(重写)
+
+	//查询用户商家端收益列表倒叙(重写)
 	@Override
 	public Result newFindMerchantProfitInfo(String userid, Integer startPage, Integer pageSize) {
 		//获取用户login库资料
@@ -451,7 +489,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		if (jhiUser == null) {
 			return Result.fail("不存在该用户！");
 		}
-		
+
 		//根据用户id和收入状态查询，分页并倒叙
 		List<Receiptpay> list = receiptpayRepository.getAllByMerchantAndType(userid,
 				ReceiptpayConstant.BALANCE_INCOME, startPage * pageSize, pageSize);
@@ -474,7 +512,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			newFindMerchantProfitInfo.setHappendate(receiptpay.getHappendate());
 			newFindMerchantProfitInfo.setPayway(receiptpay.getPayway());
 			newFindMerchantProfitInfo.setOther("支付" + receiptpay.getBenefit() + "元，收款" + receiptpay.getAmount() + "元(" + 
-			OrderConstant.getpayInfo2(receiptpay.getPayway())+ ")");
+					OrderConstant.getpayInfo2(receiptpay.getPayway())+ ")");
 			newFindMerchantProfitInfo.setUserid(receiptpay.getUserid());
 			newFindMerchantProfitInfo.setSourcer(receiptpay.getSourcer());
 			newFindMerchantProfitInfo.setModifier(receiptpay.getModifier());
@@ -482,7 +520,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			newFindMerchantProfitInfo.setModifiernum(receiptpay.getModifiernum());
 			newFindMerchantProfitInfoList.add(newFindMerchantProfitInfo);
 		}
-		
+
 
 		return Result.suc("访问成功！", newFindMerchantProfitInfoList);
 	}
