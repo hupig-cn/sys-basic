@@ -446,9 +446,18 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	 //查询用户商家端收益列表倒叙(重写)
 	@Override
 	public Result newFindMerchantProfitInfo(String userid, Integer startPage, Integer pageSize) {
+		//获取用户login库资料
+		User jhiUser = userRepository.findJhiUserById(Long.parseLong(userid));
+		if (jhiUser == null) {
+			return Result.fail("不存在该用户！");
+		}
+		
 		//根据用户id和收入状态查询，分页并倒叙
 		List<Receiptpay> list = receiptpayRepository.getAllByMerchantAndType(userid,
 				ReceiptpayConstant.BALANCE_INCOME, startPage * pageSize, pageSize);
+		if (list.isEmpty()) {
+			return Result.suc("暂无收益记录！");
+		}
 		//用list封装数据
 		List<Rewrite_NewFindMerchantProfitInfoDTO> newFindMerchantProfitInfoList = new ArrayList<>();
 		//遍历并保存
