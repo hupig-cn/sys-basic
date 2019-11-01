@@ -15,11 +15,11 @@ public interface Rewrite_IncomeDetailsRepository  extends JpaRepository<Userlink
 	Long findByRecommendIdCount(String recommendid);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 	
 	//根据用户uid找到信息
-	@Query(value = "select * from userlinkuser where recommendid = ?1 and userid != 1 limit ?2 , ?3", nativeQuery = true)
+	@Query(value = "select * from userlinkuser where recommendid = ?1 and userid != 1 order by createdate desc limit ?2 , ?3", nativeQuery = true)
 	List<Userlinkuser> findByRecommendIdAndPage(String userId,Integer pageNum,Integer pagesize);
 	
 	//根据用户id和时间段找到信息
-	@Query(value = "select * from userlinkuser where recommendid = ?1 and createdate between  ?2 and  ?3 limit ?4 , ?5", nativeQuery = true)
+	@Query(value = "select * from userlinkuser where recommendid = ?1 and createdate between  ?2 and  ?3 order by createdate desc limit ?4 , ?5", nativeQuery = true)
 	List<Userlinkuser> findByRecommendIdAndTimeAndPage(String recommendid,String firstTime,String lastTime,Integer pageNum,Integer pagesize);
 	
 	//获取推荐人列表
@@ -27,6 +27,6 @@ public interface Rewrite_IncomeDetailsRepository  extends JpaRepository<Userlink
 	List<String> findByRecommendid(String recommendid);
 	
 	//获取推荐人列表
-	@Query(value = "select * from userlinkuser where recommendid = ?1", nativeQuery = true)
+	@Query(value = "select * from userlinkuser where recommendid = ?1 order by createdate desc", nativeQuery = true)
 	List<Userlinkuser> findByRecommendId(String recommendid);
 }

@@ -333,7 +333,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 	//推荐用户信息列表
 	@Override
-	public Result userInformationList(String recommendId,Integer Type,Integer pageNum,Integer pageSize) {
+	public Result userInformationList(String recommendId,Integer Type) {
 //		//通过id找到推荐人数量
 //		List<Userlinkuser> recommendIdfindByUserId = null;
 //		if (Type==0) {
