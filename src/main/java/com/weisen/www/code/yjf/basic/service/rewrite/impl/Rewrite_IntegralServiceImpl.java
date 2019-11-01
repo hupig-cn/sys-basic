@@ -1,6 +1,7 @@
 package com.weisen.www.code.yjf.basic.service.rewrite.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,10 +57,6 @@ public class Rewrite_IntegralServiceImpl implements Rewrite_IntegralService {
 	 */
 	@Override
 	public Result getExpenditure(String userId, Integer pageNum, Integer pageSize) {
-		if (pageNum == null || pageSize == null) {
-			pageNum = 0;
-			pageSize = 10;
-		}
 		// 判断是否有该用户
 		// 获取被推荐人Login库资料
 		User jhiUser = rewrite_UserRepository.findJhiUserById(Long.parseLong(userId));
@@ -68,8 +65,8 @@ public class Rewrite_IntegralServiceImpl implements Rewrite_IntegralService {
 		} else {
 			List<Rewrite_IntegralDTO> rewrite_IntegralDTOs = new ArrayList<Rewrite_IntegralDTO>();
 			// 查询用户积分支出收入数据
-			List<Receiptpay> receiptpayExpenditureList = rewrite_ReceiptpayRepository.findByUserid(userId, pageNum,
-					pageSize);
+			List<Receiptpay> receiptpayExpenditureList = rewrite_ReceiptpayRepository.findByUserid(userId,
+					pageNum * pageSize, pageSize);
 			for (Receiptpay receiptpayExpenditure : receiptpayExpenditureList) {
 				Rewrite_IntegralDTO rewrite_IntegralExpenditureDTO = new Rewrite_IntegralDTO();
 				rewrite_IntegralExpenditureDTO.setAmount(receiptpayExpenditure.getAmount());
@@ -83,11 +80,6 @@ public class Rewrite_IntegralServiceImpl implements Rewrite_IntegralService {
 					rewrite_IntegralExpenditureDTO.setExplain("消费收益");
 				}
 				rewrite_IntegralDTOs.add(rewrite_IntegralExpenditureDTO);
-			}
-			for (int i = 1 + (pageSize * pageNum); i <= (pageNum + 1) * (pageSize); i++) {
-				if (i >= receiptpayExpenditureList.size()) {
-					return Result.suc("查询成功!", rewrite_IntegralDTOs, rewrite_IntegralDTOs.size());
-				}
 			}
 			return Result.suc("查询成功!", rewrite_IntegralDTOs, rewrite_IntegralDTOs.size());
 		}
