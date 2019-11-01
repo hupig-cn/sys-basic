@@ -443,18 +443,6 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 						userInformationList.add(userInformationListDTO);
 
 					}
-					Integer size = userInformationList.size();
-					Integer pageNo = pageNum*pageSize;
-					if (pageNo + pageSize > size) {
-						if(pageNo > size) {
-							userInformationList = null;
-						}else {
-							userInformationList = userInformationList.subList(pageNo, size);    
-						}
-					} else {
-						userInformationList = userInformationList.subList(pageNo, pageNo + pageSize);
-					}
-
 
 				}
 			}
