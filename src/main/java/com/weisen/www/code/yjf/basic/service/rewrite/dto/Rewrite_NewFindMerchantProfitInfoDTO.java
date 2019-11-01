@@ -55,8 +55,6 @@ public class Rewrite_NewFindMerchantProfitInfoDTO implements Serializable {
 	@ApiModelProperty(value = "修改次数")
 	private Long modifiernum;
 
-	@ApiModelProperty(value = "删除")
-	private Boolean logicdelete;
 
 	@ApiModelProperty(value = "备注")
 	private String other;
@@ -181,13 +179,6 @@ public class Rewrite_NewFindMerchantProfitInfoDTO implements Serializable {
 		this.modifiernum = modifiernum;
 	}
 
-	public Boolean getLogicdelete() {
-		return logicdelete;
-	}
-
-	public void setLogicdelete(Boolean logicdelete) {
-		this.logicdelete = logicdelete;
-	}
 
 	public String getOther() {
 		return other;

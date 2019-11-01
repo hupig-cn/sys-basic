@@ -446,11 +446,12 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	 //查询用户商家端收益列表倒叙(重写)
 	@Override
 	public Result newFindMerchantProfitInfo(String userid, Integer startPage, Integer pageSize) {
+		//根据用户id和收入状态查询，分页并倒叙
 		List<Receiptpay> list = receiptpayRepository.getAllByMerchantAndType(userid,
 				ReceiptpayConstant.BALANCE_INCOME, startPage * pageSize, pageSize);
-
+		//用list封装数据
 		List<Rewrite_NewFindMerchantProfitInfoDTO> newFindMerchantProfitInfoList = new ArrayList<>();
-		
+		//遍历并保存
 		for (Receiptpay receiptpay : list) {
 			Rewrite_NewFindMerchantProfitInfoDTO newFindMerchantProfitInfo = new Rewrite_NewFindMerchantProfitInfoDTO();
 			newFindMerchantProfitInfo.setCreatedate(receiptpay.getCreatedate());
@@ -465,6 +466,11 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			newFindMerchantProfitInfo.setPayway(receiptpay.getPayway());
 			newFindMerchantProfitInfo.setOther("支付" + receiptpay.getBenefit() + "元，收款" + receiptpay.getAmount() + "元(" + 
 			OrderConstant.getpayInfo2(receiptpay.getPayway())+ ")");
+			newFindMerchantProfitInfo.setUserid(receiptpay.getUserid());
+			newFindMerchantProfitInfo.setSourcer(receiptpay.getSourcer());
+			newFindMerchantProfitInfo.setModifier(receiptpay.getModifier());
+			newFindMerchantProfitInfo.setModifierdate(receiptpay.getModifierdate());
+			newFindMerchantProfitInfo.setModifiernum(receiptpay.getModifiernum());
 			newFindMerchantProfitInfoList.add(newFindMerchantProfitInfo);
 		}
 		
