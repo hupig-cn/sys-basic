@@ -446,7 +446,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 				}
 			}
-			if (userInformationList.isEmpty()) {
+			if (userInformationList==null) {
 				return Result.suc("暂时没有数据");
 			}
 			Integer size = userInformationList.size();
@@ -462,7 +462,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			}
 
 		}
-		if (userInformationList.isEmpty()) {
+		if (userInformationList==null) {
 			return Result.suc("暂时没有数据");
 		}
 

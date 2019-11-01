@@ -13,6 +13,10 @@ public class Rewrite_BackCardInfo {
     private String alipayName;
 
     private String wechatName;
+    
+    private String alipayLogo;
+    
+    private String wechatLogo;
 
     public Rewrite_BackCardInfo(List<Rewrite_BankCardDTO> listbank,String alipay,String wechat,String alipayName,String wechatName){
         this.listbank = listbank;
@@ -20,6 +24,8 @@ public class Rewrite_BackCardInfo {
         this.wechat = wechat;
         this.alipayName = alipayName;
         this.wechatName = wechatName;
+        this.alipayLogo = "3142";
+        this.wechatLogo = "3155";
     }
 
     public String getAlipayName() {
@@ -61,4 +67,21 @@ public class Rewrite_BackCardInfo {
     public void setWechat(String wechat) {
         this.wechat = wechat;
     }
+
+	public String getAlipayLogo() {
+		return alipayLogo;
+	}
+
+	public void setAlipayLogo(String alipayLogo) {
+		this.alipayLogo = alipayLogo;
+	}
+
+	public String getWechatLogo() {
+		return wechatLogo;
+	}
+
+	public void setWechatLogo(String wechatLogo) {
+		this.wechatLogo = wechatLogo;
+	}
+    
 }
