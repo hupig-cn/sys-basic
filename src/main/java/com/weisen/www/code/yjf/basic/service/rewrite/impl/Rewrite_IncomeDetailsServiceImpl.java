@@ -342,7 +342,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		List<Userlinkuser> recommendIdfindByUserId = null;
 		if (Type==0) {
 			//通过id找到推荐人数量
-			recommendIdfindByUserId = incomeDetailsRepository.findByRecommendIdAndPage(recommendId,pageNum,pageSize);
+			recommendIdfindByUserId = incomeDetailsRepository.findByRecommendIdAndPage(recommendId,pageNum * pageSize,pageSize);
 		}else {
 			//通过id找到推荐人数量
 			recommendIdfindByUserId = incomeDetailsRepository.findByRecommendId(recommendId);
