@@ -1,25 +1,22 @@
 package com.weisen.www.code.yjf.basic.service.rewrite.impl;
 
+import java.math.BigDecimal;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
 import com.weisen.www.code.yjf.basic.domain.Statistics;
 import com.weisen.www.code.yjf.basic.domain.Withdrawal;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
-import com.weisen.www.code.yjf.basic.repository.StatisticsRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_StatisticsRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_WithdrawalRepository;
-import com.weisen.www.code.yjf.basic.service.mapper.StatisticsMapper;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_StatisticsService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_StatisticsDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_StatisticsMapper;
 import com.weisen.www.code.yjf.basic.service.util.WithdrawalConstant;
 import com.weisen.www.code.yjf.basic.util.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * Service Implementation for managing Statistics.
@@ -28,13 +25,7 @@ import java.util.List;
 @Transactional
 public class Rewrite_StatisticsServiceImpl implements Rewrite_StatisticsService {
 
-    private final Logger log = LoggerFactory.getLogger(Rewrite_StatisticsServiceImpl.class);
-
-    private final StatisticsRepository statisticsRepository;
-
     private final Rewrite_ReceiptpayRepository rewrite_receiptpayRepository;
-
-    private final StatisticsMapper statisticsMapper;
 
     private final Rewrite_WithdrawalRepository rewrite_withdrawalRepository;
 
@@ -42,10 +33,8 @@ public class Rewrite_StatisticsServiceImpl implements Rewrite_StatisticsService 
 
     private final Rewrite_StatisticsMapper rewrite_statisticsMapper;
 
-    public Rewrite_StatisticsServiceImpl(StatisticsRepository statisticsRepository, Rewrite_ReceiptpayRepository rewrite_receiptpayRepository, StatisticsMapper statisticsMapper, Rewrite_WithdrawalRepository rewrite_withdrawalRepository, Rewrite_StatisticsRepository rewrite_statisticsRepository, Rewrite_StatisticsMapper rewrite_statisticsMapper) {
-        this.statisticsRepository = statisticsRepository;
+    public Rewrite_StatisticsServiceImpl(Rewrite_ReceiptpayRepository rewrite_receiptpayRepository, Rewrite_WithdrawalRepository rewrite_withdrawalRepository, Rewrite_StatisticsRepository rewrite_statisticsRepository, Rewrite_StatisticsMapper rewrite_statisticsMapper) {
         this.rewrite_receiptpayRepository = rewrite_receiptpayRepository;
-        this.statisticsMapper = statisticsMapper;
         this.rewrite_withdrawalRepository = rewrite_withdrawalRepository;
         this.rewrite_statisticsRepository = rewrite_statisticsRepository;
         this.rewrite_statisticsMapper = rewrite_statisticsMapper;

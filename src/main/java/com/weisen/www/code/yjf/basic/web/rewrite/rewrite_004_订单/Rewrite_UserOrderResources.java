@@ -1,11 +1,7 @@
 package com.weisen.www.code.yjf.basic.web.rewrite.rewrite_004_订单;
 
-import com.weisen.www.code.yjf.basic.service.Rewrite_001_UserorderService;
-import com.weisen.www.code.yjf.basic.util.Result;
-import com.weisen.www.code.yjf.basic.web.rest.Rewrite_UserOrderResource;
-import io.github.jhipster.web.util.ResponseUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
+import com.weisen.www.code.yjf.basic.service.Rewrite_001_UserorderService;
+import com.weisen.www.code.yjf.basic.util.Result;
+
+import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * @Author: 阮铭辉

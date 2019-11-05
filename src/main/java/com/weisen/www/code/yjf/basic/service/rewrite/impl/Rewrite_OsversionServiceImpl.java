@@ -1,30 +1,18 @@
 package com.weisen.www.code.yjf.basic.service.rewrite.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.weisen.www.code.yjf.basic.domain.AppControl;
-import com.weisen.www.code.yjf.basic.domain.Osversion;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_OsversionRepository;
 import com.weisen.www.code.yjf.basic.service.dto.AppControlDataDTO;
 import com.weisen.www.code.yjf.basic.service.dto.AppControlUpdateDTO;
 import com.weisen.www.code.yjf.basic.service.dto.Rewrite_AppVersionUpdateDTO;
-import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_submitOsVersionDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_OsversionService;
-import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_OsversionDTO;
-import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitOsVersionListDTO;
-import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_OsversionMapper;
-import com.weisen.www.code.yjf.basic.util.CheckUtils;
-import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Service Implementation for managing Osversion.
@@ -33,17 +21,10 @@ import java.util.Map;
 @Transactional
 public class Rewrite_OsversionServiceImpl implements Rewrite_OsversionService {
 
-    private final Logger log = LoggerFactory.getLogger(Rewrite_OsversionServiceImpl.class);
-
     private final Rewrite_OsversionRepository osversionRepository;
 
-    private final Rewrite_OsversionMapper osversionMapper;
-    
-    
-
-    public Rewrite_OsversionServiceImpl(Rewrite_OsversionRepository osversionRepository, Rewrite_OsversionMapper osversionMapper) {
+    public Rewrite_OsversionServiceImpl(Rewrite_OsversionRepository osversionRepository ) {
         this.osversionRepository = osversionRepository;
-        this.osversionMapper = osversionMapper;
     }
 
 //    public Result checkOsVersion(Rewrite_submitOsVersionDTO rewrite_submitOsVersionDTO) {

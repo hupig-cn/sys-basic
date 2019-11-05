@@ -1,7 +1,6 @@
 package com.weisen.www.code.yjf.basic.service.dto;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import io.swagger.annotations.ApiModelProperty;
 

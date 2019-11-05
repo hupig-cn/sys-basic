@@ -17,8 +17,6 @@ import io.micrometer.core.annotation.Timed;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import java.util.Optional;
-
 
 @RestController
 @RequestMapping("/api/pay")

@@ -1,22 +1,22 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.weisen.www.code.yjf.basic.domain.Order;
 import com.weisen.www.code.yjf.basic.domain.Specifications;
 import com.weisen.www.code.yjf.basic.domain.Userorder;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_001_UserorderRepository;
-import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_MerchantRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_OrderRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_SpecificationsRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_001_UserorderService;
 import com.weisen.www.code.yjf.basic.service.dto.IntroductionOrderDTO;
 import com.weisen.www.code.yjf.basic.service.dto.OrderDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Author: 阮铭辉
@@ -35,13 +35,10 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
 
     private final Rewrite_OrderRepository rewrite_orderRepository;
 
-    private final Rewrite_MerchantRepository rewrite_merchantRepository;
-
-    public Rewrite_001_UserorderServiceImpl(Rewrite_001_UserorderRepository rewrite_001_userorderRepository, Rewrite_SpecificationsRepository rewrite_specificationsRepository, Rewrite_OrderRepository rewrite_orderRepository, Rewrite_MerchantRepository rewrite_merchantRepository) {
+    public Rewrite_001_UserorderServiceImpl(Rewrite_001_UserorderRepository rewrite_001_userorderRepository, Rewrite_SpecificationsRepository rewrite_specificationsRepository, Rewrite_OrderRepository rewrite_orderRepository ) {
         this.rewrite_001_userorderRepository = rewrite_001_userorderRepository;
         this.rewrite_specificationsRepository = rewrite_specificationsRepository;
         this.rewrite_orderRepository = rewrite_orderRepository;
-        this.rewrite_merchantRepository = rewrite_merchantRepository;
     }
 
     @Override

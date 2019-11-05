@@ -1,7 +1,5 @@
 package com.weisen.www.code.yjf.basic.service.dto.submit_dto;
 
-import java.math.BigDecimal;
-
 /**
  * @Author: 阮铭辉
  * @Date: 2019/10/25 14:49
