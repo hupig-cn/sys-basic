@@ -12,6 +12,12 @@ public interface Rewrite_PayService {
     // 积分支付
     Result IntegralPayment(Rewrite_PayDTO rewrite_PayDTO);
 
+    // 余额支付
+    Result BalencePayments(Rewrite_PayDTO rewrite_PayDTO);
+
+    // 积分支付
+    Result IntegralPayments(Rewrite_PayDTO rewrite_PayDTO);
+
     // 分销
     Result distribution(Rewrite_DistributionDTO rewrite_DistributionDTO);
 

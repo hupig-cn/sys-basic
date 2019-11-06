@@ -1,14 +1,14 @@
 package com.weisen.www.code.yjf.basic.repository;
 
-import com.weisen.www.code.yjf.basic.domain.Osversion;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.weisen.www.code.yjf.basic.domain.Osversion;
 
 
 /**
  * Spring Data  repository for the Osversion entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface OsversionRepository extends JpaRepository<Osversion, Long> {
 

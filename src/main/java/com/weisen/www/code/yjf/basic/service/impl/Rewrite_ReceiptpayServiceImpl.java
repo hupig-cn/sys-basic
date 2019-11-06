@@ -313,14 +313,16 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 	}
 
 	// 查询用户商家端收益列表倒叙(意哥需求)
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Result findMerchantProfitInfo(String userId, int startPage, int pageSize) {
 		List<Receiptpay> list = rewrite_ReceiptpayRepository.getAllByMerchantAndType(userId,
 				ReceiptpayConstant.BALANCE_INCOME, startPage * pageSize, pageSize);
+		
 		List<Rewrite_MerchantShow> merList = new ArrayList<>();
 
 		receiptpayMapper.toDto(list).forEach(x -> {
-			Rewrite_MerchantShow<Rewrite_MerchantShow> rewrite_MerchantShow = new Rewrite_MerchantShow();
+			Rewrite_MerchantShow<Rewrite_MerchantShow> rewrite_MerchantShow = new Rewrite_MerchantShow<Rewrite_MerchantShow>();
 			rewrite_MerchantShow.setTime(x.getCreatedate());
 //            x.setOther(OrderConstant.getpayInfo(x.getPayway())+" - 收款"+Float.parseFloat(x.getAmount().toString())+"元");
 			x.setOther("支付" + x.getBenefit() + "元，收款" + x.getAmount() + "元(" + OrderConstant.getpayInfo2(x.getPayway())
@@ -334,7 +336,7 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 
 		List<Rewrite_MerchantShow> showList = new ArrayList<>();
 		map.forEach((x, y) -> {
-			Rewrite_MerchantShow<Rewrite_MerchantShow> rewrite_MerchantShow = new Rewrite_MerchantShow();
+			Rewrite_MerchantShow<Rewrite_MerchantShow> rewrite_MerchantShow = new Rewrite_MerchantShow<Rewrite_MerchantShow>();
 			rewrite_MerchantShow.setTime(x);
 			rewrite_MerchantShow.setList(y);
 			showList.add(rewrite_MerchantShow);

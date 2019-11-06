@@ -1,8 +1,6 @@
 package com.weisen.www.code.yjf.basic.service.rewrite;
 
 
-import org.springframework.web.bind.annotation.PathVariable;
-
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeAfferentDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 

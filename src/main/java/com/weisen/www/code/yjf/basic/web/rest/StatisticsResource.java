@@ -21,8 +21,6 @@ public class StatisticsResource {
 
     private final Logger log = LoggerFactory.getLogger(StatisticsResource.class);
 
-    private static final String ENTITY_NAME = "basicStatistics";
-
     private final StatisticsService statisticsService;
 
     public StatisticsResource(StatisticsService statisticsService) {

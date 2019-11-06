@@ -2,6 +2,7 @@ package com.weisen.www.code.yjf.basic.service;
 
 import com.weisen.www.code.yjf.basic.domain.Userorder;
 import com.weisen.www.code.yjf.basic.service.dto.IntroductionOrderDTO;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_UserOrderDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 import java.util.List;
@@ -19,4 +20,5 @@ public interface Rewrite_001_UserorderService {
 
     List<IntroductionOrderDTO> useerorder(List<Userorder> a);
 
+    Result CreateOrder(Rewrite_UserOrderDTO dto);
 }

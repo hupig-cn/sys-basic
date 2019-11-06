@@ -1,8 +1,6 @@
 package com.weisen.www.code.yjf.basic.service.rewrite.dto;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.List;
 
 import io.swagger.annotations.ApiModel;
 

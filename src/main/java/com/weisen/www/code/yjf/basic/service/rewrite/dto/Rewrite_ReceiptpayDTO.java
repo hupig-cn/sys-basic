@@ -2,14 +2,18 @@ package com.weisen.www.code.yjf.basic.service.rewrite.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Objects;
 
 /**
  * @Author: 阮铭辉
  * @Date: 2019/10/23 15:01
  */
 public class Rewrite_ReceiptpayDTO implements Serializable {
-    private String ordercode;//订单编号
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String ordercode;//订单编号
 
     private String orderstatus;//订单状态
 

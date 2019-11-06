@@ -8,7 +8,12 @@ import java.io.Serializable;
  */
 public class IntroductionOrderDTO implements Serializable {
 
-    private String ordercode;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String ordercode;
 
     private String url;
 

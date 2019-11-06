@@ -1,11 +1,10 @@
 package com.weisen.www.code.yjf.basic.repository.rewrite;
 
-import com.weisen.www.code.yjf.basic.domain.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.weisen.www.code.yjf.basic.domain.Order;
 
 
 /**
