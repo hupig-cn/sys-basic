@@ -2,9 +2,6 @@ package com.weisen.www.code.yjf.basic.service.rewrite.dto;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Size;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

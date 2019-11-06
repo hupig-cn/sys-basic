@@ -118,7 +118,7 @@ public class Rewrite_UserassetsServiceImpl implements Rewrite_UserassetsService 
 	@Override
 	public Rewrite_PriceDTO findUserInfo(Long userId) {
 		Userassets userassets = rewrite_UserassetsRepository.findByUserid(userId.toString());
-		Rewrite_PriceDTO rewrite_PriceDTO = null;
+		Rewrite_PriceDTO rewrite_PriceDTO = new Rewrite_PriceDTO();
 		rewrite_PriceDTO.setBalance(userassets.getBalance());
 		rewrite_PriceDTO.setIntegral(userassets.getIntegral());
 		List<Coupon> coupon = rewrite_CouponRepository.findAllByUserid(userId.toString());

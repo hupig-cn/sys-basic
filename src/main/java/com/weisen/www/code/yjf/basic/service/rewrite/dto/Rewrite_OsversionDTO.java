@@ -10,7 +10,12 @@ import java.util.Objects;
  */
 public class Rewrite_OsversionDTO implements Serializable {
 
-    private Long id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
 
     private String version;
 

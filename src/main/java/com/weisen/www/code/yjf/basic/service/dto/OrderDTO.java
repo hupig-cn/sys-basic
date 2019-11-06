@@ -10,6 +10,7 @@ import java.util.List;
 public class OrderDTO implements Serializable {
 
     private List<IntroductionOrderDTO> order;
+   
 
     private String consignee;
 

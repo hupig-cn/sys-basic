@@ -46,6 +46,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
     private final Rewrite_MerchantRepository rewrite_merchantRepository;
 
     public Rewrite_001_UserorderServiceImpl(Rewrite_001_UserorderRepository rewrite_001_userorderRepository, Rewrite_SpecificationsRepository rewrite_specificationsRepository, Rewrite_OrderRepository rewrite_orderRepository, Rewrite_UserorderRepository rewrite_userOrderResource, Rewrite_LinkuserRepository rewrite_linkuserRepository, Rewrite_MerchantRepository rewrite_merchantRepository) {
+  
         this.rewrite_001_userorderRepository = rewrite_001_userorderRepository;
         this.rewrite_specificationsRepository = rewrite_specificationsRepository;
         this.rewrite_orderRepository = rewrite_orderRepository;
