@@ -27,4 +27,8 @@ public interface Rewrite_LinkuserRepository extends JpaRepository<Linkuser, Long
     @Query(value = "select count(*) from linkuser l RIGHT JOIN userassets a ON l.userid = a.userid JOIN userlinkuser ulu ON ulu.userid = l.userid " +
         "where (:userName IS NULL OR :userName = phone) AND (CASE WHEN :realName IS NULL THEN 1 = 1  WHEN :realName = 1 THEN l.name IS NOT NULL  ELSE  l.name IS NULL END ) ORDER BY l.createdate DESC",nativeQuery = true)
     Integer getMemberInfoCount(@Param("userName") String userName,@Param("realName") Integer realName);
+//    
+//    //查找分页数据并返回
+//    @Query(value = "select * from linkuser where phone != '' order by userid desc limit ?1 , ?2 ",nativeQuery = true)
+//    List<Linkuser> findByPage(Integer pageNum,Integer pageSize);
 }
