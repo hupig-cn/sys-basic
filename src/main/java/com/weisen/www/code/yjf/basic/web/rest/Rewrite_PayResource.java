@@ -55,6 +55,30 @@ public class Rewrite_PayResource {
         Result result = rewrite_PayService.IntegralPayment(rewrite_PayDTO);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
+    /**
+     * 余额支付
+     * @return
+     */
+    @PostMapping("/BalencePayments")
+    @ApiOperation(value = "余额支付s")
+    @Timed
+    public ResponseEntity<Result> BalencePayments(@RequestBody Rewrite_PayDTO rewrite_PayDTO) {
+        Result result = rewrite_PayService.BalencePayments(rewrite_PayDTO);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
+    /**
+     * 积分支付
+     * @return
+     */
+    @PostMapping("/IntegralPayments")
+    @ApiOperation(value = "积分支付s")
+    @Timed
+    public ResponseEntity<Result> IntegralPayments(@RequestBody Rewrite_PayDTO rewrite_PayDTO) {
+        Result result = rewrite_PayService.IntegralPayments(rewrite_PayDTO);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
 
     /**
      * 优惠券

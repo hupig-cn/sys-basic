@@ -15,6 +15,8 @@ public interface Rewrite_000_UserorderService {
 
 	void notifyMessage(HttpServletRequest request, HttpServletResponse response);
 
+    void notifyMessages(HttpServletRequest request, HttpServletResponse response);
+
 	Result queryOrder(String orderId);
 
 	Result createOrder(CreateOrderDTO createOrderDTO);
@@ -28,4 +30,6 @@ public interface Rewrite_000_UserorderService {
 	Long merchantPaymentCoupon(String userid, String money, String merchantid, Integer concession, Integer rebate);
 
     Result weChatRefundNotify(Map<String, String> map);
+
+    Result weChatRefundNotifys(Map<String, String> map);
 }

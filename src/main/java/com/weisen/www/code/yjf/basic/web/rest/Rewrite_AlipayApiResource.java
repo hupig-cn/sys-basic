@@ -124,6 +124,24 @@ public class Rewrite_AlipayApiResource {
         }
 	}
 
+    /**
+     * 支付异步回调
+     *
+     * @param request
+     * @param response
+     * @return`
+     */
+    @PostMapping("/public/notifys")
+    @ApiOperation(value = "异步地址")
+    public void notifyMessages(HttpServletRequest request, HttpServletResponse response) {
+        log.debug("回调地址");
+        try {
+            userorderService.notifyMessages(request, response);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 	/**
 	 * 支付同步回调
 	 *
