@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -124,7 +125,82 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 
         return Result.suc("支付成功");
     }
+    // 余额支付
+    @Override
+    public Result BalencePayments(Rewrite_PayDTO rewrite_PayDTO) {
 
+//        Userorder userorder = userorderRepository.findById(orederId);
+        Optional<Userorder> option = userorderRepository.findById(rewrite_PayDTO.getOrderid());
+        if(!option.isPresent()){
+            return  Result.fail("订单不存在");
+        }
+        Userorder userorders = option.get();
+        Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userorders.getUserid());
+        if(!passwordEncoder.matches(rewrite_PayDTO.getPassword(),linkuser.getPaypassword())){
+            return  Result.fail("支付密码错误");
+        }
+
+        Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userorders.getUserid());
+        if(null != userorders.getOther() && userorders.getOther().equals("1") && userlinkuser.isPartner() == true){
+            return  Result.fail("用户已经是圆帅");
+        }
+        List<Userorder> userorderss = userorderRepository.findByOrdercodes(userorders.getOrdercode());
+        for (int i = 0; i < userorderss.size(); i++) {
+            Userorder userorder = userorderss.get(i);
+
+            // 我的资产
+            Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
+            int num = new BigDecimal(userorder.getModifier()).compareTo(new BigDecimal(userassets.getUsablebalance()));
+            if( num > 0 ){
+                return  Result.fail("您的余额不足");
+            }
+            //翻转订单状态
+            userorder.setPayway(OrderConstant.BALANCE_PAY);
+            userorder.setPaytime(TimeUtil.getDate());
+            userorder.setOrderstatus(OrderConstant.PAID);
+            userorderRepository.saveAndFlush(userorder);
+
+            Rewrite_submitInformationDTO rewrite_submitInformationDTO = new Rewrite_submitInformationDTO(
+                Constants.CONSUMPTION.toString(),
+                userorder.getUserid(),
+                userorder.getUserid(),
+                "消费了"+userorder.getModifier()+"元余额。",
+                null
+            );
+            rewrite_informationService.insertInformation(rewrite_submitInformationDTO);
+
+            //更新我的资产
+            userassets.setUsablebalance((new BigDecimal(userassets.getUsablebalance()).subtract(new BigDecimal(userorder.getModifier()))).setScale(3).toString());
+            userassets.setBalance((new BigDecimal(userassets.getBalance()).subtract(new BigDecimal(userorder.getModifier()))).setScale(3).toString());
+            userassetsRepository.save(userassets);
+
+            // 支出流水
+            Receiptpay receiptpay = new Receiptpay();
+            receiptpay.setAmount(new BigDecimal(userorder.getModifier()));
+            receiptpay.setDealtype(ReceiptpayConstant.BALANCE_PAY); //余额支出
+            receiptpay.setDealstate(ReceiptpayConstant.PAY);
+            receiptpay.setPayway(userorder.getPayway());
+            receiptpay.setUserid(userorder.getUserid());
+            receiptpay.setCreatedate(TimeUtil.getDate());
+            receiptpay.setBalance(new BigDecimal(userassets.getBalance()));
+            receiptpay.setCoupon(new BigDecimal(userassets.getCouponsum()));
+            receiptpay.setFreezebalance(new BigDecimal(userassets.getFrozenbalance()));
+            receiptpay.setIntegral(new BigDecimal(userassets.getIntegral()));
+            receiptpay.setUseablebalance(new BigDecimal(userassets.getUsablebalance()));
+            receiptpayRepository.save(receiptpay);
+
+            Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getModifier(),userorder.getId(),userorder.getPayway());
+
+            if(null != userorder.getOther()
+                && userorder.getOther().equals("1")){ // 圆帅
+                judgeYuanShuai(rewrite_DistributionDTO);
+            }else{
+                distribution(rewrite_DistributionDTO);
+            }
+        }
+
+        return Result.suc("支付成功");
+    }
 
     // 积分支付
     @Override
@@ -183,6 +259,72 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpay.setIntegral(new BigDecimal(userassets.getIntegral()));
         receiptpay.setUseablebalance(new BigDecimal(userassets.getUsablebalance()));
         receiptpayRepository.save(receiptpay);
+
+        return Result.suc("支付成功");
+    }
+
+    // 积分支付
+    @Override
+    public Result IntegralPayments(Rewrite_PayDTO rewrite_PayDTO) {
+        Optional<Userorder> option = userorderRepository.findById(rewrite_PayDTO.getOrderid());
+        if(!option.isPresent()){
+            return  Result.fail("订单不存在");
+        }
+        Userorder userorders = option.get();
+        Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userorders.getUserid());
+        if(!passwordEncoder.matches(rewrite_PayDTO.getPassword(),linkuser.getPaypassword())){
+            return  Result.fail("支付密码错误");
+        }
+
+        if(userorders.getOther().equals("1")){
+            return  Result.fail("开通圆帅不能使用此支付方式");
+        }
+
+        List<Userorder> userorderss = userorderRepository.findByOrdercodes(userorders.getOrdercode());
+        for (int i = 0; i < userorderss.size(); i++) {
+            Userorder userorder = userorderss.get(i);
+            // 我的资产
+            Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
+            int num = userorder.getSum().compareTo(new BigDecimal(userassets.getIntegral()));
+
+            if( num > 0 ){
+                return  Result.fail("您的积分不足");
+            }
+            //翻转订单状态
+            userorder.setPayway(OrderConstant.INTEGRAL_PAY);
+            userorder.setPaytime(TimeUtil.getDate());
+            userorder.setOrderstatus(OrderConstant.PAID);
+            userorderRepository.saveAndFlush(userorder);
+
+            Rewrite_submitInformationDTO rewrite_submitInformationDTO = new Rewrite_submitInformationDTO(
+                Constants.CONSUMPTION.toString(),
+                userorder.getUserid(),
+                userorder.getUserid(),
+                "消费了"+userorder.getModifier().toString()+"个积分。",
+                null
+            );
+            rewrite_informationService.insertInformation(rewrite_submitInformationDTO);
+
+            //更新我的资产
+            userassets.setIntegral((new BigDecimal(userassets.getIntegral()).subtract(new BigDecimal(userorder.getModifier())).setScale(3).toString()));
+            userassetsRepository.save(userassets);
+
+            // 支出流水
+            Receiptpay receiptpay = new Receiptpay();
+            receiptpay.setAmount(new BigDecimal(userorder.getModifier()));
+            receiptpay.setDealtype(ReceiptpayConstant.INTEGRAL_PAY); //积分支出
+            receiptpay.setDealstate(ReceiptpayConstant.PAY);
+            receiptpay.setPayway(userorder.getPayway());
+            receiptpay.setUserid(userorder.getUserid());
+            receiptpay.setCreatedate(TimeUtil.getDate());
+            receiptpay.setBalance(new BigDecimal(userassets.getBalance()));
+            receiptpay.setCoupon(new BigDecimal(userassets.getCouponsum()));
+            receiptpay.setFreezebalance(new BigDecimal(userassets.getFrozenbalance()));
+            receiptpay.setIntegral(new BigDecimal(userassets.getIntegral()));
+            receiptpay.setUseablebalance(new BigDecimal(userassets.getUsablebalance()));
+            receiptpayRepository.save(receiptpay);
+
+        }
 
         return Result.suc("支付成功");
     }
@@ -327,7 +469,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
                 craeteReceiptpay(ReceiptpayConstant.BALANCE_INCOME_PER,userorder.getPayee(),kid,mPrice,rewrite_DistributionDTO.getPayWay(),rewrite_DistributionDTO.getAmount());
             }
         }
-        
+
         //分配积分，
         if(userorder.getPayee() != null && !"".equals(userorder.getPayee())){ // 线下
             handleIntgerl(userorder.getRebate().toString(),userorder.getUserid(),userorder.getSum(),rewrite_DistributionDTO.getPayWay());

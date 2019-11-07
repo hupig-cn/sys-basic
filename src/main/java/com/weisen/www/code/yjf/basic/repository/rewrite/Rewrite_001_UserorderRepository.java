@@ -16,5 +16,5 @@ public interface Rewrite_001_UserorderRepository extends JpaRepository<Userorder
     @Query(value = "select * from userorder where userid=?1 and other >= 1 and orderstatus = ?2  ORDER BY createdate DESC", nativeQuery = true)
     List<Userorder> findUserorderByUseridAndOrderstatus(String userid,String orderstatus);
 
-    Userorder findUserorderByOrdercode(String ordercode);
+    List<Userorder> findUserorderByOrdercode(String ordercode);
 }

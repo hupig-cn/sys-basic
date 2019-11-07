@@ -2,7 +2,6 @@ package com.weisen.www.code.yjf.basic.repository;
 
 import java.util.List;
 
-import com.weisen.www.code.yjf.basic.domain.Receiptpay;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

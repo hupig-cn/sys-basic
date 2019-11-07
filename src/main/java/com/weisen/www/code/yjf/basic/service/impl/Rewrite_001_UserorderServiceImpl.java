@@ -1,8 +1,9 @@
 package com.weisen.www.code.yjf.basic.service.impl;
+import java.math.BigDecimal;
 
-import com.weisen.www.code.yjf.basic.domain.Order;
-import com.weisen.www.code.yjf.basic.domain.Specifications;
-import com.weisen.www.code.yjf.basic.domain.Userorder;
+import com.weisen.www.code.yjf.basic.domain.*;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_UserorderRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_001_UserorderRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_MerchantRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_OrderRepository;
@@ -10,7 +11,10 @@ import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_SpecificationsRe
 import com.weisen.www.code.yjf.basic.service.Rewrite_001_UserorderService;
 import com.weisen.www.code.yjf.basic.service.dto.IntroductionOrderDTO;
 import com.weisen.www.code.yjf.basic.service.dto.OrderDTO;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_UserOrderDTO;
+import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
 import com.weisen.www.code.yjf.basic.util.Result;
+import com.weisen.www.code.yjf.basic.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,19 +39,26 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
 
     private final Rewrite_OrderRepository rewrite_orderRepository;
 
+    private final Rewrite_UserorderRepository rewrite_userOrderResource;
+
+    private final Rewrite_LinkuserRepository rewrite_linkuserRepository;
+
     private final Rewrite_MerchantRepository rewrite_merchantRepository;
 
-    public Rewrite_001_UserorderServiceImpl(Rewrite_001_UserorderRepository rewrite_001_userorderRepository, Rewrite_SpecificationsRepository rewrite_specificationsRepository, Rewrite_OrderRepository rewrite_orderRepository, Rewrite_MerchantRepository rewrite_merchantRepository) {
+    public Rewrite_001_UserorderServiceImpl(Rewrite_001_UserorderRepository rewrite_001_userorderRepository, Rewrite_SpecificationsRepository rewrite_specificationsRepository, Rewrite_OrderRepository rewrite_orderRepository, Rewrite_UserorderRepository rewrite_userOrderResource, Rewrite_LinkuserRepository rewrite_linkuserRepository, Rewrite_MerchantRepository rewrite_merchantRepository) {
+
         this.rewrite_001_userorderRepository = rewrite_001_userorderRepository;
         this.rewrite_specificationsRepository = rewrite_specificationsRepository;
         this.rewrite_orderRepository = rewrite_orderRepository;
+        this.rewrite_userOrderResource = rewrite_userOrderResource;
+        this.rewrite_linkuserRepository = rewrite_linkuserRepository;
         this.rewrite_merchantRepository = rewrite_merchantRepository;
     }
 
     @Override
     public Result myUserOrder(String userid,String orderState,Integer pageNum,Integer pageSize) {
         List<IntroductionOrderDTO> aaa = new ArrayList<>();
-        List<IntroductionOrderDTO> aa ;
+        List<IntroductionOrderDTO> aa = new ArrayList<>();
         if (pageNum == null || pageSize == null ){
             pageNum = 0;
             pageSize = 10;
@@ -86,33 +97,44 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
 
     @Override
     public Result OrdersConfirmation(String userid, String ordercode) {
-        Userorder userorderByOrdercode = rewrite_001_userorderRepository.findUserorderByOrdercode(ordercode);
-        if (userorderByOrdercode == null){
-            return Result.fail("传入参数有误");
-        } else if (!userorderByOrdercode.getUserid().equals(userid)) {
-            return Result.fail("你不是本人不能操作");
+        List<Userorder> userorderByOrdercodes = rewrite_001_userorderRepository.findUserorderByOrdercode(ordercode);
+        for (int i = 0; i < userorderByOrdercodes.size(); i++) {
+            Userorder userorderByOrdercode = userorderByOrdercodes.get(i);
+
+            if (userorderByOrdercode == null){
+                return Result.fail("传入参数有误");
+            } else if (!userorderByOrdercode.getUserid().equals(userid)) {
+                return Result.fail("你不是本人不能操作");
+            }
+            userorderByOrdercode.setOrderstatus("2");
+            userorderByOrdercode.setId(userorderByOrdercode.getId());
+            rewrite_001_userorderRepository.save(userorderByOrdercode);
         }
-        userorderByOrdercode.setOrderstatus("2");
-        userorderByOrdercode.setId(userorderByOrdercode.getId());
-        rewrite_001_userorderRepository.save(userorderByOrdercode);
+
         return Result.suc("修改成功");
     }
 
     @Override
     public Result Orderdetail(String userid, String ordercode) {
-        Userorder userorderByOrdercode = rewrite_001_userorderRepository.findUserorderByOrdercode(ordercode);
-        if (userorderByOrdercode == null){
-            return Result.fail("请输入正确的订单编号");
-        } else if (!userorderByOrdercode.getUserid().equals(userid)) {
-            return Result.fail("你不是本人不能操作");
-        }
+        List<Userorder> userorderByOrdercodes = rewrite_001_userorderRepository.findUserorderByOrdercode(ordercode);
         List<Userorder> list = new ArrayList<>();
-        list.add(userorderByOrdercode);
+        for (int i = 0; i < userorderByOrdercodes.size(); i++) {
+            Userorder userorderByOrdercode = userorderByOrdercodes.get(i);
+            if (userorderByOrdercode == null){
+                return Result.fail("请输入正确的订单编号");
+            } else if (!userorderByOrdercode.getUserid().equals(userid)) {
+                return Result.fail("你不是本人不能操作");
+            }
+
+            list.add(userorderByOrdercode);
+        }
+
         List<IntroductionOrderDTO> useerorder = useerorder(list);
         IntroductionOrderDTO dto = useerorder.get(0);
-        Order order = rewrite_orderRepository.findOrderByBigorder(dto.getOrderid());
+        List<Order> orders = rewrite_orderRepository.findOrderByBigorder(dto.getOrderid());
+        Order order = orders.get(0);
         OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setOrder(dto);
+        orderDTO.setOrder(useerorder);
         orderDTO.setConsignee(order.getConsignee());
         orderDTO.setMobile(order.getMobile());
         orderDTO.setAddress(order.getAddress());
@@ -165,14 +187,62 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
             }else if(userorder.getPayway().equals("5")){
                 introductionOrderDTO.setPayway("优惠卷支付");
             }
-            Order orderByBigorder = rewrite_orderRepository.findOrderByBigorder(userorder.getId() + "");
-            if (orderByBigorder != null){
-                introductionOrderDTO.setNum(orderByBigorder.getNum());
+            List<Order> orderByBigorders = rewrite_orderRepository.findOrderByBigorder(userorder.getId() + "");
+            int ab = 0;
+            if (orderByBigorders != null){
+                for (int i1 = 0; i1 < orderByBigorders.size(); i1++) {
+                    Order order = orderByBigorders.get(i1);
+                    ab = ab + Integer.valueOf(order.getNum());
+                }
+                introductionOrderDTO.setNum(ab+"");
             }else {
                 introductionOrderDTO.setNum("1");
             }
             aa.add(introductionOrderDTO);
         }
         return aa;
+    }
+
+    @Override
+    public Result CreateOrder(Rewrite_UserOrderDTO dto) {
+        String userId = dto.getUserId();
+        Linkuser byUserid = rewrite_linkuserRepository.findByUserid(userId);
+        if (byUserid == null){
+            return Result.fail("没有用户信息");
+        }
+        List<Long> others = dto.getOthers();
+        List<Long> nums = dto.getNums();
+        List<Userorder> o = new ArrayList<>();
+        String a  = "";
+        String orderCode = OrderConstant.getOrderCode(userId);
+        for (int i = 0; i < others.size(); i++) {
+            Long other = others.get(i);//商品id
+            Long num = nums.get(i);//数量
+            Specifications specifications = rewrite_specificationsRepository.findSpecificationsByCommodityid(other+"");
+            Userorder userorder = new Userorder();
+            userorder.setOrdercode(orderCode);
+            userorder.setOrderstatus(OrderConstant.UN_PAID);
+            userorder.setModifier((Float.valueOf(specifications.getPrice())*num)+"");
+            userorder.setModifiernum(num);
+            userorder.setUserid(userId);
+            userorder.setCreator(userId);
+            userorder.setCreatedate(TimeUtil.getDate());
+
+            userorder.setOther(other+"");
+            o.add(userorder);
+            if (a.equals("")){
+                a = userorder.getModifier()+"";
+            }else {
+                a =  new BigDecimal(a).add(new BigDecimal(userorder.getModifier()))+"";
+            }
+        }
+        nums.clear();
+        for (int i = 0; i < o.size(); i++) {
+            Userorder userorder = o.get(i);
+            userorder.setSum(new BigDecimal(a));
+            Userorder save = rewrite_userOrderResource.save(userorder);
+            nums.add(save.getId());
+        }
+        return Result.suc("创建订单成功",nums);
     }
 }

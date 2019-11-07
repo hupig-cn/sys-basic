@@ -1,9 +1,6 @@
 package com.weisen.www.code.yjf.basic.service.dto;
 
 import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.Column;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

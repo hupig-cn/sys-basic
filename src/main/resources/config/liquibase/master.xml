@@ -13,6 +13,7 @@
     <property name="clobType" value="clob" dbms="mysql, oracle, mssql, mariadb, postgresql"/>
     <property name="uuidType" value="varchar(36)" dbms="h2, mysql, mariadb"/>
 
+    <include file="config/liquibase/changelog/20191106024209_added_entity_AccountStatement.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190728202107_added_entity_Linkuser.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190728202108_added_entity_Linkaccount.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190728202109_added_entity_Usercard.xml" relativeToChangelogFile="false"/>

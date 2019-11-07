@@ -91,5 +91,26 @@ public class Rewrite_WeChatApiResource {
         return "SUCCESS";
     }
 
+    /***
+     * 微信回调地址
+     *
+     * @author lanzhengjun
+     * @param
+     * @return
+     */
+    @PostMapping("/public/order/pay/wechat-refund-notifys")
+    @ApiOperation(value = "微信回调地址(内部)")
+    public String weChatRefundNotifys(HttpServletRequest request) {
+        log.debug("微信支付回調");
+        try {
+            System.out.println("回调的参数="+request.getInputStream());
+            Map<String, String> map = WechatUtils.parseXml(request.getInputStream());
+            userorderService.weChatRefundNotifys(map);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "SUCCESS";
+    }
+
 
 }

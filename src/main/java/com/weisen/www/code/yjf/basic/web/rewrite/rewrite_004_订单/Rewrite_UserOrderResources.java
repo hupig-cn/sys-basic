@@ -1,6 +1,7 @@
 package com.weisen.www.code.yjf.basic.web.rewrite.rewrite_004_订单;
 
 import com.weisen.www.code.yjf.basic.service.Rewrite_001_UserorderService;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_UserOrderDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.web.rest.Rewrite_UserOrderResource;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -9,10 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -60,6 +58,14 @@ public class Rewrite_UserOrderResources {
                                          @RequestParam(required = false) String ordercode){
         Result result = rewrite_001_userorderService.Orderdetail(userid,ordercode);
         log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Orderdetail", "传入值:"+userid+":"+ordercode, result);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+    
+    @PostMapping("/CreateOrder")
+    @ApiOperation("用户下单")
+    public ResponseEntity<?> CreateOrder(@RequestBody Rewrite_UserOrderDTO dto){
+        Result result = rewrite_001_userorderService.CreateOrder(dto);
+        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Orderdetail", "传入值:"+dto.toString(), result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 }

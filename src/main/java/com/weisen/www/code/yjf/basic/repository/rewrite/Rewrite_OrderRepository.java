@@ -1,9 +1,10 @@
 package com.weisen.www.code.yjf.basic.repository.rewrite;
 
-import com.weisen.www.code.yjf.basic.domain.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import com.weisen.www.code.yjf.basic.domain.Order;
 
 import java.util.List;
 
@@ -16,5 +17,5 @@ public interface Rewrite_OrderRepository extends JpaRepository<Order, Long> {
 
 
     @Query(value = "select * from shopmall.jhi_order where bigorder = ?1 ",nativeQuery = true)
-    Order findOrderByBigorder(String Bigorder);
+    List<Order> findOrderByBigorder(String Bigorder);
 }

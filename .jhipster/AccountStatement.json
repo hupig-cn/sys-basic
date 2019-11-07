@@ -1,0 +1,62 @@
+{
+    "name": "AccountStatement",
+    "fields": [
+        {
+            "fieldName": "statementId",
+            "javadoc": "The firstname attribute.",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "userid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "asset",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "btype",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "ctype",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "direction",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "payway",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "ctime",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "desc",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "tracking",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20191106024209",
+    "javadoc": "The AccountStatement entity.",
+    "entityTableName": "account_statement",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "basic",
+    "applications": "*",
+    "microserviceName": "basic"
+}

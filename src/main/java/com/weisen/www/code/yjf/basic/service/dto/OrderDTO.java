@@ -1,6 +1,7 @@
 package com.weisen.www.code.yjf.basic.service.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @Author: 阮铭辉
@@ -8,7 +9,8 @@ import java.io.Serializable;
  */
 public class OrderDTO implements Serializable {
 
-    private IntroductionOrderDTO order;
+    private List<IntroductionOrderDTO> order;
+   
 
     private String consignee;
 
@@ -16,11 +18,11 @@ public class OrderDTO implements Serializable {
 
     private String address;
 
-    public IntroductionOrderDTO getOrder() {
+    public List<IntroductionOrderDTO> getOrder() {
         return order;
     }
 
-    public void setOrder(IntroductionOrderDTO order) {
+    public void setOrder(List<IntroductionOrderDTO> order) {
         this.order = order;
     }
 
