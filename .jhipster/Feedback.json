@@ -42,6 +42,10 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "ctype",
+            "fieldType": "Integer"
+        },
+        {
             "fieldName": "modifiernum",
             "fieldType": "Long"
         },
