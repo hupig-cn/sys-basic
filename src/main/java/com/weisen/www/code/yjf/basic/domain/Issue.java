@@ -50,6 +50,9 @@ public class Issue implements Serializable {
     @Column(name = "logicdelete")
     private Boolean logicdelete;
 
+    @Column(name = "csort")
+    private Integer csort;
+
     @Column(name = "other")
     private String other;
 
@@ -192,6 +195,19 @@ public class Issue implements Serializable {
         this.logicdelete = logicdelete;
     }
 
+    public Integer getCsort() {
+        return csort;
+    }
+
+    public Issue csort(Integer csort) {
+        this.csort = csort;
+        return this;
+    }
+
+    public void setCsort(Integer csort) {
+        this.csort = csort;
+    }
+
     public String getOther() {
         return other;
     }
@@ -236,6 +252,7 @@ public class Issue implements Serializable {
             ", modifierdate='" + getModifierdate() + "'" +
             ", modifiernum=" + getModifiernum() +
             ", logicdelete='" + isLogicdelete() + "'" +
+            ", csort=" + getCsort() +
             ", other='" + getOther() + "'" +
             "}";
     }

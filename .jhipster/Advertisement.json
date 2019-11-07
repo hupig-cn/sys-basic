@@ -29,6 +29,10 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "advType",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "linkType",
             "fieldType": "Integer"
         },

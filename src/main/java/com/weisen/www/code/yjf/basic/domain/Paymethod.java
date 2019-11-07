@@ -1,4 +1,5 @@
 package com.weisen.www.code.yjf.basic.domain;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -14,263 +15,288 @@ import java.io.Serializable;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Paymethod implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(name = "os")
-    private String os;
+	@Column(name = "os")
+	private String os;
 
-    @Column(name = "online")
-    private Boolean online;
+	@Column(name = "online")
+	private Boolean online;
 
-    @Column(name = "switchs")
-    private Boolean switchs;
+	@Column(name = "switchs")
+	private Boolean switchs;
 
-    @Column(name = "payname")
-    private String payname;
+	@Column(name = "payname")
+	private String payname;
 
-    @Column(name = "jhi_order")
-    private String order;
+	@Column(name = "jhi_order")
+	private String order;
 
-    @Column(name = "messages")
-    private String messages;
+	@Column(name = "messages")
+	private String messages;
 
-    @Column(name = "creator")
-    private String creator;
+	@Column(name = "creator")
+	private String creator;
 
-    @Column(name = "createdate")
-    private String createdate;
+	@Column(name = "createdate")
+	private String createdate;
 
-    @Column(name = "modifier")
-    private String modifier;
+	@Column(name = "modifier")
+	private String modifier;
 
-    @Column(name = "modifierdate")
-    private String modifierdate;
+	@Column(name = "modifierdate")
+	private String modifierdate;
 
-    @Column(name = "modifiernum")
-    private Long modifiernum;
+	@Column(name = "modifiernum")
+	private Long modifiernum;
 
-    @Column(name = "logicdelete")
-    private Boolean logicdelete;
+	@Column(name = "logicdelete")
+	private Boolean logicdelete;
 
-    @Column(name = "other")
-    private String other;
+	@Column(name = "other")
+	private String other;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
-        return id;
-    }
+	@Column(name = "title")
+	private String title;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@Column(name = "csort")
+	private String csort;
 
-    public String getOs() {
-        return os;
-    }
+	@Column(name = "state")
+	private char state;
 
-    public Paymethod os(String os) {
-        this.os = os;
-        return this;
-    }
+	// jhipster-needle-entity-add-field - JHipster will add fields here, do not
+	// remove
+	public Long getId() {
+		return id;
+	}
 
-    public void setOs(String os) {
-        this.os = os;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Boolean isOnline() {
-        return online;
-    }
+	public String getOs() {
+		return os;
+	}
 
-    public Paymethod online(Boolean online) {
-        this.online = online;
-        return this;
-    }
+	public Paymethod os(String os) {
+		this.os = os;
+		return this;
+	}
 
-    public void setOnline(Boolean online) {
-        this.online = online;
-    }
+	public void setOs(String os) {
+		this.os = os;
+	}
 
-    public Boolean isSwitchs() {
-        return switchs;
-    }
+	public Boolean isOnline() {
+		return online;
+	}
 
-    public Paymethod switchs(Boolean switchs) {
-        this.switchs = switchs;
-        return this;
-    }
+	public Paymethod online(Boolean online) {
+		this.online = online;
+		return this;
+	}
 
-    public void setSwitchs(Boolean switchs) {
-        this.switchs = switchs;
-    }
+	public void setOnline(Boolean online) {
+		this.online = online;
+	}
 
-    public String getPayname() {
-        return payname;
-    }
+	public Boolean isSwitchs() {
+		return switchs;
+	}
 
-    public Paymethod payname(String payname) {
-        this.payname = payname;
-        return this;
-    }
+	public Paymethod switchs(Boolean switchs) {
+		this.switchs = switchs;
+		return this;
+	}
 
-    public void setPayname(String payname) {
-        this.payname = payname;
-    }
+	public void setSwitchs(Boolean switchs) {
+		this.switchs = switchs;
+	}
 
-    public String getOrder() {
-        return order;
-    }
+	public String getPayname() {
+		return payname;
+	}
 
-    public Paymethod order(String order) {
-        this.order = order;
-        return this;
-    }
+	public Paymethod payname(String payname) {
+		this.payname = payname;
+		return this;
+	}
 
-    public void setOrder(String order) {
-        this.order = order;
-    }
+	public void setPayname(String payname) {
+		this.payname = payname;
+	}
 
-    public String getMessages() {
-        return messages;
-    }
+	public String getOrder() {
+		return order;
+	}
 
-    public Paymethod messages(String messages) {
-        this.messages = messages;
-        return this;
-    }
+	public Paymethod order(String order) {
+		this.order = order;
+		return this;
+	}
 
-    public void setMessages(String messages) {
-        this.messages = messages;
-    }
+	public void setOrder(String order) {
+		this.order = order;
+	}
 
-    public String getCreator() {
-        return creator;
-    }
+	public String getMessages() {
+		return messages;
+	}
 
-    public Paymethod creator(String creator) {
-        this.creator = creator;
-        return this;
-    }
+	public Paymethod messages(String messages) {
+		this.messages = messages;
+		return this;
+	}
 
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
+	public void setMessages(String messages) {
+		this.messages = messages;
+	}
 
-    public String getCreatedate() {
-        return createdate;
-    }
+	public String getCreator() {
+		return creator;
+	}
 
-    public Paymethod createdate(String createdate) {
-        this.createdate = createdate;
-        return this;
-    }
+	public Paymethod creator(String creator) {
+		this.creator = creator;
+		return this;
+	}
 
-    public void setCreatedate(String createdate) {
-        this.createdate = createdate;
-    }
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
 
-    public String getModifier() {
-        return modifier;
-    }
+	public String getCreatedate() {
+		return createdate;
+	}
 
-    public Paymethod modifier(String modifier) {
-        this.modifier = modifier;
-        return this;
-    }
+	public Paymethod createdate(String createdate) {
+		this.createdate = createdate;
+		return this;
+	}
 
-    public void setModifier(String modifier) {
-        this.modifier = modifier;
-    }
+	public void setCreatedate(String createdate) {
+		this.createdate = createdate;
+	}
 
-    public String getModifierdate() {
-        return modifierdate;
-    }
+	public String getModifier() {
+		return modifier;
+	}
 
-    public Paymethod modifierdate(String modifierdate) {
-        this.modifierdate = modifierdate;
-        return this;
-    }
+	public Paymethod modifier(String modifier) {
+		this.modifier = modifier;
+		return this;
+	}
 
-    public void setModifierdate(String modifierdate) {
-        this.modifierdate = modifierdate;
-    }
+	public void setModifier(String modifier) {
+		this.modifier = modifier;
+	}
 
-    public Long getModifiernum() {
-        return modifiernum;
-    }
+	public String getModifierdate() {
+		return modifierdate;
+	}
 
-    public Paymethod modifiernum(Long modifiernum) {
-        this.modifiernum = modifiernum;
-        return this;
-    }
+	public Paymethod modifierdate(String modifierdate) {
+		this.modifierdate = modifierdate;
+		return this;
+	}
 
-    public void setModifiernum(Long modifiernum) {
-        this.modifiernum = modifiernum;
-    }
+	public void setModifierdate(String modifierdate) {
+		this.modifierdate = modifierdate;
+	}
 
-    public Boolean isLogicdelete() {
-        return logicdelete;
-    }
+	public Long getModifiernum() {
+		return modifiernum;
+	}
 
-    public Paymethod logicdelete(Boolean logicdelete) {
-        this.logicdelete = logicdelete;
-        return this;
-    }
+	public Paymethod modifiernum(Long modifiernum) {
+		this.modifiernum = modifiernum;
+		return this;
+	}
 
-    public void setLogicdelete(Boolean logicdelete) {
-        this.logicdelete = logicdelete;
-    }
+	public void setModifiernum(Long modifiernum) {
+		this.modifiernum = modifiernum;
+	}
 
-    public String getOther() {
-        return other;
-    }
+	public Boolean isLogicdelete() {
+		return logicdelete;
+	}
 
-    public Paymethod other(String other) {
-        this.other = other;
-        return this;
-    }
+	public Paymethod logicdelete(Boolean logicdelete) {
+		this.logicdelete = logicdelete;
+		return this;
+	}
 
-    public void setOther(String other) {
-        this.other = other;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+	public void setLogicdelete(Boolean logicdelete) {
+		this.logicdelete = logicdelete;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Paymethod)) {
-            return false;
-        }
-        return id != null && id.equals(((Paymethod) o).id);
-    }
+	public String getOther() {
+		return other;
+	}
 
-    @Override
-    public int hashCode() {
-        return 31;
-    }
+	public Paymethod other(String other) {
+		this.other = other;
+		return this;
+	}
 
-    @Override
-    public String toString() {
-        return "Paymethod{" +
-            "id=" + getId() +
-            ", os='" + getOs() + "'" +
-            ", online='" + isOnline() + "'" +
-            ", switchs='" + isSwitchs() + "'" +
-            ", payname='" + getPayname() + "'" +
-            ", order='" + getOrder() + "'" +
-            ", messages='" + getMessages() + "'" +
-            ", creator='" + getCreator() + "'" +
-            ", createdate='" + getCreatedate() + "'" +
-            ", modifier='" + getModifier() + "'" +
-            ", modifierdate='" + getModifierdate() + "'" +
-            ", modifiernum=" + getModifiernum() +
-            ", logicdelete='" + isLogicdelete() + "'" +
-            ", other='" + getOther() + "'" +
-            "}";
-    }
+	public void setOther(String other) {
+		this.other = other;
+	}
+	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+	// setters here, do not remove
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getCsort() {
+		return csort;
+	}
+
+	public void setCsort(String csort) {
+		this.csort = csort;
+	}
+
+	public char getState() {
+		return state;
+	}
+
+	public void setState(char state) {
+		this.state = state;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Paymethod)) {
+			return false;
+		}
+		return id != null && id.equals(((Paymethod) o).id);
+	}
+
+	@Override
+	public int hashCode() {
+		return 31;
+	}
+
+	@Override
+	public String toString() {
+		return "Paymethod{" + "id=" + getId() + ", os='" + getOs() + "'" + ", online='" + isOnline() + "'"
+				+ ", switchs='" + isSwitchs() + "'" + ", payname='" + getPayname() + "'" + ", order='" + getOrder()
+				+ "'" + ", messages='" + getMessages() + "'" + ", creator='" + getCreator() + "'" + ", createdate='"
+				+ getCreatedate() + "'" + ", modifier='" + getModifier() + "'" + ", modifierdate='" + getModifierdate()
+				+ "'" + ", modifiernum=" + getModifiernum() + ", logicdelete='" + isLogicdelete() + "'" + ", other='"
+				+ getOther() + "'" + "}";
+	}
 }
