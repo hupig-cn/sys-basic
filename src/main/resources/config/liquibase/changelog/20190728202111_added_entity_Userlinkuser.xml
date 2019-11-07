@@ -108,5 +108,11 @@
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>
+    <changeSet id="20191107112930-add_column" author="shuishui">
+        <addColumn tableName="userlinkuser">
+            <column name="metamorphosis_time" type="varchar(255)"/>
+            <column name="pyee" type="bigint"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

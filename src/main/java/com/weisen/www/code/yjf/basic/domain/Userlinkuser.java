@@ -63,6 +63,28 @@ public class Userlinkuser implements Serializable {
     @Column(name = "other")
     private String other;
 
+    @Column(name = "metamorphosis_time")
+    private String metamorphosisTime;
+
+    @Column(name = "pyee")
+    private Long pyee;
+
+    public String getMetamorphosisTime() {
+        return metamorphosisTime;
+    }
+
+    public void setMetamorphosisTime(String metamorphosisTime) {
+        this.metamorphosisTime = metamorphosisTime;
+    }
+
+    public Long getPyee() {
+        return pyee;
+    }
+
+    public void setPyee(Long pyee) {
+        this.pyee = pyee;
+    }
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
