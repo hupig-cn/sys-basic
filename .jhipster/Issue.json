@@ -42,10 +42,6 @@
             "fieldType": "Boolean"
         },
         {
-            "fieldName": "csort",
-            "fieldType": "Integer"
-        },
-        {
             "fieldName": "other",
             "fieldType": "String"
         }

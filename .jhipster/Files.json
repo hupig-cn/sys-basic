@@ -10,22 +10,6 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "url",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "uuid",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "height",
-            "fieldType": "Integer"
-        },
-        {
-            "fieldName": "width",
-            "fieldType": "Integer"
-        },
-        {
             "fieldName": "size",
             "fieldType": "Integer"
         },
