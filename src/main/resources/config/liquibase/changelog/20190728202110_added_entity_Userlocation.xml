@@ -103,5 +103,10 @@
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>
-
+    <changeSet id="201911070926_add_column" author="jhipster">
+        <addColumn tableName="userlocation">
+            <column name="cevent" type="int"/>
+        </addColumn>
+    </changeSet>
+    
 </databaseChangeLog>

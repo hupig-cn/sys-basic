@@ -36,6 +36,8 @@
     <include file="config/liquibase/changelog/20190728202127_added_entity_Files.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190728202128_added_entity_Receiving.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190907035414_added_entity_AppControl.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106060521_added_entity_Options.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191106060522_added_entity_PaymethodConst.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

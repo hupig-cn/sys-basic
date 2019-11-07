@@ -1,10 +1,12 @@
 package com.weisen.www.code.yjf.basic.domain;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * A Percentage.
@@ -14,212 +16,228 @@ import java.io.Serializable;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Percentage implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(name = "name")
-    private String name;
+	@Column(name = "name")
+	private String name;
 
-    @Column(name = "type")
-    private String type;
+	@Column(name = "type")
+	private String type;
 
-    @Column(name = "value")
-    private String value;
+	@Column(name = "value")
+	private String value;
 
-    @Column(name = "creator")
-    private String creator;
+	@Column(name = "creator")
+	private String creator;
 
-    @Column(name = "createdate")
-    private String createdate;
+	@Column(name = "createdate")
+	private String createdate;
 
-    @Column(name = "modifier")
-    private String modifier;
+	@Column(name = "modifier")
+	private String modifier;
 
-    @Column(name = "modifierdate")
-    private String modifierdate;
+	@Column(name = "modifierdate")
+	private String modifierdate;
 
-    @Column(name = "modifiernum")
-    private Long modifiernum;
+	@Column(name = "modifiernum")
+	private Long modifiernum;
 
-    @Column(name = "logicdelete")
-    private Boolean logicdelete;
+	@Column(name = "logicdelete")
+	private Boolean logicdelete;
 
-    @Column(name = "other")
-    private String other;
+	@Column(name = "other")
+	private String other;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
-        return id;
-    }
+	@Column(name = "cevent")
+	private char cevent;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@Column(name = "discount")
+	private BigDecimal discount;
 
-    public String getName() {
-        return name;
-    }
+	// jhipster-needle-entity-add-field - JHipster will add fields here, do not
+	// remove
+	public Long getId() {
+		return id;
+	}
 
-    public Percentage name(String name) {
-        this.name = name;
-        return this;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public Percentage name(String name) {
+		this.name = name;
+		return this;
+	}
 
-    public Percentage type(String type) {
-        this.type = type;
-        return this;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public String getValue() {
-        return value;
-    }
+	public Percentage type(String type) {
+		this.type = type;
+		return this;
+	}
 
-    public Percentage value(String value) {
-        this.value = value;
-        return this;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public void setValue(String value) {
-        this.value = value;
-    }
+	public String getValue() {
+		return value;
+	}
 
-    public String getCreator() {
-        return creator;
-    }
+	public Percentage value(String value) {
+		this.value = value;
+		return this;
+	}
 
-    public Percentage creator(String creator) {
-        this.creator = creator;
-        return this;
-    }
+	public void setValue(String value) {
+		this.value = value;
+	}
 
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
+	public String getCreator() {
+		return creator;
+	}
 
-    public String getCreatedate() {
-        return createdate;
-    }
+	public Percentage creator(String creator) {
+		this.creator = creator;
+		return this;
+	}
 
-    public Percentage createdate(String createdate) {
-        this.createdate = createdate;
-        return this;
-    }
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
 
-    public void setCreatedate(String createdate) {
-        this.createdate = createdate;
-    }
+	public String getCreatedate() {
+		return createdate;
+	}
 
-    public String getModifier() {
-        return modifier;
-    }
+	public Percentage createdate(String createdate) {
+		this.createdate = createdate;
+		return this;
+	}
 
-    public Percentage modifier(String modifier) {
-        this.modifier = modifier;
-        return this;
-    }
+	public void setCreatedate(String createdate) {
+		this.createdate = createdate;
+	}
 
-    public void setModifier(String modifier) {
-        this.modifier = modifier;
-    }
+	public String getModifier() {
+		return modifier;
+	}
 
-    public String getModifierdate() {
-        return modifierdate;
-    }
+	public Percentage modifier(String modifier) {
+		this.modifier = modifier;
+		return this;
+	}
 
-    public Percentage modifierdate(String modifierdate) {
-        this.modifierdate = modifierdate;
-        return this;
-    }
+	public void setModifier(String modifier) {
+		this.modifier = modifier;
+	}
 
-    public void setModifierdate(String modifierdate) {
-        this.modifierdate = modifierdate;
-    }
+	public String getModifierdate() {
+		return modifierdate;
+	}
 
-    public Long getModifiernum() {
-        return modifiernum;
-    }
+	public Percentage modifierdate(String modifierdate) {
+		this.modifierdate = modifierdate;
+		return this;
+	}
 
-    public Percentage modifiernum(Long modifiernum) {
-        this.modifiernum = modifiernum;
-        return this;
-    }
+	public void setModifierdate(String modifierdate) {
+		this.modifierdate = modifierdate;
+	}
 
-    public void setModifiernum(Long modifiernum) {
-        this.modifiernum = modifiernum;
-    }
+	public Long getModifiernum() {
+		return modifiernum;
+	}
 
-    public Boolean isLogicdelete() {
-        return logicdelete;
-    }
+	public Percentage modifiernum(Long modifiernum) {
+		this.modifiernum = modifiernum;
+		return this;
+	}
 
-    public Percentage logicdelete(Boolean logicdelete) {
-        this.logicdelete = logicdelete;
-        return this;
-    }
+	public void setModifiernum(Long modifiernum) {
+		this.modifiernum = modifiernum;
+	}
 
-    public void setLogicdelete(Boolean logicdelete) {
-        this.logicdelete = logicdelete;
-    }
+	public Boolean isLogicdelete() {
+		return logicdelete;
+	}
 
-    public String getOther() {
-        return other;
-    }
+	public Percentage logicdelete(Boolean logicdelete) {
+		this.logicdelete = logicdelete;
+		return this;
+	}
 
-    public Percentage other(String other) {
-        this.other = other;
-        return this;
-    }
+	public void setLogicdelete(Boolean logicdelete) {
+		this.logicdelete = logicdelete;
+	}
 
-    public void setOther(String other) {
-        this.other = other;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+	public String getOther() {
+		return other;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Percentage)) {
-            return false;
-        }
-        return id != null && id.equals(((Percentage) o).id);
-    }
+	public Percentage other(String other) {
+		this.other = other;
+		return this;
+	}
 
-    @Override
-    public int hashCode() {
-        return 31;
-    }
+	public void setOther(String other) {
+		this.other = other;
+	}
+	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+	// setters here, do not remove
 
-    @Override
-    public String toString() {
-        return "Percentage{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", type='" + getType() + "'" +
-            ", value='" + getValue() + "'" +
-            ", creator='" + getCreator() + "'" +
-            ", createdate='" + getCreatedate() + "'" +
-            ", modifier='" + getModifier() + "'" +
-            ", modifierdate='" + getModifierdate() + "'" +
-            ", modifiernum=" + getModifiernum() +
-            ", logicdelete='" + isLogicdelete() + "'" +
-            ", other='" + getOther() + "'" +
-            "}";
-    }
+	public char getCevent() {
+		return cevent;
+	}
+
+	public void setCevent(char cevent) {
+		this.cevent = cevent;
+	}
+
+	public BigDecimal getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(BigDecimal discount) {
+		this.discount = discount;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Percentage)) {
+			return false;
+		}
+		return id != null && id.equals(((Percentage) o).id);
+	}
+
+	@Override
+	public int hashCode() {
+		return 31;
+	}
+
+	@Override
+	public String toString() {
+		return "Percentage{" + "id=" + getId() + ", name='" + getName() + "'" + ", type='" + getType() + "'"
+				+ ", value='" + getValue() + "'" + ", creator='" + getCreator() + "'" + ", createdate='"
+				+ getCreatedate() + "'" + ", modifier='" + getModifier() + "'" + ", modifierdate='" + getModifierdate()
+				+ "'" + ", modifiernum=" + getModifiernum() + ", logicdelete='" + isLogicdelete() + "'" + ", other='"
+				+ getOther() + "'" + "}";
+	}
 }

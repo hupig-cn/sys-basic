@@ -1,4 +1,5 @@
 package com.weisen.www.code.yjf.basic.domain;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -14,246 +15,249 @@ import java.io.Serializable;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Userlocation implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(name = "userid")
-    private String userid;
+	@Column(name = "userid")
+	private String userid;
 
-    @Column(name = "coordinate")
-    private String coordinate;
+	@Column(name = "coordinate")
+	private String coordinate;
 
-    @Column(name = "province")
-    private String province;
+	@Column(name = "province")
+	private String province;
 
-    @Column(name = "city")
-    private String city;
+	@Column(name = "city")
+	private String city;
 
-    @Column(name = "county")
-    private String county;
+	@Column(name = "county")
+	private String county;
 
-    @Column(name = "creator")
-    private String creator;
+	@Column(name = "creator")
+	private String creator;
 
-    @Column(name = "createdate")
-    private String createdate;
+	@Column(name = "createdate")
+	private String createdate;
 
-    @Column(name = "modifier")
-    private String modifier;
+	@Column(name = "modifier")
+	private String modifier;
 
-    @Column(name = "modifierdate")
-    private String modifierdate;
+	@Column(name = "modifierdate")
+	private String modifierdate;
 
-    @Column(name = "modifiernum")
-    private Long modifiernum;
+	@Column(name = "modifiernum")
+	private Long modifiernum;
 
-    @Column(name = "logicdelete")
-    private Boolean logicdelete;
+	@Column(name = "logicdelete")
+	private Boolean logicdelete;
 
-    @Column(name = "other")
-    private String other;
+	@Column(name = "other")
+	private String other;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
-        return id;
-    }
+	@Column(name = "cevent")
+	private Integer cevent;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	// jhipster-needle-entity-add-field - JHipster will add fields here, do not
+	// remove
+	public Long getId() {
+		return id;
+	}
 
-    public String getUserid() {
-        return userid;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Userlocation userid(String userid) {
-        this.userid = userid;
-        return this;
-    }
+	public String getUserid() {
+		return userid;
+	}
 
-    public void setUserid(String userid) {
-        this.userid = userid;
-    }
+	public Userlocation userid(String userid) {
+		this.userid = userid;
+		return this;
+	}
 
-    public String getCoordinate() {
-        return coordinate;
-    }
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
 
-    public Userlocation coordinate(String coordinate) {
-        this.coordinate = coordinate;
-        return this;
-    }
+	public String getCoordinate() {
+		return coordinate;
+	}
 
-    public void setCoordinate(String coordinate) {
-        this.coordinate = coordinate;
-    }
+	public Userlocation coordinate(String coordinate) {
+		this.coordinate = coordinate;
+		return this;
+	}
 
-    public String getProvince() {
-        return province;
-    }
+	public void setCoordinate(String coordinate) {
+		this.coordinate = coordinate;
+	}
 
-    public Userlocation province(String province) {
-        this.province = province;
-        return this;
-    }
+	public String getProvince() {
+		return province;
+	}
 
-    public void setProvince(String province) {
-        this.province = province;
-    }
+	public Userlocation province(String province) {
+		this.province = province;
+		return this;
+	}
 
-    public String getCity() {
-        return city;
-    }
+	public void setProvince(String province) {
+		this.province = province;
+	}
 
-    public Userlocation city(String city) {
-        this.city = city;
-        return this;
-    }
+	public String getCity() {
+		return city;
+	}
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+	public Userlocation city(String city) {
+		this.city = city;
+		return this;
+	}
 
-    public String getCounty() {
-        return county;
-    }
+	public void setCity(String city) {
+		this.city = city;
+	}
 
-    public Userlocation county(String county) {
-        this.county = county;
-        return this;
-    }
+	public String getCounty() {
+		return county;
+	}
 
-    public void setCounty(String county) {
-        this.county = county;
-    }
+	public Userlocation county(String county) {
+		this.county = county;
+		return this;
+	}
 
-    public String getCreator() {
-        return creator;
-    }
+	public void setCounty(String county) {
+		this.county = county;
+	}
 
-    public Userlocation creator(String creator) {
-        this.creator = creator;
-        return this;
-    }
+	public String getCreator() {
+		return creator;
+	}
 
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
+	public Userlocation creator(String creator) {
+		this.creator = creator;
+		return this;
+	}
 
-    public String getCreatedate() {
-        return createdate;
-    }
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
 
-    public Userlocation createdate(String createdate) {
-        this.createdate = createdate;
-        return this;
-    }
+	public String getCreatedate() {
+		return createdate;
+	}
 
-    public void setCreatedate(String createdate) {
-        this.createdate = createdate;
-    }
+	public Userlocation createdate(String createdate) {
+		this.createdate = createdate;
+		return this;
+	}
 
-    public String getModifier() {
-        return modifier;
-    }
+	public void setCreatedate(String createdate) {
+		this.createdate = createdate;
+	}
 
-    public Userlocation modifier(String modifier) {
-        this.modifier = modifier;
-        return this;
-    }
+	public String getModifier() {
+		return modifier;
+	}
 
-    public void setModifier(String modifier) {
-        this.modifier = modifier;
-    }
+	public Userlocation modifier(String modifier) {
+		this.modifier = modifier;
+		return this;
+	}
 
-    public String getModifierdate() {
-        return modifierdate;
-    }
+	public void setModifier(String modifier) {
+		this.modifier = modifier;
+	}
 
-    public Userlocation modifierdate(String modifierdate) {
-        this.modifierdate = modifierdate;
-        return this;
-    }
+	public String getModifierdate() {
+		return modifierdate;
+	}
 
-    public void setModifierdate(String modifierdate) {
-        this.modifierdate = modifierdate;
-    }
+	public Userlocation modifierdate(String modifierdate) {
+		this.modifierdate = modifierdate;
+		return this;
+	}
 
-    public Long getModifiernum() {
-        return modifiernum;
-    }
+	public void setModifierdate(String modifierdate) {
+		this.modifierdate = modifierdate;
+	}
 
-    public Userlocation modifiernum(Long modifiernum) {
-        this.modifiernum = modifiernum;
-        return this;
-    }
+	public Long getModifiernum() {
+		return modifiernum;
+	}
 
-    public void setModifiernum(Long modifiernum) {
-        this.modifiernum = modifiernum;
-    }
+	public Userlocation modifiernum(Long modifiernum) {
+		this.modifiernum = modifiernum;
+		return this;
+	}
 
-    public Boolean isLogicdelete() {
-        return logicdelete;
-    }
+	public void setModifiernum(Long modifiernum) {
+		this.modifiernum = modifiernum;
+	}
 
-    public Userlocation logicdelete(Boolean logicdelete) {
-        this.logicdelete = logicdelete;
-        return this;
-    }
+	public Boolean isLogicdelete() {
+		return logicdelete;
+	}
 
-    public void setLogicdelete(Boolean logicdelete) {
-        this.logicdelete = logicdelete;
-    }
+	public Userlocation logicdelete(Boolean logicdelete) {
+		this.logicdelete = logicdelete;
+		return this;
+	}
 
-    public String getOther() {
-        return other;
-    }
+	public void setLogicdelete(Boolean logicdelete) {
+		this.logicdelete = logicdelete;
+	}
 
-    public Userlocation other(String other) {
-        this.other = other;
-        return this;
-    }
+	public String getOther() {
+		return other;
+	}
 
-    public void setOther(String other) {
-        this.other = other;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+	public Userlocation other(String other) {
+		this.other = other;
+		return this;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Userlocation)) {
-            return false;
-        }
-        return id != null && id.equals(((Userlocation) o).id);
-    }
+	public void setOther(String other) {
+		this.other = other;
+	}
+	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+	// setters here, do not remove
 
-    @Override
-    public int hashCode() {
-        return 31;
-    }
+	public Integer getCevent() {
+		return cevent;
+	}
 
-    @Override
-    public String toString() {
-        return "Userlocation{" +
-            "id=" + getId() +
-            ", userid='" + getUserid() + "'" +
-            ", coordinate='" + getCoordinate() + "'" +
-            ", province='" + getProvince() + "'" +
-            ", city='" + getCity() + "'" +
-            ", county='" + getCounty() + "'" +
-            ", creator='" + getCreator() + "'" +
-            ", createdate='" + getCreatedate() + "'" +
-            ", modifier='" + getModifier() + "'" +
-            ", modifierdate='" + getModifierdate() + "'" +
-            ", modifiernum=" + getModifiernum() +
-            ", logicdelete='" + isLogicdelete() + "'" +
-            ", other='" + getOther() + "'" +
-            "}";
-    }
+	public void setCevent(Integer cevent) {
+		this.cevent = cevent;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Userlocation)) {
+			return false;
+		}
+		return id != null && id.equals(((Userlocation) o).id);
+	}
+
+	@Override
+	public int hashCode() {
+		return 31;
+	}
+
+	@Override
+	public String toString() {
+		return "Userlocation{" + "id=" + getId() + ", userid='" + getUserid() + "'" + ", coordinate='" + getCoordinate()
+				+ "'" + ", province='" + getProvince() + "'" + ", city='" + getCity() + "'" + ", county='" + getCounty()
+				+ "'" + ", creator='" + getCreator() + "'" + ", createdate='" + getCreatedate() + "'" + ", modifier='"
+				+ getModifier() + "'" + ", modifierdate='" + getModifierdate() + "'" + ", modifiernum="
+				+ getModifiernum() + ", logicdelete='" + isLogicdelete() + "'" + ", other='" + getOther() + "'" + "}";
+	}
 }

@@ -1,0 +1,40 @@
+{
+    "name": "Options",
+    "fields": [
+        {
+            "fieldName": "stype",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "sk",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "sv",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "state",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "csort",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "info",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20191106060521",
+    "entityTableName": "options",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "basic",
+    "applications": "*",
+    "microserviceName": "basic"
+}
