@@ -14,22 +14,6 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "code",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "state",
-            "fieldType": "Integer"
-        },
-        {
-            "fieldName": "numprefix",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "csort",
-            "fieldType": "Integer"
-        },
-        {
             "fieldName": "cardnum",
             "fieldType": "String"
         },

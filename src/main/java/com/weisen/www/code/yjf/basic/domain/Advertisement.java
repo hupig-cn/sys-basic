@@ -41,9 +41,6 @@ public class Advertisement implements Serializable {
     @Column(name = "link")
     private String link;
 
-    @Column(name = "adv_type")
-    private String advType;
-
     @Column(name = "link_type")
     private Integer linkType;
 
@@ -150,19 +147,6 @@ public class Advertisement implements Serializable {
         this.link = link;
     }
 
-    public String getAdvType() {
-        return advType;
-    }
-
-    public Advertisement advType(String advType) {
-        this.advType = advType;
-        return this;
-    }
-
-    public void setAdvType(String advType) {
-        this.advType = advType;
-    }
-
     public Integer getLinkType() {
         return linkType;
     }
@@ -255,7 +239,6 @@ public class Advertisement implements Serializable {
             ", pictureLink='" + getPictureLink() + "'" +
             ", sort=" + getSort() +
             ", link='" + getLink() + "'" +
-            ", advType='" + getAdvType() + "'" +
             ", linkType=" + getLinkType() +
             ", type=" + getType() +
             ", state=" + getState() +
