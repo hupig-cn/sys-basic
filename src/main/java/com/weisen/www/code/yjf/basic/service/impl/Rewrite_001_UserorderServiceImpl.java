@@ -162,7 +162,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
             Specifications s = rewrite_specificationsRepository.findSpecificationsByCommodityid(userorder.getOther());
             Long fileid = s.getFileid();
             introductionOrderDTO.setUrl(imagesPath+fileid);
-            introductionOrderDTO.setPrice(userorder.getModifier());
+            introductionOrderDTO.setPrice(s.getPrice());
             introductionOrderDTO.setSpecificatinons(s.getSpecifications());
             introductionOrderDTO.setStaus(userorder.getOrderstatus());
             introductionOrderDTO.setPaytime(userorder.getPaytime());
