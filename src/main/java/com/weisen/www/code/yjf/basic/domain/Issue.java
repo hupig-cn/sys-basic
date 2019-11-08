@@ -49,7 +49,7 @@ public class Issue implements Serializable {
 
     @Column(name = "logicdelete")
     private Boolean logicdelete;
-
+    
     @Column(name = "csort")
     private Integer csort;
 

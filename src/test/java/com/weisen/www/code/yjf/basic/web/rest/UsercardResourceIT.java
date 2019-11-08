@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@link UsercardResource} REST controller.
+ * Integration tests for the {@Link UsercardResource} REST controller.
  */
 @SpringBootTest(classes = {SecurityBeanOverrideConfiguration.class, BasicApp.class})
 public class UsercardResourceIT {
@@ -45,20 +45,6 @@ public class UsercardResourceIT {
 
     private static final String DEFAULT_BANK = "AAAAAAAAAA";
     private static final String UPDATED_BANK = "BBBBBBBBBB";
-
-    private static final String DEFAULT_CODE = "AAAAAAAAAA";
-    private static final String UPDATED_CODE = "BBBBBBBBBB";
-
-    private static final Integer DEFAULT_STATE = 1;
-    private static final Integer UPDATED_STATE = 2;
-    private static final Integer SMALLER_STATE = 1 - 1;
-
-    private static final String DEFAULT_NUMPREFIX = "AAAAAAAAAA";
-    private static final String UPDATED_NUMPREFIX = "BBBBBBBBBB";
-
-    private static final Integer DEFAULT_CSORT = 1;
-    private static final Integer UPDATED_CSORT = 2;
-    private static final Integer SMALLER_CSORT = 1 - 1;
 
     private static final String DEFAULT_CARDNUM = "AAAAAAAAAA";
     private static final String UPDATED_CARDNUM = "BBBBBBBBBB";
@@ -77,7 +63,6 @@ public class UsercardResourceIT {
 
     private static final Long DEFAULT_MODIFIERNUM = 1L;
     private static final Long UPDATED_MODIFIERNUM = 2L;
-    private static final Long SMALLER_MODIFIERNUM = 1L - 1L;
 
     private static final Boolean DEFAULT_LOGICDELETE = false;
     private static final Boolean UPDATED_LOGICDELETE = true;
@@ -136,10 +121,6 @@ public class UsercardResourceIT {
             .bankname(DEFAULT_BANKNAME)
             .logo(DEFAULT_LOGO)
             .bank(DEFAULT_BANK)
-            .code(DEFAULT_CODE)
-            .state(DEFAULT_STATE)
-            .numprefix(DEFAULT_NUMPREFIX)
-            .csort(DEFAULT_CSORT)
             .cardnum(DEFAULT_CARDNUM)
             .creator(DEFAULT_CREATOR)
             .createdate(DEFAULT_CREATEDATE)
@@ -161,10 +142,6 @@ public class UsercardResourceIT {
             .bankname(UPDATED_BANKNAME)
             .logo(UPDATED_LOGO)
             .bank(UPDATED_BANK)
-            .code(UPDATED_CODE)
-            .state(UPDATED_STATE)
-            .numprefix(UPDATED_NUMPREFIX)
-            .csort(UPDATED_CSORT)
             .cardnum(UPDATED_CARDNUM)
             .creator(UPDATED_CREATOR)
             .createdate(UPDATED_CREATEDATE)
@@ -200,10 +177,6 @@ public class UsercardResourceIT {
         assertThat(testUsercard.getBankname()).isEqualTo(DEFAULT_BANKNAME);
         assertThat(testUsercard.getLogo()).isEqualTo(DEFAULT_LOGO);
         assertThat(testUsercard.getBank()).isEqualTo(DEFAULT_BANK);
-        assertThat(testUsercard.getCode()).isEqualTo(DEFAULT_CODE);
-        assertThat(testUsercard.getState()).isEqualTo(DEFAULT_STATE);
-        assertThat(testUsercard.getNumprefix()).isEqualTo(DEFAULT_NUMPREFIX);
-        assertThat(testUsercard.getCsort()).isEqualTo(DEFAULT_CSORT);
         assertThat(testUsercard.getCardnum()).isEqualTo(DEFAULT_CARDNUM);
         assertThat(testUsercard.getCreator()).isEqualTo(DEFAULT_CREATOR);
         assertThat(testUsercard.getCreatedate()).isEqualTo(DEFAULT_CREATEDATE);
@@ -249,10 +222,6 @@ public class UsercardResourceIT {
             .andExpect(jsonPath("$.[*].bankname").value(hasItem(DEFAULT_BANKNAME.toString())))
             .andExpect(jsonPath("$.[*].logo").value(hasItem(DEFAULT_LOGO.toString())))
             .andExpect(jsonPath("$.[*].bank").value(hasItem(DEFAULT_BANK.toString())))
-            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())))
-            .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE)))
-            .andExpect(jsonPath("$.[*].numprefix").value(hasItem(DEFAULT_NUMPREFIX.toString())))
-            .andExpect(jsonPath("$.[*].csort").value(hasItem(DEFAULT_CSORT)))
             .andExpect(jsonPath("$.[*].cardnum").value(hasItem(DEFAULT_CARDNUM.toString())))
             .andExpect(jsonPath("$.[*].creator").value(hasItem(DEFAULT_CREATOR.toString())))
             .andExpect(jsonPath("$.[*].createdate").value(hasItem(DEFAULT_CREATEDATE.toString())))
@@ -277,10 +246,6 @@ public class UsercardResourceIT {
             .andExpect(jsonPath("$.bankname").value(DEFAULT_BANKNAME.toString()))
             .andExpect(jsonPath("$.logo").value(DEFAULT_LOGO.toString()))
             .andExpect(jsonPath("$.bank").value(DEFAULT_BANK.toString()))
-            .andExpect(jsonPath("$.code").value(DEFAULT_CODE.toString()))
-            .andExpect(jsonPath("$.state").value(DEFAULT_STATE))
-            .andExpect(jsonPath("$.numprefix").value(DEFAULT_NUMPREFIX.toString()))
-            .andExpect(jsonPath("$.csort").value(DEFAULT_CSORT))
             .andExpect(jsonPath("$.cardnum").value(DEFAULT_CARDNUM.toString()))
             .andExpect(jsonPath("$.creator").value(DEFAULT_CREATOR.toString()))
             .andExpect(jsonPath("$.createdate").value(DEFAULT_CREATEDATE.toString()))
@@ -315,10 +280,6 @@ public class UsercardResourceIT {
             .bankname(UPDATED_BANKNAME)
             .logo(UPDATED_LOGO)
             .bank(UPDATED_BANK)
-            .code(UPDATED_CODE)
-            .state(UPDATED_STATE)
-            .numprefix(UPDATED_NUMPREFIX)
-            .csort(UPDATED_CSORT)
             .cardnum(UPDATED_CARDNUM)
             .creator(UPDATED_CREATOR)
             .createdate(UPDATED_CREATEDATE)
@@ -341,10 +302,6 @@ public class UsercardResourceIT {
         assertThat(testUsercard.getBankname()).isEqualTo(UPDATED_BANKNAME);
         assertThat(testUsercard.getLogo()).isEqualTo(UPDATED_LOGO);
         assertThat(testUsercard.getBank()).isEqualTo(UPDATED_BANK);
-        assertThat(testUsercard.getCode()).isEqualTo(UPDATED_CODE);
-        assertThat(testUsercard.getState()).isEqualTo(UPDATED_STATE);
-        assertThat(testUsercard.getNumprefix()).isEqualTo(UPDATED_NUMPREFIX);
-        assertThat(testUsercard.getCsort()).isEqualTo(UPDATED_CSORT);
         assertThat(testUsercard.getCardnum()).isEqualTo(UPDATED_CARDNUM);
         assertThat(testUsercard.getCreator()).isEqualTo(UPDATED_CREATOR);
         assertThat(testUsercard.getCreatedate()).isEqualTo(UPDATED_CREATEDATE);

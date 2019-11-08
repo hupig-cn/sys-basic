@@ -29,6 +29,9 @@ public class Usercard implements Serializable {
     @Column(name = "bank")
     private String bank;
 
+    @Column(name = "cardnum")
+    private String cardnum;
+    
     @Column(name = "code")
     private String code;
 
@@ -40,9 +43,6 @@ public class Usercard implements Serializable {
 
     @Column(name = "csort")
     private Integer csort;
-
-    @Column(name = "cardnum")
-    private String cardnum;
 
     @Column(name = "creator")
     private String creator;
@@ -293,12 +293,12 @@ public class Usercard implements Serializable {
             ", bankname='" + getBankname() + "'" +
             ", logo='" + getLogo() + "'" +
             ", bank='" + getBank() + "'" +
+            ", cardnum='" + getCardnum() + "'" +
+            ", creator='" + getCreator() + "'" +
             ", code='" + getCode() + "'" +
             ", state=" + getState() +
             ", numprefix='" + getNumprefix() + "'" +
             ", csort=" + getCsort() +
-            ", cardnum='" + getCardnum() + "'" +
-            ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +
             ", modifierdate='" + getModifierdate() + "'" +

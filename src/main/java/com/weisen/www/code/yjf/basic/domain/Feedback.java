@@ -49,7 +49,7 @@ public class Feedback implements Serializable {
 
     @Column(name = "modifierdate")
     private String modifierdate;
-
+    
     @Column(name = "ctype")
     private Integer ctype;
 
@@ -283,8 +283,8 @@ public class Feedback implements Serializable {
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +
-            ", modifierdate='" + getModifierdate() + "'" +
             ", ctype=" + getCtype() +
+            ", modifierdate='" + getModifierdate() + "'" +
             ", modifiernum=" + getModifiernum() +
             ", logicdelete='" + isLogicdelete() + "'" +
             ", other='" + getOther() + "'" +

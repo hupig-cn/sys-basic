@@ -78,6 +78,7 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
+<<<<<<< HEAD
     <!--<changeSet id="20190728202109-1-data" author="jhipster" context="faker">-->
         <!--<loadData-->
                   <!--file="config/liquibase/data/usercard.csv"-->
@@ -98,5 +99,35 @@
             <!--&lt;!&ndash; jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove&ndash;&gt;-->
         <!--</loadData>-->
     <!--</changeSet>-->
+=======
+    <changeSet id="20190728202109-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/data/usercard.csv"
+                  separator=";"
+                  tableName="usercard">
+            <column name="id" type="numeric"/>
+            <column name="bankname" type="string"/>
+            <column name="logo" type="string"/>
+            <column name="bank" type="string"/>
+            <column name="cardnum" type="string"/>
+            <column name="creator" type="string"/>
+            <column name="createdate" type="string"/>
+            <column name="modifier" type="string"/>
+            <column name="modifierdate" type="string"/>
+            <column name="modifiernum" type="numeric"/>
+            <column name="logicdelete" type="boolean"/>
+            <column name="other" type="string"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
+        </loadData>
+    </changeSet>
+    <changeSet id="201911071759_add_column" author="jhipster">
+        <addColumn tableName="usercard">
+            <column name="code" type="varchar(12)"/>
+            <column name="state" type="smallint"/>
+            <column name="numprefix" type="text"/>
+            <column name="csort" type="int"/>
+        </addColumn>
+    </changeSet>
+>>>>>>> branch 'code' of git@github.com:hupig-cn/sys-basic.git
 
 </databaseChangeLog>

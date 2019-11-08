@@ -25,7 +25,7 @@ public class Files implements Serializable {
 
     @Column(name = "name")
     private String name;
-
+    
     @Column(name = "url")
     private String url;
 
@@ -67,19 +67,6 @@ public class Files implements Serializable {
 
     public void setUserid(String userid) {
         this.userid = userid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Files name(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getUrl() {
@@ -132,6 +119,19 @@ public class Files implements Serializable {
 
     public void setWidth(Integer width) {
         this.width = width;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Files name(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getSize() {
@@ -196,11 +196,11 @@ public class Files implements Serializable {
             "id=" + getId() +
             ", userid='" + getUserid() + "'" +
             ", name='" + getName() + "'" +
+            ", size=" + getSize() +
             ", url='" + getUrl() + "'" +
             ", uuid='" + getUuid() + "'" +
             ", height=" + getHeight() +
             ", width=" + getWidth() +
-            ", size=" + getSize() +
             ", file='" + getFile() + "'" +
             ", fileContentType='" + getFileContentType() + "'" +
             "}";
