@@ -31,6 +31,18 @@ public class Usercard implements Serializable {
 
     @Column(name = "cardnum")
     private String cardnum;
+    
+    @Column(name = "code")
+    private String code;
+
+    @Column(name = "state")
+    private Integer state;
+
+    @Column(name = "numprefix")
+    private String numprefix;
+
+    @Column(name = "csort")
+    private Integer csort;
 
     @Column(name = "creator")
     private String creator;
@@ -99,6 +111,58 @@ public class Usercard implements Serializable {
 
     public void setBank(String bank) {
         this.bank = bank;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public Usercard code(String code) {
+        this.code = code;
+        return this;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public Usercard state(Integer state) {
+        this.state = state;
+        return this;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public String getNumprefix() {
+        return numprefix;
+    }
+
+    public Usercard numprefix(String numprefix) {
+        this.numprefix = numprefix;
+        return this;
+    }
+
+    public void setNumprefix(String numprefix) {
+        this.numprefix = numprefix;
+    }
+
+    public Integer getCsort() {
+        return csort;
+    }
+
+    public Usercard csort(Integer csort) {
+        this.csort = csort;
+        return this;
+    }
+
+    public void setCsort(Integer csort) {
+        this.csort = csort;
     }
 
     public String getCardnum() {
@@ -231,6 +295,10 @@ public class Usercard implements Serializable {
             ", bank='" + getBank() + "'" +
             ", cardnum='" + getCardnum() + "'" +
             ", creator='" + getCreator() + "'" +
+            ", code='" + getCode() + "'" +
+            ", state=" + getState() +
+            ", numprefix='" + getNumprefix() + "'" +
+            ", csort=" + getCsort() +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +
             ", modifierdate='" + getModifierdate() + "'" +

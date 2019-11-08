@@ -49,6 +49,9 @@ public class Feedback implements Serializable {
 
     @Column(name = "modifierdate")
     private String modifierdate;
+    
+    @Column(name = "ctype")
+    private Integer ctype;
 
     @Column(name = "modifiernum")
     private Long modifiernum;
@@ -198,6 +201,19 @@ public class Feedback implements Serializable {
         this.modifierdate = modifierdate;
     }
 
+    public Integer getCtype() {
+        return ctype;
+    }
+
+    public Feedback ctype(Integer ctype) {
+        this.ctype = ctype;
+        return this;
+    }
+
+    public void setCtype(Integer ctype) {
+        this.ctype = ctype;
+    }
+
     public Long getModifiernum() {
         return modifiernum;
     }
@@ -267,6 +283,7 @@ public class Feedback implements Serializable {
             ", creator='" + getCreator() + "'" +
             ", createdate='" + getCreatedate() + "'" +
             ", modifier='" + getModifier() + "'" +
+            ", ctype=" + getCtype() +
             ", modifierdate='" + getModifierdate() + "'" +
             ", modifiernum=" + getModifiernum() +
             ", logicdelete='" + isLogicdelete() + "'" +

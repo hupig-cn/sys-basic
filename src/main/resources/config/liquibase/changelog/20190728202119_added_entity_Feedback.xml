@@ -108,5 +108,10 @@
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>
+        <changeSet id="201911071800_add_column" author="jhipster">
+        <addColumn tableName="feedback">
+            <column name="ctype" type="smallint"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

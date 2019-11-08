@@ -98,5 +98,13 @@
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>
+    <changeSet id="201911071759_add_column" author="jhipster">
+        <addColumn tableName="usercard">
+            <column name="code" type="varchar(12)"/>
+            <column name="state" type="smallint"/>
+            <column name="numprefix" type="text"/>
+            <column name="csort" type="int"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

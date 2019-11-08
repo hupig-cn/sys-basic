@@ -25,6 +25,18 @@ public class Files implements Serializable {
 
     @Column(name = "name")
     private String name;
+    
+    @Column(name = "url")
+    private String url;
+
+    @Column(name = "uuid")
+    private String uuid;
+
+    @Column(name = "height")
+    private Integer height;
+
+    @Column(name = "width")
+    private Integer width;
 
     @Column(name = "size")
     private Integer size;
@@ -55,6 +67,58 @@ public class Files implements Serializable {
 
     public void setUserid(String userid) {
         this.userid = userid;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public Files url(String url) {
+        this.url = url;
+        return this;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public Files uuid(String uuid) {
+        this.uuid = uuid;
+        return this;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public Files height(Integer height) {
+        this.height = height;
+        return this;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public Files width(Integer width) {
+        this.width = width;
+        return this;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
     }
 
     public String getName() {
@@ -133,6 +197,10 @@ public class Files implements Serializable {
             ", userid='" + getUserid() + "'" +
             ", name='" + getName() + "'" +
             ", size=" + getSize() +
+            ", url='" + getUrl() + "'" +
+            ", uuid='" + getUuid() + "'" +
+            ", height=" + getHeight() +
+            ", width=" + getWidth() +
             ", file='" + getFile() + "'" +
             ", fileContentType='" + getFileContentType() + "'" +
             "}";
