@@ -103,16 +103,16 @@ public class Linkuser implements Serializable {
 	private String lastLogingps;
 
 	@Column(name = "state")
-	private char state;
+	private String state;
 
 	@Column(name = "balance_rights")
-	private char balanceRights;
+	private String balanceRights;
 
 	@Column(name = "integral_rights")
-	private char integralRights;
+	private String integralRights;
 
 	@Column(name = "withdraw_rights")
-	private char withdrawRights;
+	private String withdrawRights;
 
 	// jhipster-needle-entity-add-field - JHipster will add fields here, do not
 	// remove
@@ -462,35 +462,35 @@ public class Linkuser implements Serializable {
 		this.lastLogingps = lastLogingps;
 	}
 
-	public char getState() {
+	public String getState() {
 		return state;
 	}
 
-	public void setState(char state) {
+	public void setState(String state) {
 		this.state = state;
 	}
 
-	public char getBalanceRights() {
+	public String getBalanceRights() {
 		return balanceRights;
 	}
 
-	public void setBalanceRights(char balanceRights) {
+	public void setBalanceRights(String balanceRights) {
 		this.balanceRights = balanceRights;
 	}
 
-	public char getIntegralRights() {
+	public String getIntegralRights() {
 		return integralRights;
 	}
 
-	public void setIntegralRights(char integralRights) {
+	public void setIntegralRights(String integralRights) {
 		this.integralRights = integralRights;
 	}
 
-	public char getWithdrawRights() {
+	public String getWithdrawRights() {
 		return withdrawRights;
 	}
 
-	public void setWithdrawRights(char withdrawRights) {
+	public void setWithdrawRights(String withdrawRights) {
 		this.withdrawRights = withdrawRights;
 	}
 
