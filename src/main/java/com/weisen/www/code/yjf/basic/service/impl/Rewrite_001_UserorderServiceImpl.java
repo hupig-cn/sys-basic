@@ -15,7 +15,9 @@ import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_UserOrderDTO
 import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
+import liquibase.servicelocator.PackageScanFilter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +47,11 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
 
     private final Rewrite_MerchantRepository rewrite_merchantRepository;
 
-    public Rewrite_001_UserorderServiceImpl(Rewrite_001_UserorderRepository rewrite_001_userorderRepository, Rewrite_SpecificationsRepository rewrite_specificationsRepository, Rewrite_OrderRepository rewrite_orderRepository, Rewrite_UserorderRepository rewrite_userOrderResource, Rewrite_LinkuserRepository rewrite_linkuserRepository, Rewrite_MerchantRepository rewrite_merchantRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
+
+    public Rewrite_001_UserorderServiceImpl(Rewrite_001_UserorderRepository rewrite_001_userorderRepository, Rewrite_SpecificationsRepository rewrite_specificationsRepository, Rewrite_OrderRepository rewrite_orderRepository, Rewrite_UserorderRepository rewrite_userOrderResource, Rewrite_LinkuserRepository rewrite_linkuserRepository, Rewrite_MerchantRepository rewrite_merchantRepository, PasswordEncoder passwordEncoder, Rewrite_LinkuserRepository rewrite_linkuserRepository1) {
 
         this.rewrite_001_userorderRepository = rewrite_001_userorderRepository;
         this.rewrite_specificationsRepository = rewrite_specificationsRepository;
@@ -53,6 +59,8 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
         this.rewrite_userOrderResource = rewrite_userOrderResource;
         this.rewrite_linkuserRepository = rewrite_linkuserRepository;
         this.rewrite_merchantRepository = rewrite_merchantRepository;
+        this.passwordEncoder = passwordEncoder;
+        rewrite_LinkuserRepository = rewrite_linkuserRepository1;
     }
 
     @Override
@@ -244,5 +252,18 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
             nums.add(save.getId());
         }
         return Result.suc("创建订单成功",nums);
+    }
+
+    @Override
+    public Result cheakpaypassword(String userid, String pass) {
+
+        Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userid);
+        if(!passwordEncoder.matches(pass,linkuser.getPaypassword())){
+            return  Result.fail("支付密码错误");
+        }else {
+            return Result.suc("支付密码成功");
+        }
+
+
     }
 }

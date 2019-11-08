@@ -21,4 +21,6 @@ public interface Rewrite_001_UserorderService {
     List<IntroductionOrderDTO> useerorder(List<Userorder> a);
 
     Result CreateOrder(Rewrite_UserOrderDTO dto);
+
+    Result cheakpaypassword(String userid, String pass);
 }
