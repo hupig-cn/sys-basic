@@ -78,7 +78,6 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-<<<<<<< HEAD
     <!--<changeSet id="20190728202122-1-data" author="jhipster" context="faker">-->
         <!--<loadData-->
                   <!--file="config/liquibase/data/issue.csv"-->
@@ -99,32 +98,10 @@
             <!--&lt;!&ndash; jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove&ndash;&gt;-->
         <!--</loadData>-->
     <!--</changeSet>-->
-=======
-    <changeSet id="20190728202122-1-data" author="jhipster" context="faker">
-        <loadData
-                  file="config/liquibase/data/issue.csv"
-                  separator=";"
-                  tableName="issue">
-            <column name="id" type="numeric"/>
-            <column name="answer" type="string"/>
-            <column name="type" type="string"/>
-            <column name="state" type="string"/>
-            <column name="problem" type="string"/>
-            <column name="creator" type="string"/>
-            <column name="createdate" type="string"/>
-            <column name="modifier" type="string"/>
-            <column name="modifierdate" type="string"/>
-            <column name="modifiernum" type="numeric"/>
-            <column name="logicdelete" type="boolean"/>
-            <column name="other" type="string"/>
-            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
-        </loadData>
-    </changeSet>
     <changeSet id="201911071804_add_column" author="jhipster">
         <addColumn tableName="issue">
             <column name="csort" type="int"/>
         </addColumn>
     </changeSet>
->>>>>>> branch 'code' of git@github.com:hupig-cn/sys-basic.git
 
 </databaseChangeLog>
