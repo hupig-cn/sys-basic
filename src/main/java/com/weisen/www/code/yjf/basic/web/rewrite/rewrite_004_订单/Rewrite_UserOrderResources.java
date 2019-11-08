@@ -60,12 +60,21 @@ public class Rewrite_UserOrderResources {
         log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Orderdetail", "传入值:"+userid+":"+ordercode, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
-    
+
     @PostMapping("/CreateOrder")
     @ApiOperation("用户下单")
     public ResponseEntity<?> CreateOrder(@RequestBody Rewrite_UserOrderDTO dto){
         Result result = rewrite_001_userorderService.CreateOrder(dto);
         log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Orderdetail", "传入值:"+dto.toString(), result);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
+    @PostMapping("/cheakpaypassword")
+    @ApiOperation("验证密码")
+    public ResponseEntity<?> cheakpaypassword(@RequestParam String userid,
+                                              @RequestParam String pass){
+        Result result = rewrite_001_userorderService.cheakpaypassword(userid,pass);
+        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Orderdetail", "传入值:"+userid+";"+pass, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 }
