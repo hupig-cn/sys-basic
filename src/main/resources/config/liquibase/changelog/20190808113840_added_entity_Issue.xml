@@ -103,5 +103,10 @@
             <!--&lt;!&ndash; jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove&ndash;&gt;-->
         <!--</loadData>-->
     <!--</changeSet>-->
+        <changeSet id="201911071804_add_column" author="jhipster">
+        <addColumn tableName="issue">
+            <column name="csort" type="int"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

@@ -84,6 +84,7 @@
     <changeSet id="20190808113827-1-relations" author="jhipster">
 
     </changeSet>
+
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 
     <!--
@@ -118,5 +119,12 @@
             <!--&lt;!&ndash; jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove&ndash;&gt;-->
         <!--</loadData>-->
     <!--</changeSet>-->
-
+    <changeSet id="201911071759_add_column" author="jhipster">
+        <addColumn tableName="usercard">
+            <column name="code" type="varchar(12)"/>
+            <column name="state" type="smallint"/>
+            <column name="numprefix" type="text"/>
+            <column name="csort" type="int"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

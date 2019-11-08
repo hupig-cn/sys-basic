@@ -88,5 +88,12 @@
             <!--&lt;!&ndash; jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove&ndash;&gt;-->
         <!--</loadData>-->
     <!--</changeSet>-->
-
+    <changeSet id="201911071803_add_column" author="jhipster">
+        <addColumn tableName="files">
+            <column name="url" type="varchar(255)"/>
+            <column name="uuid" type="varchar(36)"/>
+            <column name="height" type="int"/>
+            <column name="width" type="int"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
