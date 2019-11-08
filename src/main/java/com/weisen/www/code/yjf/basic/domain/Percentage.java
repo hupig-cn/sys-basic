@@ -53,7 +53,7 @@ public class Percentage implements Serializable {
 	private String other;
 
 	@Column(name = "cevent")
-	private char cevent;
+	private String cevent;
 
 	@Column(name = "discount")
 	private BigDecimal discount;
@@ -200,11 +200,11 @@ public class Percentage implements Serializable {
 	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and
 	// setters here, do not remove
 
-	public char getCevent() {
+	public String getCevent() {
 		return cevent;
 	}
 
-	public void setCevent(char cevent) {
+	public void setCevent(String cevent) {
 		this.cevent = cevent;
 	}
 

@@ -67,7 +67,7 @@ public class Paymethod implements Serializable {
 	private String csort;
 
 	@Column(name = "state")
-	private char state;
+	private String state;
 
 	// jhipster-needle-entity-add-field - JHipster will add fields here, do not
 	// remove
@@ -266,11 +266,11 @@ public class Paymethod implements Serializable {
 		this.csort = csort;
 	}
 
-	public char getState() {
+	public String getState() {
 		return state;
 	}
 
-	public void setState(char state) {
+	public void setState(String state) {
 		this.state = state;
 	}
 
