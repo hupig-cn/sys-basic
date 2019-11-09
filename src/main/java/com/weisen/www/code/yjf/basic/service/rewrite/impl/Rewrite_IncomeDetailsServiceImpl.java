@@ -216,8 +216,8 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			List<Userlinkuser> recommendData = incomeDetailsRepository.findByRecommendIdAndPage(recommendId,pageNum*pageSize,pageSize);
 			if (!recommendData.isEmpty()) {
 				//获取被推荐人longin库jhi_user表头像和昵称
-				String firstName = jhiUser.getFirstName();
-				String imageUrl = jhiUser.getImageUrl();
+				String firstName = null;
+				String imageUrl = null;
 				for (Userlinkuser userlinkuser : recommendData) {
 					Rewrite_GetIncomeListDTO getIncomeListDTO = new Rewrite_GetIncomeListDTO();
 					String userid = userlinkuser.getUserid();
