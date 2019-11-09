@@ -142,20 +142,22 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 				last = last * 1000L;
 			}
 			String firstTime = sdf.format(new Date(first));
-			System.out.println("开始时间:"+firstTime);
 			String lastTime = sdf.format(new Date(last));
-			System.out.println("结束时间:"+lastTime);
 
 			//如果有时间值，根据时间值来查找
 			recommends = incomeDetailsRepository.findByRecommendIdAndTimeAndPage(recommendId,firstTime,lastTime,pageNum*pageSize,pageSize);
 			//如果有数据，进行遍历，并到收支明细表和login库中获取数据
 			if (recommends != null || !recommendId.equals("")) {
-
+				String firstName = null;
 				//遍历数据
 				for (Userlinkuser userlinkuser : recommends) {
 					Rewrite_GetIncomeListDTO getIncomeListDTO = new Rewrite_GetIncomeListDTO();
 					//获取被推荐人用户id
 					String userid = userlinkuser.getUserid();
+					//获取被推荐人longin库资料
+					User jhiUserData = userRepository.findJhiUserById(Long.parseLong(userid));
+					//获取推荐人login库jhi_user表昵称
+					firstName = jhiUserData.getFirstName();
 					//获取创建时间
 					String createdate = userlinkuser.getCreatedate();
 					//获取收支明细表中对应
@@ -165,13 +167,10 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					//如果收支明细表中有数据，查找获利金额
 					if (amounts != null) {
 						for (BigDecimal amount : amounts) {
-
 							sumAmount=sumAmount.add(amount);
-
 						}
 					}
-					//获取被推荐人longin库jhi_user表头像和昵称
-					String firstName = jhiUser.getFirstName();
+					//获取被推荐人longin库jhi_user表头像
 					String imageUrl = jhiUser.getImageUrl();
 					//是否是商家
 					Merchant merchant = merchantRepository.findByUserid(userid);
@@ -299,7 +298,6 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		//如果7天前的时间加上每一天的时间小于现在时间，说明是今天到七天前的数据
 		do{
 			BigDecimal bigDecimal = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
-			System.out.println(bigDecimal);
 			Rewrite_ProfitListDTO profitDTO = new Rewrite_ProfitListDTO();
 			//查找数据的开始时间
 			String firstTime = sdf.format(new Date(oldZeroTime));
@@ -312,7 +310,6 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					bigDecimal = bigDecimal.add(amount);
 				}
 			}
-			System.out.println(bigDecimal);
 			profitDTO.setEarn(""+bigDecimal);
 			profitDTO.setDate(firstTime);
 			profitListDTO.add(profitDTO);
