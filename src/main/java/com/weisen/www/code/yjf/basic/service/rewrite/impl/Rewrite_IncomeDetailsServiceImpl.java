@@ -145,7 +145,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			String lastTime = sdf.format(new Date(last));
 
 			//如果有时间值，根据时间值来查找
-			recommends = incomeDetailsRepository.findByRecommendIdAndTimeAndPage(recommendId,firstTime,lastTime,pageNum*pageSize,pageSize);
+			recommends = incomeDetailsRepository.findByRecommendIdAndPage(recommendId,pageNum*pageSize,pageSize);
 			//如果有数据，进行遍历，并到收支明细表和login库中获取数据
 			if (!recommends.isEmpty()) {
 				String firstName = null;
@@ -202,7 +202,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 					//将数据返回
 					getIncomeListDTO.setImageUrl(imageUrl);
-					getIncomeListDTO.setCreatedate(createdate);
+					getIncomeListDTO.setCreatedate(createdate);		
 					getIncomeListDTO.setFirstName(firstName);
 					getIncomeListDTO.setAmount(sumAmount);
 					incomeListDTO.add(getIncomeListDTO);

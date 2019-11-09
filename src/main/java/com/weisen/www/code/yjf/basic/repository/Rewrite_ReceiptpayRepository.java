@@ -70,7 +70,7 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
 	Receiptpay findReceiptpayById(Long id);
 
 	// 根据时间,用户关系表查询用户的明细
-	@Query(value = "select amount FROM receiptpay where userid= ?1 and sourcer = ?2 and createdate between ?3 and ?4", nativeQuery = true)
+	@Query(value = "select amount FROM receiptpay where userid= ?1 and sourcer = ?2 and dealtype in (9,10) and createdate between ?3 and ?4", nativeQuery = true)
 	List<BigDecimal> getReceiptpayByUseridAndSourcerAndTime(String userid, String sourcer, String firstTime,
 			String lastTime);
 
