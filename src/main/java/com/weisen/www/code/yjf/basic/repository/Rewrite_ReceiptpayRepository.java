@@ -69,15 +69,18 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
 
 	Receiptpay findReceiptpayById(Long id);
 
-	// 根据时间,用户关系表查询用户的明细
-	@Query(value = "select amount FROM receiptpay where userid= ?1 and sourcer = ?2 and dealtype in (9,10) and createdate between ?3 and ?4", nativeQuery = true)
-	List<BigDecimal> getReceiptpayByUseridAndSourcerAndTime(String userid, String sourcer, String firstTime,
-			String lastTime);
+//	// 根据时间,用户关系表查询用户的明细
+//	@Query(value = "select amount FROM receiptpay where userid= ?1 and sourcer = ?2 and dealtype in (9,10) and createdate between ?3 and ?4", nativeQuery = true)
+//	List<BigDecimal> getReceiptpayByUseridAndSourcerAndTime(String userid, String sourcer, String firstTime,
+//			String lastTime);
 
 	List<Receiptpay> findByUseridAndSourcer(String userid, String sourcer);
 
-	@Query(value = "select amount FROM receiptpay where userid = ?1 and dealtype in (9,10) and createdate between ?2 and ?3", nativeQuery = true)
-	List<BigDecimal> findReceiptpayByUseridAndTime(String userid, String firstTime, String lastTime);
+	@Query(value = "select * FROM receiptpay where userid = ?1 and dealtype in (9,10) and order by createdate desc and createdate between ?2 and ?3", nativeQuery = true)
+	List<Receiptpay> findReceiptpayByUseridAndTime(String userid, String firstTime, String lastTime);
+	
+	@Query(value = "select * FROM receiptpay where userid = ?1 and dealtype in (9,10) and amount != 0 and createdate between ?2 and ?3 order by createdate desc LIMIT ?4,?5", nativeQuery = true)
+	List<Receiptpay> findReceiptpayByUseridAndTimeAndPage(String userid, String firstTime, String lastTime,Integer pageNum,Integer pageSize);
 
 	@Query(value = "select amount FROM receiptpay where userid = ?1 and dealtype in (9,10)", nativeQuery = true)
 	List<BigDecimal> findReceiptpayByUserid(String userid);

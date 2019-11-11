@@ -13,13 +13,13 @@ public class Rewrite_GetIncomeListDTO implements Serializable {
 	@ApiModelProperty(value = "昵称", example = "哈哈")
     private String firstName;
 
-	@ApiModelProperty(value = "创建时间", example = "2018-11-12")
+	@ApiModelProperty(value = "流水时间", example = "2018-11-12")
     private String createdate;
 	
-	@ApiModelProperty(value = "头像url", example = "www.baidu.com")
-    private String imageUrl;
-	
-	@ApiModelProperty(value = "获取的红利总和", example = "6666.66")
+	@ApiModelProperty(value = "收益类型", example = "推荐收益")
+    private String dealtype;
+
+	@ApiModelProperty(value = "获取的红利", example = "6666.66")
 	private BigDecimal amount;
 	
 	@ApiModelProperty(value = "商家", example = "商家")
@@ -37,6 +37,15 @@ public class Rewrite_GetIncomeListDTO implements Serializable {
 
 	public void setVip(String vip) {
 		this.vip = vip;
+	}
+
+	
+	public String getDealtype() {
+		return dealtype;
+	}
+
+	public void setDealtype(String dealtype) {
+		this.dealtype = dealtype;
 	}
 
 	public String getMerchant() {
@@ -61,14 +70,6 @@ public class Rewrite_GetIncomeListDTO implements Serializable {
 
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
 	}
 
 

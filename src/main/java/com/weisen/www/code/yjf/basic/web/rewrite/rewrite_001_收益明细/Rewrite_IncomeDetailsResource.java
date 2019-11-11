@@ -50,13 +50,13 @@ public class Rewrite_IncomeDetailsResource {
     }
 
     /**
-     * 获取推荐人列表
+     * 获取推荐流水明细
      *
     	 * @author sxx
     	 * @date 2019-10-23 15:55:31
      */
     @PostMapping("/getRecommend/List")
-    @ApiOperation("获取推荐人明细")
+    @ApiOperation("获取推荐流水明细")
     public ResponseEntity<?> getRecommendList(@RequestBody Rewrite_GetIncomeAfferentDTO getIncomeAfferentDTO){
     	Result result = incomeDetailsService.getRecommendList(getIncomeAfferentDTO);
     	log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total",getIncomeAfferentDTO , result);
