@@ -63,7 +63,7 @@ public class Userlinkuser implements Serializable {
     @Column(name = "other")
     private String other;
 
-    @Column(name = "metamorphosis_time",nullable=true)
+    @Column(name = "metamorphosis_time")
     private String metamorphosisTime;
 
     @Column(name = "pyee")
