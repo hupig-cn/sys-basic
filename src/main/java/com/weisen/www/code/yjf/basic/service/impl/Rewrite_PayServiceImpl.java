@@ -112,6 +112,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpay.setFreezebalance(new BigDecimal(userassets.getFrozenbalance()));
         receiptpay.setIntegral(new BigDecimal(userassets.getIntegral()));
         receiptpay.setUseablebalance(new BigDecimal(userassets.getUsablebalance()));
+        receiptpay.setOther(userorder.getPayee());
         receiptpayRepository.save(receiptpay);
 
         Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId(),userorder.getPayway());
