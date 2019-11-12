@@ -3,7 +3,7 @@ package com.weisen.www.code.yjf.basic.service.util;
 public class ReceiptpayConstant {
 
     public static final String ALI_PAY = "1";  //  支付宝支出
-
+    
     public static final String WECHAT_PAY = "2"; // 微信支出
 
     public static final String BALANCE_INCOME = "3"; // 余额收入
@@ -21,10 +21,11 @@ public class ReceiptpayConstant {
     public static final String BALANCE_INCOME_DIR = "9"; // 余额分销收入
 
     public static final String BALANCE_INCOME_PER = "10"; // 合伙人分销收入
+    
+    public static final String WITHDRAWAL_PAY = "11"; // 提现成功(支出)
 
     public static final String INCOME = "2"; // 收入
 
     public static final String PAY = "1"; // 支出
-
 
 }
