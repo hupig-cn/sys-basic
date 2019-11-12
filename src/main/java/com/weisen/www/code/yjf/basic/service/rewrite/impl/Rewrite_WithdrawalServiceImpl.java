@@ -265,7 +265,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
             receiptpay.setFreezebalance(new BigDecimal(userassets.getFrozenbalance()));
             receiptpay.setCoupon(new BigDecimal(userassets.getCouponsum()));
             receiptpay.setIntegral(new BigDecimal(userassets.getIntegral()));
-            receiptpay.setOther("提现"+amount+"元");
+            receiptpay.setExplain("提现"+amount+"元");
             rewrite_ReceiptpayRepository.save(receiptpay);
 
         }else if(type.equals(WithdrawalConstant.FAIL_S)){  // 审批不通过
