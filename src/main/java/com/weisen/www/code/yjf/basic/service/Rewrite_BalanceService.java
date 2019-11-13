@@ -11,7 +11,7 @@ import com.weisen.www.code.yjf.basic.util.Result;
 public interface Rewrite_BalanceService {
     Result findAllBalance(String userid);
 
-    Result Receiptpaylist(String userid, String endTime, String startTime,Integer pageNum,Integer pageSize);
+    Result Receiptpaylist(String userid, Integer pageNum, Integer pageSize);
 
     Result receiptpays(Long id);
 

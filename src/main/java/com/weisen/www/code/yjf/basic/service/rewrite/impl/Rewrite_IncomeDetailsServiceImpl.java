@@ -146,11 +146,23 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			}
 			String firstTime = sdf.format(new Date(first));
 			String lastTime = sdf.format(new Date(last));
+			
+			List<Receiptpay> amountSumList = receiptpayRepository.findReceiptpayByUseridAndTime(recommendId,
+					firstTime, lastTime);
+			BigDecimal amountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
+			if (!amountSumList.isEmpty()) {
+				for (Receiptpay receiptpay : amountSumList) {
+					BigDecimal amount = receiptpay.getAmount();
+					amountSum = amountSum.add(amount);
+					
+				}
+			}
 
 			List<Receiptpay> receiptpayList = receiptpayRepository.findReceiptpayByUseridAndTimeAndPage(recommendId,
 					firstTime, lastTime, pageNum * pageSize, pageSize);
 			if (!receiptpayList.isEmpty()) {
 				String firstName = null;
+				
 				for (Receiptpay receiptpay : receiptpayList) {
 					Rewrite_GetIncomeListDTO getIncomeListDTO = new Rewrite_GetIncomeListDTO();
 					String sourcerId = receiptpay.getSourcer();
@@ -206,7 +218,8 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 						getIncomeListDTO.setVip("会员");
 						getIncomeListDTO.setMerchant("");
 					}
-
+					
+					getIncomeListDTO.setAmountSum(amountSum);
 					getIncomeListDTO.setFirstName(firstName);
 					getIncomeListDTO.setAmount(amount);
 					Date createDate = null;
@@ -414,10 +427,6 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			// 通过id找到推荐人数量
 			recommendIdfindByUserId = incomeDetailsRepository.findByRecommendId(recommendId);
 		}
-		// //通过id找到推荐人数量
-		// List<Userlinkuser> recommendIdfindByUserId =
-		// incomeDetailsRepository.findByRecommendId(recommendId);
-
 		List<Rewrite_UserInformationListDTO> userInformationList = new ArrayList<>();
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
@@ -593,8 +602,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			newFindMerchantProfitInfo.setFreezedate(receiptpay.getFreezedate());
 			newFindMerchantProfitInfo.setHappendate(receiptpay.getHappendate());
 			newFindMerchantProfitInfo.setPayway(receiptpay.getPayway());
-			newFindMerchantProfitInfo.setOther("支付" + receiptpay.getBenefit() + "元，收款" + receiptpay.getAmount() + "元("
-					+ OrderConstant.getpayInfo2(receiptpay.getPayway()) + ")");
+			newFindMerchantProfitInfo.setOther("支付" + receiptpay.getBenefit() + "元(" + receiptpay.getAmount() + ")");
 			newFindMerchantProfitInfo.setUserid(receiptpay.getUserid());
 			newFindMerchantProfitInfo.setSourcer(receiptpay.getSourcer());
 			newFindMerchantProfitInfo.setModifier(receiptpay.getModifier());

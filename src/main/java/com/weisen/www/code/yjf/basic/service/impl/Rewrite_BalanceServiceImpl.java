@@ -63,19 +63,19 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
 	}
 
 	@Override
-	public Result Receiptpaylist(String userid, String endTime, String startTime, Integer pageNum, Integer pageSize) {
+	public Result Receiptpaylist(String userid, Integer pageNum, Integer pageSize) {
 		if (pageNum == null || pageSize == null) {
 			pageNum = 0;
 			pageSize = 10;
 		}
-		if (startTime == null || startTime.equals("") || endTime == null || endTime.equals("")) {
-			endTime = TimeUtil.getDate();
-			long time = System.currentTimeMillis();
-			Date date = new Date(time - 1000 * 60 * 60 * 24 * 7);
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			startTime = format.format(date);
-		}
-		List<Userorder> payee = rewrite_userorderRepository.findByTimeAndUserid(userid, startTime, endTime);
+//		if (startTime == null || startTime.equals("") || endTime == null || endTime.equals("")) {
+//			endTime = TimeUtil.getDate();
+//			long time = System.currentTimeMillis();
+//			Date date = new Date(time - 1000 * 60 * 60 * 24 * 7);
+//			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//			startTime = format.format(date);
+//		}
+		List<Userorder> payee = rewrite_userorderRepository.findByTimeAndUserid(userid);
 		// 所有的消费订单
 
 		List<TouchBalanceDTO> touchbalancelist = new ArrayList<>();
