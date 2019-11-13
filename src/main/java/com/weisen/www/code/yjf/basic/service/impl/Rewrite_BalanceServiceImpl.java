@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,7 @@ import com.weisen.www.code.yjf.basic.service.dto.submit_dto.TouchBalanceDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.operatingIncomeDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ReceiptpayDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
-import com.weisen.www.code.yjf.basic.util.TimeUtil;
+import com.weisen.www.code.yjf.basic.service.util.TimeUtil;
 
 /**
  * @Author: 阮铭辉
@@ -100,7 +101,14 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
 				t.setPayeeTitle("优惠卷支付");
 			}
 			t.setUserorderid(userorder.getId() + "");
-			t.setPaytime(userorder.getPaytime());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+			Date createDate = null;
+			try {
+				createDate = sdf.parse(userorder.getPaytime());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			t.setPaytime(TimeUtil.getTime(createDate));
 			t.setPayway(userorder.getPayway());
 			t.setSum(userorder.getSum());
 			touchbalancelist.add(t);
