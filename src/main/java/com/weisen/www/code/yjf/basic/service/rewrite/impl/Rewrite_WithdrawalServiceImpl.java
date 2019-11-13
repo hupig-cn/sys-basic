@@ -12,6 +12,7 @@ import com.weisen.www.code.yjf.basic.service.mapper.WithdrawalMapper;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_WithdrawalService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_WithdrawalDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_WithdrawalMapper;
+import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
 import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
 import com.weisen.www.code.yjf.basic.service.util.SendCode;
 import com.weisen.www.code.yjf.basic.service.util.WithdrawalConstant;
@@ -250,6 +251,22 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
             userassets.setBalance(balance.subtract(amount).setScale(3).toString());
             userassets.setFrozenbalance(frozen.subtract(amount).setScale(3).toString());
             rewrite_UserassetsRepository.saveAndFlush(userassets);
+            
+            // 提现成功需要产生流水，优化时间：2019年11月12日16:57:17
+            Receiptpay receiptpay = new Receiptpay();
+            receiptpay.setPayway(OrderConstant.BALANCE_PAY); //扣了余额
+            receiptpay.setDealtype(ReceiptpayConstant.WITHDRAWAL_PAY); //余额支出
+            receiptpay.setUserid(op.get().getUserid());
+            receiptpay.setAmount(amount);	//提现金额
+            receiptpay.setDealstate(ReceiptpayConstant.PAY); //支出
+            receiptpay.setCreatedate(TimeUtil.getDate());
+            receiptpay.setBalance(new BigDecimal(userassets.getBalance()));
+            receiptpay.setUseablebalance(new BigDecimal(userassets.getUsablebalance()));
+            receiptpay.setFreezebalance(new BigDecimal(userassets.getFrozenbalance()));
+            receiptpay.setCoupon(new BigDecimal(userassets.getCouponsum()));
+            receiptpay.setIntegral(new BigDecimal(userassets.getIntegral()));
+            receiptpay.setExplain("提现"+amount+"元");
+            rewrite_ReceiptpayRepository.save(receiptpay);
 
         }else if(type.equals(WithdrawalConstant.FAIL_S)){  // 审批不通过
             // 提现表

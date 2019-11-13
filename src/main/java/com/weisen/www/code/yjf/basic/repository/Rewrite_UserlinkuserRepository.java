@@ -22,8 +22,7 @@ public interface Rewrite_UserlinkuserRepository extends JpaRepository<Userlinkus
 
     long countAllByCreatedateBetweenAndRecommendid(String startTime ,String endTime,String recommendid);
 
-    @Query(value = "select id,userid,recommendid,partner,province,city,county,creator,createdate,modifier,modifierdate,modifiernum,logicdelete,other " +
-        "from userlinkuser" +
+    @Query(value = "select * from userlinkuser" +
         " where recommendid = ?1 order by modifierdate desc limit ?2,?3",nativeQuery = true)
     List<Userlinkuser> findAllByRecommendidAndTime(String recommendid,int indexPage,int pageSize);
 }

@@ -111,9 +111,10 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		return Result.suc("访问成功", recommondCountDTO);
 	}
 
-	//获取推荐人列表
+	//获取推荐流水明细
 	@Override
 	public Result getRecommendList(Rewrite_GetIncomeAfferentDTO getIncomeAfferentDTO) {
+
 		//封装返回DTO
 		List<Rewrite_GetIncomeListDTO> incomeListDTO = new ArrayList<Rewrite_GetIncomeListDTO>();
 
@@ -132,7 +133,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 		Integer pageNum = getIncomeAfferentDTO.getPageNum();
 		Integer pageSize = getIncomeAfferentDTO.getPageSize();
-		List<Userlinkuser> recommends= null;
+		//		List<Userlinkuser> recommends= null;
 		//如果有时间值，根据时间值查找推荐人数
 		if ((first!=null && last !=null) && (first!=0 && last != 0)) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
@@ -142,41 +143,45 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 				last = last * 1000L;
 			}
 			String firstTime = sdf.format(new Date(first));
-			System.out.println("开始时间:"+firstTime);
 			String lastTime = sdf.format(new Date(last));
-			System.out.println("结束时间:"+lastTime);
 
-			//如果有时间值，根据时间值来查找
-			recommends = incomeDetailsRepository.findByRecommendIdAndTimeAndPage(recommendId,firstTime,lastTime,pageNum*pageSize,pageSize);
-			//如果有数据，进行遍历，并到收支明细表和login库中获取数据
-			if (recommends != null || !recommendId.equals("")) {
-
-				//遍历数据
-				for (Userlinkuser userlinkuser : recommends) {
+			List<Receiptpay> receiptpayList = receiptpayRepository.findReceiptpayByUseridAndTimeAndPage(recommendId,firstTime,lastTime,pageNum*pageSize,pageSize);
+			if (!receiptpayList.isEmpty()) {
+				String firstName = null;
+				for (Receiptpay receiptpay : receiptpayList) {
 					Rewrite_GetIncomeListDTO getIncomeListDTO = new Rewrite_GetIncomeListDTO();
-					//获取被推荐人用户id
-					String userid = userlinkuser.getUserid();
-					//获取创建时间
-					String createdate = userlinkuser.getCreatedate();
-					//获取收支明细表中对应
-					List<BigDecimal> amounts = receiptpayRepository.getReceiptpayByUseridAndSourcerAndTime(recommendId,userid,firstTime,lastTime);
-					//如果找得到数据
-					BigDecimal sumAmount = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
-					//如果收支明细表中有数据，查找获利金额
-					if (amounts != null) {
-						for (BigDecimal amount : amounts) {
+					String sourcerId = receiptpay.getSourcer();
+					BigDecimal amount = receiptpay.getAmount();
 
-							sumAmount=sumAmount.add(amount);
-
+					String createdate = receiptpay.getCreatedate();
+					User jhiUserData = userRepository.findJhiUserById(Long.parseLong(sourcerId));
+					//获取推荐人login库jhi_user表昵称
+					firstName = jhiUserData.getFirstName();
+					if (firstName.equals("Auto")) {
+						Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(sourcerId);
+						if (linkaccount!=null) {
+							String other = linkaccount.getOther();
+							if (other.equals("微信")) {
+								firstName = "微信用户";
+							}else if (other.equals("支付宝")) {
+								firstName = "支付宝用户";	
+							}else {
+								firstName = "未注册用户";
+							}
+						}else {
+							firstName = "未注册用户";
 						}
 					}
-					//获取被推荐人longin库jhi_user表头像和昵称
-					String firstName = jhiUser.getFirstName();
-					String imageUrl = jhiUser.getImageUrl();
+
+					if (receiptpay.getDealtype().equals("9")) {
+						getIncomeListDTO.setDealtype("推荐收益");
+					}else if (receiptpay.getDealtype().equals("10")) {
+						getIncomeListDTO.setDealtype("合伙收益");
+					}
 					//是否是商家
-					Merchant merchant = merchantRepository.findByUserid(userid);
+					Merchant merchant = merchantRepository.findByUserid(sourcerId);
 					//是否是事业合伙人
-					Userlinkuser partner = userLinkUserRepository.findByUserid(userid);
+					Userlinkuser partner = userLinkUserRepository.findByUserid(sourcerId);
 					//是商家不是事业合伙人
 					if (merchant!=null && !(partner.getPartner())) {
 						getIncomeListDTO.setMerchant("商家");
@@ -199,76 +204,129 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 						getIncomeListDTO.setMerchant("");
 					}
 
-
-					//将数据返回
-					getIncomeListDTO.setImageUrl(imageUrl);
-					getIncomeListDTO.setCreatedate(createdate);
 					getIncomeListDTO.setFirstName(firstName);
-					getIncomeListDTO.setAmount(sumAmount);
+					getIncomeListDTO.setAmount(amount);
+					getIncomeListDTO.setCreatedate(createdate);
 					incomeListDTO.add(getIncomeListDTO);
-				}
 
-			} else {
+				}
+			}else {
 				return Result.suc("暂时没有数据");
-			}
-		} else {
-			//如果没有时间值，则查找的时候进行分页查找
-			List<Userlinkuser> recommendData = incomeDetailsRepository.findByRecommendIdAndPage(recommendId,pageNum*pageSize,pageSize);
-			for (Userlinkuser userlinkuser : recommendData) {
-				Rewrite_GetIncomeListDTO getIncomeListDTO = new Rewrite_GetIncomeListDTO();
-				String userid = userlinkuser.getUserid();
-				//获取创建时间
-				String createdate = userlinkuser.getCreatedate();
-				//获取收支明细表中对应
-				List<Receiptpay> receiptpays = receiptpayRepository.findByUseridAndSourcer(recommendId,userid);
-				//如果找得到数据
-				BigDecimal sumAmount = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
-				if (receiptpays != null) {
-					for (Receiptpay receiptpay : receiptpays) {
-						BigDecimal amount = receiptpay.getAmount();
-						if (amount!=null || !(amount.equals(""))) {
-							sumAmount=sumAmount.add(amount);
-						}
-					}
-				}
-				//获取被推荐人longin库jhi_user表头像和昵称
-				String firstName = jhiUser.getFirstName();
-				String imageUrl = jhiUser.getImageUrl();
-				//是否是商家
-				Merchant merchant = merchantRepository.findByUserid(userid);
-				//是否是事业合伙人
-				Userlinkuser partner = userLinkUserRepository.findByUserid(userid);
-				//是商家不是事业合伙人
-				if (merchant!=null && !(partner.getPartner())) {
-					getIncomeListDTO.setMerchant("商家");
-					getIncomeListDTO.setPartner("");
-					getIncomeListDTO.setVip("");
-				}else if (partner.getPartner() && merchant==null) {
-					//是事业合伙人不是商家
-					getIncomeListDTO.setPartner("事业合伙人");
-					getIncomeListDTO.setVip("");
-					getIncomeListDTO.setMerchant("");
-				}else if (partner.getPartner() && merchant!=null) {
-					//既是事业合伙人，也是商家
-					getIncomeListDTO.setPartner("事业合伙人");
-					getIncomeListDTO.setVip("");
-					getIncomeListDTO.setMerchant("商家");
-				}else if (merchant==null && !(partner.getPartner())) {
-					//既不是事业合伙人，也不是商家     会员
-					getIncomeListDTO.setPartner("");
-					getIncomeListDTO.setVip("会员");
-					getIncomeListDTO.setMerchant("");
-				}
-
-				getIncomeListDTO.setImageUrl(imageUrl);
-				getIncomeListDTO.setCreatedate(createdate);
-				getIncomeListDTO.setFirstName(firstName);
-				getIncomeListDTO.setAmount(sumAmount);
-				incomeListDTO.add(getIncomeListDTO);
 			}
 		}
 		return Result.suc("访问成功！",incomeListDTO);
 	}
+
+	//
+	//			//如果有时间值，根据时间值来查找
+	//			recommends = incomeDetailsRepository.findByRecommendIdAndPage(recommendId,pageNum*pageSize,pageSize);
+	//			//如果有数据，进行遍历，并到收支明细表和login库中获取数据
+	//			if (!recommends.isEmpty()) {
+	//				String firstName = null;
+	//				String imageUrl = null;
+	//				//遍历数据
+	//				for (Userlinkuser userlinkuser : recommends) {
+	//					Rewrite_GetIncomeListDTO getIncomeListDTO = new Rewrite_GetIncomeListDTO();
+	//					//获取被推荐人用户id
+	//					String userid = userlinkuser.getUserid();
+	//					//获取被推荐人longin库资料
+
+	//					imageUrl = jhiUserData.getImageUrl();
+	//					//获取创建时间
+	//					String createdate = userlinkuser.getCreatedate();
+	//					//获取收支明细表中对应
+	//					List<BigDecimal> amounts = receiptpayRepository.getReceiptpayByUseridAndSourcerAndTime(recommendId,userid,firstTime,lastTime);
+	//					//如果找得到数据
+	//					BigDecimal sumAmount = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
+	//					//如果收支明细表中有数据，查找获利金额
+	//					if (!amounts.isEmpty()) {
+	//						for (BigDecimal amount : amounts) {
+	//							sumAmount=sumAmount.add(amount);
+	//						}
+	//					}
+	//
+
+	//
+	//
+	//					//将数据返回
+	//					getIncomeListDTO.setImageUrl(imageUrl);
+	//					getIncomeListDTO.setCreatedate(createdate);		
+	//					getIncomeListDTO.setFirstName(firstName);
+	//					getIncomeListDTO.setAmount(sumAmount);
+	//					incomeListDTO.add(getIncomeListDTO);
+	//				}
+	//
+	//			} else {
+	//				return Result.suc("暂时没有数据");
+	//			}
+	//		} else {
+	//			//如果没有时间值，则查找的时候进行分页查找
+	//			List<Userlinkuser> recommendData = incomeDetailsRepository.findByRecommendIdAndPage(recommendId,pageNum*pageSize,pageSize);
+	//			if (!recommendData.isEmpty()) {
+	//				//获取被推荐人longin库jhi_user表头像和昵称
+	//				String firstName = null;
+	//				String imageUrl = null;
+	//				for (Userlinkuser userlinkuser : recommendData) {
+	//					Rewrite_GetIncomeListDTO getIncomeListDTO = new Rewrite_GetIncomeListDTO();
+	//					String userid = userlinkuser.getUserid();
+	//					//获取被推荐人longin库资料
+	//					User jhiUserData = userRepository.findJhiUserById(Long.parseLong(userid));
+	//					//获取推荐人login库jhi_user表昵称和头像url
+	//					firstName = jhiUserData.getFirstName();
+	//					imageUrl = jhiUserData.getImageUrl();
+	//					//获取创建时间
+	//					String createdate = userlinkuser.getCreatedate();
+	//					//获取收支明细表中对应
+	//					List<Receiptpay> receiptpays = receiptpayRepository.findByUseridAndSourcer(recommendId,userid);
+	//					//如果找得到数据
+	//					BigDecimal sumAmount = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
+	//					if (!receiptpays.isEmpty()) {
+	//						
+	//						for (Receiptpay receiptpay : receiptpays) {
+	//							BigDecimal amount = receiptpay.getAmount();
+	//							if (amount!=null || !(amount.equals(""))) {
+	//								sumAmount=sumAmount.add(amount);
+	//							}
+	//						}
+	//					}
+	//					
+	//
+	//					//是否是商家
+	//					Merchant merchant = merchantRepository.findByUserid(userid);
+	//					//是否是事业合伙人
+	//					Userlinkuser partner = userLinkUserRepository.findByUserid(userid);
+	//					//是商家不是事业合伙人
+	//					if (merchant!=null && !(partner.getPartner())) {
+	//						getIncomeListDTO.setMerchant("商家");
+	//						getIncomeListDTO.setPartner("");
+	//						getIncomeListDTO.setVip("");
+	//					}else if (partner.getPartner() && merchant==null) {
+	//						//是事业合伙人不是商家
+	//						getIncomeListDTO.setPartner("事业合伙人");
+	//						getIncomeListDTO.setVip("");
+	//						getIncomeListDTO.setMerchant("");
+	//					}else if (partner.getPartner() && merchant!=null) {
+	//						//既是事业合伙人，也是商家
+	//						getIncomeListDTO.setPartner("事业合伙人");
+	//						getIncomeListDTO.setVip("");
+	//						getIncomeListDTO.setMerchant("商家");
+	//					}else if (merchant==null && !(partner.getPartner())) {
+	//						//既不是事业合伙人，也不是商家     会员
+	//						getIncomeListDTO.setPartner("");
+	//						getIncomeListDTO.setVip("会员");
+	//						getIncomeListDTO.setMerchant("");
+	//					}
+	//					
+	//					getIncomeListDTO.setImageUrl(imageUrl);
+	//					getIncomeListDTO.setCreatedate(createdate);
+	//					getIncomeListDTO.setFirstName(firstName);
+	//					getIncomeListDTO.setAmount(sumAmount);
+	//					incomeListDTO.add(getIncomeListDTO);
+	//				}
+	//			}
+
+	//		return null;
+
 
 	//获取收益列表
 	@Override
@@ -299,20 +357,19 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		//如果7天前的时间加上每一天的时间小于现在时间，说明是今天到七天前的数据
 		do{
 			BigDecimal bigDecimal = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
-			System.out.println(bigDecimal);
 			Rewrite_ProfitListDTO profitDTO = new Rewrite_ProfitListDTO();
 			//查找数据的开始时间
 			String firstTime = sdf.format(new Date(oldZeroTime));
 			//查找数据的结束时间
 			String lastTime = sdf.format(new Date(lastDayTime));
-			List<BigDecimal> amounts = receiptpayRepository.findReceiptpayByUseridAndTime(userId,firstTime,lastTime);
-			//如果有数据，添加到DTO中
-			if (amounts!=null) {
-				for (BigDecimal amount : amounts) {
+			List<Receiptpay> receiptpayList = receiptpayRepository.findReceiptpayByUseridAndTime(userId,firstTime,lastTime);
+			if (!receiptpayList.isEmpty()) {
+				for (Receiptpay receiptpay : receiptpayList) {
+					BigDecimal amount = receiptpay.getAmount();
+					//如果有数据，添加到DTO中
 					bigDecimal = bigDecimal.add(amount);
 				}
 			}
-			System.out.println(bigDecimal);
 			profitDTO.setEarn(""+bigDecimal);
 			profitDTO.setDate(firstTime);
 			profitListDTO.add(profitDTO);
