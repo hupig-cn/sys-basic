@@ -1,7 +1,11 @@
 package com.weisen.www.code.yjf.basic.service.rewrite.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +19,7 @@ import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_IntegralService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_IntegralDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_UserassetsDTO;
+import com.weisen.www.code.yjf.basic.service.util.TimeUtil;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 @Service
@@ -71,7 +76,16 @@ public class Rewrite_IntegralServiceImpl implements Rewrite_IntegralService {
 			for (Receiptpay receiptpayExpenditure : receiptpayExpenditureList) {
 				Rewrite_IntegralDTO rewrite_IntegralExpenditureDTO = new Rewrite_IntegralDTO();
 				rewrite_IntegralExpenditureDTO.setAmount(receiptpayExpenditure.getAmount());
-				rewrite_IntegralExpenditureDTO.setCreateDate(receiptpayExpenditure.getCreatedate());
+				String dataStr = receiptpayExpenditure.getCreatedate();
+				// 转换时间格式显示今天、昨天,如果是当前年份不显示年份,不是当前年份就显示出来
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+				Date createDate = null;
+				try {
+					createDate = sdf.parse(dataStr);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				rewrite_IntegralExpenditureDTO.setCreateDate(TimeUtil.getTime(createDate));
 				if (receiptpayExpenditure.getDealtype().equals("5")) {
 					rewrite_IntegralExpenditureDTO.setStatus(0);
 					rewrite_IntegralExpenditureDTO.setExplain("兑换商品");
