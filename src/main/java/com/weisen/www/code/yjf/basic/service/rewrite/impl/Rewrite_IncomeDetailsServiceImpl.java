@@ -386,7 +386,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			profitDTO.setEarn("" + bigDecimal);
 			Date createDate = null;
 			try {
-				createDate = sdf.parse(firstTime);
+				createDate = sdf.parse(lastTime);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}

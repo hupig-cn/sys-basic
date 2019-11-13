@@ -192,7 +192,14 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
 			}
 			operatingIncomeDTO operatingIncomeDTO = new operatingIncomeDTO();
 			operatingIncomeDTO.setEarn(one + "");
-			operatingIncomeDTO.setDate(endTime);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+			Date createDate = null;
+			try {
+				createDate = sdf.parse(endTime);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			operatingIncomeDTO.setDate(TimeUtil.getTime(createDate));
 			list.add(operatingIncomeDTO);
 			endTime = startTime;
 		}
