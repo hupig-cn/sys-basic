@@ -15,6 +15,46 @@ public class Rewrite_UserOrderDTO implements Serializable {
 
     private List<Long> nums;
 
+    private List<Long> ids;
+
+    private String consignee;
+
+    private String mobile;
+
+    private String address;
+
+    public List<Long> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<Long> ids) {
+        this.ids = ids;
+    }
+
+    public String getConsignee() {
+        return consignee;
+    }
+
+    public void setConsignee(String consignee) {
+        this.consignee = consignee;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String getUserId() {
         return userId;
     }
