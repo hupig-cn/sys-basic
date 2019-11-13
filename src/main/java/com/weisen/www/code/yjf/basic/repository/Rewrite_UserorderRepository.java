@@ -32,7 +32,7 @@ public interface Rewrite_UserorderRepository extends JpaRepository<Userorder, Lo
     List<Userorder> findAllByUseridAndOrderstatus(String userid,String orderstatus);
 
 
-    @Query(value = "select * from userorder where userid=?1 Order by payTime DESC ", nativeQuery = true)
+    @Query(value = "select * from userorder where userid=?1 And payway Is Not Null Order by payTime DESC ", nativeQuery = true)
     List<Userorder> findByTimeAndUserid(String userid);
 
     @Query(value = "select * "
