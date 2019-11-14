@@ -13,6 +13,19 @@ public class Rewrite_BankCardDTO {
 	private String logo;
 	
 	private String picId;
+	
+	private String bankBackground;
+	
+	
+	
+
+	public String getBankBackground() {
+		return bankBackground;
+	}
+
+	public void setBankBackground(String bankBackground) {
+		this.bankBackground = bankBackground;
+	}
 
 	public Rewrite_BankCardDTO() {
 	}

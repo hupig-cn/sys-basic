@@ -77,12 +77,14 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
 
 			rewrite_BankCardDTO.setId(x.getId());
 			rewrite_BankCardDTO.setBankname(x.getBanktype());
+			
 			rewrite_BankCardDTO
 					.setBanknum(x.getBankcard().substring(x.getBankcard().length() - 4, x.getBankcard().length()));
 			rewrite_BankCardDTO.setBankuser(x.getRealname());
 			rewrite_BankCardDTO.setLogo(x.getBankicon());
 			Usercard usercard = rewrite_UsercardRepository.findByLogo(x.getBankicon());
 			rewrite_BankCardDTO.setPicId(usercard.getOther());
+			rewrite_BankCardDTO.setBankBackground(usercard.getBankBackground());
 			listbank.add(rewrite_BankCardDTO);
 		});
 
