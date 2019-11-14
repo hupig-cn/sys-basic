@@ -106,5 +106,10 @@
             <column name="csort" type="int"/>
         </addColumn>
     </changeSet>
-
+	
+	 <changeSet id="20191114155605_add_column" author="jhipster">
+        <addColumn tableName="usercard">
+            <column name="bankBackground" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

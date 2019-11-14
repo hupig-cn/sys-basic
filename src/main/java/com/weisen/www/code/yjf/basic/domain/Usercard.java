@@ -66,7 +66,21 @@ public class Usercard implements Serializable {
     private String other;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
+    
+    @Column(name = "bank_background")
+    private String bankBackground;
+    
+    
+
+    public String getBankBackground() {
+		return bankBackground;
+	}
+
+	public void setBankBackground(String bankBackground) {
+		this.bankBackground = bankBackground;
+	}
+
+	public Long getId() {
         return id;
     }
 

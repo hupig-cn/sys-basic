@@ -84,7 +84,7 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
 			if (i >= payee.size()) {
 				return Result.suc("查询成功，这是最后一页了", touchbalancelist, touchbalancelist.size());
 			}
-			Userorder userorder = payee.get(i);
+			Userorder userorder = payee.get(i-1);
 //            String userid1 = userorder.getUserid();
 //            User id = rewrite_userRepository.findJhiUserById(Long.valueOf(userid1));
 			TouchBalanceDTO t = new TouchBalanceDTO();
