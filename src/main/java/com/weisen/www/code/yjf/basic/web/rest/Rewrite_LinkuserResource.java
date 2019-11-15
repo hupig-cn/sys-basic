@@ -67,7 +67,7 @@ public class Rewrite_LinkuserResource {
     
     @PostMapping("/deleteALiPayorWeChat")
     @ApiOperation(value = "删除支付宝或微信账号")
-    public Result deleteALiPayorWeChat(@RequestBody String userid ,Integer type ) {
+    public Result deleteALiPayorWeChat(String userid ,Integer type ) {
         log.debug("REST request to get Linkuser : {}", userid,type);
         Result result = rewrite_LinkuserService.deleteALiPayorWeChat(userid,type);
         return result;
