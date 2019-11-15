@@ -353,9 +353,63 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 	// return null;
 
-	// 获取收益列表
+	//获取收益列表
 	@Override
 	public Result getProfitList(String userId) {
+		//获取被推荐人longin库资料
+		User jhiUser = userRepository.findJhiUserById(Long.parseLong(userId));
+		if (jhiUser == null) {
+			return Result.fail("不存在该用户！");
+		}
+
+		List<Rewrite_ProfitListDTO> profitListDTO = new ArrayList<>();
+		//获取今天零点的时间戳
+		Calendar calendar = Calendar.getInstance();// 获取当前日期
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		Long nowZeroTime = calendar.getTimeInMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+
+		//7天前零点的时间
+		Long oldZeroTime = nowZeroTime-(86400000L * 6);
+
+		//一天的毫秒值
+		Long oneDayTime = 86400000L;
+		//7天前零点到6天前的前一秒
+		Long lastDayTime = oldZeroTime+oneDayTime-1000L;
+
+		//如果7天前的时间加上每一天的时间小于现在时间，说明是今天到七天前的数据
+		do{
+			BigDecimal bigDecimal = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
+			Rewrite_ProfitListDTO profitDTO = new Rewrite_ProfitListDTO();
+			//查找数据的开始时间
+			String firstTime = sdf.format(new Date(oldZeroTime));
+			//查找数据的结束时间
+			String lastTime = sdf.format(new Date(lastDayTime));
+			List<Receiptpay> receiptpayList = receiptpayRepository.findReceiptpayByUseridAndTime(userId,firstTime,lastTime);
+			if (!receiptpayList.isEmpty()) {
+				for (Receiptpay receiptpay : receiptpayList) {
+					BigDecimal amount = receiptpay.getAmount();
+					//如果有数据，添加到DTO中
+					bigDecimal = bigDecimal.add(amount);
+				}
+			}
+			profitDTO.setEarn(""+bigDecimal);
+			profitDTO.setDate(firstTime);
+			profitListDTO.add(profitDTO);
+
+			//将时间加1天
+			oldZeroTime += oneDayTime;
+			lastDayTime += oneDayTime;
+		}while (oldZeroTime < (nowZeroTime + oneDayTime));
+
+		return Result.suc("访问成功！", profitListDTO);
+	}
+
+	// 获取收益列表(为兼容新版本新写接口)
+	@Override
+	public Result getOldProfitList(String userId) {
 		// 获取被推荐人longin库资料
 		User jhiUser = userRepository.findJhiUserById(Long.parseLong(userId));
 		if (jhiUser == null) {

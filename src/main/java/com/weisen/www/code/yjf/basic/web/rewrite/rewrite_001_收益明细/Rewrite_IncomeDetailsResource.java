@@ -76,6 +76,20 @@ public class Rewrite_IncomeDetailsResource {
         log.debug("访问地址: {},传入值: {},返回值: {}", "/Profit/List",userId, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
+    
+    /**
+     * 收益列表
+     *
+    	 * @author sxx
+    	 * @date 2019-10-26 15:55:31
+     */
+    @PostMapping("/NewProfit/List")
+    @ApiOperation("收益列表")
+    public ResponseEntity<?> getNewProfitList(@RequestParam String userId){
+        Result result = incomeDetailsService.getOldProfitList(userId);
+        log.debug("访问地址: {},传入值: {},返回值: {}", "/NewProfit/List",userId, result);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
 
     /**
      * 推荐用户信息列表
