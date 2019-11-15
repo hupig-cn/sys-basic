@@ -56,7 +56,13 @@ public class Rewrite_FilesResource {
 	 * 文件保存位置
 	 */
 	@Value("${filePath-image}")
-	private String imagesPath;
+	private String filePathImage;
+	
+	/**
+	 * 文件访问路径
+	 */
+	@Value("${images-path}")
+	private String imagespath;
 	
     private final Logger log = LoggerFactory.getLogger(Rewrite_FilesResource.class);
     
@@ -242,18 +248,18 @@ public class Rewrite_FilesResource {
 		long filesSize = multipartFile.getSize(); // 获取图片大小
 		UUID uuidU = UUID.randomUUID();
 		String uuidString = uuidU.toString();
-		//String target = imagesPath + uuidString + suffix;
-		File destFile = new File(imagesPath + uuidString + suffix);
+//		String target = imagesPath + uuidString + suffix;
+		File destFile = new File(filePathImage + "/" +uuidString + suffix);
 		// write file
-		
 		multipartFile.transferTo(destFile);
 		// create in database
 		Files dataFileDTO = new Files();
-		dataFileDTO.setName(originFilename);
+		dataFileDTO.setName(uuidString+suffix);
 		dataFileDTO.setFileContentType(getContentType(suffix));
 		dataFileDTO.setSize((int)filesSize);
 		dataFileDTO.setUserid("3");
-		dataFileDTO.setFile(imagesPath);
+		dataFileDTO.setFile(filePathImage);
+//		dataFileDTO.setUrl(imagespath + "");
 //		dataFileDTO.setFileFormat(suffix);
 //		dataFileDTO.setFlieLenght((int) filesSize);
 //		dataFileDTO.setTarget(target);
