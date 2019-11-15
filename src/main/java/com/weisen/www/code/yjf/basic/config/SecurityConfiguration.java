@@ -36,15 +36,28 @@ public class SecurityConfiguration extends ResourceServerConfigurerAdapter {
 	}
 
 	@Override
-	public void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().headers().frameOptions().disable().and().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers("/**/admin/**").hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/api/public/**")
-				.permitAll().antMatchers("/weisen/userorder/demo").permitAll().antMatchers("/api/public/alipay/**")
-				.permitAll().antMatchers("/api/**").authenticated().antMatchers("/management/health").permitAll()
-				.antMatchers("/management/info").permitAll().antMatchers("/management/prometheus").permitAll()
-				.antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN);
-	}
+    public void configure(HttpSecurity http) throws Exception {
+        http
+            .csrf()
+            .disable()
+            .headers()
+            .frameOptions()
+            .disable()
+        .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+            .authorizeRequests()
+            .antMatchers("/**/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
+            .antMatchers("/api/public/**").permitAll()
+            .antMatchers("/weisen/userorder/demo").permitAll()
+            .antMatchers("/api/public/alipay/**").permitAll()
+            .antMatchers("/api/**").authenticated()
+            .antMatchers("/management/health").permitAll()
+            .antMatchers("/management/info").permitAll()
+            .antMatchers("/management/prometheus").permitAll()
+            .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN);
+    }
 
 	@Bean
 	public TokenStore tokenStore(JwtAccessTokenConverter jwtAccessTokenConverter) {
