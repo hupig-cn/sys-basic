@@ -162,7 +162,7 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
 	}
 
 	@Override
-	public Result operatingIncome(String userid, String startTime, String endTime) throws ParseException {
+	public Result operatingIncome2(String userid, String startTime, String endTime) throws ParseException {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		if (startTime == null || startTime.equals("") || endTime == null || endTime.equals("")) {
 			LocalDateTime today_start = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);// 当天零点
@@ -206,4 +206,43 @@ public class Rewrite_BalanceServiceImpl implements Rewrite_BalanceService {
 		Collections.reverse(list);
 		return Result.suc("查询成功", list);
 	}
+
+    @Override
+    public Result operatingIncome(String userid, String startTime, String endTime) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if (startTime == null || startTime.equals("") || endTime == null || endTime.equals("")) {
+            LocalDateTime today_start = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);// 当天零点
+            endTime = today_start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+            long time = format.parse(endTime).getTime();
+            Date date = new Date(time - 1000 * 60 * 60 * 24 * 7);////
+//            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            startTime = format.format(date);
+        }
+        // 将时间分成7份
+        List<operatingIncomeDTO> list = new ArrayList<>();
+        Long end = format.parse(endTime).getTime();
+        Long start = format.parse(startTime).getTime();
+        long l = (end - start) / (1000 * 60 * 60 * 24);
+        for (int i = 1; i <= l; i++) {
+
+            BigDecimal one = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
+            Long time = format.parse(endTime).getTime();
+            Date date = new Date(time - 1000 * 60 * 60 * 24);
+            startTime = format.format(date);
+            List<Userorder> payee = rewrite_userorderRepository.findByTimeAndPayee(userid, startTime, endTime);
+            for (int j = 0; j < payee.size(); j++) {
+                Userorder userorder = payee.get(j);
+                BigDecimal sum = userorder.getSum();
+                one = one.add(sum);
+            }
+            operatingIncomeDTO operatingIncomeDTO = new operatingIncomeDTO();
+            operatingIncomeDTO.setEarn(one + "");
+            operatingIncomeDTO.setDate(endTime);
+            list.add(operatingIncomeDTO);
+            endTime = startTime;
+        }
+        Collections.reverse(list);
+        return Result.suc("查询成功", list);
+    }
 }

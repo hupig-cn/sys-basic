@@ -18,4 +18,6 @@ public interface Rewrite_BalanceService {
     Result Isitamerchant(String userid);
 
     Result operatingIncome(String userid, String startTime, String endTime) throws ParseException;
+
+    Result operatingIncome2(String userid, String startTime, String endTime) throws ParseException;
 }
