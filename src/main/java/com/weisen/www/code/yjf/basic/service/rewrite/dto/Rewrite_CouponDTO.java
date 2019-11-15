@@ -1,6 +1,7 @@
 package com.weisen.www.code.yjf.basic.service.rewrite.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,99 +10,24 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "用户优惠券DTO")
 public class Rewrite_CouponDTO implements Serializable {
 
-	@ApiModelProperty(value = "优惠券数值", example = "1")
-	private String sum;
+	@ApiModelProperty(value = "用户单笔支出积分")
+	private BigDecimal amount;
 
-	@ApiModelProperty(value = "优惠券类型", example = "1")
-	private String couponType;
-
-	@ApiModelProperty(value = "可以线上支付", example = "1")
-	private Boolean lineon;
-
-	@ApiModelProperty(value = "可以线下支付", example = "1")
-	private Boolean lineunder;
-
-	@ApiModelProperty(value = "可以产生积分", example = "1")
-	private Boolean integral;
-
-	@ApiModelProperty(value = "可以产生收益", example = "1")
-	private Boolean profit;
-
-	@ApiModelProperty(value = "创建者", example = "王老吉")
-	private String creator;
-
-	@ApiModelProperty(value = "创建时间", example = "2019-10-10")
+	@ApiModelProperty(value = "用户单笔支出积分时间")
 	private String createDate;
 
-	@ApiModelProperty(value = "修改者", example = "王老八")
-	private String modifier;
+	@ApiModelProperty(value = "用户单笔支出积分详细说明")
+	private String explain;
 
-	@ApiModelProperty(value = "修改时间", example = "2019-10-11")
-	private String modifierDate;
+	@ApiModelProperty(value = "用户支出、收入积分0=支出,1=收入", example = "1")
+	private Integer status;
 
-	@ApiModelProperty(value = "修改次数", example = "1")
-	private Long modifierNum;
-
-	@ApiModelProperty(value = "逻辑删除", example = "1")
-	private Boolean logicDelete;
-
-	@ApiModelProperty(value = "备注", example = "嗯哼")
-	private String other;
-
-	public String getSum() {
-		return sum;
+	public BigDecimal getAmount() {
+		return amount;
 	}
 
-	public void setSum(String sum) {
-		this.sum = sum;
-	}
-
-	public String getCouponType() {
-		return couponType;
-	}
-
-	public void setCouponType(String couponType) {
-		this.couponType = couponType;
-	}
-
-	public Boolean getLineon() {
-		return lineon;
-	}
-
-	public void setLineon(Boolean lineon) {
-		this.lineon = lineon;
-	}
-
-	public Boolean getLineunder() {
-		return lineunder;
-	}
-
-	public void setLineunder(Boolean lineunder) {
-		this.lineunder = lineunder;
-	}
-
-	public Boolean getIntegral() {
-		return integral;
-	}
-
-	public void setIntegral(Boolean integral) {
-		this.integral = integral;
-	}
-
-	public Boolean getProfit() {
-		return profit;
-	}
-
-	public void setProfit(Boolean profit) {
-		this.profit = profit;
-	}
-
-	public String getCreator() {
-		return creator;
-	}
-
-	public void setCreator(String creator) {
-		this.creator = creator;
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
 	}
 
 	public String getCreateDate() {
@@ -112,43 +38,19 @@ public class Rewrite_CouponDTO implements Serializable {
 		this.createDate = createDate;
 	}
 
-	public String getModifier() {
-		return modifier;
+	public String getExplain() {
+		return explain;
 	}
 
-	public void setModifier(String modifier) {
-		this.modifier = modifier;
+	public void setExplain(String explain) {
+		this.explain = explain;
 	}
 
-	public String getModifierDate() {
-		return modifierDate;
+	public Integer getStatus() {
+		return status;
 	}
 
-	public void setModifierDate(String modifierDate) {
-		this.modifierDate = modifierDate;
-	}
-
-	public Long getModifierNum() {
-		return modifierNum;
-	}
-
-	public void setModifierNum(Long modifierNum) {
-		this.modifierNum = modifierNum;
-	}
-
-	public Boolean getLogicDelete() {
-		return logicDelete;
-	}
-
-	public void setLogicDelete(Boolean logicDelete) {
-		this.logicDelete = logicDelete;
-	}
-
-	public String getOther() {
-		return other;
-	}
-
-	public void setOther(String other) {
-		this.other = other;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 }

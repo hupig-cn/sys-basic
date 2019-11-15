@@ -12,6 +12,33 @@ import io.micrometer.core.instrument.util.StringUtils;
 
 public class TimeUtil {
 
+	// 一分钟
+	private static final long ONE_MINUTE = 60000L; // 单位:毫秒
+
+	// 一小时
+	private static final long ONE_HOUR = 3600000L;
+
+	// 一天
+	private static final long ONE_DAY = 86400000L;
+
+//		// 一周
+//		private static final long ONE_WEEK = 604800000L;
+
+//		// 一年
+//		private static final long ONE_YEAR = 31557600000L;
+
+	private static final String ONE_SECOND_AGO = "秒前";
+
+	private static final String ONE_MINUTE_AGO = "分钟前";
+
+	private static final String ONE_HOUR_AGO = "个小时前";
+
+	private static final String ONE_DAY_AGO = "天前";
+
+//		private static final String ONE_MONTH_AGO = "个月前";
+
+//		private static final String ONE_YEAR_AGO = "年前";
+
 	private static int TIME_ZONE = 0;
 
 	static {
@@ -337,7 +364,8 @@ public class TimeUtil {
 	}
 
 	/**
-	 * 将传入时间与当前时间进行对比，是否今天\昨天\前天\同一年
+	 * @author LuoJinShui
+	 * 将传入时间与当前时间进行对比,是否今天\昨天\同一年
 	 */
 	public static String getTime(Date date) {
 		boolean sameYear = false;
@@ -385,4 +413,109 @@ public class TimeUtil {
 
 		return time;
 	}
+
+	/**
+	 * 根据当前时间返回相对应参数
+	 * @author LuoJinShui
+	 * @param date
+	 */
+	public static String getFormat(Date date) {
+
+		long delta = new Date().getTime() - date.getTime();
+
+		// 当前时间没有超过一分钟,返回秒数
+		if (delta < 1L * ONE_MINUTE) {
+
+			long seconds = toSeconds(delta);
+
+			return (seconds <= 0 ? 1 : seconds) + ONE_SECOND_AGO;
+
+		}
+
+		// 当前时间没有超过一小时,返回分钟
+		if (delta < 45L * ONE_MINUTE) {
+
+			long minutes = toMinutes(delta);
+
+			return (minutes <= 0 ? 1 : minutes) + ONE_MINUTE_AGO;
+
+		}
+
+		// 当前时间没有超过24小时,返回几个小时前
+		if (delta < 24L * ONE_HOUR) {
+
+			long hours = toHours(delta);
+
+			return (hours <= 0 ? 1 : hours) + ONE_HOUR_AGO;
+
+		}
+
+		// 当前时间超过24小时,返回昨天
+		if (delta < 48L * ONE_HOUR) {
+
+			return "昨天";
+
+		}
+
+		// 当前时间超过48小时,返回几天前
+		if (delta < 30L * ONE_DAY) {
+
+			long days = toDays(delta);
+
+			return (days <= 0 ? 1 : days) + ONE_DAY_AGO;
+
+		}
+
+		// 当前时间没有超过12个月,返回几个月前.
+		// 否则返回几年前
+//		if (delta < 12L * 4L * ONE_WEEK) {
+//
+//			long months = toMonths(delta);
+//
+//			return (months <= 0 ? 1 : months) + ONE_MONTH_AGO;
+//
+//		} 
+		else {
+
+			long days = toDays(delta);
+
+			return (days <= 0 ? 1 : days) + ONE_DAY_AGO;
+		}
+
+	}
+
+	// 秒数
+	private static long toSeconds(long date) {
+
+		return date / 1000L;
+
+	}
+
+	// 分钟
+	private static long toMinutes(long date) {
+
+		return toSeconds(date) / 60L;
+
+	}
+
+	// 小时
+	private static long toHours(long date) {
+
+		return toMinutes(date) / 60L;
+
+	}
+
+	// 天数
+	private static long toDays(long date) {
+
+		return toHours(date) / 24L;
+
+	}
+
+	// 月份
+//	private static long toMonths(long date) {
+//
+//		return toDays(date) / 30L;
+//
+//	}
 }

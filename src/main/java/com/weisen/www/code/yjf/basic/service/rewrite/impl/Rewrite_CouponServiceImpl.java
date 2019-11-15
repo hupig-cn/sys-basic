@@ -1,81 +1,102 @@
 package com.weisen.www.code.yjf.basic.service.rewrite.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
+import java.util.Locale;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.weisen.www.code.yjf.basic.domain.Coupon;
-import com.weisen.www.code.yjf.basic.domain.Linkuser;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
-import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_CouponRepository;
+import com.weisen.www.code.yjf.basic.domain.Receiptpay;
+import com.weisen.www.code.yjf.basic.domain.User;
+import com.weisen.www.code.yjf.basic.domain.Userassets;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_UserassetsRepository;
+import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_CouponService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_CouponDTO;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_UserassetsDTO;
+import com.weisen.www.code.yjf.basic.service.util.TimeUtil;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 @Service
 @Transactional
 public class Rewrite_CouponServiceImpl implements Rewrite_CouponService {
 
-	private final Rewrite_CouponRepository rewrite_CouponRepository;
+	private final Rewrite_UserassetsRepository rewrite_UserassetsRepository;
 
-	private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
+	private final Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository;
 
-	public Rewrite_CouponServiceImpl(Rewrite_CouponRepository rewrite_CouponRepository,
-			Rewrite_LinkuserRepository rewrite_LinkuserRepository) {
-		this.rewrite_CouponRepository = rewrite_CouponRepository;
-		this.rewrite_LinkuserRepository = rewrite_LinkuserRepository;
+	private final Rewrite_UserRepository rewrite_UserRepository;
+
+	public Rewrite_CouponServiceImpl(Rewrite_UserassetsRepository rewrite_UserassetsRepository,
+			Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository, Rewrite_UserRepository rewrite_UserRepository) {
+		this.rewrite_UserassetsRepository = rewrite_UserassetsRepository;
+		this.rewrite_ReceiptpayRepository = rewrite_ReceiptpayRepository;
+		this.rewrite_UserRepository = rewrite_UserRepository;
 	}
 
 	/**
-	 * 查询优惠券明细页
+	 * 查询用户优惠券
 	 * 
 	 * @author LuoJinShui
 	 */
 	@Override
 	public Result getCoupon(String userId) {
 		// 判断是否有该用户
-		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userId);
-		if (linkuser == null) {
+		User jhiUser = rewrite_UserRepository.findJhiUserById(Long.parseLong(userId));
+		if (jhiUser == null) {
 			return Result.fail("没有该用户!请重新输入查找!");
 		} else {
-			// 查询用户所有的优惠券
-			List<Coupon> couponList = rewrite_CouponRepository.findAllByUserid(userId);
-			// 按月份筛选优惠券数据
-//			List<Coupon> couponUserIdAndCretaeDateList = rewrite_CouponRepository.findCouponByUseridAndCreatedate(userId, createDate, number);
-			List<Rewrite_CouponDTO> couponDTOList = new ArrayList<>();
-			for (Coupon coupon : couponList) {
-				Rewrite_CouponDTO couponDTO = new Rewrite_CouponDTO();
-				// 获取优惠券数值
-				couponDTO.setSum(coupon.getSum());
-				// 查询优惠券类型
-				couponDTO.setCouponType(coupon.getCoupontype());
-				// 可以线上支付
-				couponDTO.setLineon(coupon.isLineon());
-				// 可以线下支付
-				couponDTO.setLineunder(coupon.isLineunder());
-				// 可以产生积分
-				couponDTO.setIntegral(coupon.isIntegral());
-				// 可以产生收益
-				couponDTO.setProfit(coupon.isProfit());
-				// 创建者
-				couponDTO.setCreator(coupon.getCreator());
-				// 创建时间
-				couponDTO.setCreateDate(coupon.getCreatedate());
-				// 修改者
-				couponDTO.setModifier(coupon.getModifier());
-				// 修改时间
-				couponDTO.setModifierDate(coupon.getModifierdate());
-				// 修改次数
-				couponDTO.setModifierNum(coupon.getModifiernum());
-				// 逻辑删除
-				couponDTO.setLogicDelete(coupon.isLogicdelete());
-				// 备注
-				couponDTO.setOther(coupon.getOther());
-				couponDTOList.add(couponDTO);
+			Userassets userassets = rewrite_UserassetsRepository.findByUserid(userId);
+			Rewrite_UserassetsDTO userassetsDTO = new Rewrite_UserassetsDTO();
+			userassetsDTO.setCoupon(userassets.getCouponsum());
+			return Result.suc("查询成功!", userassetsDTO.getCoupon());
+		}
+	}
+
+	/**
+	 * 查询优惠券明细支出收入
+	 * 
+	 * @author LuoJinShui
+	 */
+	@Override
+	public Result getUserCoupon(String userId, Integer pageNum, Integer pageSize) {
+		// 判断是否有该用户
+		// 获取被推荐人Login库资料
+		User jhiUser = rewrite_UserRepository.findJhiUserById(Long.parseLong(userId));
+		if (jhiUser == null) {
+			return Result.fail("没有该用户!请重新输入查找!");
+		} else {
+			List<Rewrite_CouponDTO> rewrite_CouponDTOs = new ArrayList<Rewrite_CouponDTO>();
+			// 查询用户优惠券支出收入数据
+			List<Receiptpay> receiptpayExpenditureList = rewrite_ReceiptpayRepository.findByCoupon(userId,
+					pageNum * pageSize, pageSize);
+			for (Receiptpay receiptpayExpenditure : receiptpayExpenditureList) {
+				Rewrite_CouponDTO rewrite_CouponDTO = new Rewrite_CouponDTO();
+				rewrite_CouponDTO.setAmount(receiptpayExpenditure.getAmount());
+				String dataStr = receiptpayExpenditure.getCreatedate();
+				// 转换时间格式显示今天、昨天,如果是当前年份不显示年份,不是当前年份就显示出来
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+				Date createDate = null;
+				try {
+					createDate = sdf.parse(dataStr);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				rewrite_CouponDTO.setCreateDate(TimeUtil.getTime(createDate));
+				if (receiptpayExpenditure.getDealtype().equals("7")) {
+					rewrite_CouponDTO.setStatus(0);
+					rewrite_CouponDTO.setExplain("兑换商品");
+				}
+				if (receiptpayExpenditure.getDealtype().equals("8")) {
+					rewrite_CouponDTO.setStatus(1);
+					rewrite_CouponDTO.setExplain("消费收益");
+				}
+				rewrite_CouponDTOs.add(rewrite_CouponDTO);
 			}
-			return Result.suc("查询成功!", couponDTOList);
+			return Result.suc("查询成功!", rewrite_CouponDTOs, rewrite_CouponDTOs.size());
 		}
 	}
 
