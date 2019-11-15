@@ -86,7 +86,7 @@ public class Rewrite_IncomeDetailsResource {
     @PostMapping("/NewProfit/List")
     @ApiOperation("收益列表")
     public ResponseEntity<?> getNewProfitList(@RequestParam String userId){
-        Result result = incomeDetailsService.getOldProfitList(userId);
+        Result result = incomeDetailsService.getNewProfitList(userId);
         log.debug("访问地址: {},传入值: {},返回值: {}", "/NewProfit/List",userId, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }

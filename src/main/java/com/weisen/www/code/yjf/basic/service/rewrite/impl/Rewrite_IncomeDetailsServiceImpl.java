@@ -409,7 +409,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 	// 获取收益列表(为兼容新版本新写接口)
 	@Override
-	public Result getOldProfitList(String userId) {
+	public Result getNewProfitList(String userId) {
 		// 获取被推荐人longin库资料
 		User jhiUser = userRepository.findJhiUserById(Long.parseLong(userId));
 		if (jhiUser == null) {
