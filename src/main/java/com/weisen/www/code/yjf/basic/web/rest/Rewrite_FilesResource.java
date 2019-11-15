@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,14 +25,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.weisen.www.code.yjf.basic.domain.Files;
+import com.weisen.www.code.yjf.basic.repository.FilesRepository;
+import com.weisen.www.code.yjf.basic.security.SecurityUtils;
 import com.weisen.www.code.yjf.basic.service.Rewrite_FilesService;
+import com.weisen.www.code.yjf.basic.service.dto.FilesDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_FilesDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_submitBasicDTO;
+import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -41,8 +51,16 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/api")
 @Api(tags = "000-文件操作接口")
 public class Rewrite_FilesResource {
-
+	
+	/**
+	 * 文件保存位置
+	 */
+	@Value("${filePath-image}")
+	private String imagesPath;
+	
     private final Logger log = LoggerFactory.getLogger(Rewrite_FilesResource.class);
+    
+    private final FilesRepository filesRepository;
 
     private static final String ENTITY_NAME = "basicFiles";
 
@@ -51,8 +69,9 @@ public class Rewrite_FilesResource {
 
     private final Rewrite_FilesService rewrite_FilesService;
 
-    public Rewrite_FilesResource(Rewrite_FilesService rewrite_FilesService) {
+    public Rewrite_FilesResource(Rewrite_FilesService rewrite_FilesService,FilesRepository filesRepository) {
         this.rewrite_FilesService = rewrite_FilesService;
+        this.filesRepository = filesRepository;
     }
     
     @GetMapping("/public/getFiles/{id}")
@@ -190,4 +209,59 @@ public class Rewrite_FilesResource {
         rewrite_FilesService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
+    
+    @PostMapping("/upload")
+	@Timed
+	@ApiOperation(value = "文件上传")
+	public Result upload(@RequestParam(name = "file") MultipartFile[] multipartFile) {
+		Result result = null;
+		List<String> imageList = new ArrayList<>();
+		if (multipartFile != null && multipartFile.length > 0) {
+			for (MultipartFile file : multipartFile) {
+				if (file.getSize() > 10 * 1024 * 1024) {
+					return Result.fail("上传失败，文件大小不能超过10M");
+				}
+				try {
+					String uuid = createFile(file);
+					imageList.add(uuid);
+				} catch (IllegalStateException | IOException e) {
+					log.error(e.getMessage());
+				}
+			}
+			result = Result.suc("上传成功", imageList, imageList.size());
+		}
+		return result;
+	}
+    
+    private String createFile(MultipartFile multipartFile) throws IllegalStateException, IOException {
+		//String login = SecurityUtils.getCurrentUserLogin().get();
+		//UserData userdata = rewrite_UserDataRepository.findByPhone(login);
+		
+		String originFilename = multipartFile.getOriginalFilename();
+		String suffix = originFilename.substring(originFilename.lastIndexOf('.'));
+		long filesSize = multipartFile.getSize(); // 获取图片大小
+		UUID uuidU = UUID.randomUUID();
+		String uuidString = uuidU.toString();
+		//String target = imagesPath + uuidString + suffix;
+		File destFile = new File(imagesPath + uuidString + suffix);
+		// write file
+		
+		multipartFile.transferTo(destFile);
+		// create in database
+		Files dataFileDTO = new Files();
+		dataFileDTO.setName(originFilename);
+		dataFileDTO.setFileContentType(getContentType(suffix));
+		dataFileDTO.setSize((int)filesSize);
+		dataFileDTO.setUserid("3");
+		dataFileDTO.setFile(imagesPath);
+//		dataFileDTO.setFileFormat(suffix);
+//		dataFileDTO.setFlieLenght((int) filesSize);
+//		dataFileDTO.setTarget(target);
+//		dataFileDTO.setHeight(height);
+//		dataFileDTO.setWidth(width);
+		//dataFileDTO.setCreateTime(getTime(new Date()));
+		Files id = filesRepository.save(dataFileDTO);
+		return id.getId().toString();
+	}
+    
 }
