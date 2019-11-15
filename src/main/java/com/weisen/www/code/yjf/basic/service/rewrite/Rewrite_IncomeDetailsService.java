@@ -23,5 +23,5 @@ public interface Rewrite_IncomeDetailsService {
 	 
 	 
 	 //获取各推荐人列表(为兼容新版本写的)
-	 Result getNewProfitList(String userId);
+	 Result getProfitList2(String userId);
 }
