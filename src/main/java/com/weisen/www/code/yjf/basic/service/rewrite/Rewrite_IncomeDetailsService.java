@@ -20,4 +20,8 @@ public interface Rewrite_IncomeDetailsService {
 	 
 	 //查询用户商家端收益列表倒叙(重写)
 	 Result newFindMerchantProfitInfo(String userid, Integer startPage, Integer pageSize);
+	 
+	 
+	 //获取各推荐人列表(为兼容新版本写的)
+	 Result getProfitList2(String userId);
 }

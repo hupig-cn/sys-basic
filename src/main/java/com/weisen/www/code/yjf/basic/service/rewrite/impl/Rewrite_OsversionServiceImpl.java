@@ -216,11 +216,11 @@ public class Rewrite_OsversionServiceImpl implements Rewrite_OsversionService {
 		Integer intTypeVersion = 0;
 		String newTypeVersion = null;
 		Rewrite_AppVersionUpdateDTO appVersionUpdateDTO = new Rewrite_AppVersionUpdateDTO();
-		//判断当前用户版本是否存在
-		List<AppControl> userClientVersion = osversionRepository.findAppControlByClientVersionAndClientType(clientVersion,clientType);
-		if (userClientVersion.isEmpty()) {
-			return Result.fail("不存在该版本，请重新下载!");
-		}
+//		//判断当前用户版本是否存在
+//		List<AppControl> userClientVersion = osversionRepository.findAppControlByClientVersionAndClientType(clientVersion,clientType);
+//		if (userClientVersion.isEmpty()) {
+//			return Result.fail("不存在该版本，请重新下载!");
+//		}
 		//查找客户端类型所有版本
 		List<AppControl> clientTypeData = osversionRepository.findByClientType(clientType);
 

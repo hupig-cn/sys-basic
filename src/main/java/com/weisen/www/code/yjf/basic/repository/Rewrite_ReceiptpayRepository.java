@@ -92,7 +92,7 @@ public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, 
 
 	// 查询区县数据
 	@Transactional
-	@Query(value = "SELECT benefit from receiptpay where userid = ?1 and dealtype = 3", nativeQuery = true)
-	List<String> findByUserid(String userId);
+	@Query(value = "select * FROM receiptpay where userid = ?1 and amount>0 and dealtype in (7,8) ORDER BY createdate DESC LIMIT ?2,?3 ", nativeQuery = true)
+	List<Receiptpay> findByCoupon(String userId, Integer pageNum, Integer pageSize);
 
 }

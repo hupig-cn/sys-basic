@@ -113,6 +113,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         receiptpay.setIntegral(new BigDecimal(userassets.getIntegral()));
         receiptpay.setUseablebalance(new BigDecimal(userassets.getUsablebalance()));
         receiptpay.setOther(userorder.getPayee());
+        receiptpay.setExplain("余额付款"+userorder.getSum()+"元");
         receiptpayRepository.save(receiptpay);
 
         Rewrite_DistributionDTO rewrite_DistributionDTO = new Rewrite_DistributionDTO(userorder.getSum().toString(),userorder.getId(),userorder.getPayway());
@@ -216,7 +217,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             return  Result.fail("支付密码错误");
         }
 
-        if(userorder.getOther().equals("1")){
+        if(null != userorder.getOther() && userorder.getOther().equals("1")){
             return  Result.fail("开通圆帅不能使用此支付方式");
         }
 
@@ -343,7 +344,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             return  Result.fail("支付密码错误");
         }
 
-        if(userorder.getOther().equals("1")){
+        if(null != userorder.getOther() && userorder.getOther().equals("1")){
             return  Result.fail("开通圆帅不能使用此支付方式");
         }
 

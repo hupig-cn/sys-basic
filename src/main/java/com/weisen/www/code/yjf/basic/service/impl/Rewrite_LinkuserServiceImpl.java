@@ -169,4 +169,19 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
 
 		return null;
 	}
+	
+	//删除支付宝或微信消息
+	@Override
+	public Result deleteALiPayorWeChat(String userid,int type) {
+		Linkuser user = rewrite_LinkuserRepository.findByUserid(userid);
+		if (type==1) {
+			user.setAlipay(null);
+			user.setAlipayname(null);
+		}else if(type==2) {
+			user.setWechat(null);
+			user.setWechatname(null);
+		}
+		rewrite_LinkuserRepository.save(user);
+		return Result.suc("成功");
+	}
 }
