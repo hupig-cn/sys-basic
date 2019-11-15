@@ -24,5 +24,7 @@ public interface Rewrite_LinkuserService {
 
     // 会员列表
     Result findAllUserList(int pageIndex,int pageSize);
-
+    
+    //删除支付宝或微信账号
+    Result deleteALiPayorWeChat(String userid,int type);
 }
