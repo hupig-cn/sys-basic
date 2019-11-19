@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @SuppressWarnings("serial")
-@ApiModel(value = "查询用户总积分DTO")
+@ApiModel(value = "查询用户总积分、总优惠券DTO")
 public class Rewrite_UserassetsDTO implements Serializable {
 
 	@ApiModelProperty(value = "用户优惠券coupon")

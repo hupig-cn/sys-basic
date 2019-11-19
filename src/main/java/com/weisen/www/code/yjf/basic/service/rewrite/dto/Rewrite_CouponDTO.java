@@ -10,16 +10,16 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "用户优惠券DTO")
 public class Rewrite_CouponDTO implements Serializable {
 
-	@ApiModelProperty(value = "用户单笔支出积分")
+	@ApiModelProperty(value = "用户单笔支出收入优惠券")
 	private BigDecimal amount;
 
-	@ApiModelProperty(value = "用户单笔支出积分时间")
+	@ApiModelProperty(value = "用户单笔支出收入优惠券时间")
 	private String createDate;
 
-	@ApiModelProperty(value = "用户单笔支出积分详细说明")
+	@ApiModelProperty(value = "用户单笔支出收入优惠券详细说明")
 	private String explain;
 
-	@ApiModelProperty(value = "用户支出、收入积分0=支出,1=收入", example = "1")
+	@ApiModelProperty(value = "用户支出、收入优惠券0=支出,1=收入", example = "1")
 	private Integer status;
 
 	public BigDecimal getAmount() {
