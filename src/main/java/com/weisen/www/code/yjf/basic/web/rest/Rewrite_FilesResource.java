@@ -259,12 +259,13 @@ public class Rewrite_FilesResource {
 		dataFileDTO.setSize((int)filesSize);
 		dataFileDTO.setUserid("3");
 		dataFileDTO.setFile(filePathImage);
-//		dataFileDTO.setUrl(imagespath + "");
+		dataFileDTO.setUrl(imagespath + "");
+		dataFileDTO.setUuid(uuidString);
 //		dataFileDTO.setFileFormat(suffix);
 //		dataFileDTO.setFlieLenght((int) filesSize);
 //		dataFileDTO.setTarget(target);
-//		dataFileDTO.setHeight(height);
-//		dataFileDTO.setWidth(width);
+		//dataFileDTO.setHeight(height);
+		//dataFileDTO.setWidth(width);
 		//dataFileDTO.setCreateTime(getTime(new Date()));
 		Files id = filesRepository.save(dataFileDTO);
 		return id.getId().toString();
