@@ -87,9 +87,9 @@ public class Rewrite_FilesResource {
 			response.setStatus(404);
 			return;
 		}
-		File targetFile = new File("/data/files/"+rewrite_FilesDTO.getName());
+		File targetFile = new File(filePathImage+"\\"+rewrite_FilesDTO.getName());
 		try {
-			InputStream fis = new BufferedInputStream(new FileInputStream("/data/files/"+rewrite_FilesDTO.getName()));
+			InputStream fis = new BufferedInputStream(new FileInputStream(filePathImage+"\\"+rewrite_FilesDTO.getName()));
 			byte[] buffer = new byte[fis.available()];
 			fis.read(buffer);
 			fis.close();
@@ -249,7 +249,7 @@ public class Rewrite_FilesResource {
 		UUID uuidU = UUID.randomUUID();
 		String uuidString = uuidU.toString();
 //		String target = imagesPath + uuidString + suffix;
-		File destFile = new File(filePathImage + "/" +uuidString + suffix);
+		File destFile = new File(filePathImage + "\\" +uuidString + suffix);
 		// write file
 		multipartFile.transferTo(destFile);
 		// create in database
@@ -259,12 +259,13 @@ public class Rewrite_FilesResource {
 		dataFileDTO.setSize((int)filesSize);
 		dataFileDTO.setUserid("3");
 		dataFileDTO.setFile(filePathImage);
-//		dataFileDTO.setUrl(imagespath + "");
+		dataFileDTO.setUrl(imagespath + "");
+		dataFileDTO.setUuid(uuidString);
 //		dataFileDTO.setFileFormat(suffix);
 //		dataFileDTO.setFlieLenght((int) filesSize);
 //		dataFileDTO.setTarget(target);
-//		dataFileDTO.setHeight(height);
-//		dataFileDTO.setWidth(width);
+		//dataFileDTO.setHeight(height);
+		//dataFileDTO.setWidth(width);
 		//dataFileDTO.setCreateTime(getTime(new Date()));
 		Files id = filesRepository.save(dataFileDTO);
 		return id.getId().toString();

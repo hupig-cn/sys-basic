@@ -138,5 +138,14 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
 		rewrite_UserbankcardRepository.deleteById(bankcardId);
 		return Result.suc("success");
 	}
+	
+	// 用户删除多个银行卡
+	@Override
+	public Result deleteBackCards(List<String> bankcardId) {
+		for (String long1 : bankcardId) {
+			rewrite_UserbankcardRepository.deleteById(Long.parseLong(long1));
+		}
+		return Result.suc("删除成功");
+	}
 
 }
