@@ -132,7 +132,8 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		// 前端返回的查找时间
 		Long first = getIncomeAfferentDTO.getFirstTime();
 		Long last = getIncomeAfferentDTO.getLastTime();
-
+		
+		//分页页数和条数
 		Integer pageNum = getIncomeAfferentDTO.getPageNum();
 		Integer pageSize = getIncomeAfferentDTO.getPageSize();
 		// List<Userlinkuser> recommends= null;
@@ -147,9 +148,11 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			String firstTime = sdf.format(new Date(first));
 			String lastTime = sdf.format(new Date(last));
 			
+			//查找流水表，找到用户流水类型为9和10的记录
 			List<Receiptpay> amountSumList = receiptpayRepository.findReceiptpayByUseridAndTime(recommendId,
 					firstTime, lastTime);
 			BigDecimal amountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
+			//如果数据不为空，算出总额
 			if (!amountSumList.isEmpty()) {
 				for (Receiptpay receiptpay : amountSumList) {
 					BigDecimal amount = receiptpay.getAmount();
@@ -157,37 +160,51 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					
 				}
 			}
-
+			
+			//通过用户找到流水记录和分页
 			List<Receiptpay> receiptpayList = receiptpayRepository.findReceiptpayByUseridAndTimeAndPage(recommendId,
 					firstTime, lastTime, pageNum * pageSize, pageSize);
+			//如果数据不为空
 			if (!receiptpayList.isEmpty()) {
 				String firstName = null;
 				
 				for (Receiptpay receiptpay : receiptpayList) {
 					Rewrite_GetIncomeListDTO getIncomeListDTO = new Rewrite_GetIncomeListDTO();
+					//获取单条记录的来源用户id和流水金额
 					String sourcerId = receiptpay.getSourcer();
 					BigDecimal amount = receiptpay.getAmount();
-
+					//查找创建时间
 					String createdate = receiptpay.getCreatedate();
+					//根据来源用户id查找  login数据库 
 					User jhiUserData = userRepository.findJhiUserById(Long.parseLong(sourcerId));
-					// 获取推荐人login库jhi_user表昵称
-					firstName = jhiUserData.getFirstName();
-					if (firstName.equals("Auto")) {
-						Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(sourcerId);
-						if (linkaccount != null) {
-							String other = linkaccount.getOther();
-							if (other.equals("微信")) {
-								firstName = "微信用户";
-							} else if (other.equals("支付宝")) {
-								firstName = "支付宝用户";
+					/**用户刚支付时可能是用微信和支付宝付款，当用户注册时，会删掉其中一个id，因此login库可能没有该用户的数据，
+					 * 因此昵称备注为    已合并用户
+					 * 
+					 * 用户如果注册时没有写名称，则默认昵称为Auto，当用户昵称为Auto时，查找linkaccount表判断是什么类型用户。
+					*/
+					if (jhiUserData != null) {
+						// 获取推荐人login库jhi_user表昵称
+						firstName = jhiUserData.getFirstName();
+						//当用户
+						if (firstName.equals("Auto")) {
+							Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(sourcerId);
+							if (linkaccount != null) {
+								String other = linkaccount.getOther();
+								if (other.equals("微信")) {
+									firstName = "微信用户";
+								} else if (other.equals("支付宝")) {
+									firstName = "支付宝用户";
+								} else {
+									firstName = "未注册用户";
+								}
 							} else {
 								firstName = "未注册用户";
 							}
-						} else {
-							firstName = "未注册用户";
 						}
+					}else {
+						firstName="已合并用户";
 					}
-
+					//判断收益类型
 					if (receiptpay.getDealtype().equals("9")) {
 						getIncomeListDTO.setDealtype("推荐收益");
 					} else if (receiptpay.getDealtype().equals("10")) {
