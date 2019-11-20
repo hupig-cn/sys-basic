@@ -279,6 +279,9 @@ public class Rewrite_FilesResource {
 		dataFileDTO.setWidth(width);
 		//dataFileDTO.setCreateTime(getTime(new Date()));
 		Files id = filesRepository.save(dataFileDTO);
+		Files imgid = id;
+		imgid.setUrl(imagespath + id.getId());
+		filesRepository.save(imgid);
 		return id.getId().toString();
 	}
     
