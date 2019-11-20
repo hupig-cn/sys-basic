@@ -33,9 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.weisen.www.code.yjf.basic.domain.Files;
 import com.weisen.www.code.yjf.basic.repository.FilesRepository;
-import com.weisen.www.code.yjf.basic.security.SecurityUtils;
 import com.weisen.www.code.yjf.basic.service.Rewrite_FilesService;
-import com.weisen.www.code.yjf.basic.service.dto.FilesDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_FilesDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_submitBasicDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
@@ -89,9 +87,9 @@ public class Rewrite_FilesResource {
 			response.setStatus(404);
 			return;
 		}
-		File targetFile = new File(filePathImage+"\\"+rewrite_FilesDTO.getName());
+		File targetFile = new File(filePathImage + rewrite_FilesDTO.getName());
 		try {
-			InputStream fis = new BufferedInputStream(new FileInputStream(filePathImage+"\\"+rewrite_FilesDTO.getName()));
+			InputStream fis = new BufferedInputStream(new FileInputStream(filePathImage + rewrite_FilesDTO.getName()));
 			byte[] buffer = new byte[fis.available()];
 			fis.read(buffer);
 			fis.close();
@@ -242,47 +240,39 @@ public class Rewrite_FilesResource {
 	}
     
     private String createFile(MultipartFile multipartFile) throws IllegalStateException, IOException {
-		//String login = SecurityUtils.getCurrentUserLogin().get();
-		//UserData userdata = rewrite_UserDataRepository.findByPhone(login);
-		
 		String originFilename = multipartFile.getOriginalFilename();
 		String suffix = originFilename.substring(originFilename.lastIndexOf('.'));
-		long filesSize = multipartFile.getSize(); // 获取图片大小
+		// 获取图片大小
+		long filesSize = multipartFile.getSize(); 
 		String uuidString = UUID.randomUUID().toString();
-//		String target = imagesPath + uuidString + suffix;
-		File destFile = new File(filePathImage + "\\" +uuidString + suffix);
+		String target = filePathImage + uuidString + suffix;
+		File destFile = new File(target);
 		// write file
 		multipartFile.transferTo(destFile);
 		int width = 0;
 		int height = 0;
-		File file = new File(filePathImage + "\\" +uuidString + suffix);
+		File file = new File(target);
 		if (suffix.endsWith(".jpg") || suffix.endsWith(".jpeg") || suffix.endsWith(".png") || suffix.endsWith(".gif") || suffix.endsWith(".webp")) {
 			FileInputStream fis = new FileInputStream(file);
 			BufferedImage bufferedImg = ImageIO.read(fis);
 			width = bufferedImg.getWidth();
 			height = bufferedImg.getHeight();
 		}
-		
 		// create in database
 		Files dataFileDTO = new Files();
-		dataFileDTO.setName(uuidString+suffix);
-		dataFileDTO.setFileContentType(getContentType(suffix));
-		dataFileDTO.setSize((int)filesSize);
 		dataFileDTO.setUserid("3");
-		dataFileDTO.setFile(filePathImage);
-		//dataFileDTO.setUrl(imagespath + "");
+		dataFileDTO.setName(uuidString+suffix);
 		dataFileDTO.setUuid(uuidString);
-//		dataFileDTO.setFileFormat(suffix);
-//		dataFileDTO.setFlieLenght((int) filesSize);
-//		dataFileDTO.setTarget(target);
 		dataFileDTO.setHeight(height);
 		dataFileDTO.setWidth(width);
-		//dataFileDTO.setCreateTime(getTime(new Date()));
-		Files id = filesRepository.save(dataFileDTO);
-		Files imgid = id;
-		imgid.setUrl(imagespath + id.getId());
-		filesRepository.save(imgid);
-		return id.getId().toString();
+		dataFileDTO.setSize((int)filesSize);
+		dataFileDTO.setFile(filePathImage);
+		dataFileDTO.setFileContentType(getContentType(suffix));
+		Files files = filesRepository.save(dataFileDTO);
+		Files imgfiles = files;
+		imgfiles.setUrl(imagespath + files.getId());
+		filesRepository.save(imgfiles);
+		return imgfiles.getId().toString();
 	}
     
 }
