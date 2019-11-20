@@ -28,8 +28,17 @@ public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
 
     private final Logger log = LoggerFactory.getLogger(Rewrite_FilesServiceImpl.class);
 
-    @Value("${filePath-image}")
-    private String imagesFilePath;
+    /**
+	 * 文件保存位置
+	 */
+	@Value("${filePath-image}")
+	private String filePathImage;
+	
+	/**
+	 * 文件访问路径
+	 */
+	@Value("${images-path}")
+	private String imagespath;
 
     private final FilesRepository filesRepository;
 
@@ -57,8 +66,8 @@ public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
         fileName = fileName.substring(fileName.indexOf("/") + 1);
         fileName = System.currentTimeMillis() + RandomStringUtils.randomAlphanumeric(6) + "." + fileName;
         files.setName(fileName);
-        files.setFile(imagesFilePath);
-        if (FileOperation.saveFile(rewrite_FilesDTO.getFile(), imagesFilePath, fileName)) {
+        files.setFile(filePathImage);
+        if (FileOperation.saveFile(rewrite_FilesDTO.getFile(), filePathImage, fileName)) {
             files = filesRepository.save(files);
             return files.getId().toString();
         } else {
@@ -88,7 +97,7 @@ public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
         Optional<FilesDTO> files = filesRepository.findById(id).map(filesMapper::toDto);
         Rewrite_FilesDTO rewrite_FilesDTO = new Rewrite_FilesDTO();
         rewrite_FilesDTO.setId(files.get().getId());
-        rewrite_FilesDTO.setFile(FileOperation.getFile(files.get().getFile() + "/" + files.get().getName()));
+        rewrite_FilesDTO.setFile(FileOperation.getFile(filePathImage + files.get().getName()));
         rewrite_FilesDTO.setFileContentType(files.get().getFileContentType());
         rewrite_FilesDTO.setUserid(files.get().getUserid());
         rewrite_FilesDTO.setName(files.get().getName());
