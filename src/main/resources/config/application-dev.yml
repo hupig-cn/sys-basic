@@ -45,7 +45,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://localhost:3306/basic?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
-    password: 123456
+    password: admin
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -158,4 +158,5 @@ oauth2:
 # ===================================================================
 
 # application:
+filePath-image: C:/Users/Gavin/Desktop/images
 images-path: http://192.168.1.142:8084/services/basic/api/public/getFiles/

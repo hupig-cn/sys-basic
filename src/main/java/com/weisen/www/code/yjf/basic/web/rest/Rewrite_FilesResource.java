@@ -87,9 +87,9 @@ public class Rewrite_FilesResource {
 			response.setStatus(404);
 			return;
 		}
-		File targetFile = new File("/data/files/"+rewrite_FilesDTO.getName());
+		File targetFile = new File(filePathImage+"\\"+rewrite_FilesDTO.getName());
 		try {
-			InputStream fis = new BufferedInputStream(new FileInputStream("/data/files/"+rewrite_FilesDTO.getName()));
+			InputStream fis = new BufferedInputStream(new FileInputStream(filePathImage+"\\"+rewrite_FilesDTO.getName()));
 			byte[] buffer = new byte[fis.available()];
 			fis.read(buffer);
 			fis.close();
@@ -249,7 +249,7 @@ public class Rewrite_FilesResource {
 		UUID uuidU = UUID.randomUUID();
 		String uuidString = uuidU.toString();
 //		String target = imagesPath + uuidString + suffix;
-		File destFile = new File(filePathImage + "/" +uuidString + suffix);
+		File destFile = new File(filePathImage + "\\" +uuidString + suffix);
 		// write file
 		multipartFile.transferTo(destFile);
 		// create in database
