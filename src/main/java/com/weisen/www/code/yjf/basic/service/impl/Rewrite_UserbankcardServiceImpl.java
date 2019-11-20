@@ -90,10 +90,10 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
 
 		Linkuser Linkuser = rewrite_LinkuserRepository.findByUserid(userId.toString());
 		Rewrite_BackCardInfo rewrite_BackCardInfo = new Rewrite_BackCardInfo(listbank,
-				Linkuser.getAlipay() != null ? Linkuser.getAlipay() : null,
-				Linkuser.getWechat() != null ? Linkuser.getWechat() : null,
-				Linkuser.getAlipayname() != null ? Linkuser.getAlipayname() : null,
-				Linkuser.getWechatname() != null ? Linkuser.getWechatname() : null);
+				Linkuser.getAlipay() != null ? Linkuser.getAlipay() : "",
+				Linkuser.getWechat() != null ? Linkuser.getWechat() : "",
+				Linkuser.getAlipayname() != null ? Linkuser.getAlipayname() : "",
+				Linkuser.getWechatname() != null ? Linkuser.getWechatname() : "");
 		return Result.suc("成功", rewrite_BackCardInfo);
 	}
 
