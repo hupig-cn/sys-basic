@@ -1,0 +1,28 @@
+{
+    "name": "Boss",
+    "fields": [
+        {
+            "fieldName": "region",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "turnover",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "userid",
+            "fieldType": "Long"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20191119065909",
+    "entityTableName": "boss",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "basic",
+    "applications": "*",
+    "microserviceName": "basic"
+}

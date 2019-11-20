@@ -1,6 +1,7 @@
 package com.weisen.www.code.yjf.basic.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.omg.CORBA.StringHolder;
 
 import javax.persistence.*;
 
@@ -27,17 +28,28 @@ public class Level implements Serializable {
     private String boss;
 
     @Column(name = "turnover")
-    private String turnover;
+    private Long turnover;
 
-    @Column(name = "who")
-    private Integer who;
+    @Column(name = "what")
+    private Integer what;
 
-    public Integer getWho() {
-        return who;
+    @Column(name = "county")
+    private String county;
+
+    public String getCounty() {
+        return county;
     }
 
-    public void setWho(Integer who) {
-        this.who = who;
+    public void setCounty(String county) {
+        this.county = county;
+    }
+
+    public Integer getWhat() {
+        return what;
+    }
+
+    public void setWhat(Integer what) {
+        this.what = what;
     }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -75,18 +87,14 @@ public class Level implements Serializable {
         this.boss = boss;
     }
 
-    public String getTurnover() {
+    public Long getTurnover() {
         return turnover;
     }
 
-    public Level turnover(String turnover) {
+    public void setTurnover(Long turnover) {
         this.turnover = turnover;
-        return this;
     }
 
-    public void setTurnover(String turnover) {
-        this.turnover = turnover;
-    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -108,10 +116,17 @@ public class Level implements Serializable {
     @Override
     public String toString() {
         return "Level{" +
-            "id=" + getId() +
-            ", region='" + getRegion() + "'" +
-            ", boss='" + getBoss() + "'" +
-            ", turnover='" + getTurnover() + "'" +
-            "}";
+            "id=" + id +
+            ", region='" + region + '\'' +
+            ", boss='" + boss + '\'' +
+            ", turnover=" + turnover +
+            ", what=" + what +
+            ", county='" + county + '\'' +
+            '}';
+    }
+
+    public Level turnover(Long turnover) {
+        this.turnover = turnover;
+        return this;
     }
 }
