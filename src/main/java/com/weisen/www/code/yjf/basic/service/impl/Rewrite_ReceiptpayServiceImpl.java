@@ -35,6 +35,7 @@ import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
 import com.weisen.www.code.yjf.basic.service.util.ProfitConstant;
 import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
 import com.weisen.www.code.yjf.basic.service.util.TimeUtil;
+import com.weisen.www.code.yjf.basic.util.CheckUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 @Service
@@ -395,8 +396,16 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 			}
 			userList.add(rewrite_UserReceiptpayDTO);
 		});
-
 		return Result.suc("成功", userList, count.intValue());
+	}
+
+	@Override
+	public Result findReceiptpayList(String userAccount, int dealtype, int pageIndex, int pageSize) {
+		List<Map<String, Object>> returnList = rewrite_ReceiptpayRepository.findReceiptpayList(userAccount, dealtype, pageIndex, pageSize);
+		if(!CheckUtils.checkList(returnList))
+			return Result.suc("数据为空");
+		Integer count = rewrite_ReceiptpayRepository.findReceiptpayCount(userAccount, dealtype);
+		return Result.suc("获取成功",returnList,count);
 	}
 
 }

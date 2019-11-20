@@ -120,4 +120,12 @@ public class Rewrite_ReceiptpayResource {
         Result result = rewrite_ReceiptpayService.findByUserAccountOrSomething(userAccount,startPage,pageSize);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
+    
+    @GetMapping("admin/findReceiptpayList")
+    @ApiOperation(value = "查询详细收益 admin")
+    @Timed
+    public ResponseEntity<Result> findReceiptpayList(String userAccount,int dealtype, int startPage, int pageSize) {
+        Result result = rewrite_ReceiptpayService.findReceiptpayList(userAccount,dealtype,startPage,pageSize);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
 }

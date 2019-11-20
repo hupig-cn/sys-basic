@@ -36,4 +36,6 @@ public interface Rewrite_ReceiptpayService {
 
     // 根据用户账号查询详细收益（分页，暂时没有多条件）
     Result findByUserAccountOrSomething(String userAccount,int pageIndex,int pageSize);
+
+	Result findReceiptpayList(String userAccount, int dealtype, int pageIndex, int pageSize);
 }

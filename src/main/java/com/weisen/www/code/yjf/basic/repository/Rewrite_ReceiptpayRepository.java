@@ -7,11 +7,31 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
 @Repository
 public interface Rewrite_ReceiptpayRepository extends JpaRepository<Receiptpay, Long> {
+	
+	@Query(value = "SELECT " + 
+			"	a.userid," + 
+			"	(SELECT name FROM linkuser WHERE userid = a.userid) AS username," + 
+			"	(SELECT phone FROM linkuser WHERE userid = a.userid) AS userphone," + 
+			"	a.amount," + 
+			"	a.dealtype," + 
+			"	(CASE a.dealstate WHEN 1 THEN '支出' ELSE '收入' END) AS dealstate," + 
+			"	a.createdate," + 
+			"	(CASE WHEN (SELECT other FROM linkaccount WHERE userid = a.userid AND accounttype = '支付宝') IS NOT NULL THEN '支付宝'" + 
+			"		WHEN (SELECT other FROM linkaccount WHERE userid = a.userid AND accounttype = '微信') IS NOT NULL THEN '微信'" + 
+			"		ELSE 'APP注册'	END) AS comefrom" + 
+			"FROM receiptpay a" + 
+			"WHERE a.userid = ?1 AND dealtype = ?2" + 
+			"ORDER BY a.createdate DESC LIMIT ?3,?4",nativeQuery = true)
+	List<Map<String,Object>> findReceiptpayList(String userid, int dealtype, int pageIndex, int pageSize);
+	
+	@Query(value = "SELECT count(*) FROM receiptpay a WHERE a.userid = ?1 AND dealtype = ?2",nativeQuery = true)
+	Integer findReceiptpayCount(String userid, int dealtype);
 
 	// 查询用户的明细
 	List<Receiptpay> getReceiptpayByUserid(String userid);
