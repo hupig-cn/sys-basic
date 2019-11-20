@@ -10,13 +10,13 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "查询用户积分收支出DTO")
 public class Rewrite_IntegralDTO implements Serializable {
 
-	@ApiModelProperty(value = "用户单笔支出积分")
+	@ApiModelProperty(value = "用户单笔支出收入积分")
 	private BigDecimal amount;
 
-	@ApiModelProperty(value = "用户单笔支出积分时间")
+	@ApiModelProperty(value = "用户单笔支出收入积分时间")
 	private String createDate;
 
-	@ApiModelProperty(value = "用户单笔支出积分详细说明")
+	@ApiModelProperty(value = "用户单笔支出收入积分详细说明")
 	private String explain;
 
 	@ApiModelProperty(value = "用户支出、收入积分0=支出,1=收入", example = "1")

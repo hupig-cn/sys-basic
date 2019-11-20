@@ -1,5 +1,6 @@
 package com.weisen.www.code.yjf.basic.web.rest;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -88,4 +89,11 @@ public class Rewrite_UserbankcardResource {
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
 
+	@PostMapping("/deleteBackCards")
+	@ApiOperation(value = "用户删除多个银行卡")
+	public ResponseEntity<Result> deleteBackCards(@RequestBody List<String> bankcardId) {
+		log.debug("REST request to get deleteBackCard : {}", bankcardId);
+		Result result = Rewrite_UserbankcardService.deleteBackCards(bankcardId);
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+	}
 }

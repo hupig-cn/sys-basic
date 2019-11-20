@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,6 @@ import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_NewFindMerchant
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ProfitListDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_RecommondCountDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_UserInformationListDTO;
-import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
 import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
 import com.weisen.www.code.yjf.basic.service.util.TimeUtil;
 import com.weisen.www.code.yjf.basic.util.Result;
@@ -132,7 +132,8 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		// 前端返回的查找时间
 		Long first = getIncomeAfferentDTO.getFirstTime();
 		Long last = getIncomeAfferentDTO.getLastTime();
-
+		
+		//分页页数和条数
 		Integer pageNum = getIncomeAfferentDTO.getPageNum();
 		Integer pageSize = getIncomeAfferentDTO.getPageSize();
 		// List<Userlinkuser> recommends= null;
@@ -147,47 +148,63 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			String firstTime = sdf.format(new Date(first));
 			String lastTime = sdf.format(new Date(last));
 			
+			//查找流水表，找到用户流水类型为9和10的记录
 			List<Receiptpay> amountSumList = receiptpayRepository.findReceiptpayByUseridAndTime(recommendId,
 					firstTime, lastTime);
 			BigDecimal amountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
+			//如果数据不为空，算出总额
 			if (!amountSumList.isEmpty()) {
 				for (Receiptpay receiptpay : amountSumList) {
 					BigDecimal amount = receiptpay.getAmount();
 					amountSum = amountSum.add(amount);
-					
+
 				}
 			}
-
+			
+			//通过用户找到流水记录和分页
 			List<Receiptpay> receiptpayList = receiptpayRepository.findReceiptpayByUseridAndTimeAndPage(recommendId,
 					firstTime, lastTime, pageNum * pageSize, pageSize);
+			//如果数据不为空
 			if (!receiptpayList.isEmpty()) {
 				String firstName = null;
-				
+
 				for (Receiptpay receiptpay : receiptpayList) {
 					Rewrite_GetIncomeListDTO getIncomeListDTO = new Rewrite_GetIncomeListDTO();
+					//获取单条记录的来源用户id和流水金额
 					String sourcerId = receiptpay.getSourcer();
 					BigDecimal amount = receiptpay.getAmount();
-
+					//查找创建时间
 					String createdate = receiptpay.getCreatedate();
+					//根据来源用户id查找  login数据库 
 					User jhiUserData = userRepository.findJhiUserById(Long.parseLong(sourcerId));
-					// 获取推荐人login库jhi_user表昵称
-					firstName = jhiUserData.getFirstName();
-					if (firstName.equals("Auto")) {
-						Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(sourcerId);
-						if (linkaccount != null) {
-							String other = linkaccount.getOther();
-							if (other.equals("微信")) {
-								firstName = "微信用户";
-							} else if (other.equals("支付宝")) {
-								firstName = "支付宝用户";
+					/**用户刚支付时可能是用微信和支付宝付款，当用户注册时，会删掉其中一个id，因此login库可能没有该用户的数据，
+					 * 因此昵称备注为    已合并用户
+					 * 
+					 * 用户如果注册时没有写名称，则默认昵称为Auto，当用户昵称为Auto时，查找linkaccount表判断是什么类型用户。
+					*/
+					if (jhiUserData != null) {
+						// 获取推荐人login库jhi_user表昵称
+						firstName = jhiUserData.getFirstName();
+						//当用户
+						if (firstName.equals("Auto")) {
+							Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(sourcerId);
+							if (linkaccount != null) {
+								String other = linkaccount.getOther();
+								if (other.equals("微信")) {
+									firstName = "微信用户";
+								} else if (other.equals("支付宝")) {
+									firstName = "支付宝用户";
+								} else {
+									firstName = "未注册用户";
+								}
 							} else {
 								firstName = "未注册用户";
 							}
-						} else {
-							firstName = "未注册用户";
 						}
+					}else {
+						firstName="已合并用户";
 					}
-
+					//判断收益类型
 					if (receiptpay.getDealtype().equals("9")) {
 						getIncomeListDTO.setDealtype("推荐收益");
 					} else if (receiptpay.getDealtype().equals("10")) {
@@ -218,7 +235,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 						getIncomeListDTO.setVip("会员");
 						getIncomeListDTO.setMerchant("");
 					}
-					
+
 					getIncomeListDTO.setAmountSum(amountSum);
 					getIncomeListDTO.setFirstName(firstName);
 					getIncomeListDTO.setAmount(amount);
@@ -353,56 +370,57 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 	// return null;
 
-	//获取收益列表
+	// 获取收益列表
 	@Override
 	public Result getProfitList(String userId) {
-		//获取被推荐人longin库资料
+		// 获取被推荐人longin库资料
 		User jhiUser = userRepository.findJhiUserById(Long.parseLong(userId));
 		if (jhiUser == null) {
 			return Result.fail("不存在该用户！");
 		}
 
 		List<Rewrite_ProfitListDTO> profitListDTO = new ArrayList<>();
-		//获取今天零点的时间戳
+		// 获取今天零点的时间戳
 		Calendar calendar = Calendar.getInstance();// 获取当前日期
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		Long nowZeroTime = calendar.getTimeInMillis();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-		//7天前零点的时间
-		Long oldZeroTime = nowZeroTime-(86400000L * 6);
+		// 7天前零点的时间
+		Long oldZeroTime = nowZeroTime - (86400000L * 6);
 
-		//一天的毫秒值
+		// 一天的毫秒值
 		Long oneDayTime = 86400000L;
-		//7天前零点到6天前的前一秒
-		Long lastDayTime = oldZeroTime+oneDayTime-1000L;
+		// 7天前零点到6天前的前一秒
+		Long lastDayTime = oldZeroTime + oneDayTime - 1000L;
 
-		//如果7天前的时间加上每一天的时间小于现在时间，说明是今天到七天前的数据
-		do{
+		// 如果7天前的时间加上每一天的时间小于现在时间，说明是今天到七天前的数据
+		do {
 			BigDecimal bigDecimal = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
 			Rewrite_ProfitListDTO profitDTO = new Rewrite_ProfitListDTO();
-			//查找数据的开始时间
+			// 查找数据的开始时间
 			String firstTime = sdf.format(new Date(oldZeroTime));
-			//查找数据的结束时间
+			// 查找数据的结束时间
 			String lastTime = sdf.format(new Date(lastDayTime));
-			List<Receiptpay> receiptpayList = receiptpayRepository.findReceiptpayByUseridAndTime(userId,firstTime,lastTime);
+			List<Receiptpay> receiptpayList = receiptpayRepository.findReceiptpayByUseridAndTime(userId, firstTime,
+					lastTime);
 			if (!receiptpayList.isEmpty()) {
 				for (Receiptpay receiptpay : receiptpayList) {
 					BigDecimal amount = receiptpay.getAmount();
-					//如果有数据，添加到DTO中
+					// 如果有数据，添加到DTO中
 					bigDecimal = bigDecimal.add(amount);
 				}
 			}
-			profitDTO.setEarn(""+bigDecimal);
+			profitDTO.setEarn("" + bigDecimal);
 			profitDTO.setDate(firstTime);
 			profitListDTO.add(profitDTO);
 
-			//将时间加1天
+			// 将时间加1天
 			oldZeroTime += oneDayTime;
 			lastDayTime += oneDayTime;
-		}while (oldZeroTime < (nowZeroTime + oneDayTime));
+		} while (oldZeroTime < (nowZeroTime + oneDayTime));
 
 		return Result.suc("访问成功！", profitListDTO);
 	}
@@ -668,4 +686,20 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		return Result.suc("访问成功！", newFindMerchantProfitInfoList);
 	}
 
+	/**
+	 * 查询推荐榜前十位用户
+	 * 
+	 * @author LuoJinShui
+	 */
+	@Override
+	public Result recommendationList(String userId) {
+		// 获取用户login库资料
+		User jhiUser = userRepository.findJhiUserById(Long.parseLong(userId));
+		if (jhiUser == null) {
+			return Result.fail("不存在该用户!");
+		} else {
+			List<Map<String, Object>> userlinkusers = userLinkUserRepository.getRecommendisList();
+			return Result.suc("查询成功!", userlinkusers, userlinkusers.size());
+		}
+	}
 }
