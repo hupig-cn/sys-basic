@@ -1,5 +1,6 @@
 package com.weisen.www.code.yjf.basic.web.rest;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -246,12 +248,21 @@ public class Rewrite_FilesResource {
 		String originFilename = multipartFile.getOriginalFilename();
 		String suffix = originFilename.substring(originFilename.lastIndexOf('.'));
 		long filesSize = multipartFile.getSize(); // 获取图片大小
-		UUID uuidU = UUID.randomUUID();
-		String uuidString = uuidU.toString();
+		String uuidString = UUID.randomUUID().toString();
 //		String target = imagesPath + uuidString + suffix;
 		File destFile = new File(filePathImage + "\\" +uuidString + suffix);
 		// write file
 		multipartFile.transferTo(destFile);
+		int width = 0;
+		int height = 0;
+		File file = new File(filePathImage + "\\" +uuidString + suffix);
+		if (suffix.endsWith(".jpg") || suffix.endsWith(".jpeg") || suffix.endsWith(".png") || suffix.endsWith(".gif") || suffix.endsWith(".webp")) {
+			FileInputStream fis = new FileInputStream(file);
+			BufferedImage bufferedImg = ImageIO.read(fis);
+			width = bufferedImg.getWidth();
+			height = bufferedImg.getHeight();
+		}
+		
 		// create in database
 		Files dataFileDTO = new Files();
 		dataFileDTO.setName(uuidString+suffix);
@@ -259,13 +270,13 @@ public class Rewrite_FilesResource {
 		dataFileDTO.setSize((int)filesSize);
 		dataFileDTO.setUserid("3");
 		dataFileDTO.setFile(filePathImage);
-		dataFileDTO.setUrl(imagespath + "");
+		//dataFileDTO.setUrl(imagespath + "");
 		dataFileDTO.setUuid(uuidString);
 //		dataFileDTO.setFileFormat(suffix);
 //		dataFileDTO.setFlieLenght((int) filesSize);
 //		dataFileDTO.setTarget(target);
-		//dataFileDTO.setHeight(height);
-		//dataFileDTO.setWidth(width);
+		dataFileDTO.setHeight(height);
+		dataFileDTO.setWidth(width);
 		//dataFileDTO.setCreateTime(getTime(new Date()));
 		Files id = filesRepository.save(dataFileDTO);
 		return id.getId().toString();
