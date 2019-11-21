@@ -400,11 +400,20 @@ public class Rewrite_ReceiptpayServiceImpl implements Rewrite_ReceiptpayService 
 	}
 
 	@Override
-	public Result findReceiptpayList(String userAccount, int dealtype, int pageIndex, int pageSize) {
-		List<Map<String, Object>> returnList = rewrite_ReceiptpayRepository.findReceiptpayList(userAccount, dealtype, pageIndex, pageSize);
+	public Result findReceiptpayList(String userAccount, String dealtype, String dealstate, int pageIndex, int pageSize) {
+		String userid = null;
+		if(userAccount!=null && !userAccount.equals("")) {
+			Linkuser linkuser = rewrite_LinkuserRepository.findByPhone(userAccount);
+			if (linkuser == null) {
+				userid = userAccount;
+			} else {
+				userid = linkuser.getUserid();
+			}
+		}
+		List<Map<String, Object>> returnList = rewrite_ReceiptpayRepository.findReceiptpayList(userid, dealtype,dealstate, pageIndex * pageSize, pageSize);
 		if(!CheckUtils.checkList(returnList))
 			return Result.suc("数据为空");
-		Integer count = rewrite_ReceiptpayRepository.findReceiptpayCount(userAccount, dealtype);
+		Integer count = rewrite_ReceiptpayRepository.findReceiptpayCount(userid, dealtype,dealstate);
 		return Result.suc("获取成功",returnList,count);
 	}
 

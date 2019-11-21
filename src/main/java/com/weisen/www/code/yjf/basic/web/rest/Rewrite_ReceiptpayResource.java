@@ -124,8 +124,8 @@ public class Rewrite_ReceiptpayResource {
     @GetMapping("admin/findReceiptpayList")
     @ApiOperation(value = "查询详细收益 admin")
     @Timed
-    public ResponseEntity<Result> findReceiptpayList(String userAccount,int dealtype, int startPage, int pageSize) {
-        Result result = rewrite_ReceiptpayService.findReceiptpayList(userAccount,dealtype,startPage,pageSize);
+    public ResponseEntity<Result> findReceiptpayList(String userAccount,String dealtype, String dealstate, int startPage, int pageSize) {
+        Result result = rewrite_ReceiptpayService.findReceiptpayList(userAccount,dealtype,dealstate,startPage,pageSize);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 }
