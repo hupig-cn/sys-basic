@@ -185,7 +185,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					if (jhiUserData != null) {
 						// 获取推荐人login库jhi_user表昵称
 						firstName = jhiUserData.getFirstName();
-						//当用户
+						//当用户昵称为Auto时，查找linkaccount表判断是什么类型用户
 						if (firstName.equals("Auto")) {
 							Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(sourcerId);
 							if (linkaccount != null) {
@@ -214,25 +214,36 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					Merchant merchant = merchantRepository.findByUserid(sourcerId);
 					// 是否是事业合伙人
 					Userlinkuser partner = userLinkUserRepository.findByUserid(sourcerId);
-					// 是商家不是事业合伙人
-					if (merchant != null && !(partner.getPartner())) {
-						getIncomeListDTO.setMerchant("商家");
+					/**用户刚支付时可能是用微信和支付宝付款，当用户注册时，会删掉其中一个用户id，
+					 * 因此userLinkUser库可能没有该推荐用户的数据
+					*/
+					if (partner!=null) {
+						
+						// 是商家不是事业合伙人
+						if (merchant != null && !(partner.getPartner())) {
+							getIncomeListDTO.setMerchant("商家");
+							getIncomeListDTO.setPartner("");
+							getIncomeListDTO.setVip("");
+						} else if (partner.getPartner() && merchant == null) {
+							// 是事业合伙人不是商家
+							getIncomeListDTO.setPartner("事业合伙人");
+							getIncomeListDTO.setVip("");
+							getIncomeListDTO.setMerchant("");
+						} else if (partner.getPartner() && merchant != null) {
+							// 既是事业合伙人，也是商家
+							getIncomeListDTO.setPartner("事业合伙人");
+							getIncomeListDTO.setVip("");
+							getIncomeListDTO.setMerchant("商家");
+						} else if (merchant == null && !(partner.getPartner())) {
+							// 既不是事业合伙人，也不是商家 会员
+							getIncomeListDTO.setPartner("");
+							getIncomeListDTO.setVip("会员");
+							getIncomeListDTO.setMerchant("");
+						}
+					}else {
+						// 该用户数据已被删除，既不是事业合伙人，也不是商家、 会员
 						getIncomeListDTO.setPartner("");
 						getIncomeListDTO.setVip("");
-					} else if (partner.getPartner() && merchant == null) {
-						// 是事业合伙人不是商家
-						getIncomeListDTO.setPartner("事业合伙人");
-						getIncomeListDTO.setVip("");
-						getIncomeListDTO.setMerchant("");
-					} else if (partner.getPartner() && merchant != null) {
-						// 既是事业合伙人，也是商家
-						getIncomeListDTO.setPartner("事业合伙人");
-						getIncomeListDTO.setVip("");
-						getIncomeListDTO.setMerchant("商家");
-					} else if (merchant == null && !(partner.getPartner())) {
-						// 既不是事业合伙人，也不是商家 会员
-						getIncomeListDTO.setPartner("");
-						getIncomeListDTO.setVip("会员");
 						getIncomeListDTO.setMerchant("");
 					}
 
