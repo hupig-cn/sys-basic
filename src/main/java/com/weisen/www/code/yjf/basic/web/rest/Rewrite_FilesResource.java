@@ -275,4 +275,21 @@ public class Rewrite_FilesResource {
 		return imgfiles.getId().toString();
 	}
     
+    
+	/**
+	 * 添加图片宽高
+	 *
+	 * @author sxx
+	 * @date 2019-11-19 10:43:31
+	 */
+	@PostMapping("/addImage/List")
+	@ApiOperation("添加图片宽高")
+	public ResponseEntity<Result> addImageList(Long startNum,Long Id) {
+		rewrite_FilesService.addImageList(startNum,Id);
+		return null;
+	}
+    
+
+    
+    
 }

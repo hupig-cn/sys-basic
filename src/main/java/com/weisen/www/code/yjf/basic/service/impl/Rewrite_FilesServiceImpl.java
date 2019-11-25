@@ -1,8 +1,15 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
@@ -18,6 +25,7 @@ import com.weisen.www.code.yjf.basic.service.dto.FilesDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_FilesDTO;
 import com.weisen.www.code.yjf.basic.service.mapper.FilesMapper;
 import com.weisen.www.code.yjf.basic.service.util.FileOperation;
+import com.weisen.www.code.yjf.basic.util.Result;
 
 /**
  * Service Implementation for managing {@link Files}.
@@ -126,4 +134,59 @@ public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
         }
         return arrayList;
     }
+    
+    
+	
+	// 添加图片宽高
+	@Override
+	public Result addImageList(Long startNum,Long Id) {
+		long timeInMillis = Calendar.getInstance().getTimeInMillis();
+		for (Long i = startNum; i < Id; i++) {
+			Files files = filesRepository.findByIds(i);
+			if (files != null) {
+				if (files.getWidth()==null) {
+					if (files.getFileContentType().equals("image/jpeg")||files.getFileContentType().equals("image/png")||files.getFileContentType().equals("image/gif")) {
+
+
+						InputStream is = null;
+						BufferedImage src = null;
+						try {
+							String filesUrl = "http://192.168.1.142:8084/services/basic/api/public/getFiles/" + i;
+							URL url = new URL(filesUrl);
+							HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+							httpConn.connect();
+							is = httpConn.getInputStream();
+
+							// 获取网络图片
+							src = javax.imageio.ImageIO.read(is);
+							if (src!=null) {
+
+								int srcWidth = src.getWidth(); // 得到源图宽
+								int srcHeight = src.getHeight(); // 得到源图长
+								if (files.getUuid()==null) {
+									String uuid = UUID.randomUUID().toString(); // 获取uuid
+									files.setUuid(uuid);
+								}
+								files.setId(i);
+								files.setUrl(filesUrl);
+								files.setWidth(srcWidth);
+								files.setHeight(srcHeight);
+								filesRepository.save(files);
+							}
+						} catch (IOException e) {
+							e.printStackTrace();
+
+
+						}
+					}
+				}
+			}
+
+		}
+		long timeInMillis2 =Calendar.getInstance().getTimeInMillis();
+		System.out.println(timeInMillis2 - timeInMillis);
+		return null;
+	}
+	
+    
 }
