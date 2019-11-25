@@ -625,7 +625,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 				}
 			}
-			if (userInformationList == null) {
+			if (userInformationList.isEmpty()) {
 				return Result.suc("暂时没有数据");
 			}
 			Integer size = userInformationList.size();
