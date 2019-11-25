@@ -18,7 +18,7 @@ import java.util.Optional;
  * @Date: 2019/10/25 15:52
  */
 @RestController
-@RequestMapping("/api/public2")
+@RequestMapping("/api/commodity")
 @Api(tags = "商品列表")
 public class Rewrite_PublicResources {
 
@@ -30,7 +30,7 @@ public class Rewrite_PublicResources {
         this.rewrite_001_userorderService = rewrite_001_userorderService;
     }
 
-    @PostMapping("/myfiles-list2")
+    @PostMapping("/findAllByTime2")
     @ApiOperation("商品列表")
     public ResponseEntity<?> myfilesList(@RequestParam Integer pageSize,
                                          @RequestParam Integer pageNum,
@@ -41,7 +41,7 @@ public class Rewrite_PublicResources {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
-    @PostMapping("/myfiles-list3")
+    @PostMapping("/findCommodityInfo2")
     @ApiOperation("商品详情")
     public ResponseEntity<?> myfilesLists(@RequestParam String commodityId){
         Result result = rewrite_001_userorderService.myfilesLists(commodityId);
