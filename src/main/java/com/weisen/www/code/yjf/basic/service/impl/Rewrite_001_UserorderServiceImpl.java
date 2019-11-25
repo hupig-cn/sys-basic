@@ -1,5 +1,4 @@
 package com.weisen.www.code.yjf.basic.service.impl;
-import com.google.common.collect.Lists;
 import java.math.BigDecimal;
 
 import com.weisen.www.code.yjf.basic.domain.*;
@@ -65,8 +64,10 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
 
     private final Reweite_ProdcutimageRepository reweite_prodcutimageRepository;
 
+    private final Rewrite_CommodityRepository rewrite_commodityRepository;
 
-    public Rewrite_001_UserorderServiceImpl(Rewrite_001_UserorderRepository rewrite_001_userorderRepository, Rewrite_SpecificationsRepository rewrite_specificationsRepository, Rewrite_OrderRepository rewrite_orderRepository, Rewrite_UserorderRepository rewrite_userOrderResource, Rewrite_LinkuserRepository rewrite_linkuserRepository, Rewrite_MerchantRepository rewrite_merchantRepository, PasswordEncoder passwordEncoder, Rewrite_LinkuserRepository rewrite_linkuserRepository1, FilesRepository filesRepository, Reweite_ProdcutimageRepository reweite_prodcutimageRepository) {
+
+    public Rewrite_001_UserorderServiceImpl(Rewrite_001_UserorderRepository rewrite_001_userorderRepository, Rewrite_SpecificationsRepository rewrite_specificationsRepository, Rewrite_OrderRepository rewrite_orderRepository, Rewrite_UserorderRepository rewrite_userOrderResource, Rewrite_LinkuserRepository rewrite_linkuserRepository, Rewrite_MerchantRepository rewrite_merchantRepository, PasswordEncoder passwordEncoder, Rewrite_LinkuserRepository rewrite_linkuserRepository1, FilesRepository filesRepository, Reweite_ProdcutimageRepository reweite_prodcutimageRepository, Rewrite_CommodityRepository rewrite_commodityRepository) {
 
         this.rewrite_001_userorderRepository = rewrite_001_userorderRepository;
         this.rewrite_specificationsRepository = rewrite_specificationsRepository;
@@ -78,6 +79,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
         rewrite_LinkuserRepository = rewrite_linkuserRepository1;
         this.filesRepository = filesRepository;
         this.reweite_prodcutimageRepository = reweite_prodcutimageRepository;
+        this.rewrite_commodityRepository = rewrite_commodityRepository;
     }
 
     @Override
@@ -288,8 +290,24 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
     public Result myfilesList(Integer pageSize, Integer pageNum,Integer type,Integer condition) {
         List<Specifications> specificationsByOrdrerBys = new ArrayList<>();
         int a = pageNum * pageSize;
+        String ccc = "";
         if (type == 0){ //type = 0 全部商品  type = 1 积分精选，2 美食, 3 数码 ，4 居家
             specificationsByOrdrerBys = rewrite_specificationsRepository.findSpecificationsByOrdrerBys(a, pageSize);
+        }else {
+            if (type == 2) {
+                ccc = "13";
+            }else if (type == 3){
+                ccc = "15";
+            }else if (type == 4){
+                ccc = "14";
+            }
+            List<Long> commodityByBrandid = rewrite_commodityRepository.findCommodityByBrandid(ccc);
+            for (int i = 0; i < commodityByBrandid.size(); i++) {
+                Long asd = commodityByBrandid.get(i);
+                Specifications s = rewrite_specificationsRepository.findSpecificationsByCommodityid(asd + "");
+                specificationsByOrdrerBys.add(s);
+            }
+
         }
         List<Rewrite_Commity2DTO> bbc = new ArrayList<>();
 
