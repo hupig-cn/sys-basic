@@ -31,6 +31,17 @@ public class Rewrite_GetIncomeListDTO implements Serializable {
 	@ApiModelProperty(value = "会员", example = "会员")
 	private String vip;
 	
+	@ApiModelProperty(value = "头像文件id", example = "50")	
+    private String imageUrlId;
+	
+	public String getImageUrlId() {
+		return imageUrlId;
+	}
+
+	public void setImageUrlId(String imageUrlId) {
+		this.imageUrlId = imageUrlId;
+	}
+
 	@ApiModelProperty(value = "时间区间内红利总和", example = "66666.66")
 	private BigDecimal amountSum;
 	
