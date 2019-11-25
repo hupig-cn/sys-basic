@@ -322,12 +322,12 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
         //商品详情
         Rewrite_GoodsCommity2DTO r = new Rewrite_GoodsCommity2DTO();
 
-
         Specifications a = rewrite_specificationsRepository.findSpecificationsByCommodityid(commityid);
         String specifications = a.getCommodityid();
         String title = a.getSpecifications();
         String price = a.getPrice();
         String model = a.getModel();
+        Long fileid = a.getFileid();
         List<Long> Hp = new ArrayList<>();
         List<Rewrite_GoodsCommityDTO> hplist = new ArrayList<>();
         List<Rewrite_GoodsCommityDTO> splist = new ArrayList<>();
@@ -344,7 +344,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
         }
         hplist = aab(Hp,0);
         splist = aab(Sp,1);
-
+        r.setSmallUrl(imagesPath+fileid);
         r.sethWidth(hWidth);
         r.sethHeigh(hHeigh);
         r.setsWidth(sWidth);

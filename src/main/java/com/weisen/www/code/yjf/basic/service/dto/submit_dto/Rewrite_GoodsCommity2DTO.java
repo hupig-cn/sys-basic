@@ -6,6 +6,8 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class Rewrite_GoodsCommity2DTO implements Serializable {
 
+    private String smallUrl;
+
     private Long hWidth;
 
     private Long hHeigh;
@@ -25,6 +27,14 @@ public class Rewrite_GoodsCommity2DTO implements Serializable {
     private List<Rewrite_GoodsCommityDTO> hplist;
 
     private List<Rewrite_GoodsCommityDTO> splist;
+
+    public String getSmallUrl() {
+        return smallUrl;
+    }
+
+    public void setSmallUrl(String smallUrl) {
+        this.smallUrl = smallUrl;
+    }
 
     public String getModel() {
         return model;
