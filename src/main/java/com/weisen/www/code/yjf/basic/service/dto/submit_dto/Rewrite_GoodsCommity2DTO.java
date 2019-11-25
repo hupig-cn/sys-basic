@@ -1,25 +1,67 @@
 package com.weisen.www.code.yjf.basic.service.dto.submit_dto;
+
 import java.io.Serializable;
 import java.util.List;
 
 @SuppressWarnings("serial")
 public class Rewrite_GoodsCommity2DTO implements Serializable {
-   private String specifications;
 
-   private String title;
+    private Long hWidth;
 
-   private String price;
+    private Long hHeigh;
 
-   private List<Rewrite_GoodsCommityDTO> hplist;
+    private Long sWidth;
 
-   private List<Rewrite_GoodsCommityDTO> splist;
+    private Long sHeigh;
 
-    public String getSpecifications() {
-        return specifications;
+    private String commodityId;
+
+    private String title;
+
+    private String price;
+
+    private List<Rewrite_GoodsCommityDTO> hplist;
+
+    private List<Rewrite_GoodsCommityDTO> splist;
+
+    public Long gethWidth() {
+        return hWidth;
     }
 
-    public void setSpecifications(String specifications) {
-        this.specifications = specifications;
+    public void sethWidth(Long hWidth) {
+        this.hWidth = hWidth;
+    }
+
+    public Long gethHeigh() {
+        return hHeigh;
+    }
+
+    public void sethHeigh(Long hHeigh) {
+        this.hHeigh = hHeigh;
+    }
+
+    public Long getsWidth() {
+        return sWidth;
+    }
+
+    public void setsWidth(Long sWidth) {
+        this.sWidth = sWidth;
+    }
+
+    public Long getsHeigh() {
+        return sHeigh;
+    }
+
+    public void setsHeigh(Long sHeigh) {
+        this.sHeigh = sHeigh;
+    }
+
+    public String getCommodityId() {
+        return commodityId;
+    }
+
+    public void setCommodityId(String commodityId) {
+        this.commodityId = commodityId;
     }
 
     public String getTitle() {

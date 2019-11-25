@@ -43,9 +43,9 @@ public class Rewrite_PublicResources {
 
     @PostMapping("/myfiles-list3")
     @ApiOperation("商品详情")
-    public ResponseEntity<?> myfilesLists(@RequestParam String commityid){
-        Result result = rewrite_001_userorderService.myfilesLists(commityid);
-        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Orderdetail", "传入值:"+commityid, result);
+    public ResponseEntity<?> myfilesLists(@RequestParam String commodityId){
+        Result result = rewrite_001_userorderService.myfilesLists(commodityId);
+        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Orderdetail", "传入值:"+commodityId, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 

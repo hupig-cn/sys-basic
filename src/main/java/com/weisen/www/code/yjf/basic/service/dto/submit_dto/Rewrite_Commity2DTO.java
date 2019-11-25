@@ -6,7 +6,7 @@ import java.util.Objects;
 @SuppressWarnings("serial")
 public class Rewrite_Commity2DTO implements Serializable {
 
-   private Long commityid;
+   private Long commodityId;
 
    private String text;
 
@@ -18,12 +18,12 @@ public class Rewrite_Commity2DTO implements Serializable {
 
    private Integer height;
 
-    public Long getCommityid() {
-        return commityid;
+    public Long getCommodityId() {
+        return commodityId;
     }
 
-    public void setCommityid(Long commityid) {
-        this.commityid = commityid;
+    public void setCommodityId(Long commodityId) {
+        this.commodityId = commodityId;
     }
 
     public String getText() {
