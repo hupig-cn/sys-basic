@@ -696,7 +696,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		// 获取用户login库资料
 		User jhiUser = userRepository.findJhiUserById(Long.parseLong(userId));
 		if (jhiUser == null) {
-			return Result.fail("不存在该用户!");
+			return Result.fail("当前用户不存在!");
 		} else {
 			List<Map<String, Object>> userlinkusers = userLinkUserRepository.getRecommendisList();
 			return Result.suc("查询成功!", userlinkusers, userlinkusers.size());
