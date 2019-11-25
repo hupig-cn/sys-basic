@@ -202,7 +202,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 							}
 						}
 					}else {
-						firstName="已合并用户";
+						firstName="已注册用户";
 					}
 					//判断收益类型
 					if (receiptpay.getDealtype().equals("9")) {
