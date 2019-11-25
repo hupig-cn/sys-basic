@@ -18,7 +18,7 @@ import java.util.Optional;
  * @Date: 2019/10/25 15:52
  */
 @RestController
-@RequestMapping("/api/public2")
+@RequestMapping("/api/commodity")
 @Api(tags = "商品列表")
 public class Rewrite_PublicResources {
 
@@ -30,22 +30,22 @@ public class Rewrite_PublicResources {
         this.rewrite_001_userorderService = rewrite_001_userorderService;
     }
 
-    @PostMapping("/myfiles-list2")
+    @PostMapping("/findAllByTime2")
     @ApiOperation("商品列表")
     public ResponseEntity<?> myfilesList(@RequestParam Integer pageSize,
                                          @RequestParam Integer pageNum,
                                          @RequestParam Integer type,
-                                         @RequestParam Integer start){
-        Result result = rewrite_001_userorderService.myfilesList(pageSize,pageNum,type,start);
+                                         @RequestParam Integer condition){
+        Result result = rewrite_001_userorderService.myfilesList(pageSize,pageNum,type,condition);
         log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Orderdetail", "传入值:"+pageSize+";"+pageNum, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 
-    @PostMapping("/myfiles-list3")
+    @PostMapping("/findCommodityInfo2")
     @ApiOperation("商品详情")
-    public ResponseEntity<?> myfilesLists(@RequestParam String commityid){
-        Result result = rewrite_001_userorderService.myfilesLists(commityid);
-        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Orderdetail", "传入值:"+commityid, result);
+    public ResponseEntity<?> myfilesLists(@RequestParam String commodityId){
+        Result result = rewrite_001_userorderService.myfilesLists(commodityId);
+        log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Orderdetail", "传入值:"+commodityId, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 

@@ -1,25 +1,87 @@
 package com.weisen.www.code.yjf.basic.service.dto.submit_dto;
+
 import java.io.Serializable;
 import java.util.List;
 
 @SuppressWarnings("serial")
 public class Rewrite_GoodsCommity2DTO implements Serializable {
-   private String specifications;
 
-   private String title;
+    private String smallUrl;
 
-   private String price;
+    private Long hWidth;
 
-   private List<Rewrite_GoodsCommityDTO> hplist;
+    private Long hHeigh;
 
-   private List<Rewrite_GoodsCommityDTO> splist;
+    private Long sWidth;
 
-    public String getSpecifications() {
-        return specifications;
+    private Long sHeigh;
+
+    private String commodityId;
+
+    private String title;
+
+    private String price;
+
+    private String model;
+
+    private List<Rewrite_GoodsCommityDTO> hplist;
+
+    private List<Rewrite_GoodsCommityDTO> splist;
+
+    public String getSmallUrl() {
+        return smallUrl;
     }
 
-    public void setSpecifications(String specifications) {
-        this.specifications = specifications;
+    public void setSmallUrl(String smallUrl) {
+        this.smallUrl = smallUrl;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public Long gethWidth() {
+        return hWidth;
+    }
+
+    public void sethWidth(Long hWidth) {
+        this.hWidth = hWidth;
+    }
+
+    public Long gethHeigh() {
+        return hHeigh;
+    }
+
+    public void sethHeigh(Long hHeigh) {
+        this.hHeigh = hHeigh;
+    }
+
+    public Long getsWidth() {
+        return sWidth;
+    }
+
+    public void setsWidth(Long sWidth) {
+        this.sWidth = sWidth;
+    }
+
+    public Long getsHeigh() {
+        return sHeigh;
+    }
+
+    public void setsHeigh(Long sHeigh) {
+        this.sHeigh = sHeigh;
+    }
+
+    public String getCommodityId() {
+        return commodityId;
+    }
+
+    public void setCommodityId(String commodityId) {
+        this.commodityId = commodityId;
     }
 
     public String getTitle() {

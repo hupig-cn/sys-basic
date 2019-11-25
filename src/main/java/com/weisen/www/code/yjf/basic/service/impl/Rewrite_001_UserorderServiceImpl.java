@@ -36,6 +36,15 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
     @Value("${images-path}")
     private String imagesPath;
 
+
+    private Long hWidth = 0L;
+
+    private Long hHeigh = 0L;
+
+    private Long sWidth = 0L;
+
+    private Long sHeigh = 0L;
+
     private final Rewrite_001_UserorderRepository rewrite_001_userorderRepository;
 
     private final Rewrite_SpecificationsRepository rewrite_specificationsRepository;
@@ -276,13 +285,14 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
     }
 
     @Override
-    public Result myfilesList(Integer pageSize, Integer pageNum,Integer type,Integer start) {
+    public Result myfilesList(Integer pageSize, Integer pageNum,Integer type,Integer condition) {
+        List<Specifications> specificationsByOrdrerBys = new ArrayList<>();
+        int a = pageNum * pageSize;
         if (type == 0){ //type = 0 全部商品  type = 1 积分精选，2 美食, 3 数码 ，4 居家
-
+            specificationsByOrdrerBys = rewrite_specificationsRepository.findSpecificationsByOrdrerBys(a, pageSize);
         }
         List<Rewrite_Commity2DTO> bbc = new ArrayList<>();
-        int a = (pageNum-1) * pageSize;
-        List<Specifications> specificationsByOrdrerBys = rewrite_specificationsRepository.findSpecificationsByOrdrerBys(a, pageSize);
+
         for (int i = 0; i < specificationsByOrdrerBys.size(); i++) {
             Rewrite_Commity2DTO rewrite_commity2DTO = new Rewrite_Commity2DTO();
 
@@ -292,14 +302,13 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
             String commodityid = s.getCommodityid();
             String specifications = s.getSpecifications();
             Files files = filesRepository.findByIds(fileid);
-            String url = files.getUrl();
             Integer height = files.getHeight();
             Integer width = files.getWidth();
 
-            rewrite_commity2DTO.setCommityid(Long.valueOf(commodityid));
+            rewrite_commity2DTO.setCommodityId(Long.valueOf(commodityid));
             rewrite_commity2DTO.setText(specifications);
             rewrite_commity2DTO.setPrice(price);
-            rewrite_commity2DTO.setUrl(url);
+            rewrite_commity2DTO.setUrl(imagesPath+fileid);
             rewrite_commity2DTO.setWidth(width);
             rewrite_commity2DTO.setHeight(height);
             bbc.add(rewrite_commity2DTO);
@@ -312,10 +321,13 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
     public Result myfilesLists(String commityid) {
         //商品详情
         Rewrite_GoodsCommity2DTO r = new Rewrite_GoodsCommity2DTO();
+
         Specifications a = rewrite_specificationsRepository.findSpecificationsByCommodityid(commityid);
         String specifications = a.getCommodityid();
         String title = a.getSpecifications();
         String price = a.getPrice();
+        String model = a.getModel();
+        Long fileid = a.getFileid();
         List<Long> Hp = new ArrayList<>();
         List<Rewrite_GoodsCommityDTO> hplist = new ArrayList<>();
         List<Rewrite_GoodsCommityDTO> splist = new ArrayList<>();
@@ -330,20 +342,27 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
                 Sp.add(Long.valueOf(prodcutimage.getFileid()));
             }
         }
-        hplist = aab(Hp);
-
-        splist = aab(Sp);
-
-        r.setSpecifications(specifications);
+        hplist = aab(Hp,0);
+        splist = aab(Sp,1);
+        r.setSmallUrl(imagesPath+fileid);
+        r.sethWidth(hWidth);
+        r.sethHeigh(hHeigh);
+        r.setsWidth(sWidth);
+        r.setsHeigh(sHeigh);
+        r.setCommodityId(specifications);
         r.setTitle(title);
         r.setPrice(price);
         r.setHplist(hplist);
         r.setSplist(splist);
+        r.setModel(model);
         return Result.suc("查询成功",r);
     }
 
-    public List<Rewrite_GoodsCommityDTO> aab (List<Long> Sp){
+    public List<Rewrite_GoodsCommityDTO> aab (List<Long> Sp,Integer a){
         List<Rewrite_GoodsCommityDTO> splist = new ArrayList<>();
+        if (a == 1){
+            Sp.add(3315L);
+        }
         for (int i = 0; i < Sp.size(); i++) {
             Long aa = Sp.get(i);
             //图片id
@@ -352,15 +371,21 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
             Files filesById = filesRepository.findByIds(aa);
             Integer width = filesById.getWidth();
             Integer height = filesById.getHeight();
-            String url = filesById.getUrl();
             String fileContentType = filesById.getFileContentType();
             Integer size = filesById.getSize();
-            rewrite_goodsCommityDTO.setUrl(url);
+            rewrite_goodsCommityDTO.setUrl(imagesPath+aa);
             rewrite_goodsCommityDTO.setWidth(width);
             rewrite_goodsCommityDTO.setHeight(height);
             rewrite_goodsCommityDTO.setType(fileContentType);
             rewrite_goodsCommityDTO.setSize(size);
             splist.add(rewrite_goodsCommityDTO);
+            if (a == 1){
+                sHeigh = sHeigh + height;
+                sWidth = sWidth + width;
+            }else {
+                hHeigh = hHeigh + height;
+                hWidth = hWidth + width;
+            }
         }
         return splist;
     }
