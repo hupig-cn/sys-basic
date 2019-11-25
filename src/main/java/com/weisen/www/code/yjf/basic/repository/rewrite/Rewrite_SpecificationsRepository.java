@@ -31,7 +31,7 @@ public interface Rewrite_SpecificationsRepository extends JpaRepository<Specific
     @Query(value = "select * from shopmall.specifications where commodityid = ?1 ",nativeQuery = true)
     Specifications findSpecificationsByCommodityid(String commodityid);
 
-    @Query(value = "select * from shopmall.specifications Limit ?1,?2 ",nativeQuery = true)
+    @Query(value = "select * from shopmall.specifications Order by other Desc Limit ?1,?2",nativeQuery = true)
     List<Specifications> findSpecificationsByOrdrerBys(Integer pageNum,Integer pageSize);
 
 }

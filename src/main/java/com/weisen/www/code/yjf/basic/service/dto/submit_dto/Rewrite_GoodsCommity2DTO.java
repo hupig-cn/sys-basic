@@ -20,9 +20,19 @@ public class Rewrite_GoodsCommity2DTO implements Serializable {
 
     private String price;
 
+    private String model;
+
     private List<Rewrite_GoodsCommityDTO> hplist;
 
     private List<Rewrite_GoodsCommityDTO> splist;
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
 
     public Long gethWidth() {
         return hWidth;

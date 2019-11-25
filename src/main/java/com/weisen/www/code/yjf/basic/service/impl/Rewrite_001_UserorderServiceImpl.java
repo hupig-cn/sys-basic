@@ -285,13 +285,14 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
     }
 
     @Override
-    public Result myfilesList(Integer pageSize, Integer pageNum,Integer type,Integer start) {
+    public Result myfilesList(Integer pageSize, Integer pageNum,Integer type,Integer condition) {
+        List<Specifications> specificationsByOrdrerBys = new ArrayList<>();
+        int a = pageNum * pageSize;
         if (type == 0){ //type = 0 全部商品  type = 1 积分精选，2 美食, 3 数码 ，4 居家
-
+            specificationsByOrdrerBys = rewrite_specificationsRepository.findSpecificationsByOrdrerBys(a, pageSize);
         }
         List<Rewrite_Commity2DTO> bbc = new ArrayList<>();
-        int a = (pageNum-1) * pageSize;
-        List<Specifications> specificationsByOrdrerBys = rewrite_specificationsRepository.findSpecificationsByOrdrerBys(a, pageSize);
+
         for (int i = 0; i < specificationsByOrdrerBys.size(); i++) {
             Rewrite_Commity2DTO rewrite_commity2DTO = new Rewrite_Commity2DTO();
 
@@ -326,6 +327,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
         String specifications = a.getCommodityid();
         String title = a.getSpecifications();
         String price = a.getPrice();
+        String model = a.getModel();
         List<Long> Hp = new ArrayList<>();
         List<Rewrite_GoodsCommityDTO> hplist = new ArrayList<>();
         List<Rewrite_GoodsCommityDTO> splist = new ArrayList<>();
@@ -352,6 +354,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
         r.setPrice(price);
         r.setHplist(hplist);
         r.setSplist(splist);
+        r.setModel(model);
         return Result.suc("查询成功",r);
     }
 

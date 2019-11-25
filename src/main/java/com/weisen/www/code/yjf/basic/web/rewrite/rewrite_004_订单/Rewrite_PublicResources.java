@@ -35,8 +35,8 @@ public class Rewrite_PublicResources {
     public ResponseEntity<?> myfilesList(@RequestParam Integer pageSize,
                                          @RequestParam Integer pageNum,
                                          @RequestParam Integer type,
-                                         @RequestParam Integer start){
-        Result result = rewrite_001_userorderService.myfilesList(pageSize,pageNum,type,start);
+                                         @RequestParam Integer condition){
+        Result result = rewrite_001_userorderService.myfilesList(pageSize,pageNum,type,condition);
         log.debug("访问地址: {},传入值: {},返回值: {}","/api/balance/Orderdetail", "传入值:"+pageSize+";"+pageNum, result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }

@@ -24,7 +24,7 @@ public interface Rewrite_001_UserorderService {
 
     Result cheakpaypassword(String userid, String pass);
 
-    Result myfilesList(Integer pageSize, Integer pageNum,Integer type,Integer start);
+    Result myfilesList(Integer pageSize, Integer pageNum,Integer type,Integer condition);
 
     Result myfilesLists(String commityid);
 }
