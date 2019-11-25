@@ -63,6 +63,21 @@ public class Rewrite_IncomeDetailsResource {
 		log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total", getIncomeAfferentDTO, result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
+	
+	/**
+	 * 获取推荐流水明细（新接口）
+	 *
+	 * @author sxx
+	 * @date 2019-10-23 15:55:31
+	 */
+	@PostMapping("/getRecommend/List2")
+	@ApiOperation("获取推荐流水明细（新接口）")
+	public ResponseEntity<?> getRecommendList2(@RequestBody Rewrite_GetIncomeAfferentDTO getIncomeAfferentDTO) {
+		Result result = incomeDetailsService.getRecommendList2(getIncomeAfferentDTO);
+		log.debug("访问地址: {},传入值: {},返回值: {}", "/getRecommend/Total", getIncomeAfferentDTO, result);
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+	}
+	
 
 	/**
 	 * 收益列表

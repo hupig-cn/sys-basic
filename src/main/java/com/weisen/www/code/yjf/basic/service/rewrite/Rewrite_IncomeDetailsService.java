@@ -7,8 +7,11 @@ public interface Rewrite_IncomeDetailsService {
 	// 获取各推荐人总数
 	Result getRecommendTotal(String recommendId);
 
-	// 获取各推荐人列表
+	// 获取推荐流水明细
 	Result getRecommendList(Rewrite_GetIncomeAfferentDTO getIncomeAfferentDTO);
+	
+	// 获取推荐流水明细（新接口）
+	Result getRecommendList2(Rewrite_GetIncomeAfferentDTO getIncomeAfferentDTO);
 
 	// 获取各推荐人列表
 	Result getProfitList(String userId);
