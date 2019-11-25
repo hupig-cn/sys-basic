@@ -313,7 +313,7 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
         //商品详情
         Rewrite_GoodsCommity2DTO r = new Rewrite_GoodsCommity2DTO();
         Specifications a = rewrite_specificationsRepository.findSpecificationsByCommodityid(commityid);
-        String specifications = a.getSpecifications();
+        String specifications = a.getCommodityid();
         String title = a.getSpecifications();
         String price = a.getPrice();
         List<Long> Hp = new ArrayList<>();
