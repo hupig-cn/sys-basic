@@ -34,125 +34,130 @@ import com.weisen.www.code.yjf.basic.util.Result;
 @Transactional
 public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
 
-    private final Logger log = LoggerFactory.getLogger(Rewrite_FilesServiceImpl.class);
+	private final Logger log = LoggerFactory.getLogger(Rewrite_FilesServiceImpl.class);
 
-    /**
+	/**
 	 * 文件保存位置
 	 */
 	@Value("${filePath-image}")
 	private String filePathImage;
-	
+
 	/**
 	 * 文件访问路径
 	 */
 	@Value("${images-path}")
 	private String imagespath;
 
-    private final FilesRepository filesRepository;
+	private final FilesRepository filesRepository;
 
-    private final FilesMapper filesMapper;
+	private final FilesMapper filesMapper;
 
-    public Rewrite_FilesServiceImpl(FilesRepository filesRepository, FilesMapper filesMapper) {
-        this.filesRepository = filesRepository;
-        this.filesMapper = filesMapper;
-    }
+	public Rewrite_FilesServiceImpl(FilesRepository filesRepository, FilesMapper filesMapper) {
+		this.filesRepository = filesRepository;
+		this.filesMapper = filesMapper;
+	}
 
-    /**
-     * Save a files.
-     *
-     * @param filesDTO the entity to save.
-     * @return the persisted entity.
-     */
-    @Override
-    public String addsave(Rewrite_FilesDTO rewrite_FilesDTO) {
-        Files files = new Files();
-        files.setId(null);
-        files.setUserid(rewrite_FilesDTO.getUserid());
-        files.setSize(rewrite_FilesDTO.getSize());
-        files.setFileContentType(rewrite_FilesDTO.getFileContentType());
-        String fileName = rewrite_FilesDTO.getFileContentType();
-        fileName = fileName.substring(fileName.indexOf("/") + 1);
-        fileName = System.currentTimeMillis() + RandomStringUtils.randomAlphanumeric(6) + "." + fileName;
-        files.setName(fileName);
-        files.setFile(filePathImage);
-        if (FileOperation.saveFile(rewrite_FilesDTO.getFile(), filePathImage, fileName)) {
-            files = filesRepository.save(files);
-            return files.getId().toString();
-        } else {
-            return "文件上传失败";
-        }
-    }
+	/**
+	 * Save a files.
+	 *
+	 * @param filesDTO the entity to save.
+	 * @return the persisted entity.
+	 */
+	@Override
+	public String addsave(Rewrite_FilesDTO rewrite_FilesDTO) {
+		Files files = new Files();
+		files.setId(null);
+		files.setUserid(rewrite_FilesDTO.getUserid());
+		files.setSize(rewrite_FilesDTO.getSize());
+		files.setFileContentType(rewrite_FilesDTO.getFileContentType());
+		String fileName = rewrite_FilesDTO.getFileContentType();
+		fileName = fileName.substring(fileName.indexOf("/") + 1);
+		fileName = System.currentTimeMillis() + RandomStringUtils.randomAlphanumeric(6) + "." + fileName;
+		files.setName(fileName);
+		files.setFile(filePathImage);
+		if (FileOperation.saveFile(rewrite_FilesDTO.getFile(), filePathImage, fileName)) {
+			files = filesRepository.save(files);
+			return files.getId().toString();
+		} else {
+			return "文件上传失败";
+		}
+	}
 
-    @Override
-    public Rewrite_FilesDTO resave(Rewrite_FilesDTO rewrite_FilesDTO) {
-//    	Files files = new Files();
-//    	files.setId(rewrite_FilesDTO.getId()==null?null:rewrite_FilesDTO.getId());
-//        Files files = filesMapper.toEntity(rewrite_FilesDTO);
-//        files = filesRepository.save(files);
-//        return filesMapper.toDto(files);
-        return null;
-    }
+	@Override
+	public Rewrite_FilesDTO resave(Rewrite_FilesDTO rewrite_FilesDTO) {
+		//    	Files files = new Files();
+		//    	files.setId(rewrite_FilesDTO.getId()==null?null:rewrite_FilesDTO.getId());
+		//        Files files = filesMapper.toEntity(rewrite_FilesDTO);
+		//        files = filesRepository.save(files);
+		//        return filesMapper.toDto(files);
+		return null;
+	}
 
-    /**
-     * Get one files by id.
-     *
-     * @param id the id of the entity.
-     * @return the entity.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public Rewrite_FilesDTO findOne(Long id) {
-        Optional<FilesDTO> files = filesRepository.findById(id).map(filesMapper::toDto);
-        Rewrite_FilesDTO rewrite_FilesDTO = new Rewrite_FilesDTO();
-        rewrite_FilesDTO.setId(files.get().getId());
-        rewrite_FilesDTO.setFile(FileOperation.getFile(filePathImage + files.get().getName()));
-        rewrite_FilesDTO.setFileContentType(files.get().getFileContentType());
-        rewrite_FilesDTO.setUserid(files.get().getUserid());
-        rewrite_FilesDTO.setName(files.get().getName());
-        rewrite_FilesDTO.setTarget(files.get().getFile());
-        return rewrite_FilesDTO;
-    }
+	/**
+	 * Get one files by id.
+	 *
+	 * @param id the id of the entity.
+	 * @return the entity.
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public Rewrite_FilesDTO findOne(Long id) {
+		Optional<FilesDTO> files = filesRepository.findById(id).map(filesMapper::toDto);
+		Rewrite_FilesDTO rewrite_FilesDTO = new Rewrite_FilesDTO();
+		rewrite_FilesDTO.setId(files.get().getId());
+		rewrite_FilesDTO.setFile(FileOperation.getFile(filePathImage + files.get().getName()));
+		rewrite_FilesDTO.setFileContentType(files.get().getFileContentType());
+		rewrite_FilesDTO.setUserid(files.get().getUserid());
+		rewrite_FilesDTO.setName(files.get().getName());
+		rewrite_FilesDTO.setTarget(files.get().getFile());
+		return rewrite_FilesDTO;
+	}
 
-    /**
-     * Delete the files by id.
-     *
-     * @param id the id of the entity.
-     */
-    @Override
-    public void delete(Long id) {
-        log.debug("Request to delete Files : {}", id);
-        filesRepository.deleteById(id);
-    }
+	/**
+	 * Delete the files by id.
+	 *
+	 * @param id the id of the entity.
+	 */
+	@Override
+	public void delete(Long id) {
+		log.debug("Request to delete Files : {}", id);
+		filesRepository.deleteById(id);
+	}
 
-    public List<Rewrite_FilesDTO> findList(Long[] ids) {
-        if (0 == ids.length)
-            throw new RuntimeException("数据异常");
-        ArrayList<Rewrite_FilesDTO> arrayList = new ArrayList<Rewrite_FilesDTO>();
-        for (int i = 0; i < ids.length; i++) {
-            Rewrite_FilesDTO one = findOne(ids[i]);
-            arrayList.add(one);
-        }
-        return arrayList;
-    }
-    
-    
-	
-	// 添加图片宽高
+	public List<Rewrite_FilesDTO> findList(Long[] ids) {
+		if (0 == ids.length)
+			throw new RuntimeException("数据异常");
+		ArrayList<Rewrite_FilesDTO> arrayList = new ArrayList<Rewrite_FilesDTO>();
+		for (int i = 0; i < ids.length; i++) {
+			Rewrite_FilesDTO one = findOne(ids[i]);
+			arrayList.add(one);
+		}
+		return arrayList;
+	}
+
+
+
+	// 手动添加图片宽高
 	@Override
 	public Result addImageList(Long startNum,Long Id) {
-		long timeInMillis = Calendar.getInstance().getTimeInMillis();
 		for (Long i = startNum; i < Id; i++) {
+			//通过传来的开始的id值查询数据
 			Files files = filesRepository.findByIds(i);
+			//如果有数据
 			if (files != null) {
+				//如果没有宽高值
 				if (files.getWidth()==null) {
+					//如果是图片类型
 					if (files.getFileContentType().equals("image/jpeg")||files.getFileContentType().equals("image/png")||files.getFileContentType().equals("image/gif")) {
 
 
 						InputStream is = null;
 						BufferedImage src = null;
 						try {
+							//图片访问路径
 							String filesUrl = "http://192.168.1.142:8084/services/basic/api/public/getFiles/" + i;
 							URL url = new URL(filesUrl);
+							//创立连接
 							HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
 							httpConn.connect();
 							is = httpConn.getInputStream();
@@ -165,13 +170,14 @@ public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
 								int srcHeight = src.getHeight(); // 得到源图长
 								if (files.getUuid()==null) {
 									String uuid = UUID.randomUUID().toString(); // 获取uuid
+									//将字段写到表中
 									files.setUuid(uuid);
 								}
 								files.setId(i);
 								files.setUrl(filesUrl);
 								files.setWidth(srcWidth);
 								files.setHeight(srcHeight);
-								filesRepository.save(files);
+								filesRepository.save(files);//保存
 							}
 						} catch (IOException e) {
 							e.printStackTrace();
@@ -183,10 +189,8 @@ public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
 			}
 
 		}
-		long timeInMillis2 =Calendar.getInstance().getTimeInMillis();
-		System.out.println(timeInMillis2 - timeInMillis);
-		return null;
+		return Result.suc("更新成功");
 	}
-	
-    
+
+
 }

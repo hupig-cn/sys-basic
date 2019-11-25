@@ -1,12 +1,12 @@
 package com.weisen.www.code.yjf.basic.repository;
 
-import com.weisen.www.code.yjf.basic.domain.Files;
-
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import com.weisen.www.code.yjf.basic.domain.Files;
 
 
 /**
@@ -15,9 +15,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FilesRepository extends JpaRepository<Files, Long> {
 
+	//通过id找到该记录
 	@Query(value = "select * from files where id = ?1", nativeQuery = true)
 	Files findByIds(Long id);
-//	
-//	@Query(value = "select id from files ", nativeQuery = true)
-//	List<Long> findByid2();
+
 }

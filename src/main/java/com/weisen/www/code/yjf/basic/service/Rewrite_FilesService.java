@@ -38,7 +38,7 @@ public interface Rewrite_FilesService {
     List<Rewrite_FilesDTO> findList(Long[] ids);
     
     
-    //添加图片宽高
+    //手动添加图片宽高
     Result addImageList(Long startNum,Long Id);
     
 }

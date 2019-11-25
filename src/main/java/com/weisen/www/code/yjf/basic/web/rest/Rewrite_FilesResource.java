@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -40,6 +41,7 @@ import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 import io.micrometer.core.annotation.Timed;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -277,19 +279,19 @@ public class Rewrite_FilesResource {
     
     
 	/**
-	 * 添加图片宽高
+	 * 手动添加图片宽高
 	 *
 	 * @author sxx
-	 * @date 2019-11-19 10:43:31
+	 * @date 2019-11-22 15:43:31
 	 */
 	@PostMapping("/addImage/List")
-	@ApiOperation("添加图片宽高")
+	@ApiOperation("手动添加图片宽高")
 	public ResponseEntity<Result> addImageList(Long startNum,Long Id) {
-		rewrite_FilesService.addImageList(startNum,Id);
-		return null;
+		Result result = rewrite_FilesService.addImageList(startNum,Id);
+		log.debug("访问地址: {},传入值: {},返回值: {}", "/additionalImage/List", "无", result);
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
     
 
-    
     
 }
