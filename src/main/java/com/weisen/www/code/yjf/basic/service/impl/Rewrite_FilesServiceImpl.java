@@ -137,6 +137,61 @@ public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
 
 
 
+//	// 手动添加图片宽高
+//	@Override
+//	public Result addImageList(Long startNum,Long Id) {
+//		for (Long i = startNum; i < Id; i++) {
+//			//通过传来的开始的id值查询数据
+//			Files files = filesRepository.findByIds(i);
+//			//如果有数据
+//			if (files != null) {
+//				//如果没有宽高值
+//				if (files.getWidth()==null) {
+//					//如果是图片类型
+//					if (files.getFileContentType().equals("image/jpeg")||files.getFileContentType().equals("image/png")||files.getFileContentType().equals("image/gif")) {
+//
+//
+//						InputStream is = null;
+//						BufferedImage src = null;
+//						try {
+//							//图片访问路径
+//							String filesUrl = "http://192.168.1.142:8084/services/basic/api/public/getFiles/" + i;
+//							URL url = new URL(filesUrl);
+//							//创立连接
+//							HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+//							httpConn.connect();
+//							is = httpConn.getInputStream();
+//
+//							// 获取网络图片
+//							src = javax.imageio.ImageIO.read(is);
+//							if (src!=null) {
+//
+//								int srcWidth = src.getWidth(); // 得到源图宽
+//								int srcHeight = src.getHeight(); // 得到源图长
+//								if (files.getUuid()==null) {
+//									String uuid = UUID.randomUUID().toString(); // 获取uuid
+//									//将字段写到表中
+//									files.setUuid(uuid);
+//								}
+//								files.setId(i);
+//								files.setUrl(filesUrl);
+//								files.setWidth(srcWidth);
+//								files.setHeight(srcHeight);
+//								filesRepository.save(files);//保存
+//							}
+//						} catch (IOException e) {
+//							e.printStackTrace();
+//
+//
+//						}
+//					}
+//				}
+//			}
+//
+//		}
+//		return Result.suc("更新成功");
+//	}
+	
 	// 手动添加图片宽高
 	@Override
 	public Result addImageList(Long startNum,Long Id) {
@@ -145,48 +200,48 @@ public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
 			Files files = filesRepository.findByIds(i);
 			//如果有数据
 			if (files != null) {
-				//如果没有宽高值
-				if (files.getWidth()==null) {
+//				//如果没有宽高值
+//				if (files.getWidth()==null) {
 					//如果是图片类型
-					if (files.getFileContentType().equals("image/jpeg")||files.getFileContentType().equals("image/png")||files.getFileContentType().equals("image/gif")) {
+//					if (files.getFileContentType().equals("image/jpeg")||files.getFileContentType().equals("image/png")||files.getFileContentType().equals("image/gif")) {
 
-
-						InputStream is = null;
-						BufferedImage src = null;
-						try {
+//
+//						InputStream is = null;
+//						BufferedImage src = null;
+//						try {
 							//图片访问路径
-							String filesUrl = "http://192.168.1.142:8084/services/basic/api/public/getFiles/" + i;
-							URL url = new URL(filesUrl);
-							//创立连接
-							HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-							httpConn.connect();
-							is = httpConn.getInputStream();
-
-							// 获取网络图片
-							src = javax.imageio.ImageIO.read(is);
-							if (src!=null) {
-
-								int srcWidth = src.getWidth(); // 得到源图宽
-								int srcHeight = src.getHeight(); // 得到源图长
-								if (files.getUuid()==null) {
-									String uuid = UUID.randomUUID().toString(); // 获取uuid
-									//将字段写到表中
-									files.setUuid(uuid);
-								}
+							String filesUrl = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/" + i;
+//							URL url = new URL(filesUrl);
+//							//创立连接
+//							HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+//							httpConn.connect();
+//							is = httpConn.getInputStream();
+//
+//							// 获取网络图片
+//							src = javax.imageio.ImageIO.read(is);
+//							if (src!=null) {
+//
+//								int srcWidth = src.getWidth(); // 得到源图宽
+//								int srcHeight = src.getHeight(); // 得到源图长
+//								if (files.getUuid()==null) {
+//									String uuid = UUID.randomUUID().toString(); // 获取uuid
+//									//将字段写到表中
+//									files.setUuid(uuid);
+//								}
 								files.setId(i);
 								files.setUrl(filesUrl);
-								files.setWidth(srcWidth);
-								files.setHeight(srcHeight);
+//								files.setWidth(srcWidth);
+//								files.setHeight(srcHeight);
 								filesRepository.save(files);//保存
-							}
-						} catch (IOException e) {
-							e.printStackTrace();
-
-
-						}
-					}
+//							}
+//						} catch (IOException e) {
+//							e.printStackTrace();
+//
+//
+//						}
+//					}
 				}
-			}
+//			}
 
 		}
 		return Result.suc("更新成功");
