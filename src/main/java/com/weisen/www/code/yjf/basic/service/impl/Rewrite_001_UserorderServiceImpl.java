@@ -1,21 +1,22 @@
 package com.weisen.www.code.yjf.basic.service.impl;
+import com.google.common.collect.Lists;
 import java.math.BigDecimal;
 
 import com.weisen.www.code.yjf.basic.domain.*;
+import com.weisen.www.code.yjf.basic.repository.FilesRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserorderRepository;
-import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_001_UserorderRepository;
-import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_MerchantRepository;
-import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_OrderRepository;
-import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_SpecificationsRepository;
+import com.weisen.www.code.yjf.basic.repository.rewrite.*;
 import com.weisen.www.code.yjf.basic.service.Rewrite_001_UserorderService;
 import com.weisen.www.code.yjf.basic.service.dto.IntroductionOrderDTO;
 import com.weisen.www.code.yjf.basic.service.dto.OrderDTO;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_Commity2DTO;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_GoodsCommity2DTO;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_GoodsCommityDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_UserOrderDTO;
 import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
-import liquibase.servicelocator.PackageScanFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -51,7 +52,12 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
 
     private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
 
-    public Rewrite_001_UserorderServiceImpl(Rewrite_001_UserorderRepository rewrite_001_userorderRepository, Rewrite_SpecificationsRepository rewrite_specificationsRepository, Rewrite_OrderRepository rewrite_orderRepository, Rewrite_UserorderRepository rewrite_userOrderResource, Rewrite_LinkuserRepository rewrite_linkuserRepository, Rewrite_MerchantRepository rewrite_merchantRepository, PasswordEncoder passwordEncoder, Rewrite_LinkuserRepository rewrite_linkuserRepository1) {
+    private final FilesRepository filesRepository;
+
+    private final Reweite_ProdcutimageRepository reweite_prodcutimageRepository;
+
+
+    public Rewrite_001_UserorderServiceImpl(Rewrite_001_UserorderRepository rewrite_001_userorderRepository, Rewrite_SpecificationsRepository rewrite_specificationsRepository, Rewrite_OrderRepository rewrite_orderRepository, Rewrite_UserorderRepository rewrite_userOrderResource, Rewrite_LinkuserRepository rewrite_linkuserRepository, Rewrite_MerchantRepository rewrite_merchantRepository, PasswordEncoder passwordEncoder, Rewrite_LinkuserRepository rewrite_linkuserRepository1, FilesRepository filesRepository, Reweite_ProdcutimageRepository reweite_prodcutimageRepository) {
 
         this.rewrite_001_userorderRepository = rewrite_001_userorderRepository;
         this.rewrite_specificationsRepository = rewrite_specificationsRepository;
@@ -61,6 +67,8 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
         this.rewrite_merchantRepository = rewrite_merchantRepository;
         this.passwordEncoder = passwordEncoder;
         rewrite_LinkuserRepository = rewrite_linkuserRepository1;
+        this.filesRepository = filesRepository;
+        this.reweite_prodcutimageRepository = reweite_prodcutimageRepository;
     }
 
     @Override
@@ -265,5 +273,95 @@ public class Rewrite_001_UserorderServiceImpl implements Rewrite_001_UserorderSe
         }
 
 
+    }
+
+    @Override
+    public Result myfilesList(Integer pageSize, Integer pageNum,Integer type,Integer start) {
+        if (type == 0){ //type = 0 全部商品  type = 1 积分精选，2 美食, 3 数码 ，4 居家
+
+        }
+        List<Rewrite_Commity2DTO> bbc = new ArrayList<>();
+        int a = (pageNum-1) * pageSize;
+        List<Specifications> specificationsByOrdrerBys = rewrite_specificationsRepository.findSpecificationsByOrdrerBys(a, pageSize);
+        for (int i = 0; i < specificationsByOrdrerBys.size(); i++) {
+            Rewrite_Commity2DTO rewrite_commity2DTO = new Rewrite_Commity2DTO();
+
+            Specifications s = specificationsByOrdrerBys.get(i);
+            String price = s.getPrice();
+            Long fileid = s.getFileid();
+            String commodityid = s.getCommodityid();
+            String specifications = s.getSpecifications();
+            Files files = filesRepository.findByIds(fileid);
+            String url = files.getUrl();
+            Integer height = files.getHeight();
+            Integer width = files.getWidth();
+
+            rewrite_commity2DTO.setCommityid(Long.valueOf(commodityid));
+            rewrite_commity2DTO.setText(specifications);
+            rewrite_commity2DTO.setPrice(price);
+            rewrite_commity2DTO.setUrl(url);
+            rewrite_commity2DTO.setWidth(width);
+            rewrite_commity2DTO.setHeight(height);
+            bbc.add(rewrite_commity2DTO);
+        }
+
+        return Result.suc("查询成功",bbc,specificationsByOrdrerBys.size());
+    }
+
+    @Override
+    public Result myfilesLists(String commityid) {
+        //商品详情
+        Rewrite_GoodsCommity2DTO r = new Rewrite_GoodsCommity2DTO();
+        Specifications a = rewrite_specificationsRepository.findSpecificationsByCommodityid(commityid);
+        String specifications = a.getSpecifications();
+        String title = a.getSpecifications();
+        String price = a.getPrice();
+        List<Long> Hp = new ArrayList<>();
+        List<Rewrite_GoodsCommityDTO> hplist = new ArrayList<>();
+        List<Rewrite_GoodsCommityDTO> splist = new ArrayList<>();
+        List<Long> Sp = new ArrayList<>();
+        List<Prodcutimage> slist = reweite_prodcutimageRepository.findAllBySpecificationsid(Long.valueOf(commityid));
+        for (int i = 0; i < slist.size(); i++) {
+            Prodcutimage prodcutimage = slist.get(i);
+            String type = prodcutimage.getType();
+            if (type.equals("1")){
+                Hp.add(Long.valueOf(prodcutimage.getFileid()));
+            }else {
+                Sp.add(Long.valueOf(prodcutimage.getFileid()));
+            }
+        }
+        hplist = aab(Hp);
+
+        splist = aab(Sp);
+
+        r.setSpecifications(specifications);
+        r.setTitle(title);
+        r.setPrice(price);
+        r.setHplist(hplist);
+        r.setSplist(splist);
+        return Result.suc("查询成功",r);
+    }
+
+    public List<Rewrite_GoodsCommityDTO> aab (List<Long> Sp){
+        List<Rewrite_GoodsCommityDTO> splist = new ArrayList<>();
+        for (int i = 0; i < Sp.size(); i++) {
+            Long aa = Sp.get(i);
+            //图片id
+            Rewrite_GoodsCommityDTO rewrite_goodsCommityDTO = new Rewrite_GoodsCommityDTO();
+
+            Files filesById = filesRepository.findByIds(aa);
+            Integer width = filesById.getWidth();
+            Integer height = filesById.getHeight();
+            String url = filesById.getUrl();
+            String fileContentType = filesById.getFileContentType();
+            Integer size = filesById.getSize();
+            rewrite_goodsCommityDTO.setUrl(url);
+            rewrite_goodsCommityDTO.setWidth(width);
+            rewrite_goodsCommityDTO.setHeight(height);
+            rewrite_goodsCommityDTO.setType(fileContentType);
+            rewrite_goodsCommityDTO.setSize(size);
+            splist.add(rewrite_goodsCommityDTO);
+        }
+        return splist;
     }
 }
