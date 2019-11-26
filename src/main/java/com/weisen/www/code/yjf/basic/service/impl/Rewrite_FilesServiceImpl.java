@@ -147,8 +147,6 @@ public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
 			if (files != null) {
 				//如果没有宽高值
 				if (files.getWidth()==null) {
-
-
 					InputStream is = null;
 					BufferedImage src = null;
 					try {
@@ -192,7 +190,7 @@ public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
 	@Override
 	public Result autoAddImage() {
 		//如果图片宽高为空
-		List<Files> filesList = filesRepository.findByHeightAndWidthNotNull();
+		List<Files> filesList = filesRepository.findByHeightIsNullOrWidthIsNull();
 		if (!filesList.isEmpty()) {
 			for (Files files : filesList) {
 

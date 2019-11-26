@@ -376,12 +376,12 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 									} else {
 										firstName = "未注册用户";
 										//未注册头像url
-										url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/17";
+										url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3327";
 									}
 								} else {
 									firstName = "未注册用户";
 									//未注册头像url
-									url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/17";
+									url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3327";
 								}
 							}
 						} else {
@@ -391,7 +391,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					}else {
 						firstName="已注册用户";
 						//合并之后的用户头像url
-						url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/17";
+						url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3327";
 					}
 					//判断收益类型
 					if (receiptpay.getDealtype().equals("9")) {
