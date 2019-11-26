@@ -1,5 +1,6 @@
 package com.weisen.www.code.yjf.basic.service.rewrite;
 
+
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetIncomeAfferentDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
@@ -27,4 +28,7 @@ public interface Rewrite_IncomeDetailsService {
 
 	// 查询推荐榜前十位用户
 	Result recommendationList(String userId);
+	
+	// 获取营业额和推荐额金额信息
+	Result getRecommendationAndTurnoverData(String userId);
 }

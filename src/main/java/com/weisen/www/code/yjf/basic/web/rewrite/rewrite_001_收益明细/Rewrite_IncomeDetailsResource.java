@@ -150,5 +150,19 @@ public class Rewrite_IncomeDetailsResource {
 		log.debug("访问地址: {},传入值: {},返回值: {}", "/Recommendation/List", userId, result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
+	
+	/**
+	 * 获取营业额和推荐额金额信息
+	 *
+	 * @author sxx
+	 * @date 2019-11-25 17:43:31
+	 */
+	@PostMapping("/Get/RecommendationAndTurnover/Data")
+	@ApiOperation("获取营业额和推荐额金额信息")
+	public ResponseEntity<Result> getRecommendationAndTurnoverData(@RequestParam String userId) {
+		Result result = incomeDetailsService.getRecommendationAndTurnoverData(userId);
+		log.debug("访问地址: {},传入值: {},返回值: {}", "/Get/RecommendationAndTurnover/Data",userId , result);
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+	}
 
 }
