@@ -274,7 +274,7 @@ public class Rewrite_FilesResource {
 		Files imgfiles = files;
 		imgfiles.setUrl(imagespath + files.getId());
 		filesRepository.save(imgfiles);
-		return imgfiles.getId().toString();
+		return imagespath + files.getId();
 	}
     
     
@@ -291,7 +291,19 @@ public class Rewrite_FilesResource {
 		log.debug("访问地址: {},传入值: {},返回值: {}", "/additionalImage/List", "无", result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
-    
-
-    
+	
+	
+	/**
+	 * 自动添加图片宽高
+	 *
+	 * @author sxx
+	 * @date 2019-11-26 09:43:31
+	 */
+	@PostMapping("/autoAddImage")
+	@ApiOperation("自动添加图片宽高")
+	public ResponseEntity<Result> autoAddImage() {
+		Result result = rewrite_FilesService.autoAddImage();
+		log.debug("访问地址: {},传入值: {},返回值: {}", "/additionalImage/List", "无", result);
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+	}
 }

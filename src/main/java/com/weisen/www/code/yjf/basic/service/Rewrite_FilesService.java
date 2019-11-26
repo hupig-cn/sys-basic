@@ -41,4 +41,7 @@ public interface Rewrite_FilesService {
     //手动添加图片宽高
     Result addImageList(Long startNum,Long Id);
     
+    
+    Result autoAddImage();
+    
 }
