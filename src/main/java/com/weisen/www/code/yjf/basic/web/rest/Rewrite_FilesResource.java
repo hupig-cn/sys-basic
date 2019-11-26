@@ -274,7 +274,7 @@ public class Rewrite_FilesResource {
 		Files imgfiles = files;
 		imgfiles.setUrl(imagespath + files.getId());
 		filesRepository.save(imgfiles);
-		return imagespath + files.getId();
+		return imgfiles.getId().toString();
 	}
     
     
