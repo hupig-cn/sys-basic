@@ -950,39 +950,51 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 			}
 		}
+		//根据时间查找营业额
 		List<Userorder> payee = userorderRepository.findByPayeeAndTime(userId, first, last);
 		BigDecimal yesterdayTurnoverAmountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
 		BigDecimal yesterdayAmountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
+		//如果数据不为空
 		if (!payee.isEmpty()) {
 			for (Userorder userorder : payee) {
 				if(userorder.getSum()!= null) {
 					BigDecimal sum = userorder.getSum();
+					//昨日营业额
 					yesterdayTurnoverAmountSum = yesterdayTurnoverAmountSum.add(sum);
 				}
 
 			}
 		}
+		//昨日总收入
 		yesterdayAmountSum = yesterdayRecommendationAmountSum.add(yesterdayTurnoverAmountSum);
+		
 
 		BigDecimal allAmountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
-		List<Userorder> UserorderList = userorderRepository.findAllByPayee(userId);
 		BigDecimal allRecommendationAmountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
 		BigDecimal allTurnoverAmountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
 		//查找流水表，根据时间找到用户流水类型为9和10的记录
 		List<BigDecimal> allRecommendationAmountList = receiptpayRepository.findReceiptpayByUserid(userId);
-		for (BigDecimal allRecommendationAmount : allRecommendationAmountList) {
-			allRecommendationAmountSum = allRecommendationAmountSum.add(allRecommendationAmount);
+		if (!allRecommendationAmountList.isEmpty()) {
+			
+			for (BigDecimal allRecommendationAmount : allRecommendationAmountList) {
+				//全部收益
+				allRecommendationAmountSum = allRecommendationAmountSum.add(allRecommendationAmount);
+			}
 		}
-
+		//查找全部营业额
+		List<Userorder> UserorderList = userorderRepository.findAllByPayee(userId);
 		if (!UserorderList.isEmpty()) {
 			for (Userorder userorder : UserorderList) {
 				if(userorder.getSum()!= null) {
 					BigDecimal sum = userorder.getSum();
+					//全部营业额
 					allTurnoverAmountSum = allTurnoverAmountSum.add(sum);
 				}
 			}
 		}
+		//总资产
 		allAmountSum = allRecommendationAmountSum.add(allTurnoverAmountSum);
+		//保存到dto中
 		recommendationAndTurnoverDataDTO.setAllAmountSum(allAmountSum);
 		recommendationAndTurnoverDataDTO.setAllTurnoverAmountSum(allTurnoverAmountSum);
 		recommendationAndTurnoverDataDTO.setYesterdayAmountSum(yesterdayAmountSum);
