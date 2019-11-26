@@ -18,5 +18,9 @@ public interface FilesRepository extends JpaRepository<Files, Long> {
 	//通过id找到该记录
 	@Query(value = "select * from files where id = ?1", nativeQuery = true)
 	Files findByIds(Long id);
+	
+	//通过id找到该记录
+	@Query(value = "select * from files where height is null and width is null", nativeQuery = true)
+	List<Files> findByHeightAndWidthNotNull();
 
 }
