@@ -23,8 +23,4 @@ public interface Rewrite_001_UserorderService {
     Result CreateOrder(Rewrite_UserOrderDTO dto);
 
     Result cheakpaypassword(String userid, String pass);
-
-    Result myfilesList(Integer pageSize, Integer pageNum,Integer type,Integer condition);
-
-    Result myfilesLists(String commityid);
 }
