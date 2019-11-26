@@ -147,43 +147,38 @@ public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
 			if (files != null) {
 				//如果没有宽高值
 				if (files.getWidth()==null) {
-					//如果是图片类型
-					if (files.getFileContentType().equals("image/jpeg")||files.getFileContentType().equals("image/png")||files.getFileContentType().equals("image/gif")) {
+					InputStream is = null;
+					BufferedImage src = null;
+					try {
+						//图片访问路径
+						String filesUrl = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/" + i;
+						URL url = new URL(filesUrl);
+						//创立连接
+						HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+						httpConn.connect();
+						is = httpConn.getInputStream();
 
+						// 获取网络图片
+						src = javax.imageio.ImageIO.read(is);
+						if (src!=null) {
 
-						InputStream is = null;
-						BufferedImage src = null;
-						try {
-							//图片访问路径
-							String filesUrl = "http://192.168.1.142:8084/services/basic/api/public/getFiles/" + i;
-							URL url = new URL(filesUrl);
-							//创立连接
-							HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-							httpConn.connect();
-							is = httpConn.getInputStream();
-
-							// 获取网络图片
-							src = javax.imageio.ImageIO.read(is);
-							if (src!=null) {
-
-								int srcWidth = src.getWidth(); // 得到源图宽
-								int srcHeight = src.getHeight(); // 得到源图长
-								if (files.getUuid()==null) {
-									String uuid = UUID.randomUUID().toString(); // 获取uuid
-									//将字段写到表中
-									files.setUuid(uuid);
-								}
-								files.setId(i);
-								files.setUrl(filesUrl);
-								files.setWidth(srcWidth);
-								files.setHeight(srcHeight);
-								filesRepository.save(files);//保存
+							int srcWidth = src.getWidth(); // 得到源图宽
+							int srcHeight = src.getHeight(); // 得到源图长
+							if (files.getUuid()==null || files.getUuid().equals("")) {
+								String uuid = UUID.randomUUID().toString(); // 获取uuid
+								//将字段写到表中
+								files.setUuid(uuid);
 							}
-						} catch (IOException e) {
-							e.printStackTrace();
-
-
+							files.setId(i);
+							files.setUrl(filesUrl);
+							files.setWidth(srcWidth);
+							files.setHeight(srcHeight);
+							filesRepository.save(files);//保存
 						}
+					} catch (IOException e) {
+						e.printStackTrace();
+
+
 					}
 				}
 			}
@@ -191,7 +186,52 @@ public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
 		}
 		return Result.suc("更新成功");
 	}
-	
+
+	@Override
+	public Result autoAddImage() {
+		//如果图片宽高为空
+		List<Files> filesList = filesRepository.findByHeightIsNullOrWidthIsNull();
+		if (!filesList.isEmpty()) {
+			for (Files files : filesList) {
+
+
+				InputStream is = null;
+				BufferedImage src = null;
+				try {
+					//图片访问路径
+					String filesUrl = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/" + files.getId();
+					URL url = new URL(filesUrl);
+					//创立连接
+					HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+					httpConn.connect();
+					is = httpConn.getInputStream();
+
+					// 获取网络图片
+					src = javax.imageio.ImageIO.read(is);
+					if (src!=null) {
+
+						int srcWidth = src.getWidth(); // 得到源图宽
+						int srcHeight = src.getHeight(); // 得到源图长
+						if (files.getUuid()==null||files.getUuid().equals("")) {
+							String uuid = UUID.randomUUID().toString(); // 获取uuid
+							//将字段写到表中
+							files.setUuid(uuid);
+						}
+						files.setId(files.getId());
+						files.setUrl(filesUrl);
+						files.setWidth(srcWidth);
+						files.setHeight(srcHeight);
+						filesRepository.save(files);//保存
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}
+		return Result.suc("成功更新"+filesList.size()+"条数据");
+	}
+
 
 
 
