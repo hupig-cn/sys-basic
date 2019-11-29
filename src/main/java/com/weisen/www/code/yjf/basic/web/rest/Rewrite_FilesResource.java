@@ -306,4 +306,23 @@ public class Rewrite_FilesResource {
 		log.debug("访问地址: {},传入值: {},返回值: {}", "/additionalImage/List", "无", result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
+	
+	@PostMapping("/public/demo/uploadi")
+	@ApiOperation("上传图片")
+	public Result uploadi(@RequestParam(name = "file") MultipartFile multipartFile) {
+		Result result = null;
+		List<String> imageList = new ArrayList<>();
+			if (multipartFile.getSize() > 10 * 1024 * 1024) {
+				return Result.fail("上传失败，文件大小不能超过10M");
+			}
+			try {
+				String id = createFile(multipartFile);
+				imageList.add(id);
+			} catch (IllegalStateException | IOException e) {
+				log.error(e.getMessage());
+			}
+			result = Result.suc("上传成功", imageList);
+		return result;
+	}
+	
 }
