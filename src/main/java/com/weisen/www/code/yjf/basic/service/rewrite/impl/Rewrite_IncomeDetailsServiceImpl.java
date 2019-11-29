@@ -383,6 +383,8 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 									//未注册头像url
 									url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3327";
 								}
+							}else {
+								url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3332";
 							}
 						} else {
 							Files files = filesRepository.findByIds(Long.parseLong(jhiUserData.getImageUrl()));

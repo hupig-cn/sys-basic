@@ -68,6 +68,17 @@ public class Specifications implements Serializable {
     @Column(name = "other")
     private String other;
 
+    @Column(name = "sales")
+    private Integer sales;
+
+    public Integer getSales() {
+        return sales;
+    }
+
+    public void setSales(Integer sales) {
+        this.sales = sales;
+    }
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
