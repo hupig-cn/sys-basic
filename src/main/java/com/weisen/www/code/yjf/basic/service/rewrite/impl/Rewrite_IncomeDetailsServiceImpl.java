@@ -354,12 +354,12 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 
 					if (jhiUserData != null) {
-						//通过头像id查找url
-						if (jhiUserData.getImageUrl()==null || jhiUserData.getImageUrl().equals("")) {
 
 
 							// 获取推荐人login库jhi_user表昵称
 							firstName = jhiUserData.getFirstName();
+//							//通过头像id查找url
+//							if (jhiUserData.getImageUrl()==null || jhiUserData.getImageUrl().equals("")) {
 							//当用户昵称为Auto时，查找linkaccount表判断是什么类型用户
 							if (firstName.equals("Auto")) {
 								Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(sourcerId);
@@ -384,12 +384,14 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 									url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3327";
 								}
 							}else {
-								url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3332";
+								if(jhiUserData.getImageUrl()==null || jhiUserData.getImageUrl().equals("")){
+									url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3332";
+								}else {
+									Files files = filesRepository.findByIds(Long.parseLong(jhiUserData.getImageUrl()));
+									url = files.getUrl();
+									
+								}
 							}
-						} else {
-							Files files = filesRepository.findByIds(Long.parseLong(jhiUserData.getImageUrl()));
-							url = files.getUrl();
-						}
 					}else {
 						firstName="已注册用户";
 						//合并之后的用户头像url
