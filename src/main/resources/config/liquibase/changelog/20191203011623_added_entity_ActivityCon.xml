@@ -66,4 +66,22 @@
     <changeSet id="20191203101925_rename_column" author="sxx">
         <renameColumn tableName="activity_con" oldColumnName="interest_rate" newColumnName="interest_rate" columnDataType="decimal(21,4)"/>
     </changeSet>
+    <changeSet id="20191122161705-delete_column" author="Shuishui">
+        <dropColumn tableName="activity_con" columnName="logicalDel"/>
+    </changeSet>
+
+    <changeSet id="20191122161801-add_column" author="shuishui">
+        <addColumn tableName="activity_con">
+            <column name="logicaldel" type="int" defaultValue="0"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="20191122161706-delete_column" author="Shuishui">
+        <dropColumn tableName="activity_con" columnName="logicaldel"/>
+    </changeSet>
+
+    <changeSet id="20191122161802-add_column" author="shuishui">
+        <addColumn tableName="activity_con">
+            <column name="logical_del" type="int" defaultValue="0"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
