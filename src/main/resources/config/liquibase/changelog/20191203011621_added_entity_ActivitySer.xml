@@ -79,6 +79,8 @@
      <changeSet id="20191203161925_rename_column" author="sxx">
         <renameColumn tableName="activity_ser" oldColumnName="activity_amo" newColumnName="activity_amo" columnDataType="decimal(21,4)"/>
     </changeSet>
-
+     <changeSet id="20191203171725_rename_column" author="sxx">
+        <renameColumn tableName="activity_ser" oldColumnName="available_amo" newColumnName="available_amo" columnDataType="decimal(21,8)"/>
+    </changeSet>
 
 </databaseChangeLog>
