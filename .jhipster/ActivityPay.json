@@ -1,0 +1,42 @@
+{
+    "name": "ActivityPay",
+    "fields": [
+        {
+            "fieldName": "userId",
+            "javadoc": "The firstname ClassificationAttr.",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "incomeAmo",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "transformationAmo",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "interestRate",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "createTime",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20191203011622",
+    "javadoc": "The Employee entity.\n活动流水表",
+    "entityTableName": "activity_pay",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "basic",
+    "applications": "*",
+    "microserviceName": "basic"
+}

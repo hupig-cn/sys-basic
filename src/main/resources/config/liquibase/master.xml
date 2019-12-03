@@ -43,6 +43,9 @@
     <include file="config/liquibase/changelog/20191112074439_added_entity_Level.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191119065909_added_entity_Boss.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191127022511_added_entity_Article.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191203011621_added_entity_ActivitySer.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191203011622_added_entity_ActivityPay.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191203011623_added_entity_ActivityCon.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

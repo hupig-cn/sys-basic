@@ -1,0 +1,30 @@
+{
+    "name": "ActivityCon",
+    "fields": [
+        {
+            "fieldName": "activityName",
+            "javadoc": "The firstname ClassificationAttr.",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "interestRate",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "createTime",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20191203011623",
+    "javadoc": "The Employee entity.\n活动配置表",
+    "entityTableName": "activity_con",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "basic",
+    "applications": "*",
+    "microserviceName": "basic"
+}
