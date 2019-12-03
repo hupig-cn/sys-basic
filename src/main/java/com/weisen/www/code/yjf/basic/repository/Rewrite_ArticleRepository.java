@@ -16,10 +16,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface Rewrite_ArticleRepository extends JpaRepository<Article, Long> {
 	
-	@Query(value = "select id,userid,title,author,img_url from Article where logic_delete != 0 limit ?1,?2",nativeQuery = true)
+	@Query(value = "select id,userid,title,author,img_url from article where logic_delete != 0 limit ?1,?2",nativeQuery = true)
 	List<Map<String,Object>> queryByLimit(Integer pageNmb,Integer pagesize);
 	
 	
-	@Query(value = "select * from Article order by Author desc Limit 0,5",nativeQuery = true)
+	@Query(value = "select * from article order by Author desc Limit 0,5",nativeQuery = true)
 	List<Article> findArticlePush();
 }
