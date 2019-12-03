@@ -8,8 +8,10 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data  repository for the ActivitySer entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface ActivitySerRepository extends JpaRepository<ActivitySer, Long> {
+	
+	// 根据商家用户ID查找商家可用资金和活动资金
+	ActivitySer findByUserId(String userId);
 
 }
