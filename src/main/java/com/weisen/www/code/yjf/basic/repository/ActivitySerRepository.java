@@ -14,4 +14,5 @@ public interface ActivitySerRepository extends JpaRepository<ActivitySer, Long> 
 	// 根据商家用户ID查找商家可用资金和活动资金
 	ActivitySer findByUserId(String userId);
 
+	ActivitySer findByUserId(String userid);
 }
