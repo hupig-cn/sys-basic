@@ -38,7 +38,18 @@ public class ActivityCon implements Serializable {
     @Column(name = "create_time")
     private String createTime;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    @Column(name = "logical_del")
+    private Integer logicalDel;
+    
+    public Integer getLogicalDel() {
+		return logicalDel;
+	}
+
+	public void setLogicalDel(Integer logicalDel) {
+		this.logicalDel = logicalDel;
+	}
+
+	// jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
