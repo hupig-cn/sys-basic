@@ -73,5 +73,9 @@
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>
+     <changeSet id="20191203101925_rename_column" author="sxx">
+        <renameColumn tableName="activity_ser" oldColumnName="available_amo" newColumnName="available_amo" columnDataType="decimal(21,6)"/>
+    </changeSet>
+
 
 </databaseChangeLog>
