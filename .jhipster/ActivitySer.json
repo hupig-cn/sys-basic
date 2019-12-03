@@ -1,0 +1,42 @@
+{
+    "name": "ActivitySer",
+    "fields": [
+        {
+            "fieldName": "userId",
+            "javadoc": "The firstname ClassificationAttr.",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "activityAmo",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "availableAmo",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "cashWithdrawal",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "createTime",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "updateTime",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20191203011621",
+    "javadoc": "The Employee entity.\n活动服务表",
+    "entityTableName": "activity_ser",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "basic",
+    "applications": "*",
+    "microserviceName": "basic"
+}
