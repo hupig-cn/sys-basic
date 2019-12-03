@@ -35,7 +35,7 @@ public class ActivitySer implements Serializable {
     @Column(name = "activity_amo", precision = 21, scale = 2)
     private BigDecimal activityAmo;
 
-    @Column(name = "available_amo", precision = 21, scale = 2)
+    @Column(name = "available_amo", precision = 21, scale = 6)
     private BigDecimal availableAmo;
 
     @Column(name = "cash_withdrawal", precision = 21, scale = 2)

@@ -32,7 +32,7 @@ public class ActivityCon implements Serializable {
     @Column(name = "activity_name")
     private String activityName;
 
-    @Column(name = "interest_rate", precision = 21, scale = 2)
+    @Column(name = "interest_rate", precision = 21, scale = 4)
     private BigDecimal interestRate;
 
     @Column(name = "create_time")
