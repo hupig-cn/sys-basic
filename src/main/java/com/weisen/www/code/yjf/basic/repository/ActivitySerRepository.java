@@ -12,4 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ActivitySerRepository extends JpaRepository<ActivitySer, Long> {
 
+	ActivitySer findByUserId(String userid);
 }

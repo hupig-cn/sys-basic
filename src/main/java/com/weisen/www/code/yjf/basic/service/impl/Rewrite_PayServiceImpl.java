@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,12 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
     private final Rewrite_000_UserassetsRepository userassetsRepository;
 
     private final PasswordEncoder passwordEncoder;
+    
+    private final ActivityConRepository activityConRepository;
+    
+    private final ActivityPayRepository activityPayRepository;
+
+    private final ActivitySerRepository activitySerRepository;
 
     private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
 
@@ -42,6 +49,9 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
     		Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository,
     		ReceiptpayRepository receiptpayRepository,
     		Rewrite_000_UserassetsRepository userassetsRepository,
+    		ActivityConRepository activityConRepository,
+    		ActivityPayRepository activityPayRepository,
+    		ActivitySerRepository activitySerRepository,
     		PasswordEncoder passwordEncoder,
     		Rewrite_LinkuserRepository rewrite_LinkuserRepository,
     		Rewrite_InformationService rewrite_informationService) {
@@ -49,6 +59,9 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         this.receiptpayRepository = receiptpayRepository;
         this.userassetsRepository = userassetsRepository;
         this.rewrite_UserlinkuserRepository = rewrite_UserlinkuserRepository;
+        this.activityConRepository = activityConRepository;
+        this.activityPayRepository = activityPayRepository;
+        this.activitySerRepository = activitySerRepository;
         this.passwordEncoder = passwordEncoder;
         this.rewrite_LinkuserRepository = rewrite_LinkuserRepository;
         this.rewrite_informationService = rewrite_informationService;
@@ -480,7 +493,69 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             //分配优惠券
             handleCoupon("50",userorder.getUserid(),userorder.getSum(),rewrite_DistributionDTO.getPayWay());
         }
-
+        
+        /**
+         	逻辑判断是否有活动，如果有活动，判断收益金额是否大于1块钱，大于1块钱进行返利活动
+			将收款金额的百分之十放到活动资金中，每天进行统计，并将资金转到可用资金中。
+         * */
+        //遍历查询活动配置表
+        List<ActivityCon> activityConList = activityConRepository.findAll();
+        //判断是否有进行着的活动
+        if (!activityConList.isEmpty()) {
+        	//如果活动表中有数据,且活动正在进行着
+        	Boolean del = false;
+        	for (ActivityCon activityCon : activityConList) {
+        		if (activityCon.getLogicaldel() == 1) {
+        			//有活动时，这里为真
+        			del = true;
+				}
+			}
+        	if (del) {
+        		//获取用户付款金额
+        		BigDecimal amount = new BigDecimal(rewrite_DistributionDTO.getAmount()).setScale(2, BigDecimal.ROUND_DOWN);
+        		//当用户付款金额小于一块钱时没有优惠
+        		BigDecimal compare = new BigDecimal("1");
+        		//比较是否小于1
+        		if (amount.compareTo(compare)==1) {
+        			//利率
+        			BigDecimal interestRate = new BigDecimal("0.1").setScale(4, BigDecimal.ROUND_DOWN);
+        			//转化金额
+        			BigDecimal transformationAmo = amount.multiply(interestRate).setScale(4, BigDecimal.ROUND_DOWN);
+        			//新建实体类保存数据
+        			ActivityPay activityPay = new ActivityPay();
+        			activityPay.setUserId(userorder.getPayee());			//用户id
+        			activityPay.setType(1);									//类型
+        			activityPay.setIncomeAmo(amount);						//收入资金
+        			activityPay.setTransformationAmo(transformationAmo);	//转化资金
+        			activityPay.setInterestRate(interestRate);				//利率
+        			activityPay.setCreateTime(TimeUtil.getDate());			//创建时间
+        			activityPayRepository.save(activityPay);				//保存到表中
+        			//根据用户id查找活动服务表数据
+        			ActivitySer activitySerData = activitySerRepository.findByUserId(userorder.getPayee());
+        			//新建实体类保存数据
+        			ActivitySer activitySer = new ActivitySer();
+        			//如果该用户在活动服务表中还没有数据
+        			if (activitySerData == null) {
+        				activitySer.setUserId(userorder.getPayee());		//用户id
+        				activitySer.setActivityAmo(transformationAmo);		//活动资金
+        				activitySer.setAvailableAmo(new BigDecimal("0"));	//可用资金
+        				activitySer.setCashWithdrawal(new BigDecimal("0")); //提现金额
+        				activitySer.setCreateTime(TimeUtil.getDate());		//创建时间
+        				activitySer.setUpdateTime(TimeUtil.getDate());		//修改时间
+        				activitySerRepository.save(activitySer);			//保存数据
+					}else {
+						activitySerData.setId(activitySerData.getId());
+						//如果已有该用户的数据,将原有的活动资金和转化资金相加
+						BigDecimal activityAmo = activitySerData.getActivityAmo();
+						BigDecimal activityAmoSum = activityAmo.add(transformationAmo);
+						activitySerData.setActivityAmo(activityAmoSum);			//活动资金
+						activitySerData.setUpdateTime(TimeUtil.getDate());		//修改时间
+						activitySerRepository.save(activitySerData);			//保存数据
+					}
+        		}
+			}
+			
+		}
         return Result.suc("成功");
     }
 
