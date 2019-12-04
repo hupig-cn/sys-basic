@@ -415,7 +415,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 		}
 		// 判断该活动商家是否已参加
 		if (activitySer == null) {
-			return Result.fail("暂时没有您的记录!无法提现");
+			return Result.fail("暂时没有您的记录!");
 		} else {
 			Rewrite_ActivitySerDTO rewrite_ActivitySerDTO = new Rewrite_ActivitySerDTO();
 			// 拿到商家用户ID
@@ -439,7 +439,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 		}
 		// 判断该活动商家是否已参加
 		if (activitySer == null) {
-			return Result.fail("暂时没有您的记录!");
+			return Result.fail("暂时没有您的记录!无法提现!");
 		} else {
 			// 拿到商家实际的可用资金
 			String availableAmoMoney = activitySer.getAvailableAmo().toString();
@@ -466,8 +466,17 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 			if (fiftyMoney.compareTo(userMoney) == 1) {
 				return Result.fail("最低提现额度需要达到50元哦!");
 			} else {
+
 				// 新增一条记录到活动流水表
 				ActivityPay activityPay = new ActivityPay();
+				// 提现商家ID
+				activityPay.setUserId(userId);
+				// 提现类型
+				activityPay.setType(3);
+				// 提现金额
+				activityPay.setTransformationAmo(userMoney.setScale(0));
+				// 提现时间
+				activityPay.setCreateTime(TimeUtil.getDate());
 
 				// 新增一条记录到收益明细流水表
 				Receiptpay receiptpay = new Receiptpay();
@@ -503,15 +512,6 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 				activitySer.setCashWithdrawal(userMoney.add(cashWithdrawalMoney));
 				// 修改时间
 				activitySer.setUpdateTime(TimeUtil.getDate());
-
-				// 提现商家ID
-				activityPay.setUserId(userId);
-				// 提现类型
-				activityPay.setType(3);
-				// 提现金额
-				activityPay.setTransformationAmo(userMoney.setScale(0));
-				// 提现时间
-				activityPay.setCreateTime(TimeUtil.getDate());
 
 				// 保存一条提现记录
 				rewrite_ActivityPayRepository.save(activityPay);
