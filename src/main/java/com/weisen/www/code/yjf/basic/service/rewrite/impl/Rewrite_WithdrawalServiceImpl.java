@@ -11,24 +11,29 @@ import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithdrawalShow
 import com.weisen.www.code.yjf.basic.service.impl.UserlinkuserServiceImpl;
 import com.weisen.www.code.yjf.basic.service.mapper.WithdrawalMapper;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_WithdrawalService;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActivityPayDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActivitySerDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_WithdrawalDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_WithdrawalMapper;
 import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
 import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
 import com.weisen.www.code.yjf.basic.service.util.SendCode;
+import com.weisen.www.code.yjf.basic.service.util.TimeUtil;
 import com.weisen.www.code.yjf.basic.service.util.WithdrawalConstant;
 import com.weisen.www.code.yjf.basic.util.CheckUtils;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
-import com.weisen.www.code.yjf.basic.util.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -473,8 +478,10 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 				activityPay.setUserId(userId);
 				// 提现类型
 				activityPay.setType(3);
+				// 还没提现的可用资金
+				activityPay.setTransformationAmo(businessMoney);
 				// 提现金额
-				activityPay.setTransformationAmo(userMoney.setScale(0));
+				activityPay.setIncomeAmo(userMoney.setScale(0));
 				// 提现时间
 				activityPay.setCreateTime(TimeUtil.getDate());
 
@@ -523,6 +530,47 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 				rewrite_ReceiptpayRepository.save(receiptpay);
 				return Result.suc("提现成功!", activityPay);
 			}
+		}
+	}
+
+	// 查询可用资金流水明细 LuoJinShui
+	@Override
+	public Result getWithdrawalDetails(String userId, Integer pageNum, Integer pageSize) {
+		Merchant merchant = rewrite_MerchantRepository.findByUserid(userId);
+		// 判断该用户是否是商家
+		if (merchant == null) {
+			return Result.fail("您不是商家!不能对此进行操作!");
+		} else {
+			List<Rewrite_ActivityPayDTO> rewrite_ActivityPayDTOs = new ArrayList<Rewrite_ActivityPayDTO>();
+			List<ActivityPay> activityPaysList = rewrite_ActivityPayRepository.findByUserIdAndType(userId,
+					pageNum * pageSize, pageSize);
+			for (ActivityPay activityPay : activityPaysList) {
+				Rewrite_ActivityPayDTO activityPayDTO = new Rewrite_ActivityPayDTO();
+				// 操作的商家ID
+				activityPayDTO.setUserId(activityPay.getUserId());
+				// 流水类型
+				if (activityPay.getType().equals(3)) {
+					activityPayDTO.setType(activityPay.getType());
+					activityPayDTO.setStatus(0);
+					activityPayDTO.setExplain("可用资金提现");
+				}
+				// 未提现之前的可用资金
+				activityPayDTO.setTransformationAmo(activityPay.getTransformationAmo());
+				// 单笔提现金额
+				activityPayDTO.setIncomeAmo(activityPay.getIncomeAmo());
+				String dataStr = activityPay.getCreateTime();
+				// 转换时间格式显示今天、昨天,如果是当前年份不显示年份,不是当前年份就显示出来
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+				Date createDate = null;
+				try {
+					createDate = sdf.parse(dataStr);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				activityPayDTO.setCreateDate(TimeUtil.getTime(createDate));
+				rewrite_ActivityPayDTOs.add(activityPayDTO);
+			}
+			return Result.suc("查询成功!", rewrite_ActivityPayDTOs, rewrite_ActivityPayDTOs.size());
 		}
 	}
 }

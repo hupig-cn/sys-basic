@@ -82,7 +82,7 @@
     </changeSet>
    <changeSet id="20191204101802-add_column" author="sxx">
         <addColumn tableName="activity_pay">
-            <column name="source" type="String"/>
+            <column name="source" type="varchar(255)"/>
         </addColumn>
     </changeSet>
 
