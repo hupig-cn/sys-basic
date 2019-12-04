@@ -5,15 +5,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import com.weisen.www.code.yjf.basic.domain.*;
-import com.weisen.www.code.yjf.basic.repository.*;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_MerchantRepository;
-import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_AdvertisingDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActivityPay2DTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActivityPayDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActivitySerDTO;
 import com.weisen.www.code.yjf.basic.service.util.TimeUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.weisen.www.code.yjf.basic.repository.ActivityPayRepository;
+import com.weisen.www.code.yjf.basic.repository.ActivitySerRepository;
+import com.weisen.www.code.yjf.basic.repository.FilesRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkaccountRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_UserassetsRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_ActivityService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActAmoDTO;
@@ -40,14 +44,12 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 
 	private final Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository;
 
-	private final Rewrite_AdvertisementRepository rewrite_advertisementRepository;
-
 	public Rewrite_ActivityServiceImpl(ActivityPayRepository rewrite_ActivityPayRepository,
-                                       ActivitySerRepository rewrite_ActivitySerRepository, FilesRepository filesRepository,
-                                       Rewrite_UserRepository userRepository, Rewrite_LinkaccountRepository linkaccountRepository,
-                                       Rewrite_MerchantRepository rewrite_merchantRepository,
-                                       Rewrite_UserassetsRepository rewrite_UserassetsRepository,
-                                       Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository, Rewrite_AdvertisementRepository rewrite_advertisementRepository) {
+			ActivitySerRepository rewrite_ActivitySerRepository, FilesRepository filesRepository,
+			Rewrite_UserRepository userRepository, Rewrite_LinkaccountRepository linkaccountRepository,
+			Rewrite_MerchantRepository rewrite_merchantRepository,
+			Rewrite_UserassetsRepository rewrite_UserassetsRepository,
+			Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository) {
 		this.rewrite_ActivityPayRepository = rewrite_ActivityPayRepository;
 		this.filesRepository = filesRepository;
 		this.rewrite_ActivitySerRepository = rewrite_ActivitySerRepository;
@@ -56,8 +58,7 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 		this.rewrite_MerchantRepository = rewrite_merchantRepository;
 		this.rewrite_UserassetsRepository = rewrite_UserassetsRepository;
 		this.rewrite_ReceiptpayRepository = rewrite_ReceiptpayRepository;
-        this.rewrite_advertisementRepository = rewrite_advertisementRepository;
-    }
+	}
 
 	/**
 	 * 优惠活动
@@ -318,47 +319,47 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 		}
 	}
 
+	@Override
+	public Result getConversionFunds(String userId, Integer pageNum, Integer pageSize) {
+		Merchant merchant = rewrite_MerchantRepository.findByUserid(userId);
+		// 判断该用户是否是商家
+		if (merchant == null) {
+			return Result.fail("您不是商家!不能对此进行操作!");
+		} else {
+			List<Rewrite_ActivityPay2DTO> rewrite_ActivityPayDTOs = new ArrayList<Rewrite_ActivityPay2DTO>();
+			List<ActivityPay> activityPaysList = rewrite_ActivityPayRepository.findByUserIdAndType(userId, 2,
+					pageNum * pageSize, pageSize);
+			for (ActivityPay activityPay : activityPaysList) {
+				Rewrite_ActivityPay2DTO activityPayDTO = new Rewrite_ActivityPay2DTO();
+				// 操作的商家ID
+				activityPayDTO.setUserId(activityPay.getUserId());
+				// 流水类型
+				if (activityPay.getType().equals(2)) {
+					activityPayDTO.setType(activityPay.getType());
+					activityPayDTO.setStatus(1);
+					activityPayDTO.setExplain("活动资金转换");
+				}
 
-    @Override
-    public Result zhuanhuankeyongzhijin(String userId, Integer pageNum, Integer pageSize) {
-        Merchant merchant = rewrite_MerchantRepository.findByUserid(userId);
-        // 判断该用户是否是商家
-        if (merchant == null) {
-            return Result.fail("您不是商家!不能对此进行操作!");
-        } else {
-            List<Rewrite_ActivityPay2DTO> rewrite_ActivityPayDTOs = new ArrayList<Rewrite_ActivityPay2DTO>();
-            List<ActivityPay> activityPaysList = rewrite_ActivityPayRepository.findByUserIdAndType(userId, 2,
-                pageNum * pageSize, pageSize);
-            for (ActivityPay activityPay : activityPaysList) {
-                Rewrite_ActivityPay2DTO activityPayDTO = new Rewrite_ActivityPay2DTO();
-                // 操作的商家ID
-                activityPayDTO.setUserId(activityPay.getUserId());
-                // 流水类型
-                if (activityPay.getType().equals(2)) {
-                    activityPayDTO.setType(activityPay.getType());
-                    activityPayDTO.setStatus(1);
-                    activityPayDTO.setExplain("活动资金转换");
-                }
+				activityPayDTO.setTransformationAmo(activityPay.getIncomeAmo());
 
-                activityPayDTO.setTransformationAmo(activityPay.getIncomeAmo());
+				activityPayDTO.setIncomeAmo(activityPay.getTransformationAmo());
+				String dataStr = activityPay.getCreateTime();
 
-                activityPayDTO.setIncomeAmo(activityPay.getTransformationAmo());
-                String dataStr = activityPay.getCreateTime();
+				// 转换时间格式显示今天、昨天,如果是当前年份不显示年份,不是当前年份就显示出来
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+				Date createDate = null;
+				try {
+					createDate = sdf.parse(dataStr);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				activityPayDTO.setCreateDate(TimeUtil.getTime(createDate));
+				rewrite_ActivityPayDTOs.add(activityPayDTO);
+			}
+			return Result.suc("查询成功!", rewrite_ActivityPayDTOs, rewrite_ActivityPayDTOs.size());
+		}
+	}
 
-                // 转换时间格式显示今天、昨天,如果是当前年份不显示年份,不是当前年份就显示出来
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
-                Date createDate = null;
-                try {
-                    createDate = sdf.parse(dataStr);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                activityPayDTO.setCreateDate(TimeUtil.getTime(createDate));
-                rewrite_ActivityPayDTOs.add(activityPayDTO);
-            }
-            return Result.suc("查询成功!", rewrite_ActivityPayDTOs, rewrite_ActivityPayDTOs.size());
-        }
-    }
 
     @Override
     public Result lunbotu(Integer type) {

@@ -15,7 +15,7 @@ public interface Rewrite_ActivityService {
 	Result queryAmount(Rewrite_GetActivityPayDTO getActivityPayDTO);
 
 	// Shui
-	Result zhuanhuankeyongzhijin(String userId, Integer pageNum, Integer pageSize);
+	Result getConversionFunds(String userId, Integer pageNum, Integer pageSize);
 
 	// 查询商家用户的可用资金和活动资金 LuoJinShui
 	Result getAvailableAmoAndActivityAmo(String userId);
