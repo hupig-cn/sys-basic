@@ -25,4 +25,6 @@ public interface Rewrite_ActivityService {
 
 	// 查询可用资金提现流水明细 LuoJinShui
 	Result getWithdrawalDetails(String userId, Integer pageNum, Integer pageSize);
+
+    Result lunbotu(Integer type);
 }

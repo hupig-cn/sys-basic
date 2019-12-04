@@ -36,6 +36,17 @@ public class Level implements Serializable {
     @Column(name = "county")
     private String county;
 
+    @Column(name = "createdate")
+    private String createdate;
+
+    public String getCreatedate() {
+        return createdate;
+    }
+
+    public void setCreatedate(String createdate) {
+        this.createdate = createdate;
+    }
+
     public String getCounty() {
         return county;
     }
