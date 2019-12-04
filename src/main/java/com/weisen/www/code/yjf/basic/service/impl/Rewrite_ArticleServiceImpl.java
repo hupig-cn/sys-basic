@@ -7,6 +7,7 @@ import com.weisen.www.code.yjf.basic.repository.ArticleRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ArticleRepository;
 import com.weisen.www.code.yjf.basic.service.dto.ArticleDTO;
 import com.weisen.www.code.yjf.basic.service.mapper.ArticleMapper;
+import com.weisen.www.code.yjf.basic.service.util.TimeUtil;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 import org.slf4j.Logger;
@@ -62,6 +63,7 @@ public class Rewrite_ArticleServiceImpl implements Rewrite_ArticleService {
 		article.setContent(content);
 		article.setLogicDelete((long)1);
 		article.setAuthor((long)0);
+		article.setCreatetime(TimeUtil.getNowTime());
 		Article data = rewrite_ArticleRepository.save(article);
 		return Result.suc("发布成功",data.getId());
 	}

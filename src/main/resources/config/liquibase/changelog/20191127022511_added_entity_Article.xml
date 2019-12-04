@@ -78,5 +78,10 @@
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>
+     <changeSet id="20191204172500-1-relations" author="jhipster">
+		<addColumn tableName="article">
+			<column name="createtime" type="varchar(50)"></column>
+		</addColumn>
+    </changeSet>
 
 </databaseChangeLog>
