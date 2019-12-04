@@ -76,13 +76,13 @@ public class Rewrite_ActivityResource {
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
 
-	// 查询可用资金流水明细 Shui
+	// 查询转换资金流水明细 RuanMingHui
 	@PostMapping("/user/zhuanhuankeyongzhijin")
-	@ApiOperation("查询可用资金流水明细")
+	@ApiOperation("查询转换资金流水明细")
 	public ResponseEntity<Result> zhuanhuankeyongzhijin(@RequestParam(value = "userId") String userId,
 			@RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
 		Result result = rewrite_activityService.zhuanhuankeyongzhijin(userId, pageNum, pageSize);
-		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/getWithdrawalDetails", userId + "," + pageNum + "," + pageSize,
+		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/zhuanhuankeyongzhijin", userId + "," + pageNum + "," + pageSize,
 				result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
