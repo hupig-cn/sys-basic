@@ -981,7 +981,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		if (!yesterdayAmountSumList.isEmpty()) {
 			for (Receiptpay receiptpay : yesterdayAmountSumList) {
 				//昨日总收入
-				yesterdayAmountSum = yesterdayRecommendationAmountSum.add(receiptpay.getAmount());
+				yesterdayAmountSum = yesterdayAmountSum.add(receiptpay.getAmount());
 			}
 			
 		}
