@@ -14,14 +14,11 @@ import org.springframework.stereotype.Repository;
 public interface ActivityPayRepository extends JpaRepository<ActivityPay, Long> {
 
 	// 查询商家可用资金提现流水明细 LuoJinShui
-	@Query(value = "select * from activity_pay where user_id = ?1 and type = 3 ORDER BY create_time DESC LIMIT ?2,?3", nativeQuery = true)
-	List<ActivityPay> findByUserIdAndType(String userId, Integer pageNum, Integer pageSize);
-	
-	//根据用户id查询流水
+	@Query(value = "select * from activity_pay where user_id = ?1 and type = ?2 ORDER BY create_time DESC LIMIT ?3,?4", nativeQuery = true)
+	List<ActivityPay> findByUserIdAndType(String userId, Integer type, Integer pageNum, Integer pageSize);
+
+	// 根据用户id查询流水
 	@Query(value = "select * from activity_pay where user_id = ?1 and type = 1 and create_time between ?2 and ?3 order by create_time desc limit ?4,?5", nativeQuery = true)
-	List<ActivityPay> findByUserId(String Userid, String firstTime,String lastTime,Integer indexPage, Integer pageSize);
-    
-	// 查询商家可用资金提现流水明细 Shui
-    @Query(value = "select * from activity_pay where user_id = ?1 and type = 2 ORDER BY create_time DESC LIMIT ?2,?3", nativeQuery = true)
-    List<ActivityPay> findByUserIdAndType2(String userId, Integer pageNum, Integer pageSize);
+	List<ActivityPay> findByUserId(String Userid, String firstTime, String lastTime, Integer indexPage,
+			Integer pageSize);
 }

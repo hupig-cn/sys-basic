@@ -25,14 +25,4 @@ public interface Rewrite_WithdrawalService {
 
 	// 获取一条提现数据详细信息
 	Result getWithdrawalInfo(Long withdrawalId);
-
-	// 查询商家用户的可用资金和活动资金 LuoJinShui
-	Result getAvailableAmoAndActivityAmo(String userId);
-
-	// 可用资金达到50元可提现到余额 LuoJinShui
-	Result availableAmoWithdrawalBalance(String userId, String availableAmo);
-
-	// 查询可用资金提现流水明细 LuoJinShui
-	Result getWithdrawalDetails(String userId, Integer pageNum, Integer pageSize);
-
 }
