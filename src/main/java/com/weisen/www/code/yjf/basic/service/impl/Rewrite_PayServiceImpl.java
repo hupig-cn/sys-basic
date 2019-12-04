@@ -524,6 +524,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         			//新建实体类保存数据
         			ActivityPay activityPay = new ActivityPay();
         			activityPay.setUserId(userorder.getPayee());			//用户id
+        			activityPay.setSource(userorder.getUserid());			//资金来源用户id
         			activityPay.setType(1);									//类型
         			activityPay.setIncomeAmo(amount);						//收入资金
         			activityPay.setTransformationAmo(transformationAmo);	//转化资金

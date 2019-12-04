@@ -1,34 +1,34 @@
 package com.weisen.www.code.yjf.basic.service.rewrite.dto;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+
 @SuppressWarnings("serial")
-@ApiModel(value = "活动服务提现DTO")
-public class Rewrite_ActivityPayDTO implements Serializable {
+@ApiModel(value = "活动服务提现2DTO")
+public class Rewrite_ActivityPay2DTO implements Serializable {
 
 	@ApiModelProperty(value = "商家用户ID")
 	private String userId;
 
-	@ApiModelProperty(value = "未提现的可用资金")
+	@ApiModelProperty(value = "活动金额")
 	private BigDecimal transformationAmo;
 
 	@ApiModelProperty(value = "流水类型")
 	private Integer type;
 
-	@ApiModelProperty(value = "提现时间")
+	@ApiModelProperty(value = "转化时间")
 	private String createDate;
 
-	@ApiModelProperty(value = "单笔提现金额")
+	@ApiModelProperty(value = "可用金额")
 	private BigDecimal incomeAmo;
 
-	@ApiModelProperty(value = "用户单笔可用资金提现详细说明")
+	@ApiModelProperty(value = "用户转换金额详细说明")
 	private String explain;
 
-	@ApiModelProperty(value = "用户支出、收入积分0=支出,1=收入", example = "0")
+	@ApiModelProperty(value = "用户活动资金转为可用金额", example = "0")
 	private Integer status;
 
 	public String getUserId() {

@@ -38,7 +38,7 @@ public class ActivityPay implements Serializable {
     @Column(name = "income_amo", precision = 21, scale = 2)
     private BigDecimal incomeAmo;
 
-    @Column(name = "transformation_amo", precision = 21, scale = 6)
+    @Column(name = "transformation_amo", precision = 21, scale = 8)
     private BigDecimal transformationAmo;
 
     @Column(name = "interest_rate", precision = 21, scale = 4)
@@ -47,7 +47,18 @@ public class ActivityPay implements Serializable {
     @Column(name = "create_time")
     private String createTime;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    @Column(name = "source")
+    private String source;
+    
+    public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	// jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
     }

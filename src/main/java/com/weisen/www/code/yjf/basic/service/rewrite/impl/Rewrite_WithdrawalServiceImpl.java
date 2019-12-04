@@ -2,7 +2,6 @@ package com.weisen.www.code.yjf.basic.service.rewrite.impl;
 
 import com.weisen.www.code.yjf.basic.domain.*;
 import com.weisen.www.code.yjf.basic.repository.*;
-import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_MerchantRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_WithdrawalRepository;
 import com.weisen.www.code.yjf.basic.service.dto.WithdrawalDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithOneInfo;
@@ -11,17 +10,16 @@ import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_WithdrawalShow
 import com.weisen.www.code.yjf.basic.service.impl.UserlinkuserServiceImpl;
 import com.weisen.www.code.yjf.basic.service.mapper.WithdrawalMapper;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_WithdrawalService;
-import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActivitySerDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_WithdrawalDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.mapper.Rewrite_WithdrawalMapper;
 import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
 import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
 import com.weisen.www.code.yjf.basic.service.util.SendCode;
+import com.weisen.www.code.yjf.basic.service.util.TimeUtil;
 import com.weisen.www.code.yjf.basic.service.util.WithdrawalConstant;
 import com.weisen.www.code.yjf.basic.util.CheckUtils;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
-import com.weisen.www.code.yjf.basic.util.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -55,12 +53,6 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 
 	private final Rewrite_WithdrawaldetailsRepository rewrite_WithdrawaldetailsRepository;
 
-	private final Rewrite_MerchantRepository rewrite_MerchantRepository;
-
-	private final ActivitySerRepository rewrite_ActivitySerRepository;
-
-	private final ActivityPayRepository rewrite_ActivityPayRepository;
-
 	public Rewrite_WithdrawalServiceImpl(Rewrite_WithdrawalRepository rewrite_withdrawalRepository,
 			Rewrite_WithdrawalMapper rewrite_withdrawalMapper,
 			Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository,
@@ -68,9 +60,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 			Rewrite_UserassetsRepository rewrite_UserassetsRepository,
 			Rewrite_UserbankcardRepository rewrite_UserbankcardRepository,
 			Rewrite_WithdrawaldetailsRepository rewrite_WithdrawaldetailsRepository, WithdrawalMapper withdrawalMapper,
-			Rewrite_LinkuserRepository rewrite_LinkuserRepository,
-			Rewrite_MerchantRepository rewrite_MerchantRepository, ActivitySerRepository rewrite_ActivitySerRepository,
-			ActivityPayRepository rewrite_ActivityPayRepository) {
+			Rewrite_LinkuserRepository rewrite_LinkuserRepository) {
 		this.rewrite_withdrawalRepository = rewrite_withdrawalRepository;
 		this.rewrite_withdrawalMapper = rewrite_withdrawalMapper;
 		this.rewrite_ReceiptpayRepository = rewrite_ReceiptpayRepository;
@@ -80,9 +70,6 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 		this.rewrite_WithdrawaldetailsRepository = rewrite_WithdrawaldetailsRepository;
 		this.withdrawalMapper = withdrawalMapper;
 		this.rewrite_LinkuserRepository = rewrite_LinkuserRepository;
-		this.rewrite_MerchantRepository = rewrite_MerchantRepository;
-		this.rewrite_ActivitySerRepository = rewrite_ActivitySerRepository;
-		this.rewrite_ActivityPayRepository = rewrite_ActivityPayRepository;
 	}
 
 	/**
@@ -143,7 +130,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 		withdrawaldetails.setState(WithdrawalConstant.IN_READY);
 		rewrite_WithdrawaldetailsRepository.save(withdrawaldetails);
 
-//        String result = 
+//        String result =
 		SendCode.issue("13794340607", "用户注册", "0000");
 
 		return Result.suc("提交成功");
@@ -402,127 +389,5 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 		rewrite_WithOneInfo.setExtro(withdrawaldetails.getOther());
 
 		return Result.suc("成功", rewrite_WithOneInfo);
-	}
-
-	// 查询商家用户可用资金和活动资金 LuoJinShui
-	@Override
-	public Result getAvailableAmoAndActivityAmo(String userId) {
-		Merchant merchant = rewrite_MerchantRepository.findByUserid(userId);
-		ActivitySer activitySer = rewrite_ActivitySerRepository.findByUserId(userId);
-		// 判断该用户是否是商家
-		if (merchant == null) {
-			return Result.fail("您不是商家!不能对此进行操作!");
-		}
-		// 判断该活动商家是否已参加
-		if (activitySer == null) {
-			return Result.fail("暂时没有您的记录!无法提现");
-		} else {
-			Rewrite_ActivitySerDTO rewrite_ActivitySerDTO = new Rewrite_ActivitySerDTO();
-			// 拿到商家用户ID
-			rewrite_ActivitySerDTO.setUserId(activitySer.getUserId());
-			// 拿到商家活动资金
-			rewrite_ActivitySerDTO.setActivityAmo(activitySer.getActivityAmo());
-			// 拿到商家可用资金
-			rewrite_ActivitySerDTO.setAvailableAmo(activitySer.getAvailableAmo());
-			return Result.suc("查询成功!", rewrite_ActivitySerDTO);
-		}
-	}
-
-	// 可用资金达到50元可提现到余额 LuoJinShui
-	@Override
-	public Result availableAmoWithdrawalBalance(String userId, String availableAmo) {
-		Merchant merchant = rewrite_MerchantRepository.findByUserid(userId);
-		ActivitySer activitySer = rewrite_ActivitySerRepository.findByUserId(userId);
-		// 判断该用户是否是商家
-		if (merchant == null) {
-			return Result.fail("您不是商家!不能对此进行操作!");
-		}
-		// 判断该活动商家是否已参加
-		if (activitySer == null) {
-			return Result.fail("暂时没有您的记录!");
-		} else {
-			// 拿到商家实际的可用资金
-			String availableAmoMoney = activitySer.getAvailableAmo().toString();
-			// 商家输入的金额
-			BigDecimal userMoney = new BigDecimal(availableAmo);
-			// 商家实际的可用资金
-			BigDecimal businessMoney = new BigDecimal(availableAmoMoney);
-			// 达到50元才可提现到余额
-			BigDecimal fiftyMoney = new BigDecimal("50.00");
-
-			// 判断提现金额是否是整数
-			if (new BigDecimal(userMoney.intValue()).compareTo(userMoney) == -1) {
-				return Result.fail("提现金额只能是整数哦!");
-			}
-
-			// 判断输入的金额是否超过实际的可用金额
-			// userMoney > businessMoney
-			if (userMoney.compareTo(businessMoney) == 1) {
-				return Result.fail("您的可用资金没有这么多哦!");
-			}
-
-			// 判断输入的金额是否达到提现额度条件
-			// fiftyMoney > userMoney
-			if (fiftyMoney.compareTo(userMoney) == 1) {
-				return Result.fail("最低提现额度需要达到50元哦!");
-			} else {
-				// 新增一条记录到活动流水表
-				ActivityPay activityPay = new ActivityPay();
-
-				// 新增一条记录到收益明细流水表
-				Receiptpay receiptpay = new Receiptpay();
-				// 收款人ID
-				receiptpay.setUserid(userId);
-				// 资金来源
-				receiptpay.setSourcer(userId);
-				// 单笔资金额度
-				receiptpay.setBenefit(userMoney.setScale(0).toString());
-				// 资金交易类型
-				receiptpay.setDealtype("12");
-				// 产生流水时间
-				receiptpay.setCreatedate(TimeUtil.getDate());
-
-				// 根据userID找到商家资产表
-				Userassets userassets = rewrite_UserassetsRepository.findByUserid(userId);
-				// 将商家实时余额拿到转成BigDecimal类型
-				BigDecimal balanceMoney = new BigDecimal(userassets.getBalance());
-				BigDecimal usablebalanceMoney = new BigDecimal(userassets.getUsablebalance());
-				// 实时余额加提现金额并保存到资产表
-				userassets.setBalance(userMoney.add(balanceMoney).setScale(3).toString());
-				userassets.setUsablebalance(userMoney.add(usablebalanceMoney).setScale(3).toString());
-				// 修改资产时间
-				userassets.setModifierdate(TimeUtil.getDate());
-
-				// 操作商家ID
-				activitySer.setUserId(userId);
-				// 可用资金减去提现的金额
-				activitySer.setAvailableAmo(businessMoney.subtract(userMoney));
-				// 拿到以往的提现金额
-				BigDecimal cashWithdrawalMoney = new BigDecimal(activitySer.getCashWithdrawal().toString());
-				// 将以往提现的总金额跟提现的金额相加(累加)
-				activitySer.setCashWithdrawal(userMoney.add(cashWithdrawalMoney));
-				// 修改时间
-				activitySer.setUpdateTime(TimeUtil.getDate());
-
-				// 提现商家ID
-				activityPay.setUserId(userId);
-				// 提现类型
-				activityPay.setType(3);
-				// 提现金额
-				activityPay.setTransformationAmo(userMoney.setScale(0));
-				// 提现时间
-				activityPay.setCreateTime(TimeUtil.getDate());
-
-				// 保存一条提现记录
-				rewrite_ActivityPayRepository.save(activityPay);
-				// 提现后修改活动服务表的数据
-				rewrite_ActivitySerRepository.saveAndFlush(activitySer);
-				// 将提现金额加到商家资产表的余额里
-				rewrite_UserassetsRepository.saveAndFlush(userassets);
-				// 新增一条收益明细记录
-				rewrite_ReceiptpayRepository.save(receiptpay);
-				return Result.suc("提现成功!", activityPay);
-			}
-		}
 	}
 }
