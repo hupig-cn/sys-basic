@@ -18,6 +18,7 @@ import com.weisen.www.code.yjf.basic.domain.Linkaccount;
 import com.weisen.www.code.yjf.basic.domain.Merchant;
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
 import com.weisen.www.code.yjf.basic.domain.User;
+import com.weisen.www.code.yjf.basic.domain.Userassets;
 import com.weisen.www.code.yjf.basic.domain.Userlinkuser;
 import com.weisen.www.code.yjf.basic.domain.Userorder;
 import com.weisen.www.code.yjf.basic.repository.FilesRepository;
@@ -25,6 +26,7 @@ import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkaccountRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserorderRepository;
+import com.weisen.www.code.yjf.basic.repository.UserassetsRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_IncomeDetailsRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_MerchantRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
@@ -52,11 +54,15 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 	private final Rewrite_MerchantRepository merchantRepository;
 
+	private final UserassetsRepository userassetsRepository;
+	
 	private final Rewrite_LinkaccountRepository linkaccountRepository;
 
 	private final Rewrite_UserlinkuserRepository userLinkUserRepository;
 
 	private final Rewrite_UserorderRepository userorderRepository;
+	
+	
 
 	private final FilesRepository filesRepository;
 
@@ -64,12 +70,13 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			Rewrite_ReceiptpayRepository receiptpayRepository, Rewrite_UserRepository userRepository,
 			Rewrite_MerchantRepository merchantRepository, Rewrite_LinkaccountRepository linkaccountRepository,
 			FilesRepository filesRepository,Rewrite_UserorderRepository userorderRepository,
-			Rewrite_UserlinkuserRepository userLinkUserRepository) {
+			Rewrite_UserlinkuserRepository userLinkUserRepository,UserassetsRepository userassetsRepository) {
 		this.incomeDetailsRepository = incomeDetailsRepository;
 		this.receiptpayRepository = receiptpayRepository;
 		this.userRepository = userRepository;
 		this.filesRepository = filesRepository;
 		this.merchantRepository = merchantRepository;
+		this.userassetsRepository = userassetsRepository;
 		this.userorderRepository = userorderRepository;
 		this.userLinkUserRepository = userLinkUserRepository;
 		this.linkaccountRepository = linkaccountRepository;
@@ -969,11 +976,20 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 			}
 		}
-		//昨日总收入
-		yesterdayAmountSum = yesterdayRecommendationAmountSum.add(yesterdayTurnoverAmountSum);
+		//查找流水表，根据时间找到用户流水类型为3的记录
+		List<Receiptpay> yesterdayAmountSumList = receiptpayRepository.findByUseridAndTime(userId,first, last);
+		if (!yesterdayAmountSumList.isEmpty()) {
+			for (Receiptpay receiptpay : yesterdayAmountSumList) {
+				//昨日总收入
+				yesterdayAmountSum = yesterdayAmountSum.add(receiptpay.getAmount());
+			}
+			
+		}
+//		//昨日总收入
+//		yesterdayAmountSum = yesterdayRecommendationAmountSum.add(yesterdayTurnoverAmountSum);
 		
 
-		BigDecimal allAmountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
+//		BigDecimal allAmountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
 		BigDecimal allRecommendationAmountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
 		BigDecimal allTurnoverAmountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
 		//查找流水表，根据时间找到用户流水类型为9和10的记录
@@ -996,8 +1012,12 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 				}
 			}
 		}
+		Userassets userassets = userassetsRepository.findByUserid(userId);
 		//总资产
-		allAmountSum = allRecommendationAmountSum.add(allTurnoverAmountSum);
+		String balance = userassets.getBalance();
+		BigDecimal allAmountSum = new BigDecimal(balance).setScale(3, BigDecimal.ROUND_DOWN);
+//		allAmountSum = allRecommendationAmountSum.add(allTurnoverAmountSum);
+
 		//保存到dto中
 		recommendationAndTurnoverDataDTO.setAllAmountSum(allAmountSum);
 		recommendationAndTurnoverDataDTO.setAllTurnoverAmountSum(allTurnoverAmountSum);
