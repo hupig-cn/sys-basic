@@ -41,7 +41,10 @@ public class Article implements Serializable {
 
     @Column(name = "logic_delete")
     private Long logicDelete;
-
+    
+    @Column(name = "createtime")
+    private String createtime;
+    
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -154,7 +157,15 @@ public class Article implements Serializable {
         return id != null && id.equals(((Article) o).id);
     }
 
-    @Override
+    public String getCreatetime() {
+		return createtime;
+	}
+
+	public void setCreatetime(String createtime) {
+		this.createtime = createtime;
+	}
+
+	@Override
     public int hashCode() {
         return 31;
     }
