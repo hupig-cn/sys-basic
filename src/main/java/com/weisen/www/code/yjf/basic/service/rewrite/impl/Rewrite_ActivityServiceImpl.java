@@ -12,6 +12,7 @@ import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActivityPay2DTO
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActivityPayDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActivitySerDTO;
 import com.weisen.www.code.yjf.basic.service.util.TimeUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
@@ -23,6 +24,9 @@ import com.weisen.www.code.yjf.basic.util.Result;
 @Service
 @Transactional
 public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
+
+    @Value("${images-path}")
+    private String imagesPath;
 
 	private final ActivityPayRepository rewrite_ActivityPayRepository;
 
@@ -379,6 +383,7 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
             ac.setAdvertisement(advertisement);
             ac.setHeight(height);
             ac.setWidth(width);
+            ac.setUrl(imagesPath+Long.valueOf(pictureLink));
             list.add(ac);
         }
 
