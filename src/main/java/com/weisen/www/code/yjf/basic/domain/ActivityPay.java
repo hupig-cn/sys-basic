@@ -38,7 +38,7 @@ public class ActivityPay implements Serializable {
     @Column(name = "income_amo", precision = 21, scale = 2)
     private BigDecimal incomeAmo;
 
-    @Column(name = "transformation_amo", precision = 21, scale = 6)
+    @Column(name = "transformation_amo", precision = 21, scale = 8)
     private BigDecimal transformationAmo;
 
     @Column(name = "interest_rate", precision = 21, scale = 4)
