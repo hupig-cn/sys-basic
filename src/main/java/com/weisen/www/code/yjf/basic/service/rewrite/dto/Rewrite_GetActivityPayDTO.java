@@ -6,10 +6,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @SuppressWarnings("serial")
-@ApiModel(value = "根据前端传来的类型查询活动流水DTO")
+@ApiModel(value = "查询活动流水DTO")
 public class Rewrite_GetActivityPayDTO implements Serializable {
 
-	@ApiModelProperty(value = "用户id", example = "51")
+	@ApiModelProperty(value = "商家id", example = "51")
 	private String userId;
 
 	@ApiModelProperty(value = "开始时间", example = "1564329600000")

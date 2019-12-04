@@ -21,10 +21,7 @@ public class Rewrite_ActAmoDTO implements Serializable {
 	
 	@ApiModelProperty(value = "转化金额")
 	private BigDecimal transFormAmount;
-	
-	@ApiModelProperty(value = "转化金额总数")
-	private BigDecimal transFormAmountSum;
-	
+
 	@ApiModelProperty(value = "流水时间")
 	private String Time;
 	
@@ -61,13 +58,6 @@ public class Rewrite_ActAmoDTO implements Serializable {
 		this.transFormAmount = transFormAmount;
 	}
 
-	public BigDecimal getTransFormAmountSum() {
-		return transFormAmountSum;
-	}
-
-	public void setTransFormAmountSum(BigDecimal transFormAmountSum) {
-		this.transFormAmountSum = transFormAmountSum;
-	}
 
 	public String getTime() {
 		return Time;

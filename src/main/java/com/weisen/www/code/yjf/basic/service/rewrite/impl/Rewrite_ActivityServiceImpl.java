@@ -3,6 +3,7 @@ package com.weisen.www.code.yjf.basic.service.rewrite.impl;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -72,20 +73,23 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 		List<ActivityPay> userActivityPayList = activityPayRepository.findByUserId(userId, first,last,pageNum,pageSize);
 		String firstName = null;
 		String url = null;
-		for (ActivityPay userActivityPay : userActivityPayList) {
-			Rewrite_ActAmoDTO rewrite_ActAmoDTO = new Rewrite_ActAmoDTO();
-			//资金来源用户id
-			String sourceId = userActivityPay.getSource();
-			String createTime = userActivityPay.getCreateTime();
-			BigDecimal transformationAmo = userActivityPay.getTransformationAmo();
-			BigDecimal incomeAmo = userActivityPay.getIncomeAmo();
-			User jhiUserData = userRepository.findJhiUserById(Long.parseLong(sourceId));
-			/**用户刚支付时可能是用微信和支付宝付款，当用户注册时，会删掉其中一个id，因此login库可能没有该用户的数据，
-			 * 因此昵称备注为    已合并用户
-			 * 
-			 * 用户如果注册时没有写名称，则默认昵称为Auto，当用户昵称为Auto时，查找linkaccount表判断是什么类型用户。
-			 */
-			if (jhiUserData != null) {
+		LinkedList<Rewrite_ActAmoDTO> actAmoDTOList = new LinkedList<>();
+		if (!userActivityPayList.isEmpty()) {
+			
+			for (ActivityPay userActivityPay : userActivityPayList) {
+				Rewrite_ActAmoDTO rewrite_ActAmoDTO = new Rewrite_ActAmoDTO();
+				//资金来源用户id
+				String sourceId = userActivityPay.getSource();
+				String createTime = userActivityPay.getCreateTime();
+				BigDecimal transformationAmo = userActivityPay.getTransformationAmo();
+				BigDecimal incomeAmo = userActivityPay.getIncomeAmo();
+				User jhiUserData = userRepository.findJhiUserById(Long.parseLong(sourceId));
+				/**用户刚支付时可能是用微信和支付宝付款，当用户注册时，会删掉其中一个id，因此login库可能没有该用户的数据，
+				 * 因此昵称备注为    已合并用户
+				 * 
+				 * 用户如果注册时没有写名称，则默认昵称为Auto，当用户昵称为Auto时，查找linkaccount表判断是什么类型用户。
+				 */
+				if (jhiUserData != null) {
 					// 获取来源用户login库jhi_user表昵称
 					firstName = jhiUserData.getFirstName();
 //					//通过头像id查找url
@@ -122,79 +126,25 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 							
 						}
 					}
-			}else {
-				firstName="已注册用户";
-				//合并之后的用户头像url
-				url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3327";
+				}else {
+					firstName="已注册用户";
+					//合并之后的用户头像url
+					url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3327";
+				}
+				
+				rewrite_ActAmoDTO.setUserUrl(url);
+				rewrite_ActAmoDTO.setUserNickName(firstName);
+				rewrite_ActAmoDTO.setPaymentAmount(incomeAmo);
+				rewrite_ActAmoDTO.setTime(createTime);
+				rewrite_ActAmoDTO.setTransFormAmount(transformationAmo);
+				actAmoDTOList.add(rewrite_ActAmoDTO);
 			}
-			
-			rewrite_ActAmoDTO.setUserUrl(url);
-			rewrite_ActAmoDTO.setUserNickName(firstName);
-			
-			
+		}else {
+			return Result.suc("暂无活动流水!");
 		}
 		
-		
-		
-		// TODO Auto-generated method stub
-		return null;
+		return Result.suc("访问成功",actAmoDTOList);
 	}
-//	@Override
-//	public Result getCoupon(String userId) {
-//		// 判断是否有该用户
-//		User jhiUser = rewrite_UserRepository.findJhiUserById(Long.parseLong(userId));
-//		if (jhiUser == null) {
-//			return Result.fail("没有该用户!请重新输入查找!");
-//		} else {
-//			Userassets userassets = rewrite_UserassetsRepository.findByUserid(userId);
-//			Rewrite_UserassetsDTO userassetsDTO = new Rewrite_UserassetsDTO();
-//			userassetsDTO.setCoupon(userassets.getCouponsum());
-//			return Result.suc("查询成功!", userassetsDTO.getCoupon());
-//		}
-//	}
-//
-//	/**
-//	 * 查询优惠券明细支出收入
-//	 * 
-//	 * @author LuoJinShui
-//	 */
-//	@Override
-//	public Result getUserCoupon(String userId, Integer pageNum, Integer pageSize) {
-//		// 判断是否有该用户
-//		// 获取被推荐人Login库资料
-//		User jhiUser = rewrite_UserRepository.findJhiUserById(Long.parseLong(userId));
-//		if (jhiUser == null) {
-//			return Result.fail("没有该用户!请重新输入查找!");
-//		} else {
-//			List<Rewrite_CouponDTO> rewrite_CouponDTOs = new ArrayList<Rewrite_CouponDTO>();
-//			// 查询用户优惠券支出收入数据
-//			List<Receiptpay> receiptpayExpenditureList = rewrite_ReceiptpayRepository.findByCoupon(userId,
-//					pageNum * pageSize, pageSize);
-//			for (Receiptpay receiptpayExpenditure : receiptpayExpenditureList) {
-//				Rewrite_CouponDTO rewrite_CouponDTO = new Rewrite_CouponDTO();
-//				rewrite_CouponDTO.setAmount(receiptpayExpenditure.getAmount());
-//				String dataStr = receiptpayExpenditure.getCreatedate();
-//				// 转换时间格式显示今天、昨天,如果是当前年份不显示年份,不是当前年份就显示出来
-//				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
-//				Date createDate = null;
-//				try {
-//					createDate = sdf.parse(dataStr);
-//				} catch (ParseException e) {
-//					e.printStackTrace();
-//				}
-//				rewrite_CouponDTO.setCreateDate(TimeUtil.getTime(createDate));
-//				if (receiptpayExpenditure.getDealtype().equals("7")) {
-//					rewrite_CouponDTO.setStatus(0);
-//					rewrite_CouponDTO.setExplain("兑换商品");
-//				}
-//				if (receiptpayExpenditure.getDealtype().equals("8")) {
-//					rewrite_CouponDTO.setStatus(1);
-//					rewrite_CouponDTO.setExplain("消费收益");
-//				}
-//				rewrite_CouponDTOs.add(rewrite_CouponDTO);
-//			}
-//			return Result.suc("查询成功!", rewrite_CouponDTOs, rewrite_CouponDTOs.size());
-//		}
-//	}
+
 
 }
