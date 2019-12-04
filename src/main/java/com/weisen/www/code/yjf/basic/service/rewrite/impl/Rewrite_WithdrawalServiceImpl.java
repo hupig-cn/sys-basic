@@ -574,44 +574,6 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 			return Result.suc("查询成功!", rewrite_ActivityPayDTOs, rewrite_ActivityPayDTOs.size());
 		}
 	}
-    @Override
-    public Result zhuanhuankeyongzhijin(String userId, Integer pageNum, Integer pageSize) {
-        Merchant merchant = rewrite_MerchantRepository.findByUserid(userId);
-        // 判断该用户是否是商家
-        if (merchant == null) {
-            return Result.fail("您不是商家!不能对此进行操作!");
-        } else {
-            List<Rewrite_ActivityPay2DTO> rewrite_ActivityPayDTOs = new ArrayList<Rewrite_ActivityPay2DTO>();
-            List<ActivityPay> activityPaysList = rewrite_ActivityPayRepository.findByUserIdAndType2(userId,pageNum * pageSize, pageSize);
-            for (ActivityPay activityPay : activityPaysList) {
-                Rewrite_ActivityPay2DTO activityPayDTO = new Rewrite_ActivityPay2DTO();
-                // 操作的商家ID
-                activityPayDTO.setUserId(activityPay.getUserId());
-                // 流水类型
-                if (activityPay.getType().equals(2)) {
-                    activityPayDTO.setType(activityPay.getType());
-                    activityPayDTO.setStatus(1);
-                    activityPayDTO.setExplain("活动资金转换");
-                }
 
-                activityPayDTO.setTransformationAmo(activityPay.getIncomeAmo());
-
-                activityPayDTO.setIncomeAmo(activityPay.getTransformationAmo());
-                String dataStr = activityPay.getCreateTime();
-
-                // 转换时间格式显示今天、昨天,如果是当前年份不显示年份,不是当前年份就显示出来
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
-                Date createDate = null;
-                try {
-                    createDate = sdf.parse(dataStr);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                activityPayDTO.setCreateDate(TimeUtil.getTime(createDate));
-                rewrite_ActivityPayDTOs.add(activityPayDTO);
-            }
-            return Result.suc("查询成功!", rewrite_ActivityPayDTOs, rewrite_ActivityPayDTOs.size());
-        }
-    }
 
 }

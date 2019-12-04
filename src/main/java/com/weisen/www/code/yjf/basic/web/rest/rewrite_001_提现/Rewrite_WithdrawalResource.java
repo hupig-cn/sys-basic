@@ -124,14 +124,5 @@ public class Rewrite_WithdrawalResource {
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
 
-    // 查询可用资金流水明细 LuoJinShui
-    @PostMapping("/user/zhuanhuankeyongzhijin")
-    @ApiOperation("查询可用资金流水明细")
-    public ResponseEntity<Result> zhuanhuankeyongzhijin(@RequestParam(value = "userId") String userId,
-                                                       @RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
-        Result result = withdrawalService.zhuanhuankeyongzhijin(userId, pageNum, pageSize);
-        logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/getWithdrawalDetails", userId + "," + pageNum + "," + pageSize,
-            result);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
-    }
+
 }
