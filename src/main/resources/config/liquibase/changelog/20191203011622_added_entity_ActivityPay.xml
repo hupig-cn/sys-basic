@@ -80,5 +80,10 @@
     <changeSet id="20191203171925_rename_column" author="sxx">
         <renameColumn tableName="activity_pay" oldColumnName="transformation_amo" newColumnName="transformation_amo" columnDataType="decimal(21,8)"/>
     </changeSet>
+   <changeSet id="20191204101802-add_column" author="sxx">
+        <addColumn tableName="activity_pay">
+            <column name="source" type="String"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>
