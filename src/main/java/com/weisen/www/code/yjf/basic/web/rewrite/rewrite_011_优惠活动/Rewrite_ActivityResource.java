@@ -77,12 +77,12 @@ public class Rewrite_ActivityResource {
 	}
 
 	// 查询转换资金流水明细 RuanMingHui
-	@PostMapping("/user/zhuanhuankeyongzhijin")
+	@PostMapping("/user/getConversionFunds")
 	@ApiOperation("查询转换资金流水明细")
-	public ResponseEntity<Result> zhuanhuankeyongzhijin(@RequestParam(value = "userId") String userId,
+	public ResponseEntity<Result> getConversionFunds(@RequestParam(value = "userId") String userId,
 			@RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
-		Result result = rewrite_activityService.zhuanhuankeyongzhijin(userId, pageNum, pageSize);
-		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/zhuanhuankeyongzhijin", userId + "," + pageNum + "," + pageSize,
+		Result result = rewrite_activityService.getConversionFunds(userId, pageNum, pageSize);
+		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/getConversionFunds", userId + "," + pageNum + "," + pageSize,
 				result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}

@@ -320,7 +320,7 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 	}
 
 	@Override
-	public Result zhuanhuankeyongzhijin(String userId, Integer pageNum, Integer pageSize) {
+	public Result getConversionFunds(String userId, Integer pageNum, Integer pageSize) {
 		Merchant merchant = rewrite_MerchantRepository.findByUserid(userId);
 		// 判断该用户是否是商家
 		if (merchant == null) {
