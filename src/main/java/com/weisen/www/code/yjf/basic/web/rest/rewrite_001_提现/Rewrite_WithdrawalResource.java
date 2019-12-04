@@ -102,13 +102,24 @@ public class Rewrite_WithdrawalResource {
 
 	}
 
-	// 可用资金达到50元可提现到余额   LuoJinShui
+	// 可用资金达到50元可提现到余额 LuoJinShui
 	@PostMapping("/user/availableAmoWithdrawalBalance")
 	@ApiOperation("可用资金达到50元可提现到余额")
 	public ResponseEntity<Result> availableAmoWithdrawalBalance(@RequestParam(value = "userId") String userId,
 			@RequestParam(value = "availableAmo") String availableAmo) {
 		Result result = withdrawalService.availableAmoWithdrawalBalance(userId, availableAmo);
 		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/availableAmoWithdrawalBalance", userId + "," + availableAmo,
+				result);
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+	}
+
+	// 查询可用资金流水明细 LuoJinShui
+	@PostMapping("/user/getWithdrawalDetails")
+	@ApiOperation("查询可用资金流水明细")
+	public ResponseEntity<Result> getWithdrawalDetails(@RequestParam(value = "userId") String userId,
+			@RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
+		Result result = withdrawalService.getWithdrawalDetails(userId, pageNum, pageSize);
+		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/getWithdrawalDetails", userId + "," + pageNum + "," + pageSize,
 				result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
