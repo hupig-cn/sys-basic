@@ -34,4 +34,6 @@ public interface Rewrite_WithdrawalService {
 
 	// 查询可用资金提现流水明细 LuoJinShui
 	Result getWithdrawalDetails(String userId, Integer pageNum, Integer pageSize);
+    //Shui
+    Result zhuanhuankeyongzhijin(String userId, Integer pageNum, Integer pageSize);
 }
