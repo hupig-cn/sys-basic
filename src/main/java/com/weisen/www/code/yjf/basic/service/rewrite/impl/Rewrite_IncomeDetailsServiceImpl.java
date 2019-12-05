@@ -974,8 +974,8 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 
 			}
 		}
-		// 查找流水表，根据时间找到用户流水类型为3的记录
-		List<Receiptpay> yesterdayAmountSumList = receiptpayRepository.findByUseridAndTime(userId, first, last);
+		//查找流水表，根据时间找到用户流水类型为3，9，10的记录
+		List<Receiptpay> yesterdayAmountSumList = receiptpayRepository.findByUseridAndTime(userId,first, last);
 		if (!yesterdayAmountSumList.isEmpty()) {
 			for (Receiptpay receiptpay : yesterdayAmountSumList) {
 				// 昨日总收入
