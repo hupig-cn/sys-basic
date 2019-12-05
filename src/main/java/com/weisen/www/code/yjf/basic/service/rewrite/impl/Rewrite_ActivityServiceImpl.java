@@ -1,4 +1,5 @@
 package com.weisen.www.code.yjf.basic.service.rewrite.impl;
+
 import java.time.Instant;
 
 import java.math.BigDecimal;
@@ -26,8 +27,8 @@ import com.weisen.www.code.yjf.basic.util.Result;
 @Transactional
 public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 
-    @Value("${images-path}")
-    private String imagesPath;
+	@Value("${images-path}")
+	private String imagesPath;
 
 	private final ActivityPayRepository rewrite_ActivityPayRepository;
 
@@ -48,11 +49,12 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 	private final Rewrite_AdvertisementRepository rewrite_advertisementRepository;
 
 	public Rewrite_ActivityServiceImpl(ActivityPayRepository rewrite_ActivityPayRepository,
-                                       ActivitySerRepository rewrite_ActivitySerRepository, FilesRepository filesRepository,
-                                       Rewrite_UserRepository userRepository, Rewrite_LinkaccountRepository linkaccountRepository,
-                                       Rewrite_MerchantRepository rewrite_merchantRepository,
-                                       Rewrite_UserassetsRepository rewrite_UserassetsRepository,
-                                       Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository, Rewrite_AdvertisementRepository rewrite_advertisementRepository) {
+			ActivitySerRepository rewrite_ActivitySerRepository, FilesRepository filesRepository,
+			Rewrite_UserRepository userRepository, Rewrite_LinkaccountRepository linkaccountRepository,
+			Rewrite_MerchantRepository rewrite_merchantRepository,
+			Rewrite_UserassetsRepository rewrite_UserassetsRepository,
+			Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository,
+			Rewrite_AdvertisementRepository rewrite_advertisementRepository) {
 		this.rewrite_ActivityPayRepository = rewrite_ActivityPayRepository;
 		this.filesRepository = filesRepository;
 		this.rewrite_ActivitySerRepository = rewrite_ActivitySerRepository;
@@ -61,8 +63,8 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 		this.rewrite_MerchantRepository = rewrite_merchantRepository;
 		this.rewrite_UserassetsRepository = rewrite_UserassetsRepository;
 		this.rewrite_ReceiptpayRepository = rewrite_ReceiptpayRepository;
-        this.rewrite_advertisementRepository = rewrite_advertisementRepository;
-    }
+		this.rewrite_advertisementRepository = rewrite_advertisementRepository;
+	}
 
 	/**
 	 * 优惠活动
@@ -227,8 +229,8 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 				activityPay.setUserId(userId);
 				// 提现类型
 				activityPay.setType(3);
-				// 还没提现的可用资金
-				activityPay.setTransformationAmo(businessMoney);
+				// 提现之后的可用资金
+				activityPay.setTransformationAmo(businessMoney.subtract(userMoney));
 				// 提现金额
 				activityPay.setIncomeAmo(userMoney.setScale(0));
 				// 提现时间
@@ -364,61 +366,58 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 		}
 	}
 
+	@Override
+	public Result lunbotu(Integer type) {
+		List<Advertisement> all = new ArrayList<>();
+		if (type == 0) {
+			all = rewrite_advertisementRepository.findAll();
+		} else if (type == 1) {
+			all = rewrite_advertisementRepository.findAdvertisementByAdvType(type);
+		}
+		List<Rewrite_AdvertisingDTO> list = new ArrayList<>();
+		for (int i = 0; i < all.size(); i++) {
+			Rewrite_AdvertisingDTO ac = new Rewrite_AdvertisingDTO();
 
-    @Override
-    public Result lunbotu(Integer type) {
-        List<Advertisement> all = new ArrayList<>();
-	    if (type == 0){
-         all = rewrite_advertisementRepository.findAll();
-        }else if(type == 1){
-	        all = rewrite_advertisementRepository.findAdvertisementByAdvType(type);
-        }
-        List<Rewrite_AdvertisingDTO> list = new ArrayList<>();
-        for (int i = 0; i < all.size(); i++) {
-            Rewrite_AdvertisingDTO ac = new Rewrite_AdvertisingDTO();
+			Advertisement advertisement = all.get(i);
+			String pictureLink = advertisement.getPictureLink();
+			Files files = filesRepository.findByIds(Long.valueOf(pictureLink));
+			Integer height = files.getHeight();
+			Integer width = files.getWidth();
 
+			Long id = advertisement.getId();
+			String name = advertisement.getName();
+			String introduction = advertisement.getIntroduction();
+			String pictureFormat = advertisement.getPictureFormat();
+			String pictureLink1 = advertisement.getPictureLink();
+			Integer sort = advertisement.getSort();
+			String link = advertisement.getLink();
+			String advType = advertisement.getAdvType();
+			Integer linkType = advertisement.getLinkType();
+			Integer type1 = advertisement.getType();
+			Integer state = advertisement.getState();
+			Instant createdDate = advertisement.getCreatedDate();
+			Instant lastModifiedDate = advertisement.getLastModifiedDate();
 
-            Advertisement advertisement = all.get(i);
-            String pictureLink = advertisement.getPictureLink();
-            Files files = filesRepository.findByIds(Long.valueOf(pictureLink));
-            Integer height = files.getHeight();
-            Integer width = files.getWidth();
+			ac.setId(id);
+			ac.setName(name);
+			ac.setIntroduction(introduction);
+			ac.setPictureFormat(pictureFormat);
+			ac.setPictureLink(pictureLink1);
+			ac.setSort(sort);
+			ac.setLink(link);
+			ac.setAdvType(advType);
+			ac.setLinkType(linkType);
+			ac.setType(type1);
+			ac.setState(state);
+			ac.setCreatedDate(createdDate);
+			ac.setLastModifiedDate(lastModifiedDate);
+			ac.setHeight(height);
+			ac.setWidth(width);
+			ac.setUrl(imagesPath + Long.valueOf(pictureLink));
+			list.add(ac);
+		}
 
-            Long id = advertisement.getId();
-            String name = advertisement.getName();
-            String introduction = advertisement.getIntroduction();
-            String pictureFormat = advertisement.getPictureFormat();
-            String pictureLink1 = advertisement.getPictureLink();
-            Integer sort = advertisement.getSort();
-            String link = advertisement.getLink();
-            String advType = advertisement.getAdvType();
-            Integer linkType = advertisement.getLinkType();
-            Integer type1 = advertisement.getType();
-            Integer state = advertisement.getState();
-            Instant createdDate = advertisement.getCreatedDate();
-            Instant lastModifiedDate = advertisement.getLastModifiedDate();
-
-            ac.setId(id);
-            ac.setName(name);
-            ac.setIntroduction(introduction);
-            ac.setPictureFormat(pictureFormat);
-            ac.setPictureLink(pictureLink1);
-            ac.setSort(sort);
-            ac.setLink(link);
-            ac.setAdvType(advType);
-            ac.setLinkType(linkType);
-            ac.setType(type1);
-            ac.setState(state);
-            ac.setCreatedDate(createdDate);
-            ac.setLastModifiedDate(lastModifiedDate);
-            ac.setHeight(height);
-            ac.setWidth(width);
-            ac.setUrl(imagesPath+Long.valueOf(pictureLink));
-            list.add(ac);
-        }
-
-        return Result.suc("查询成功",list,list.size());
-    }
-
+		return Result.suc("查询成功", list, list.size());
+	}
 
 }
