@@ -335,9 +335,9 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
                     activityPayDTO.setExplain("活动资金转换");
                 }
 
-                activityPayDTO.setTransformationAmo(activityPay.getIncomeAmo());
+                activityPayDTO.setTransformationAmo(activityPay.getTransformationAmo());
 
-                activityPayDTO.setIncomeAmo(activityPay.getTransformationAmo());
+                activityPayDTO.setIncomeAmo(activityPay.getIncomeAmo());
                 String dataStr = activityPay.getCreateTime();
 
                 // 转换时间格式显示今天、昨天,如果是当前年份不显示年份,不是当前年份就显示出来

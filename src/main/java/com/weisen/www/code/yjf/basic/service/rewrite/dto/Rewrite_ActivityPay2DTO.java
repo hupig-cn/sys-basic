@@ -13,7 +13,7 @@ public class Rewrite_ActivityPay2DTO implements Serializable {
 	@ApiModelProperty(value = "商家用户ID")
 	private String userId;
 
-	@ApiModelProperty(value = "活动金额")
+	@ApiModelProperty(value = "可用金额")
 	private BigDecimal transformationAmo;
 
 	@ApiModelProperty(value = "流水类型")
@@ -22,7 +22,7 @@ public class Rewrite_ActivityPay2DTO implements Serializable {
 	@ApiModelProperty(value = "转化时间")
 	private String createDate;
 
-	@ApiModelProperty(value = "可用金额")
+	@ApiModelProperty(value = "活动金额")
 	private BigDecimal incomeAmo;
 
 	@ApiModelProperty(value = "用户转换金额详细说明")
