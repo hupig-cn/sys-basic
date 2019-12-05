@@ -19,5 +19,5 @@ public interface Rewrite_ArticleService {
 	
 	Result findArticlePush();
 	
-	
+	Result findArticleByUserid(Long userid,Integer pageNmb,Integer pagesize);
 }
