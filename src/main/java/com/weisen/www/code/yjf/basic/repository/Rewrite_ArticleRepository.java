@@ -23,6 +23,6 @@ public interface Rewrite_ArticleRepository extends JpaRepository<Article, Long> 
 	@Query(value = "select title,author from article order by Author desc Limit 0,5",nativeQuery = true)
 	List<Map<String,Object>> findArticlePush();
 	
-	@Query(value = "select id,userid,title,author,img_url,from article where userid=?1 limit ?2 ,?3",nativeQuery = true)
-	List<Article> findArticleByUserid(Long userid,Integer pageNmb,Integer pagesize);
+	@Query(value = "select id,userid,title,author,img_url,createtime from article where userid=?1 limit ?2 ,?3",nativeQuery = true)
+	List<Map<String,Object>> findArticleByUserid(Long userid,Integer pageNmb,Integer pagesize);
 }
