@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.weisen.www.code.yjf.basic.domain.Files;
 import com.weisen.www.code.yjf.basic.domain.Linkaccount;
+import com.weisen.www.code.yjf.basic.domain.Linkuser;
 import com.weisen.www.code.yjf.basic.domain.Merchant;
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
 import com.weisen.www.code.yjf.basic.domain.User;
@@ -23,6 +24,7 @@ import com.weisen.www.code.yjf.basic.domain.Userlinkuser;
 import com.weisen.www.code.yjf.basic.domain.Userorder;
 import com.weisen.www.code.yjf.basic.repository.FilesRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkaccountRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserorderRepository;
@@ -55,22 +57,23 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	private final Rewrite_MerchantRepository merchantRepository;
 
 	private final UserassetsRepository userassetsRepository;
-	
+
 	private final Rewrite_LinkaccountRepository linkaccountRepository;
 
 	private final Rewrite_UserlinkuserRepository userLinkUserRepository;
 
 	private final Rewrite_UserorderRepository userorderRepository;
-	
-	
+
+	private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
 
 	private final FilesRepository filesRepository;
 
 	public Rewrite_IncomeDetailsServiceImpl(Rewrite_IncomeDetailsRepository incomeDetailsRepository,
 			Rewrite_ReceiptpayRepository receiptpayRepository, Rewrite_UserRepository userRepository,
 			Rewrite_MerchantRepository merchantRepository, Rewrite_LinkaccountRepository linkaccountRepository,
-			FilesRepository filesRepository,Rewrite_UserorderRepository userorderRepository,
-			Rewrite_UserlinkuserRepository userLinkUserRepository,UserassetsRepository userassetsRepository) {
+			FilesRepository filesRepository, Rewrite_UserorderRepository userorderRepository,
+			Rewrite_UserlinkuserRepository userLinkUserRepository, UserassetsRepository userassetsRepository,
+			Rewrite_LinkuserRepository rewrite_LinkuserRepository) {
 		this.incomeDetailsRepository = incomeDetailsRepository;
 		this.receiptpayRepository = receiptpayRepository;
 		this.userRepository = userRepository;
@@ -80,6 +83,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		this.userorderRepository = userorderRepository;
 		this.userLinkUserRepository = userLinkUserRepository;
 		this.linkaccountRepository = linkaccountRepository;
+		this.rewrite_LinkuserRepository = rewrite_LinkuserRepository;
 	}
 
 	// 获取推荐人收益信息
@@ -87,9 +91,9 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	public Result getRecommendTotal(String recommendId) {
 
 		// 获取被推荐人longin库资料
-		User jhiUser = userRepository.findJhiUserById(Long.parseLong(recommendId));
-		if (jhiUser == null) {
-			return Result.fail("不存在该用户！");
+		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(recommendId);
+		if (linkuser == null) {
+			return Result.fail("没有该用户!请重新输入查找!");
 		}
 		// 通过id找到推荐人数量
 		List<String> recommendIdfindByUserId = incomeDetailsRepository.findByRecommendid(recommendId);
@@ -143,16 +147,16 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		String recommendId = getIncomeAfferentDTO.getRecommendId();
 
 		// 获取被推荐人longin库资料
-		User jhiUser = userRepository.findJhiUserById(Long.parseLong(recommendId));
-		if (jhiUser == null) {
-			return Result.fail("不存在该用户！");
+		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(recommendId);
+		if (linkuser == null) {
+			return Result.fail("没有该用户!请重新输入查找!");
 		}
 
 		// 前端返回的查找时间
 		Long first = getIncomeAfferentDTO.getFirstTime();
 		Long last = getIncomeAfferentDTO.getLastTime();
 
-		//分页页数和条数
+		// 分页页数和条数
 		Integer pageNum = getIncomeAfferentDTO.getPageNum();
 		Integer pageSize = getIncomeAfferentDTO.getPageSize();
 		// List<Userlinkuser> recommends= null;
@@ -167,11 +171,11 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			String firstTime = sdf.format(new Date(first));
 			String lastTime = sdf.format(new Date(last));
 
-			//查找流水表，找到用户流水类型为9和10的记录
-			List<Receiptpay> amountSumList = receiptpayRepository.findReceiptpayByUseridAndTime(recommendId,
-					firstTime, lastTime);
+			// 查找流水表，找到用户流水类型为9和10的记录
+			List<Receiptpay> amountSumList = receiptpayRepository.findReceiptpayByUseridAndTime(recommendId, firstTime,
+					lastTime);
 			BigDecimal amountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
-			//如果数据不为空，算出总额
+			// 如果数据不为空，算出总额
 			if (!amountSumList.isEmpty()) {
 				for (Receiptpay receiptpay : amountSumList) {
 					BigDecimal amount = receiptpay.getAmount();
@@ -180,31 +184,31 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 				}
 			}
 
-			//通过用户找到流水记录和分页
+			// 通过用户找到流水记录和分页
 			List<Receiptpay> receiptpayList = receiptpayRepository.findReceiptpayByUseridAndTimeAndPage(recommendId,
 					firstTime, lastTime, pageNum * pageSize, pageSize);
-			//如果数据不为空
+			// 如果数据不为空
 			if (!receiptpayList.isEmpty()) {
 				String firstName = null;
 
 				for (Receiptpay receiptpay : receiptpayList) {
 					Rewrite_GetIncomeListDTO getIncomeListDTO = new Rewrite_GetIncomeListDTO();
-					//获取单条记录的来源用户id和流水金额
+					// 获取单条记录的来源用户id和流水金额
 					String sourcerId = receiptpay.getSourcer();
 					BigDecimal amount = receiptpay.getAmount();
-					//查找创建时间
+					// 查找创建时间
 					String createdate = receiptpay.getCreatedate();
-					//根据来源用户id查找  login数据库 
+					// 根据来源用户id查找 login数据库
 					User jhiUserData = userRepository.findJhiUserById(Long.parseLong(sourcerId));
-					/**用户刚支付时可能是用微信和支付宝付款，当用户注册时，会删掉其中一个id，因此login库可能没有该用户的数据，
-					 * 因此昵称备注为    已合并用户
+					/**
+					 * 用户刚支付时可能是用微信和支付宝付款，当用户注册时，会删掉其中一个id，因此login库可能没有该用户的数据， 因此昵称备注为 已合并用户
 					 * 
 					 * 用户如果注册时没有写名称，则默认昵称为Auto，当用户昵称为Auto时，查找linkaccount表判断是什么类型用户。
 					 */
 					if (jhiUserData != null) {
 						// 获取推荐人login库jhi_user表昵称
 						firstName = jhiUserData.getFirstName();
-						//当用户昵称为Auto时，查找linkaccount表判断是什么类型用户
+						// 当用户昵称为Auto时，查找linkaccount表判断是什么类型用户
 						if (firstName.equals("Auto")) {
 							Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(sourcerId);
 							if (linkaccount != null) {
@@ -220,10 +224,10 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 								firstName = "未注册用户";
 							}
 						}
-					}else {
-						firstName="已注册用户";
+					} else {
+						firstName = "已注册用户";
 					}
-					//判断收益类型
+					// 判断收益类型
 					if (receiptpay.getDealtype().equals("9")) {
 						getIncomeListDTO.setDealtype("推荐收益");
 					} else if (receiptpay.getDealtype().equals("10")) {
@@ -233,10 +237,10 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					Merchant merchant = merchantRepository.findByUserid(sourcerId);
 					// 是否是事业合伙人
 					Userlinkuser partner = userLinkUserRepository.findByUserid(sourcerId);
-					/**用户刚支付时可能是用微信和支付宝付款，当用户注册时，会删掉其中一个用户id，
-					 * 因此userLinkUser库可能没有该推荐用户的数据
+					/**
+					 * 用户刚支付时可能是用微信和支付宝付款，当用户注册时，会删掉其中一个用户id， 因此userLinkUser库可能没有该推荐用户的数据
 					 */
-					if (partner!=null) {
+					if (partner != null) {
 
 						// 是商家不是事业合伙人
 						if (merchant != null && !(partner.getPartner())) {
@@ -259,7 +263,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 							getIncomeListDTO.setVip("会员");
 							getIncomeListDTO.setMerchant("");
 						}
-					}else {
+					} else {
 						// 该用户数据已被删除，既不是事业合伙人，也不是商家、 会员
 						getIncomeListDTO.setPartner("");
 						getIncomeListDTO.setVip("");
@@ -286,7 +290,6 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		return Result.suc("访问成功！", incomeListDTO);
 	}
 
-
 	// 获取推荐流水明细（新接口）
 	@Override
 	public Result getRecommendList2(Rewrite_GetIncomeAfferentDTO getIncomeAfferentDTO) {
@@ -298,18 +301,16 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 		String recommendId = getIncomeAfferentDTO.getRecommendId();
 
 		// 获取被推荐人longin库资料
-		User jhiUser = userRepository.findJhiUserById(Long.parseLong(recommendId));
-		if (jhiUser == null) {
-			return Result.fail("不存在该用户！");
+		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(recommendId);
+		if (linkuser == null) {
+			return Result.fail("没有该用户!请重新输入查找!");
 		}
-
-
 
 		// 前端返回的查找时间
 		Long first = getIncomeAfferentDTO.getFirstTime();
 		Long last = getIncomeAfferentDTO.getLastTime();
 
-		//分页页数和条数
+		// 分页页数和条数
 		Integer pageNum = getIncomeAfferentDTO.getPageNum();
 		Integer pageSize = getIncomeAfferentDTO.getPageSize();
 		// List<Userlinkuser> recommends= null;
@@ -324,11 +325,11 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 			String firstTime = sdf.format(new Date(first));
 			String lastTime = sdf.format(new Date(last));
 
-			//查找流水表，找到用户流水类型为9和10的记录
-			List<Receiptpay> amountSumList = receiptpayRepository.findReceiptpayByUseridAndTime(recommendId,
-					firstTime, lastTime);
+			// 查找流水表，找到用户流水类型为9和10的记录
+			List<Receiptpay> amountSumList = receiptpayRepository.findReceiptpayByUseridAndTime(recommendId, firstTime,
+					lastTime);
 			BigDecimal amountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
-			//如果数据不为空，算出总额
+			// 如果数据不为空，算出总额
 			if (!amountSumList.isEmpty()) {
 				for (Receiptpay receiptpay : amountSumList) {
 					BigDecimal amount = receiptpay.getAmount();
@@ -337,74 +338,72 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 				}
 			}
 
-			//通过用户找到流水记录和分页
+			// 通过用户找到流水记录和分页
 			List<Receiptpay> receiptpayList = receiptpayRepository.findReceiptpayByUseridAndTimeAndPage(recommendId,
 					firstTime, lastTime, pageNum * pageSize, pageSize);
-			//如果数据不为空
+			// 如果数据不为空
 			if (!receiptpayList.isEmpty()) {
 				String firstName = null;
 
 				for (Receiptpay receiptpay : receiptpayList) {
 					Rewrite_GetIncomeListDTO getIncomeListDTO = new Rewrite_GetIncomeListDTO();
-					//获取单条记录的来源用户id和流水金额
+					// 获取单条记录的来源用户id和流水金额
 					String sourcerId = receiptpay.getSourcer();
 					BigDecimal amount = receiptpay.getAmount();
-					//查找创建时间
+					// 查找创建时间
 					String createdate = receiptpay.getCreatedate();
-					//根据来源用户id查找  login数据库 
+					// 根据来源用户id查找 login数据库
 					User jhiUserData = userRepository.findJhiUserById(Long.parseLong(sourcerId));
-					/**用户刚支付时可能是用微信和支付宝付款，当用户注册时，会删掉其中一个id，因此login库可能没有该用户的数据，
-					 * 因此昵称备注为    已合并用户
+					/**
+					 * 用户刚支付时可能是用微信和支付宝付款，当用户注册时，会删掉其中一个id，因此login库可能没有该用户的数据， 因此昵称备注为 已合并用户
 					 * 
 					 * 用户如果注册时没有写名称，则默认昵称为Auto，当用户昵称为Auto时，查找linkaccount表判断是什么类型用户。
 					 */
 
-
 					if (jhiUserData != null) {
 
-
-							// 获取推荐人login库jhi_user表昵称
-							firstName = jhiUserData.getFirstName();
+						// 获取推荐人login库jhi_user表昵称
+						firstName = jhiUserData.getFirstName();
 //							//通过头像id查找url
 //							if (jhiUserData.getImageUrl()==null || jhiUserData.getImageUrl().equals("")) {
-							//当用户昵称为Auto时，查找linkaccount表判断是什么类型用户
-							if (firstName.equals("Auto")) {
-								Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(sourcerId);
-								if (linkaccount != null) {
-									String other = linkaccount.getOther();
-									if (other.equals("微信")) {
-										firstName = "微信用户";
-										//微信头像URL
-										url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3155";
-									} else if (other.equals("支付宝")) {
-										firstName = "支付宝用户";
-										//支付宝头像url
-										url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3142";
-									} else {
-										firstName = "未注册用户";
-										//未注册头像url
-										url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3327";
-									}
+						// 当用户昵称为Auto时，查找linkaccount表判断是什么类型用户
+						if (firstName.equals("Auto")) {
+							Linkaccount linkaccount = linkaccountRepository.findFirstByUserid(sourcerId);
+							if (linkaccount != null) {
+								String other = linkaccount.getOther();
+								if (other.equals("微信")) {
+									firstName = "微信用户";
+									// 微信头像URL
+									url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3155";
+								} else if (other.equals("支付宝")) {
+									firstName = "支付宝用户";
+									// 支付宝头像url
+									url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3142";
 								} else {
 									firstName = "未注册用户";
-									//未注册头像url
+									// 未注册头像url
 									url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3327";
 								}
-							}else {
-								if(jhiUserData.getImageUrl()==null || jhiUserData.getImageUrl().equals("")){
-									url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3332";
-								}else {
-									Files files = filesRepository.findByIds(Long.parseLong(jhiUserData.getImageUrl()));
-									url = files.getUrl();
-									
-								}
+							} else {
+								firstName = "未注册用户";
+								// 未注册头像url
+								url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3327";
 							}
-					}else {
-						firstName="已注册用户";
-						//合并之后的用户头像url
+						} else {
+							if (jhiUserData.getImageUrl() == null || jhiUserData.getImageUrl().equals("")) {
+								url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3332";
+							} else {
+								Files files = filesRepository.findByIds(Long.parseLong(jhiUserData.getImageUrl()));
+								url = files.getUrl();
+
+							}
+						}
+					} else {
+						firstName = "已注册用户";
+						// 合并之后的用户头像url
 						url = "http://app.yuanscore.com:8083/services/basic/api/public/getFiles/3327";
 					}
-					//判断收益类型
+					// 判断收益类型
 					if (receiptpay.getDealtype().equals("9")) {
 						getIncomeListDTO.setDealtype("推荐收益");
 					} else if (receiptpay.getDealtype().equals("10")) {
@@ -414,10 +413,10 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 					Merchant merchant = merchantRepository.findByUserid(sourcerId);
 					// 是否是事业合伙人
 					Userlinkuser partner = userLinkUserRepository.findByUserid(sourcerId);
-					/**用户刚支付时可能是用微信和支付宝付款，当用户注册时，会删掉其中一个用户id，
-					 * 因此userLinkUser库可能没有该推荐用户的数据
+					/**
+					 * 用户刚支付时可能是用微信和支付宝付款，当用户注册时，会删掉其中一个用户id， 因此userLinkUser库可能没有该推荐用户的数据
 					 */
-					if (partner!=null) {
+					if (partner != null) {
 
 						// 是商家不是事业合伙人
 						if (merchant != null && !(partner.getPartner())) {
@@ -440,7 +439,7 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 							getIncomeListDTO.setVip("会员");
 							getIncomeListDTO.setMerchant("");
 						}
-					}else {
+					} else {
 						// 该用户数据已被删除，既不是事业合伙人，也不是商家、 会员
 						getIncomeListDTO.setPartner("");
 						getIncomeListDTO.setVip("");
@@ -585,9 +584,9 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	@Override
 	public Result getProfitList(String userId) {
 		// 获取被推荐人longin库资料
-		User jhiUser = userRepository.findJhiUserById(Long.parseLong(userId));
-		if (jhiUser == null) {
-			return Result.fail("不存在该用户！");
+		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userId);
+		if (linkuser == null) {
+			return Result.fail("没有该用户!请重新输入查找!");
 		}
 
 		List<Rewrite_ProfitListDTO> profitListDTO = new ArrayList<>();
@@ -640,9 +639,9 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	@Override
 	public Result getProfitList2(String userId) {
 		// 获取被推荐人longin库资料
-		User jhiUser = userRepository.findJhiUserById(Long.parseLong(userId));
-		if (jhiUser == null) {
-			return Result.fail("不存在该用户！");
+		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userId);
+		if (linkuser == null) {
+			return Result.fail("没有该用户!请重新输入查找!");
 		}
 
 		List<Rewrite_ProfitListDTO> profitListDTO = new ArrayList<>();
@@ -852,9 +851,9 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	@Override
 	public Result newFindMerchantProfitInfo(String userid, Integer startPage, Integer pageSize) {
 		// 获取用户login库资料
-		User jhiUser = userRepository.findJhiUserById(Long.parseLong(userid));
-		if (jhiUser == null) {
-			return Result.fail("不存在该用户！");
+		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userid);
+		if (linkuser == null) {
+			return Result.fail("没有该用户!请重新输入查找!");
 		}
 
 		// 根据用户id和收入状态查询，分页并倒叙
@@ -905,9 +904,9 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	@Override
 	public Result recommendationList(String userId) {
 		// 获取用户login库资料
-		User jhiUser = userRepository.findJhiUserById(Long.parseLong(userId));
-		if (jhiUser == null) {
-			return Result.fail("当前用户不存在!");
+		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userId);
+		if (linkuser == null) {
+			return Result.fail("没有该用户!请重新输入查找!");
 		} else {
 			List<Map<String, Object>> userlinkusers = userLinkUserRepository.getRecommendisList();
 			return Result.suc("查询成功!", userlinkusers, userlinkusers.size());
@@ -915,116 +914,114 @@ public class Rewrite_IncomeDetailsServiceImpl implements Rewrite_IncomeDetailsSe
 	}
 
 	/**
-	 * 获取昨日收入，昨日营业额，昨日收益
-	 * 总营业额，总资产的接口
-	 * */
-	//获取营业额和推荐额金额信息
+	 * 获取昨日收入，昨日营业额，昨日收益 总营业额，总资产的接口
+	 */
+	// 获取营业额和推荐额金额信息
 	@Override
 	public Result getRecommendationAndTurnoverData(String userId) {
 
-		//获取昨天零点时间
+		// 获取昨天零点时间
 		Calendar calendar1 = Calendar.getInstance();
-		calendar1.set(calendar1.get(Calendar.YEAR),calendar1.get(Calendar.MONTH),calendar1.get(Calendar.DAY_OF_MONTH)-1,0,0,0);
-		long firstTime = calendar1.getTime().getTime()/1000;
+		calendar1.set(calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH),
+				calendar1.get(Calendar.DAY_OF_MONTH) - 1, 0, 0, 0);
+		long firstTime = calendar1.getTime().getTime() / 1000;
 
-
-
-		//获取今天零点前一秒时间
+		// 获取今天零点前一秒时间
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)-1,23,59,59);
-		long lastTime = calendar.getTime().getTime()/1000;
-		//时间单位不是毫秒，时间要乘以1000
+		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) - 1,
+				23, 59, 59);
+		long lastTime = calendar.getTime().getTime() / 1000;
+		// 时间单位不是毫秒，时间要乘以1000
 		firstTime = firstTime * 1000L;
 		lastTime = lastTime * 1000L;
 
 		Rewrite_RecommendationAndTurnoverDataDTO recommendationAndTurnoverDataDTO = new Rewrite_RecommendationAndTurnoverDataDTO();
 		// 获取被推荐人longin库资料
-		User jhiUser = userRepository.findJhiUserById(Long.parseLong(userId));
-		if (jhiUser == null) {
-			return Result.fail("不存在该用户！");
+		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userId);
+		if (linkuser == null) {
+			return Result.fail("没有该用户!请重新输入查找!");
 		}
-		//解析时间
+		// 解析时间
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
 
 		String first = sdf.format(new Date(firstTime));
 		String last = sdf.format(new Date(lastTime));
-		//查找流水表，根据时间找到用户流水类型为9和10的记录
-		List<Receiptpay> amountSumList = receiptpayRepository.findReceiptpayByUseridAndTime(userId,first, last);
+		// 查找流水表，根据时间找到用户流水类型为9和10的记录
+		List<Receiptpay> amountSumList = receiptpayRepository.findReceiptpayByUseridAndTime(userId, first, last);
 		BigDecimal yesterdayRecommendationAmountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
-		//如果数据不为空，算出总额
+		// 如果数据不为空，算出总额
 		if (!amountSumList.isEmpty()) {
 			for (Receiptpay receiptpay : amountSumList) {
-				if(receiptpay.getAmount()!= null) {
+				if (receiptpay.getAmount() != null) {
 					BigDecimal amount = receiptpay.getAmount();
 					yesterdayRecommendationAmountSum = yesterdayRecommendationAmountSum.add(amount);
 				}
 
 			}
 		}
-		//根据时间查找营业额
+		// 根据时间查找营业额
 		List<Userorder> payee = userorderRepository.findByPayeeAndTime(userId, first, last);
 		BigDecimal yesterdayTurnoverAmountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
 		BigDecimal yesterdayAmountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
-		//如果数据不为空
+		// 如果数据不为空
 		if (!payee.isEmpty()) {
 			for (Userorder userorder : payee) {
-				if(userorder.getSum()!= null) {
+				if (userorder.getSum() != null) {
 					BigDecimal sum = userorder.getSum();
-					//昨日营业额
+					// 昨日营业额
 					yesterdayTurnoverAmountSum = yesterdayTurnoverAmountSum.add(sum);
 				}
 
 			}
 		}
-		//查找流水表，根据时间找到用户流水类型为3的记录
-		List<Receiptpay> yesterdayAmountSumList = receiptpayRepository.findByUseridAndTime(userId,first, last);
+		// 查找流水表，根据时间找到用户流水类型为3的记录
+		List<Receiptpay> yesterdayAmountSumList = receiptpayRepository.findByUseridAndTime(userId, first, last);
 		if (!yesterdayAmountSumList.isEmpty()) {
 			for (Receiptpay receiptpay : yesterdayAmountSumList) {
-				//昨日总收入
+				// 昨日总收入
 				yesterdayAmountSum = yesterdayAmountSum.add(receiptpay.getAmount());
 			}
-			
+
 		}
 //		//昨日总收入
 //		yesterdayAmountSum = yesterdayRecommendationAmountSum.add(yesterdayTurnoverAmountSum);
-		
 
 //		BigDecimal allAmountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
 		BigDecimal allRecommendationAmountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
 		BigDecimal allTurnoverAmountSum = new BigDecimal(0).setScale(3, BigDecimal.ROUND_DOWN);
-		//查找流水表，根据时间找到用户流水类型为9和10的记录
+		// 查找流水表，根据时间找到用户流水类型为9和10的记录
 		List<BigDecimal> allRecommendationAmountList = receiptpayRepository.findReceiptpayByUserid(userId);
 		if (!allRecommendationAmountList.isEmpty()) {
-			
+
 			for (BigDecimal allRecommendationAmount : allRecommendationAmountList) {
-				//全部收益
+				// 全部收益
 				allRecommendationAmountSum = allRecommendationAmountSum.add(allRecommendationAmount);
 			}
 		}
-		//查找全部营业额
+		// 查找全部营业额
 		List<Userorder> UserorderList = userorderRepository.findAllByPayee(userId);
 		if (!UserorderList.isEmpty()) {
 			for (Userorder userorder : UserorderList) {
-				if(userorder.getSum()!= null) {
+				if (userorder.getSum() != null) {
 					BigDecimal sum = userorder.getSum();
-					//全部营业额
+					// 全部营业额
 					allTurnoverAmountSum = allTurnoverAmountSum.add(sum);
 				}
 			}
 		}
 		Userassets userassets = userassetsRepository.findByUserid(userId);
-		//总资产
+		// 总资产
 		String balance = userassets.getBalance();
 		BigDecimal allAmountSum = new BigDecimal(balance).setScale(3, BigDecimal.ROUND_DOWN);
 //		allAmountSum = allRecommendationAmountSum.add(allTurnoverAmountSum);
 
-		//保存到dto中
+		// 保存到dto中
 		recommendationAndTurnoverDataDTO.setAllAmountSum(allAmountSum);
 		recommendationAndTurnoverDataDTO.setAllTurnoverAmountSum(allTurnoverAmountSum);
 		recommendationAndTurnoverDataDTO.setYesterdayAmountSum(yesterdayAmountSum);
 		recommendationAndTurnoverDataDTO.setYesterdayRecommendationAmountSum(yesterdayRecommendationAmountSum);
 		recommendationAndTurnoverDataDTO.setYesterdayTurnoverAmountSum(yesterdayTurnoverAmountSum);
 
-		return Result.suc("查找成功",recommendationAndTurnoverDataDTO);
+		return Result.suc("查找成功", recommendationAndTurnoverDataDTO);
 	}
 }
