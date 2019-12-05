@@ -92,7 +92,7 @@ public class Rewrite_ActivityResource {
     @ApiOperation("广告查询")
     public ResponseEntity<Result> lunbotu(Integer type) {
         Result result = rewrite_activityService.lunbotu(type);
-        logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/zhuanhuankeyongzhijin","",result);
+        logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/lunbotu","",result);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
 

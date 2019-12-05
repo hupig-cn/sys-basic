@@ -1,4 +1,5 @@
 package com.weisen.www.code.yjf.basic.service.rewrite.impl;
+import java.time.Instant;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -375,12 +376,41 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
         List<Rewrite_AdvertisingDTO> list = new ArrayList<>();
         for (int i = 0; i < all.size(); i++) {
             Rewrite_AdvertisingDTO ac = new Rewrite_AdvertisingDTO();
+
+
             Advertisement advertisement = all.get(i);
             String pictureLink = advertisement.getPictureLink();
             Files files = filesRepository.findByIds(Long.valueOf(pictureLink));
             Integer height = files.getHeight();
             Integer width = files.getWidth();
-            ac.setAdvertisement(advertisement);
+
+            Long id = advertisement.getId();
+            String name = advertisement.getName();
+            String introduction = advertisement.getIntroduction();
+            String pictureFormat = advertisement.getPictureFormat();
+            String pictureLink1 = advertisement.getPictureLink();
+            Integer sort = advertisement.getSort();
+            String link = advertisement.getLink();
+            String advType = advertisement.getAdvType();
+            Integer linkType = advertisement.getLinkType();
+            Integer type1 = advertisement.getType();
+            Integer state = advertisement.getState();
+            Instant createdDate = advertisement.getCreatedDate();
+            Instant lastModifiedDate = advertisement.getLastModifiedDate();
+
+            ac.setId(id);
+            ac.setName(name);
+            ac.setIntroduction(introduction);
+            ac.setPictureFormat(pictureFormat);
+            ac.setPictureLink(pictureLink1);
+            ac.setSort(sort);
+            ac.setLink(link);
+            ac.setAdvType(advType);
+            ac.setLinkType(linkType);
+            ac.setType(type1);
+            ac.setState(state);
+            ac.setCreatedDate(createdDate);
+            ac.setLastModifiedDate(lastModifiedDate);
             ac.setHeight(height);
             ac.setWidth(width);
             ac.setUrl(imagesPath+Long.valueOf(pictureLink));
