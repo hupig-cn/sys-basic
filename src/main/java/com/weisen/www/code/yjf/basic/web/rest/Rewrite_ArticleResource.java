@@ -56,10 +56,15 @@ public class Rewrite_ArticleResource {
     
     @GetMapping("/public/findArticlePush")
     @ApiOperation(value = "文章推荐")
-    public ResponseEntity<Result> findArticlePush(@RequestParam("id") Long id) {
-    	Result result = rewrite_ArticleService.finddeails(id);
+    public ResponseEntity<Result> findArticlePush() {
+    	Result result = rewrite_ArticleService.findArticlePush();
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
     
-
+    @GetMapping("/public/findArticleByUserid")
+    @ApiOperation(value = "我的文章")
+    public ResponseEntity<Result> findArticleByUserid(@RequestParam("userid") Long userid,@RequestParam("pageNmb") Integer pageNmb,@RequestParam("pageSize") Integer pageSize) {
+    	Result result = rewrite_ArticleService.findArticleByUserid(userid,pageNmb,pageSize);
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
 }
