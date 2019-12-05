@@ -1,23 +1,21 @@
 package com.weisen.www.code.yjf.basic.service.rewrite.impl;
+import java.time.Instant;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import com.weisen.www.code.yjf.basic.domain.*;
+import com.weisen.www.code.yjf.basic.repository.*;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_MerchantRepository;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_AdvertisingDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActivityPay2DTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActivityPayDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActivitySerDTO;
 import com.weisen.www.code.yjf.basic.service.util.TimeUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.weisen.www.code.yjf.basic.repository.ActivityPayRepository;
-import com.weisen.www.code.yjf.basic.repository.ActivitySerRepository;
-import com.weisen.www.code.yjf.basic.repository.FilesRepository;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkaccountRepository;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
-import com.weisen.www.code.yjf.basic.repository.Rewrite_UserassetsRepository;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_ActivityService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActAmoDTO;
@@ -27,6 +25,9 @@ import com.weisen.www.code.yjf.basic.util.Result;
 @Service
 @Transactional
 public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
+
+    @Value("${images-path}")
+    private String imagesPath;
 
 	private final ActivityPayRepository rewrite_ActivityPayRepository;
 
@@ -44,12 +45,14 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 
 	private final Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository;
 
+	private final Rewrite_AdvertisementRepository rewrite_advertisementRepository;
+
 	public Rewrite_ActivityServiceImpl(ActivityPayRepository rewrite_ActivityPayRepository,
-			ActivitySerRepository rewrite_ActivitySerRepository, FilesRepository filesRepository,
-			Rewrite_UserRepository userRepository, Rewrite_LinkaccountRepository linkaccountRepository,
-			Rewrite_MerchantRepository rewrite_merchantRepository,
-			Rewrite_UserassetsRepository rewrite_UserassetsRepository,
-			Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository) {
+                                       ActivitySerRepository rewrite_ActivitySerRepository, FilesRepository filesRepository,
+                                       Rewrite_UserRepository userRepository, Rewrite_LinkaccountRepository linkaccountRepository,
+                                       Rewrite_MerchantRepository rewrite_merchantRepository,
+                                       Rewrite_UserassetsRepository rewrite_UserassetsRepository,
+                                       Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository, Rewrite_AdvertisementRepository rewrite_advertisementRepository) {
 		this.rewrite_ActivityPayRepository = rewrite_ActivityPayRepository;
 		this.filesRepository = filesRepository;
 		this.rewrite_ActivitySerRepository = rewrite_ActivitySerRepository;
@@ -58,7 +61,8 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 		this.rewrite_MerchantRepository = rewrite_merchantRepository;
 		this.rewrite_UserassetsRepository = rewrite_UserassetsRepository;
 		this.rewrite_ReceiptpayRepository = rewrite_ReceiptpayRepository;
-	}
+        this.rewrite_advertisementRepository = rewrite_advertisementRepository;
+    }
 
 	/**
 	 * 优惠活动
@@ -359,5 +363,62 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 			return Result.suc("查询成功!", rewrite_ActivityPayDTOs, rewrite_ActivityPayDTOs.size());
 		}
 	}
+
+
+    @Override
+    public Result lunbotu(Integer type) {
+        List<Advertisement> all = new ArrayList<>();
+	    if (type == 0){
+         all = rewrite_advertisementRepository.findAll();
+        }else if(type == 1){
+	        all = rewrite_advertisementRepository.findAdvertisementByAdvType(type);
+        }
+        List<Rewrite_AdvertisingDTO> list = new ArrayList<>();
+        for (int i = 0; i < all.size(); i++) {
+            Rewrite_AdvertisingDTO ac = new Rewrite_AdvertisingDTO();
+
+
+            Advertisement advertisement = all.get(i);
+            String pictureLink = advertisement.getPictureLink();
+            Files files = filesRepository.findByIds(Long.valueOf(pictureLink));
+            Integer height = files.getHeight();
+            Integer width = files.getWidth();
+
+            Long id = advertisement.getId();
+            String name = advertisement.getName();
+            String introduction = advertisement.getIntroduction();
+            String pictureFormat = advertisement.getPictureFormat();
+            String pictureLink1 = advertisement.getPictureLink();
+            Integer sort = advertisement.getSort();
+            String link = advertisement.getLink();
+            String advType = advertisement.getAdvType();
+            Integer linkType = advertisement.getLinkType();
+            Integer type1 = advertisement.getType();
+            Integer state = advertisement.getState();
+            Instant createdDate = advertisement.getCreatedDate();
+            Instant lastModifiedDate = advertisement.getLastModifiedDate();
+
+            ac.setId(id);
+            ac.setName(name);
+            ac.setIntroduction(introduction);
+            ac.setPictureFormat(pictureFormat);
+            ac.setPictureLink(pictureLink1);
+            ac.setSort(sort);
+            ac.setLink(link);
+            ac.setAdvType(advType);
+            ac.setLinkType(linkType);
+            ac.setType(type1);
+            ac.setState(state);
+            ac.setCreatedDate(createdDate);
+            ac.setLastModifiedDate(lastModifiedDate);
+            ac.setHeight(height);
+            ac.setWidth(width);
+            ac.setUrl(imagesPath+Long.valueOf(pictureLink));
+            list.add(ac);
+        }
+
+        return Result.suc("查询成功",list,list.size());
+    }
+
 
 }

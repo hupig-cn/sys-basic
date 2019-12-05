@@ -62,5 +62,10 @@
     <changeSet id="20191117214554_add_column" author="shuishui">
         <renameColumn tableName="level" oldColumnName="turnover" newColumnName="turnover" columnDataType="bigint"/>
     </changeSet>
+    <changeSet id="20191204162201_add_column" author="shuishui">
+        <addColumn tableName="level">
+            <column name="createdate" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

@@ -516,7 +516,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         		//当用户付款金额小于一块钱时没有优惠
         		BigDecimal compare = new BigDecimal("1");
         		//比较是否小于1
-        		if (amount.compareTo(compare)==1) {
+        		if (!(amount.compareTo(compare)== -1)) {
         			//利率
         			BigDecimal interestRate = new BigDecimal("0.1").setScale(4, BigDecimal.ROUND_DOWN);
         			//转化金额
