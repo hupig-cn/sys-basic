@@ -371,7 +371,7 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 	    if (type == 0){
          all = rewrite_advertisementRepository.findAll();
         }else if(type == 1){
-	        all = rewrite_advertisementRepository.findAdvertisementByAdvType(type);
+	        all = rewrite_advertisementRepository.findAdvertisementByAdvType(type+"");
         }
         List<Rewrite_AdvertisingDTO> list = new ArrayList<>();
         for (int i = 0; i < all.size(); i++) {

@@ -28,5 +28,5 @@ public interface Rewrite_AdvertisementRepository extends JpaRepository<Advertise
 	Integer getCountByName(@Param("name") String name,@Param("type") Integer type);
 
 
-	List<Advertisement> findAdvertisementByAdvType(Integer type);
+	List<Advertisement> findAdvertisementByAdvType(String type);
 }
