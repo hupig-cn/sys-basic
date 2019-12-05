@@ -229,7 +229,7 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 				activityPay.setUserId(userId);
 				// 提现类型
 				activityPay.setType(3);
-				// 还没提现的可用资金
+				// 提现之后的可用资金
 				activityPay.setTransformationAmo(businessMoney.subtract(userMoney));
 				// 提现金额
 				activityPay.setIncomeAmo(userMoney.setScale(0));
