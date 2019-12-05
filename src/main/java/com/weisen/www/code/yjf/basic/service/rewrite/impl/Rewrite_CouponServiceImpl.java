@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Locale;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.weisen.www.code.yjf.basic.domain.Linkuser;
 import com.weisen.www.code.yjf.basic.domain.Receiptpay;
-import com.weisen.www.code.yjf.basic.domain.User;
 import com.weisen.www.code.yjf.basic.domain.Userassets;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ReceiptpayRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserassetsRepository;
-import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_CouponService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_CouponDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_UserassetsDTO;
@@ -28,13 +28,14 @@ public class Rewrite_CouponServiceImpl implements Rewrite_CouponService {
 
 	private final Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository;
 
-	private final Rewrite_UserRepository rewrite_UserRepository;
+	private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
 
 	public Rewrite_CouponServiceImpl(Rewrite_UserassetsRepository rewrite_UserassetsRepository,
-			Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository, Rewrite_UserRepository rewrite_UserRepository) {
+			Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository,
+			Rewrite_LinkuserRepository rewrite_LinkuserRepository) {
 		this.rewrite_UserassetsRepository = rewrite_UserassetsRepository;
 		this.rewrite_ReceiptpayRepository = rewrite_ReceiptpayRepository;
-		this.rewrite_UserRepository = rewrite_UserRepository;
+		this.rewrite_LinkuserRepository = rewrite_LinkuserRepository;
 	}
 
 	/**
@@ -45,8 +46,8 @@ public class Rewrite_CouponServiceImpl implements Rewrite_CouponService {
 	@Override
 	public Result getCoupon(String userId) {
 		// 判断是否有该用户
-		User jhiUser = rewrite_UserRepository.findJhiUserById(Long.parseLong(userId));
-		if (jhiUser == null) {
+		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userId);
+		if (linkuser == null) {
 			return Result.fail("没有该用户!请重新输入查找!");
 		} else {
 			Userassets userassets = rewrite_UserassetsRepository.findByUserid(userId);
@@ -65,8 +66,8 @@ public class Rewrite_CouponServiceImpl implements Rewrite_CouponService {
 	public Result getUserCoupon(String userId, Integer pageNum, Integer pageSize) {
 		// 判断是否有该用户
 		// 获取被推荐人Login库资料
-		User jhiUser = rewrite_UserRepository.findJhiUserById(Long.parseLong(userId));
-		if (jhiUser == null) {
+		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(userId);
+		if (linkuser == null) {
 			return Result.fail("没有该用户!请重新输入查找!");
 		} else {
 			List<Rewrite_CouponDTO> rewrite_CouponDTOs = new ArrayList<Rewrite_CouponDTO>();
