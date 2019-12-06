@@ -27,6 +27,6 @@ public interface Rewrite_AdvertisementRepository extends JpaRepository<Advertise
 	@Query(nativeQuery = true, value = "SELECT COUNT(*) FROM advertisement a WHERE (:name is null or a.name like %:name%) and (:type is null or a.jhi_type = :type)")
 	Integer getCountByName(@Param("name") String name,@Param("type") Integer type);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM advertisement WHERE jhi_type = ?1")
+    @Query(nativeQuery = true, value = "SELECT * FROM advertisement WHERE jhi_type = ?1 and state = 1 ")
     List<Advertisement> findAdvertisementByAdvType(String type);
 }
