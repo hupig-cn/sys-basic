@@ -63,7 +63,7 @@ public class Rewrite_ArticleServiceImpl implements Rewrite_ArticleService {
 		article.setContent(content);
 		article.setLogicDelete((long)1);
 		article.setAuthor((long)0);
-		article.setCreatetime(TimeUtil.getNowTime());
+		article.setCreatetime(TimeUtil.getDate());
 		Article data = rewrite_ArticleRepository.save(article);
 		return Result.suc("发布成功",data.getId());
 	}
