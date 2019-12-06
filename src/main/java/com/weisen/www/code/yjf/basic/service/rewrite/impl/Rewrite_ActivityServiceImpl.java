@@ -148,6 +148,7 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 				}
 				rewrite_ActAmoDTO.setTime(TimeUtil.getTime(createDate));
 				rewrite_ActAmoDTO.setTransFormAmount(transformationAmo);
+				rewrite_ActAmoDTO.setStatus(1);
 				actAmoDTOList.add(rewrite_ActAmoDTO);
 			}
 		} else {

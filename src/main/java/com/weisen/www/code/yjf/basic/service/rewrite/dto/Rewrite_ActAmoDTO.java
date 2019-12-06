@@ -12,19 +12,22 @@ public class Rewrite_ActAmoDTO implements Serializable {
 
 	@ApiModelProperty(value = "用户昵称")
 	private String userNickName;
-	
+
 	@ApiModelProperty(value = "用户头像url")
 	private String userUrl;
 
 	@ApiModelProperty(value = "付款金额")
 	private BigDecimal paymentAmount;
-	
+
 	@ApiModelProperty(value = "转化金额")
 	private BigDecimal transFormAmount;
 
 	@ApiModelProperty(value = "流水时间")
 	private String Time;
-	
+
+	@ApiModelProperty(value = "用户支出、收入积分0=支出,1=收入", example = "0")
+	private Integer status;
+
 	public String getUserNickName() {
 		return userNickName;
 	}
@@ -32,7 +35,6 @@ public class Rewrite_ActAmoDTO implements Serializable {
 	public void setUserNickName(String userNickName) {
 		this.userNickName = userNickName;
 	}
-
 
 	public String getUserUrl() {
 		return userUrl;
@@ -58,13 +60,20 @@ public class Rewrite_ActAmoDTO implements Serializable {
 		this.transFormAmount = transFormAmount;
 	}
 
-
 	public String getTime() {
 		return Time;
 	}
 
 	public void setTime(String time) {
 		Time = time;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 }
