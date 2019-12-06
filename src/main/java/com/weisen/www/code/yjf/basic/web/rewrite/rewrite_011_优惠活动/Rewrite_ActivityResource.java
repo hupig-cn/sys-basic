@@ -34,21 +34,21 @@ public class Rewrite_ActivityResource {
 		this.rewrite_activityService = rewrite_activityService;
 	}
 
-	@PostMapping(value = "/query/amount")
+	@PostMapping(value = "/public/query/amount")
 	@ApiOperation(value = "查询用户活动流水")
 	public ResponseEntity<Result> getCoupon(@RequestParam(value = "userId") String userId,
 			@RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
-		Result result = rewrite_activityService.queryAmount(userId,pageNum,pageSize);
-		logger.debug("访问成功:{},传入值:{},返回值:{}", "/query/amount", userId+","+pageNum+","+pageSize, result);
+		Result result = rewrite_activityService.queryAmount(userId, pageNum, pageSize);
+		logger.debug("访问成功:{},传入值:{},返回值:{}", "/public/query/amount", userId + "," + pageNum + "," + pageSize, result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
 
 	// 查询商家的可用资金和活动资金 LuoJinShui
-	@PostMapping(value = "/user/get/AvailableAmoAndActivityAmo")
+	@PostMapping(value = "/public/user/get/AvailableAmoAndActivityAmo")
 	@ApiOperation(value = "查询用户可用资金和活动资金")
 	public ResponseEntity<Result> getAvailableAmoAndActivityAmo(@RequestParam(value = "userId") String userId) {
 		Result result = rewrite_activityService.getAvailableAmoAndActivityAmo(userId);
-		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/get/AvailableAmoAndActivityAmo", userId, result);
+		logger.debug("访问成功:{},传入值:{},返回值:{}", "/public/user/get/AvailableAmoAndActivityAmo", userId, result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 
 	}
@@ -65,34 +65,34 @@ public class Rewrite_ActivityResource {
 	}
 
 	// 查询可用资金流水明细 LuoJinShui
-	@PostMapping("/user/getWithdrawalDetails")
+	@PostMapping("/public/user/getWithdrawalDetails")
 	@ApiOperation("查询可用资金流水明细")
 	public ResponseEntity<Result> getWithdrawalDetails(@RequestParam(value = "userId") String userId,
 			@RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
 		Result result = rewrite_activityService.getWithdrawalDetails(userId, pageNum, pageSize);
-		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/getWithdrawalDetails", userId + "," + pageNum + "," + pageSize,
-				result);
+		logger.debug("访问成功:{},传入值:{},返回值:{}", "/public/user/getWithdrawalDetails",
+				userId + "," + pageNum + "," + pageSize, result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
 
 	// 查询转换资金流水明细 RuanMingHui
-	@PostMapping("/user/getConversionFunds")
+	@PostMapping("/public/user/getConversionFunds")
 	@ApiOperation("查询转换资金流水明细")
 	public ResponseEntity<Result> getConversionFunds(@RequestParam(value = "userId") String userId,
 			@RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
 		Result result = rewrite_activityService.getConversionFunds(userId, pageNum, pageSize);
-		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/getConversionFunds", userId + "," + pageNum + "," + pageSize,
-				result);
+		logger.debug("访问成功:{},传入值:{},返回值:{}", "/public/user/getConversionFunds",
+				userId + "," + pageNum + "," + pageSize, result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
 
-    // 广告 Shui
-    @PostMapping("/public/user/lunbotu")
-    @ApiOperation("广告查询")
-    public ResponseEntity<Result> lunbotu(Integer type) {
-        Result result = rewrite_activityService.lunbotu(type);
-        logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/lunbotu","",result);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
-    }
+	// 广告 Shui
+	@PostMapping("/public/user/lunbotu")
+	@ApiOperation("广告查询")
+	public ResponseEntity<Result> lunbotu(Integer type) {
+		Result result = rewrite_activityService.lunbotu(type);
+		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/lunbotu", "", result);
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+	}
 
 }
