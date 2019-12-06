@@ -17,8 +17,4 @@ public interface ActivityPayRepository extends JpaRepository<ActivityPay, Long> 
 	@Query(value = "select * from activity_pay where user_id = ?1 and type = ?2 ORDER BY create_time DESC LIMIT ?3,?4", nativeQuery = true)
 	List<ActivityPay> findByUserIdAndType(String userId, Integer type, Integer pageNum, Integer pageSize);
 
-	// 根据用户id查询流水
-	@Query(value = "select * from activity_pay where user_id = ?1 and type = 1 and create_time between ?2 and ?3 order by create_time desc limit ?4,?5", nativeQuery = true)
-	List<ActivityPay> findByUserId(String Userid, String firstTime, String lastTime, Integer indexPage,
-			Integer pageSize);
 }

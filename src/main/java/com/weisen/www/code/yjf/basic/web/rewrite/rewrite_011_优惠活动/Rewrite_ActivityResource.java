@@ -6,12 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_ActivityService;
-import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetActivityPayDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.Api;
@@ -38,9 +36,10 @@ public class Rewrite_ActivityResource {
 
 	@PostMapping(value = "/query/amount")
 	@ApiOperation(value = "查询用户活动流水")
-	public ResponseEntity<Result> getCoupon(@RequestBody Rewrite_GetActivityPayDTO getActivityPayDTO) {
-		Result result = rewrite_activityService.queryAmount(getActivityPayDTO);
-		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/get/Coupon", getActivityPayDTO, result);
+	public ResponseEntity<Result> getCoupon(@RequestParam(value = "userId") String userId,
+			@RequestParam(value = "pageNum") Integer pageNum, @RequestParam(value = "pageSize") Integer pageSize) {
+		Result result = rewrite_activityService.queryAmount(userId,pageNum,pageSize);
+		logger.debug("访问成功:{},传入值:{},返回值:{}", "/query/amount", userId+","+pageNum+","+pageSize, result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
 

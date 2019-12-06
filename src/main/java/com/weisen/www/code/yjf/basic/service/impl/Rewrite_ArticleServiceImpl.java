@@ -76,7 +76,7 @@ public class Rewrite_ArticleServiceImpl implements Rewrite_ArticleService {
 
 	@Override
 	public Result findArticleByUserid(Long userid,Integer pageNmb,Integer pagesize) {
-		List<Article> data = rewrite_ArticleRepository.findArticleByUserid(userid, pageNmb*pagesize, pagesize);
+		List<Map<String,Object>> data = rewrite_ArticleRepository.findArticleByUserid(userid, pageNmb*pagesize, pagesize);
 		return Result.suc("获取成功",data);
 	}
 	

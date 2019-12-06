@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
 import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_ActivityService;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActAmoDTO;
-import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_GetActivityPayDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 @Service
@@ -72,19 +71,9 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
      * @author sxx
      */
     @Override
-    public Result queryAmount(Rewrite_GetActivityPayDTO getActivityPayDTO) {
-        String userId = getActivityPayDTO.getUserId();
-        Integer pageNum = getActivityPayDTO.getPageNum();
-        Long firstTime = getActivityPayDTO.getFirstTime();
-        Long lastTime = getActivityPayDTO.getLastTime();
-        // 解析时间
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+    public Result queryAmount(String userId, Integer pageNum, Integer pageSize) {
 
-        String first = sdf.format(new Date(firstTime));
-        String last = sdf.format(new Date(lastTime));
-        Integer pageSize = getActivityPayDTO.getPageSize();
-        List<ActivityPay> userActivityPayList = rewrite_ActivityPayRepository.findByUserId(userId, first, last, pageNum,
-            pageSize);
+        List<ActivityPay> userActivityPayList = rewrite_ActivityPayRepository.findByUserIdAndType(userId, 1 ,pageNum, pageSize);
         String firstName = null;
         String url = null;
         LinkedList<Rewrite_ActAmoDTO> actAmoDTOList = new LinkedList<>();
