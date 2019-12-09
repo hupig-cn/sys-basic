@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -128,6 +129,7 @@ public class Rewrite_PaymethodServiceImpl implements Rewrite_PaymethodService {
 
                 ac.add(c);
             }
+            Collections.reverse(ac);
             if (r.getGoodsid().equals(1)){
                 for (int i = 0; i < ac.size(); i++) {
                     Rewrite_submitPayMethodDTO3 dto3 = ac.get(i);
