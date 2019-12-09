@@ -254,8 +254,8 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
                 BigDecimal balanceMoney = new BigDecimal(userassets.getBalance());
                 BigDecimal usablebalanceMoney = new BigDecimal(userassets.getUsablebalance());
                 // 实时余额加提现金额并保存到资产表
-                userassets.setBalance(userMoney.add(balanceMoney).setScale(3).toString());
-                userassets.setUsablebalance(userMoney.add(usablebalanceMoney).setScale(3).toString());
+                userassets.setBalance(userMoney.add(balanceMoney).setScale(3,BigDecimal.ROUND_DOWN).toString());
+                userassets.setUsablebalance(userMoney.add(usablebalanceMoney).setScale(3,BigDecimal.ROUND_DOWN).toString());
                 // 修改资产时间
                 userassets.setModifierdate(TimeUtil.getDate());
 
