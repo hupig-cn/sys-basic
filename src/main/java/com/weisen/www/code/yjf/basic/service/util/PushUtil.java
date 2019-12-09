@@ -143,7 +143,7 @@ public class PushUtil {
         JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY, null, ClientConfig.getInstance());
 
         // For push, all you need do is to build PushPayload object.
-        PushPayload payload = buildPushObject_all_alias_alert("79","支付宝到账99999元");
+        PushPayload payload = buildPushObject_all_alias_alert("388","支付宝到账99999元");
         
 
         try {
