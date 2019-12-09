@@ -95,4 +95,12 @@ public class Rewrite_ActivityResource {
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
 
+    // 查询转换资金流水明细 RuanMingHui
+    @PostMapping("/public/user/getConveguoguoguo")
+    @ApiOperation("锅哦")
+    public ResponseEntity<Result> getConveguoguoguo(String startTime,String endTime) {
+        Result result = rewrite_activityService.getConveguoguoguo(startTime,endTime);
+        logger.debug("访问成功:{},传入值:{},返回值:{}", "/public/user/getConversionFunds",result);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
 }

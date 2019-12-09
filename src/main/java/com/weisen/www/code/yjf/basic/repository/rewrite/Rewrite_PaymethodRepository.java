@@ -18,5 +18,4 @@ public interface Rewrite_PaymethodRepository extends JpaRepository<Paymethod, Lo
     List<Paymethod> findPayMethodByOsAndOnline(@Param("os") String os,@Param("online") Boolean online);
     @Query(value = "select * from paymethod where switchs = 1 ORDER jhi_order",nativeQuery = true)
     List<Paymethod> findPaymethod();
-
 }
