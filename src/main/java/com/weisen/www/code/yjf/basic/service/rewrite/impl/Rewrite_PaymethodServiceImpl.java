@@ -113,7 +113,7 @@ public class Rewrite_PaymethodServiceImpl implements Rewrite_PaymethodService {
 
                 Paymethod paymethod = payMethodByOsAndOnline.get(i);
                 String title = paymethod.getTitle();
-                String other = paymethod.getOther();
+                String other = paymethod.getCreator();
                 Files ids = filesRepository.findByIds(Long.valueOf(other));
                 Integer width = ids.getWidth();
                 Integer height = ids.getHeight();
