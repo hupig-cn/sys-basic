@@ -423,4 +423,9 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
         return Result.suc("查询成功", list, list.size());
     }
 
+    @Override
+    public Result getConveguoguoguo(String startTime, String endTime) {
+        return null;
+    }
+
 }

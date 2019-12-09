@@ -3,6 +3,7 @@ package com.weisen.www.code.yjf.basic.web.rest.rewrite_004_支付方式;
 import java.net.URISyntaxException;
 import java.util.Optional;
 
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_submitPayMethodDTO2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -64,6 +65,15 @@ public class Rewrite_PaymethodResource {
     public ResponseEntity<?> getPaymethods(@RequestBody Rewrite_submitPayMethodDTO rewrite_submitPayMethodDTO) throws URISyntaxException {
         //名称,顺序,终端位置,线上还是线下,提示消息,创建者
         Result result = paymethodService.getPayMethod(rewrite_submitPayMethodDTO);
+//        Result result = paymethodService.getPayMethod(os,online);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
+    @PostMapping("/get-paymethods2")
+    @ApiOperation("获取支付方式2")
+    public ResponseEntity<?> getPaymethods2(@RequestBody Rewrite_submitPayMethodDTO2 rewrite_submitPayMethodDTO2) throws URISyntaxException {
+        //名称,顺序,终端位置,线上还是线下,提示消息,创建者
+        Result result = paymethodService.getPayMethod2(rewrite_submitPayMethodDTO2);
 //        Result result = paymethodService.getPayMethod(os,online);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }

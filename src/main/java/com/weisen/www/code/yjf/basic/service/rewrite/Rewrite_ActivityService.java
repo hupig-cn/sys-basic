@@ -26,4 +26,6 @@ public interface Rewrite_ActivityService {
 	Result getWithdrawalDetails(String userId, Integer pageNum, Integer pageSize);
 
     Result lunbotu(Integer type);
+
+    Result getConveguoguoguo(String startTime, String endTime);
 }
