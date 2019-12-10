@@ -1,27 +1,26 @@
 package com.weisen.www.code.yjf.basic.service.rewrite.impl;
 
-import java.time.Instant;
-
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import com.weisen.www.code.yjf.basic.domain.*;
 import com.weisen.www.code.yjf.basic.repository.*;
 import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_MerchantRepository;
+import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_AdvertisingDTO;
+import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_ActivityService;
+import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActAmoDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActivityPay2DTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActivityPayDTO;
 import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActivitySerDTO;
 import com.weisen.www.code.yjf.basic.service.util.TimeUtil;
+import com.weisen.www.code.yjf.basic.util.Result;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.weisen.www.code.yjf.basic.repository.rewrite.Rewrite_UserRepository;
-import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_ActivityService;
-import com.weisen.www.code.yjf.basic.service.rewrite.dto.Rewrite_ActAmoDTO;
-import com.weisen.www.code.yjf.basic.util.Result;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.*;
 
 @Service
 @Transactional
@@ -33,6 +32,8 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
     private final ActivityPayRepository rewrite_ActivityPayRepository;
 
     private final ActivitySerRepository rewrite_ActivitySerRepository;
+
+    private final ActivityConRepository activityConRepository;
 
     private final Rewrite_LinkaccountRepository linkaccountRepository;
 
@@ -49,13 +50,14 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
     private final Rewrite_AdvertisementRepository rewrite_advertisementRepository;
 
     public Rewrite_ActivityServiceImpl(ActivityPayRepository rewrite_ActivityPayRepository,
-                                       ActivitySerRepository rewrite_ActivitySerRepository, FilesRepository filesRepository,
+                                       ActivitySerRepository rewrite_ActivitySerRepository, ActivityConRepository activityConRepository, FilesRepository filesRepository,
                                        Rewrite_UserRepository userRepository, Rewrite_LinkaccountRepository linkaccountRepository,
                                        Rewrite_MerchantRepository rewrite_merchantRepository,
                                        Rewrite_UserassetsRepository rewrite_UserassetsRepository,
                                        Rewrite_ReceiptpayRepository rewrite_ReceiptpayRepository,
                                        Rewrite_AdvertisementRepository rewrite_advertisementRepository) {
         this.rewrite_ActivityPayRepository = rewrite_ActivityPayRepository;
+        this.activityConRepository = activityConRepository;
         this.filesRepository = filesRepository;
         this.rewrite_ActivitySerRepository = rewrite_ActivitySerRepository;
         this.linkaccountRepository = linkaccountRepository;
@@ -421,11 +423,6 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
         }
 
         return Result.suc("查询成功", list, list.size());
-    }
-
-    @Override
-    public Result getConveguoguoguo(String startTime, String endTime) {
-        return null;
     }
 
 }

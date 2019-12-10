@@ -2,6 +2,7 @@ package com.weisen.www.code.yjf.basic.repository;
 
 import com.weisen.www.code.yjf.basic.domain.ActivityPay;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.*;

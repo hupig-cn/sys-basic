@@ -1,7 +1,10 @@
 package com.weisen.www.code.yjf.basic.web.rewrite.rewrite_011_优惠活动;
 
-import java.util.Optional;
-
+import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_ActivityService;
+import com.weisen.www.code.yjf.basic.util.Result;
+import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -9,11 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.weisen.www.code.yjf.basic.service.rewrite.Rewrite_ActivityService;
-import com.weisen.www.code.yjf.basic.util.Result;
-import io.github.jhipster.web.util.ResponseUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+
+import java.util.Optional;
 
 /**
  * 优惠活动接口
@@ -95,12 +95,4 @@ public class Rewrite_ActivityResource {
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
 
-    // 查询转换资金流水明细 RuanMingHui
-    @PostMapping("/public/user/getConveguoguoguo")
-    @ApiOperation("锅哦")
-    public ResponseEntity<Result> getConveguoguoguo(String startTime,String endTime) {
-        Result result = rewrite_activityService.getConveguoguoguo(startTime,endTime);
-        logger.debug("访问成功:{},传入值:{},返回值:{}", "/public/user/getConversionFunds",result);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
-    }
 }
