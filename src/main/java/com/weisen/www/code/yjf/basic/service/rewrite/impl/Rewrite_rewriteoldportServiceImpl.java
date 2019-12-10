@@ -19,7 +19,7 @@ public class Rewrite_rewriteoldportServiceImpl implements Rewrite_rewriteoldport
     }
 
     @Override
-    public Result verificationIdCard(String userid, String idcard) {
+    public Result verificationIdCard(String userid, String idcard,String name) {
         Linkuser byIdcard = rewrite_linkuserRepository.findByIdcard(idcard);
         if (byIdcard != null){
             return Result.fail("该身份证已被注册");
@@ -31,14 +31,26 @@ public class Rewrite_rewriteoldportServiceImpl implements Rewrite_rewriteoldport
             return Result.fail("已验证，请勿重复验证");
         }
         boolean idNumber = shenfenzhenUtil.isIDNumber(idcard);
-        if (idNumber){
-            Long id = byUserid.getId();
-            byUserid.setId(id);
-            byUserid.setIdcard(idcard);
-            rewrite_linkuserRepository.save(byUserid);
-            return Result.suc("验证通过");
+        boolean b = shenfenzhenUtil.ClearName(name);//百家姓
+        boolean b1 = shenfenzhenUtil.checkNameChese(name);//判断是否全部为中文
+        int length = name.toCharArray().length;
+        if (length >=2 && length <=4){
+            if (!idNumber){
+                return Result.fail("身份证输入错误");
+            } else if (!b){
+                return Result.fail("输入特殊姓氏，请联系客服验证个人信息");
+            }else if (!b1) {
+                return Result.fail("请输入全部汉字");
+            }else {
+                Long id = byUserid.getId();
+                byUserid.setId(id);
+                byUserid.setIdcard(idcard);
+                byUserid.setName(name);
+                rewrite_linkuserRepository.save(byUserid);
+                return Result.fail("身份证输入错误");
+            }
         }else {
-            return Result.fail("身份证输入错误");
+            return Result.fail("名字太长或者太短，请联系客服验证个人信息");
         }
 
     }

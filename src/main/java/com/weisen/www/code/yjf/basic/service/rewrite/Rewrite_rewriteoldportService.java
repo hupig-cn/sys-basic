@@ -10,7 +10,7 @@ import com.weisen.www.code.yjf.basic.util.Result;
  */
 public interface Rewrite_rewriteoldportService {
 
-    Result verificationIdCard(String userid, String idcard);
+    Result verificationIdCard(String userid, String idcard,String name);
 
     Result selectVerification(String userid);
 }
