@@ -82,5 +82,10 @@
      <changeSet id="20191203171725_rename_column" author="sxx">
         <renameColumn tableName="activity_ser" oldColumnName="available_amo" newColumnName="available_amo" columnDataType="decimal(21,8)"/>
     </changeSet>
+    <changeSet id="20191211110300" author="hx">
+    	<addColumn tableName="activity_ser" >
+    		<column name="rule" type="int" defaultValue="0"/>
+    	</addColumn>
+    </changeSet>
 
 </databaseChangeLog>
