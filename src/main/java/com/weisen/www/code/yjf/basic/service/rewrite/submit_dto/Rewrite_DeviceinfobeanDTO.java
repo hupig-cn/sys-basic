@@ -27,7 +27,7 @@ public class Rewrite_DeviceinfobeanDTO implements Serializable {
 	private String sdkVersionName;
 
 	@ApiModelProperty(value = "SDK版本号")
-	private int sdkversioncode;
+	private int sdkVersionCode;
 
 	@ApiModelProperty(value = "系统名")
 	private String romName;
@@ -106,16 +106,20 @@ public class Rewrite_DeviceinfobeanDTO implements Serializable {
 		return sdkVersionName;
 	}
 
+	public int getSdkVersionCode() {
+		return sdkVersionCode;
+	}
+
+	public void setSdkVersionCode(int sdkVersionCode) {
+		this.sdkVersionCode = sdkVersionCode;
+	}
+
 	public void setSdkVersionName(String sdkVersionName) {
 		this.sdkVersionName = sdkVersionName;
 	}
 
-	public int getSdkversioncode() {
-		return sdkversioncode;
-	}
-
-	public void setSdkversioncode(int sdkversioncode) {
-		this.sdkversioncode = sdkversioncode;
+	public void setSdkversioncode(int sdkVersionCode) {
+		this.sdkVersionCode = sdkVersionCode;
 	}
 
 	public String getRomName() {
