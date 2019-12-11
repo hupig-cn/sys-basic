@@ -79,10 +79,6 @@ public class Rewrite_rewriteoldportServiceImpl implements Rewrite_rewriteoldport
 	@Override
 	public Result saveUserMobileInformation(Rewrite_DeviceinfobeanDTO rewrite_DeviceinfobeanDTO) {
 		Deviceinfobean deviceinfobean = new Deviceinfobean();
-		// 安卓版本
-		deviceinfobean.setPlatformandroid(rewrite_DeviceinfobeanDTO.getPlatformandroid());
-		// IOS版本
-		deviceinfobean.setPlatformios(rewrite_DeviceinfobeanDTO.getPlatformios());
 		// 用户ID
 		deviceinfobean.setUserid(rewrite_DeviceinfobeanDTO.getUserid());
 		// 平台

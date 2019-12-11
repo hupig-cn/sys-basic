@@ -8,12 +8,6 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "保存用户手机型号信息DTO")
 public class Rewrite_DeviceinfobeanDTO implements Serializable {
 
-	@ApiModelProperty(value = "安卓版本")
-	private String platformandroid;
-
-	@ApiModelProperty(value = "IOS版本")
-	private String platformios;
-
 	@ApiModelProperty(value = "用户id")
 	private String userid;
 
@@ -67,22 +61,6 @@ public class Rewrite_DeviceinfobeanDTO implements Serializable {
 
 	@ApiModelProperty(value = "是否Root")
 	private Boolean isroot;
-
-	public String getPlatformandroid() {
-		return platformandroid;
-	}
-
-	public void setPlatformandroid(String platformandroid) {
-		this.platformandroid = platformandroid;
-	}
-
-	public String getPlatformios() {
-		return platformios;
-	}
-
-	public void setPlatformios(String platformios) {
-		this.platformios = platformios;
-	}
 
 	public String getUserid() {
 		return userid;
