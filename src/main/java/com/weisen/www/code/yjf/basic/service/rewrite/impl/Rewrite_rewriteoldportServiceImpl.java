@@ -37,16 +37,16 @@ public class Rewrite_rewriteoldportServiceImpl implements Rewrite_rewriteoldport
 		} else if (byUserid.getIdcard() != null) {
 			return Result.fail("已验证，请勿重复验证");
 		}
-		boolean idNumber = shenfenzhenUtil.isIDNumber(idcard);
-		boolean b = shenfenzhenUtil.ClearName(name);// 百家姓
-		boolean b1 = shenfenzhenUtil.checkNameChese(name);// 判断是否全部为中文
+		// boolean idNumber = shenfenzhenUtil.isIDNumber(idcard);
+		// boolean b = shenfenzhenUtil.ClearName(name);//百家姓
+		// boolean b1 = shenfenzhenUtil.checkNameChese(name);//判断是否全部为中文
 		int length = name.toCharArray().length;
 		if (length >= 2 && length <= 4) {
-			if (!idNumber) {
+			if (!shenfenzhenUtil.isIDNumber(idcard)) {
 				return Result.fail("身份证输入错误");
-			} else if (!b) {
+			} else if (!shenfenzhenUtil.ClearName(name)) {
 				return Result.fail("输入特殊姓氏，请联系客服验证个人信息");
-			} else if (!b1) {
+			} else if (!shenfenzhenUtil.checkNameChese(name)) {
 				return Result.fail("请输入全部汉字");
 			} else {
 				Long id = byUserid.getId();
@@ -54,12 +54,11 @@ public class Rewrite_rewriteoldportServiceImpl implements Rewrite_rewriteoldport
 				byUserid.setIdcard(idcard);
 				byUserid.setName(name);
 				rewrite_linkuserRepository.save(byUserid);
-				return Result.fail("身份证输入错误");
+				return Result.suc("验证成功!");
 			}
 		} else {
 			return Result.fail("名字太长或者太短，请联系客服验证个人信息");
 		}
-
 	}
 
 	@Override
