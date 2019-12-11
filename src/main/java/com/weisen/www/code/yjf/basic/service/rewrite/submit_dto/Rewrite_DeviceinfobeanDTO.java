@@ -9,105 +9,105 @@ import io.swagger.annotations.ApiModelProperty;
 public class Rewrite_DeviceinfobeanDTO implements Serializable {
 
 	@ApiModelProperty(value = "用户id")
-	private int userid;
+	private int userId;
 
 	@ApiModelProperty(value = "平台")
-	private String platformname;
+	private String platform_name;
 
 	@ApiModelProperty(value = "制造商")
-	private String devicemanufacturer;
+	private String deviceManufacturer;
 
 	@ApiModelProperty(value = "型号")
-	private String devicemodel;
+	private String deviceModel;
 
 	@ApiModelProperty(value = "cpu架构")
-	private String deviceabis;
+	private String deviceAbis;
 
 	@ApiModelProperty(value = "SDK版本名")
-	private String sdkversionname;
+	private String sdkVersionName;
 
 	@ApiModelProperty(value = "SDK版本号")
 	private int sdkversioncode;
 
 	@ApiModelProperty(value = "系统名")
-	private String romname;
+	private String romName;
 
 	@ApiModelProperty(value = "系统版本")
-	private String romversion;
+	private String romVersion;
 
 	@ApiModelProperty(value = "屏幕宽度")
-	private int screenwidth;
+	private int screenWidth;
 
 	@ApiModelProperty(value = "屏幕高度")
-	private int screenheight;
+	private int screenHeight;
 
 	@ApiModelProperty(value = "app界面宽度")
-	private int appscreenwidth;
+	private int appScreenWidth;
 
 	@ApiModelProperty(value = "app界面高度")
-	private int appscreenheight;
+	private int appScreenHeight;
 
 	@ApiModelProperty(value = "屏幕分辨率")
-	private int screendensitydpi;
+	private int screenDensityDpi;
 
 	@ApiModelProperty(value = "屏幕大小")
-	private float screendensity;
+	private float screenDensity;
 
 	@ApiModelProperty(value = "APP版本名")
-	private String appversionname;
+	private String appVersionName;
 
 	@ApiModelProperty(value = "APP版本号")
-	private int appversioncode;
+	private int appVersionCode;
 
 	@ApiModelProperty(value = "是否Root")
-	private Boolean isroot;
+	private Boolean isRoot;
 
-	public int getUserid() {
-		return userid;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setUserid(int userid) {
-		this.userid = userid;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
-	public String getPlatformname() {
-		return platformname;
+	public String getPlatform_name() {
+		return platform_name;
 	}
 
-	public void setPlatformname(String platformname) {
-		this.platformname = platformname;
+	public void setPlatform_name(String platform_name) {
+		this.platform_name = platform_name;
 	}
 
-	public String getDevicemanufacturer() {
-		return devicemanufacturer;
+	public String getDeviceManufacturer() {
+		return deviceManufacturer;
 	}
 
-	public void setDevicemanufacturer(String devicemanufacturer) {
-		this.devicemanufacturer = devicemanufacturer;
+	public void setDeviceManufacturer(String deviceManufacturer) {
+		this.deviceManufacturer = deviceManufacturer;
 	}
 
-	public String getDevicemodel() {
-		return devicemodel;
+	public String getDeviceModel() {
+		return deviceModel;
 	}
 
-	public void setDevicemodel(String devicemodel) {
-		this.devicemodel = devicemodel;
+	public void setDeviceModel(String deviceModel) {
+		this.deviceModel = deviceModel;
 	}
 
-	public String getDeviceabis() {
-		return deviceabis;
+	public String getDeviceAbis() {
+		return deviceAbis;
 	}
 
-	public void setDeviceabis(String deviceabis) {
-		this.deviceabis = deviceabis;
+	public void setDeviceAbis(String deviceAbis) {
+		this.deviceAbis = deviceAbis;
 	}
 
-	public String getSdkversionname() {
-		return sdkversionname;
+	public String getSdkVersionName() {
+		return sdkVersionName;
 	}
 
-	public void setSdkversionname(String sdkversionname) {
-		this.sdkversionname = sdkversionname;
+	public void setSdkVersionName(String sdkVersionName) {
+		this.sdkVersionName = sdkVersionName;
 	}
 
 	public int getSdkversioncode() {
@@ -118,92 +118,92 @@ public class Rewrite_DeviceinfobeanDTO implements Serializable {
 		this.sdkversioncode = sdkversioncode;
 	}
 
-	public String getRomname() {
-		return romname;
+	public String getRomName() {
+		return romName;
 	}
 
-	public void setRomname(String romname) {
-		this.romname = romname;
+	public void setRomName(String romName) {
+		this.romName = romName;
 	}
 
-	public String getRomversion() {
-		return romversion;
+	public String getRomVersion() {
+		return romVersion;
 	}
 
-	public void setRomversion(String romversion) {
-		this.romversion = romversion;
+	public void setRomVersion(String romVersion) {
+		this.romVersion = romVersion;
 	}
 
-	public int getScreenwidth() {
-		return screenwidth;
+	public int getScreenWidth() {
+		return screenWidth;
 	}
 
-	public void setScreenwidth(int screenwidth) {
-		this.screenwidth = screenwidth;
+	public void setScreenWidth(int screenWidth) {
+		this.screenWidth = screenWidth;
 	}
 
-	public int getScreenheight() {
-		return screenheight;
+	public int getScreenHeight() {
+		return screenHeight;
 	}
 
-	public void setScreenheight(int screenheight) {
-		this.screenheight = screenheight;
+	public void setScreenHeight(int screenHeight) {
+		this.screenHeight = screenHeight;
 	}
 
-	public int getAppscreenwidth() {
-		return appscreenwidth;
+	public int getAppScreenWidth() {
+		return appScreenWidth;
 	}
 
-	public void setAppscreenwidth(int appscreenwidth) {
-		this.appscreenwidth = appscreenwidth;
+	public void setAppScreenWidth(int appScreenWidth) {
+		this.appScreenWidth = appScreenWidth;
 	}
 
-	public int getAppscreenheight() {
-		return appscreenheight;
+	public int getAppScreenHeight() {
+		return appScreenHeight;
 	}
 
-	public void setAppscreenheight(int appscreenheight) {
-		this.appscreenheight = appscreenheight;
+	public void setAppScreenHeight(int appScreenHeight) {
+		this.appScreenHeight = appScreenHeight;
 	}
 
-	public int getScreendensitydpi() {
-		return screendensitydpi;
+	public int getScreenDensityDpi() {
+		return screenDensityDpi;
 	}
 
-	public void setScreendensitydpi(int screendensitydpi) {
-		this.screendensitydpi = screendensitydpi;
+	public void setScreenDensityDpi(int screenDensityDpi) {
+		this.screenDensityDpi = screenDensityDpi;
 	}
 
-	public float getScreendensity() {
-		return screendensity;
+	public float getScreenDensity() {
+		return screenDensity;
 	}
 
-	public void setScreendensity(float screendensity) {
-		this.screendensity = screendensity;
+	public void setScreenDensity(float screenDensity) {
+		this.screenDensity = screenDensity;
 	}
 
-	public String getAppversionname() {
-		return appversionname;
+	public String getAppVersionName() {
+		return appVersionName;
 	}
 
-	public void setAppversionname(String appversionname) {
-		this.appversionname = appversionname;
+	public void setAppVersionName(String appVersionName) {
+		this.appVersionName = appVersionName;
 	}
 
-	public int getAppversioncode() {
-		return appversioncode;
+	public int getAppVersionCode() {
+		return appVersionCode;
 	}
 
-	public void setAppversioncode(int appversioncode) {
-		this.appversioncode = appversioncode;
+	public void setAppVersionCode(int appVersionCode) {
+		this.appVersionCode = appVersionCode;
 	}
 
-	public Boolean getIsroot() {
-		return isroot;
+	public Boolean getIsRoot() {
+		return isRoot;
 	}
 
-	public void setIsroot(Boolean isroot) {
-		this.isroot = isroot;
+	public void setIsRoot(Boolean isRoot) {
+		this.isRoot = isRoot;
 	}
 
 }
