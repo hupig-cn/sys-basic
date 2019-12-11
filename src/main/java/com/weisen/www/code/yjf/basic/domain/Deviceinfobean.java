@@ -29,7 +29,7 @@ public class Deviceinfobean implements Serializable {
 	 */
 	@ApiModelProperty(value = "The userid attribute. 用户id")
 	@Column(name = "userid")
-	private String userid;
+	private int userid;
 
 	/**
 	 * The platformname attribute. 平台
@@ -71,7 +71,7 @@ public class Deviceinfobean implements Serializable {
 	 */
 	@ApiModelProperty(value = "The sdkVersionCode attribute. SDK版本号")
 	@Column(name = "sdkversioncode")
-	private String sdkversioncode;
+	private int sdkversioncode;
 
 	/**
 	 * The romName attribute. 系统名
@@ -92,42 +92,42 @@ public class Deviceinfobean implements Serializable {
 	 */
 	@ApiModelProperty(value = "The screenWidth attribute. 屏幕宽度")
 	@Column(name = "screenwidth")
-	private Long screenwidth;
+	private int screenwidth;
 
 	/**
 	 * The screenHeight attribute. 屏幕高度
 	 */
 	@ApiModelProperty(value = "The screenHeight attribute. 屏幕高度")
 	@Column(name = "screenheight")
-	private Long screenheight;
+	private int screenheight;
 
 	/**
 	 * The appScreenWidth attribute. app界面宽度
 	 */
 	@ApiModelProperty(value = "The appScreenWidth attribute. app界面宽度")
 	@Column(name = "appscreenwidth")
-	private Long appscreenwidth;
+	private int appscreenwidth;
 
 	/**
 	 * The appScreenHeight attribute. app界面高度
 	 */
 	@ApiModelProperty(value = "The appScreenHeight attribute. app界面高度")
 	@Column(name = "appscreenheight")
-	private Long appscreenheight;
+	private int appscreenheight;
 
 	/**
 	 * The screenDensityDpi attribute. 屏幕分辨率
 	 */
 	@ApiModelProperty(value = "The screenDensityDpi attribute. 屏幕分辨率")
 	@Column(name = "screendensitydpi")
-	private Long screendensitydpi;
+	private int screendensitydpi;
 
 	/**
 	 * The screenDensity attribute. 屏幕大小
 	 */
 	@ApiModelProperty(value = "The screenDensity attribute. 屏幕大小")
 	@Column(name = "screendensity")
-	private String screendensity;
+	private float screendensity;
 
 	/**
 	 * The appVersionName attribute. APP版本名
@@ -141,7 +141,7 @@ public class Deviceinfobean implements Serializable {
 	 */
 	@ApiModelProperty(value = "The appVersionCode attribute. APP版本号")
 	@Column(name = "appversioncode")
-	private String appversioncode;
+	private int appversioncode;
 
 	/**
 	 * The isRoot attribute. 是否Root
@@ -160,16 +160,16 @@ public class Deviceinfobean implements Serializable {
 		this.id = id;
 	}
 
-	public String getUserid() {
+	public int getUserid() {
 		return userid;
 	}
 
-	public Deviceinfobean userid(String userid) {
+	public Deviceinfobean userid(int userid) {
 		this.userid = userid;
 		return this;
 	}
 
-	public void setUserid(String userid) {
+	public void setUserid(int userid) {
 		this.userid = userid;
 	}
 
@@ -238,16 +238,16 @@ public class Deviceinfobean implements Serializable {
 		this.sdkversionname = sdkversionname;
 	}
 
-	public String getSdkversioncode() {
+	public int getSdkversioncode() {
 		return sdkversioncode;
 	}
 
-	public Deviceinfobean sdkversioncode(String sdkversioncode) {
+	public Deviceinfobean sdkversioncode(int sdkversioncode) {
 		this.sdkversioncode = sdkversioncode;
 		return this;
 	}
 
-	public void setSdkversioncode(String sdkversioncode) {
+	public void setSdkversioncode(int sdkversioncode) {
 		this.sdkversioncode = sdkversioncode;
 	}
 
@@ -277,81 +277,81 @@ public class Deviceinfobean implements Serializable {
 		this.romversion = romversion;
 	}
 
-	public Long getScreenwidth() {
+	public int getScreenwidth() {
 		return screenwidth;
 	}
 
-	public Deviceinfobean screenwidth(Long screenwidth) {
+	public Deviceinfobean screenwidth(int screenwidth) {
 		this.screenwidth = screenwidth;
 		return this;
 	}
 
-	public void setScreenwidth(Long screenwidth) {
+	public void setScreenwidth(int screenwidth) {
 		this.screenwidth = screenwidth;
 	}
 
-	public Long getScreenheight() {
+	public int getScreenheight() {
 		return screenheight;
 	}
 
-	public Deviceinfobean screenheight(Long screenheight) {
+	public Deviceinfobean screenheight(int screenheight) {
 		this.screenheight = screenheight;
 		return this;
 	}
 
-	public void setScreenheight(Long screenheight) {
+	public void setScreenheight(int screenheight) {
 		this.screenheight = screenheight;
 	}
 
-	public Long getAppscreenwidth() {
+	public int getAppscreenwidth() {
 		return appscreenwidth;
 	}
 
-	public Deviceinfobean appscreenwidth(Long appscreenwidth) {
+	public Deviceinfobean appscreenwidth(int appscreenwidth) {
 		this.appscreenwidth = appscreenwidth;
 		return this;
 	}
 
-	public void setAppscreenwidth(Long appscreenwidth) {
+	public void setAppscreenwidth(int appscreenwidth) {
 		this.appscreenwidth = appscreenwidth;
 	}
 
-	public Long getAppscreenheight() {
+	public int getAppscreenheight() {
 		return appscreenheight;
 	}
 
-	public Deviceinfobean appscreenheight(Long appscreenheight) {
+	public Deviceinfobean appscreenheight(int appscreenheight) {
 		this.appscreenheight = appscreenheight;
 		return this;
 	}
 
-	public void setAppscreenheight(Long appscreenheight) {
+	public void setAppscreenheight(int appscreenheight) {
 		this.appscreenheight = appscreenheight;
 	}
 
-	public Long getScreendensitydpi() {
+	public int getScreendensitydpi() {
 		return screendensitydpi;
 	}
 
-	public Deviceinfobean screendensitydpi(Long screendensitydpi) {
+	public Deviceinfobean screendensitydpi(int screendensitydpi) {
 		this.screendensitydpi = screendensitydpi;
 		return this;
 	}
 
-	public void setScreendensitydpi(Long screendensitydpi) {
+	public void setScreendensitydpi(int screendensitydpi) {
 		this.screendensitydpi = screendensitydpi;
 	}
 
-	public String getScreendensity() {
+	public float getScreendensity() {
 		return screendensity;
 	}
 
-	public Deviceinfobean screendensity(String screendensity) {
+	public Deviceinfobean screendensity(float screendensity) {
 		this.screendensity = screendensity;
 		return this;
 	}
 
-	public void setScreendensity(String screendensity) {
+	public void setScreendensity(float screendensity) {
 		this.screendensity = screendensity;
 	}
 
@@ -368,16 +368,16 @@ public class Deviceinfobean implements Serializable {
 		this.appversionname = appversionname;
 	}
 
-	public String getAppversioncode() {
+	public int getAppversioncode() {
 		return appversioncode;
 	}
 
-	public Deviceinfobean appversioncode(String appversioncode) {
+	public Deviceinfobean appversioncode(int appversioncode) {
 		this.appversioncode = appversioncode;
 		return this;
 	}
 
-	public void setAppversioncode(String appversioncode) {
+	public void setAppversioncode(int appversioncode) {
 		this.appversioncode = appversioncode;
 	}
 

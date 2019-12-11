@@ -78,44 +78,89 @@ public class Rewrite_rewriteoldportServiceImpl implements Rewrite_rewriteoldport
 	 */
 	@Override
 	public Result saveUserMobileInformation(Rewrite_DeviceinfobeanDTO rewrite_DeviceinfobeanDTO) {
-		Deviceinfobean deviceinfobean = new Deviceinfobean();
-		// 用户ID
-		deviceinfobean.setUserid(rewrite_DeviceinfobeanDTO.getUserid());
-		// 平台
-		deviceinfobean.setPlatformname(rewrite_DeviceinfobeanDTO.getPlatformname());
-		// 制造商
-		deviceinfobean.setDevicemanufacturer(rewrite_DeviceinfobeanDTO.getDevicemanufacturer());
-		// 型号
-		deviceinfobean.setDevicemodel(rewrite_DeviceinfobeanDTO.getDevicemodel());
-		// CPU架构
-		deviceinfobean.setDeviceabis(rewrite_DeviceinfobeanDTO.getDeviceabis());
-		// SDK版本名
-		deviceinfobean.setSdkversionname(rewrite_DeviceinfobeanDTO.getSdkversionname());
-		// SDK版本号
-		deviceinfobean.setSdkversioncode(rewrite_DeviceinfobeanDTO.getSdkversioncode());
-		// 系统名
-		deviceinfobean.setRomname(rewrite_DeviceinfobeanDTO.getRomname());
-		// 系统版本
-		deviceinfobean.setRomversion(rewrite_DeviceinfobeanDTO.getRomversion());
-		// 屏幕宽度
-		deviceinfobean.setScreenwidth(rewrite_DeviceinfobeanDTO.getScreenwidth());
-		// 屏幕高度
-		deviceinfobean.setScreenheight(rewrite_DeviceinfobeanDTO.getScreenheight());
-		// APP界面宽度
-		deviceinfobean.setAppscreenwidth(rewrite_DeviceinfobeanDTO.getAppscreenwidth());
-		// APP界面高度
-		deviceinfobean.setAppscreenheight(rewrite_DeviceinfobeanDTO.getAppscreenheight());
-		// 屏幕分辨率
-		deviceinfobean.setScreendensitydpi(rewrite_DeviceinfobeanDTO.getScreendensitydpi());
-		// 屏幕大小
-		deviceinfobean.setScreendensity(rewrite_DeviceinfobeanDTO.getScreendensity());
-		// APP版本名
-		deviceinfobean.setAppversionname(rewrite_DeviceinfobeanDTO.getAppversionname());
-		// APP版本号
-		deviceinfobean.setAppversioncode(rewrite_DeviceinfobeanDTO.getAppversioncode());
-		// 是否Root
-		deviceinfobean.setIsroot(rewrite_DeviceinfobeanDTO.getIsroot());
-		rewrite_DeviceinfobeanRepository.save(deviceinfobean);
-		return Result.suc("保存成功!", deviceinfobean);
+		// 根据用户ID查找是否有该条记录
+		// 不存在新增,已存在则更新
+		Deviceinfobean deviceInfobean = rewrite_DeviceinfobeanRepository
+				.findDeviceinfobeanByUserid(rewrite_DeviceinfobeanDTO.getUserId());
+		if (deviceInfobean == null) {
+			Deviceinfobean deviceinfobean = new Deviceinfobean();
+			// 用户ID
+			deviceinfobean.setUserid(rewrite_DeviceinfobeanDTO.getUserId());
+			// 平台
+			deviceinfobean.setPlatformname(rewrite_DeviceinfobeanDTO.getPlatform_name());
+			// 制造商
+			deviceinfobean.setDevicemanufacturer(rewrite_DeviceinfobeanDTO.getDeviceManufacturer());
+			// 型号
+			deviceinfobean.setDevicemodel(rewrite_DeviceinfobeanDTO.getDeviceModel());
+			// CPU架构
+			deviceinfobean.setDeviceabis(rewrite_DeviceinfobeanDTO.getDeviceAbis());
+			// SDK版本名
+			deviceinfobean.setSdkversionname(rewrite_DeviceinfobeanDTO.getSdkVersionName());
+			// SDK版本号
+			deviceinfobean.setSdkversioncode(rewrite_DeviceinfobeanDTO.getSdkVersionCode());
+			// 系统名
+			deviceinfobean.setRomname(rewrite_DeviceinfobeanDTO.getRomName());
+			// 系统版本
+			deviceinfobean.setRomversion(rewrite_DeviceinfobeanDTO.getRomVersion());
+			// 屏幕宽度
+			deviceinfobean.setScreenwidth(rewrite_DeviceinfobeanDTO.getScreenWidth());
+			// 屏幕高度
+			deviceinfobean.setScreenheight(rewrite_DeviceinfobeanDTO.getScreenHeight());
+			// APP界面宽度
+			deviceinfobean.setAppscreenwidth(rewrite_DeviceinfobeanDTO.getAppScreenWidth());
+			// APP界面高度
+			deviceinfobean.setAppscreenheight(rewrite_DeviceinfobeanDTO.getAppScreenHeight());
+			// 屏幕分辨率
+			deviceinfobean.setScreendensitydpi(rewrite_DeviceinfobeanDTO.getScreenDensityDpi());
+			// 屏幕大小
+			deviceinfobean.setScreendensity(rewrite_DeviceinfobeanDTO.getScreenDensity());
+			// APP版本名
+			deviceinfobean.setAppversionname(rewrite_DeviceinfobeanDTO.getAppVersionName());
+			// APP版本号
+			deviceinfobean.setAppversioncode(rewrite_DeviceinfobeanDTO.getAppVersionCode());
+			// 是否Root
+			deviceinfobean.setIsroot(rewrite_DeviceinfobeanDTO.getIsRoot());
+			rewrite_DeviceinfobeanRepository.save(deviceinfobean);
+			return Result.suc("保存成功!", deviceinfobean);
+		} else {
+			// 用户ID
+			deviceInfobean.setUserid(rewrite_DeviceinfobeanDTO.getUserId());
+			// 平台
+			deviceInfobean.setPlatformname(rewrite_DeviceinfobeanDTO.getPlatform_name());
+			// 制造商
+			deviceInfobean.setDevicemanufacturer(rewrite_DeviceinfobeanDTO.getDeviceManufacturer());
+			// 型号
+			deviceInfobean.setDevicemodel(rewrite_DeviceinfobeanDTO.getDeviceModel());
+			// CPU架构
+			deviceInfobean.setDeviceabis(rewrite_DeviceinfobeanDTO.getDeviceAbis());
+			// SDK版本名
+			deviceInfobean.setSdkversionname(rewrite_DeviceinfobeanDTO.getSdkVersionName());
+			// SDK版本号
+			deviceInfobean.setSdkversioncode(rewrite_DeviceinfobeanDTO.getSdkVersionCode());
+			// 系统名
+			deviceInfobean.setRomname(rewrite_DeviceinfobeanDTO.getRomName());
+			// 系统版本
+			deviceInfobean.setRomversion(rewrite_DeviceinfobeanDTO.getRomVersion());
+			// 屏幕宽度
+			deviceInfobean.setScreenwidth(rewrite_DeviceinfobeanDTO.getScreenWidth());
+			// 屏幕高度
+			deviceInfobean.setScreenheight(rewrite_DeviceinfobeanDTO.getScreenHeight());
+			// APP界面宽度
+			deviceInfobean.setAppscreenwidth(rewrite_DeviceinfobeanDTO.getAppScreenWidth());
+			// APP界面高度
+			deviceInfobean.setAppscreenheight(rewrite_DeviceinfobeanDTO.getAppScreenHeight());
+			// 屏幕分辨率
+			deviceInfobean.setScreendensitydpi(rewrite_DeviceinfobeanDTO.getScreenDensityDpi());
+			// 屏幕大小
+			deviceInfobean.setScreendensity(rewrite_DeviceinfobeanDTO.getScreenDensity());
+			// APP版本名
+			deviceInfobean.setAppversionname(rewrite_DeviceinfobeanDTO.getAppVersionName());
+			// APP版本号
+			deviceInfobean.setAppversioncode(rewrite_DeviceinfobeanDTO.getAppVersionCode());
+			// 是否Root
+			deviceInfobean.setIsroot(rewrite_DeviceinfobeanDTO.getIsRoot());
+			rewrite_DeviceinfobeanRepository.saveAndFlush(deviceInfobean);
+			return Result.suc("保存成功!", deviceInfobean);
+		}
 	}
 }
