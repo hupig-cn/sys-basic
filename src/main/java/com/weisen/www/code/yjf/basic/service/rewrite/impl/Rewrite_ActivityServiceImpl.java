@@ -205,7 +205,7 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
             // 商家实际的可用资金
             BigDecimal businessMoney = new BigDecimal(availableAmoMoney);
             // 达到50元才可提现到余额
-            BigDecimal fiftyMoney = new BigDecimal("50.00");
+            BigDecimal fiftyMoney = new BigDecimal("1.00");
 
             // 判断提现金额是否是整数
             if (new BigDecimal(userMoney.intValue()).compareTo(userMoney) == -1) {
@@ -221,7 +221,7 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
             // 判断输入的金额是否达到提现额度条件
             // fiftyMoney > userMoney
             if (fiftyMoney.compareTo(userMoney) == 1) {
-                return Result.fail("最低提现额度需要达到50元哦!");
+                return Result.fail("最低提现额度需要达到1元哦!");
             } else {
 
                 // 新增一条记录到活动流水表

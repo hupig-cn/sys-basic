@@ -1,0 +1,117 @@
+{
+    "name": "Deviceinfobean",
+    "fields": [
+        {
+            "fieldName": "platformandroid",
+            "javadoc": "The platformAndroid attribute.\n安卓版本",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "platformios",
+            "javadoc": "The platformIos attribute.\nIOS版本",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "userid",
+            "javadoc": "The userid attribute.\n用户id",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "platformname",
+            "javadoc": "The platformname attribute.\n平台",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "devicemanufacturer",
+            "javadoc": "The deviceManufacturer attribute.\n制造商",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "devicemodel",
+            "javadoc": "The deviceModel attribute.\n型号",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "deviceabis",
+            "javadoc": "The deviceAbis attribute.\ncpu架构",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "sdkversionname",
+            "javadoc": "The sdkVersionName attribute.\nSDK版本名",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "sdkversioncode",
+            "javadoc": "The sdkVersionCode attribute.\nSDK版本号",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "romname",
+            "javadoc": "The romName attribute.\n系统名",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "romversion",
+            "javadoc": "The romVersion attribute.\n系统版本",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "screenwidth",
+            "javadoc": "The screenWidth attribute.\n屏幕宽度",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "screenheight",
+            "javadoc": "The screenHeight attribute.\n屏幕高度",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "appscreenwidth",
+            "javadoc": "The appScreenWidth attribute.\napp界面宽度",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "appscreenheight",
+            "javadoc": "The appScreenHeight attribute.\napp界面高度",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "screendensitydpi",
+            "javadoc": "The screenDensityDpi attribute.\n屏幕分辨率",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "screendensity",
+            "javadoc": "The screenDensity attribute.\n屏幕大小",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "appversionname",
+            "javadoc": "The appVersionName attribute.\nAPP版本名",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "appversioncode",
+            "javadoc": "The appVersionCode attribute.\nAPP版本号",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "isroot",
+            "javadoc": "The isRoot attribute.\n是否Root",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20191210101456",
+    "javadoc": "The Deviceinfobean entity.\n用户手机信息表",
+    "entityTableName": "deviceinfobean",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "basic",
+    "applications": "*",
+    "microserviceName": "basic"
+}
