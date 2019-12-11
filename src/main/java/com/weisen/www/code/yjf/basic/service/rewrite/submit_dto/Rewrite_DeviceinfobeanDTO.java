@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class Rewrite_DeviceinfobeanDTO implements Serializable {
 
 	@ApiModelProperty(value = "用户id")
-	private String userid;
+	private int userid;
 
 	@ApiModelProperty(value = "平台")
 	private String platformname;
@@ -27,7 +27,7 @@ public class Rewrite_DeviceinfobeanDTO implements Serializable {
 	private String sdkversionname;
 
 	@ApiModelProperty(value = "SDK版本号")
-	private String sdkversioncode;
+	private int sdkversioncode;
 
 	@ApiModelProperty(value = "系统名")
 	private String romname;
@@ -36,37 +36,37 @@ public class Rewrite_DeviceinfobeanDTO implements Serializable {
 	private String romversion;
 
 	@ApiModelProperty(value = "屏幕宽度")
-	private Long screenwidth;
+	private int screenwidth;
 
 	@ApiModelProperty(value = "屏幕高度")
-	private Long screenheight;
+	private int screenheight;
 
 	@ApiModelProperty(value = "app界面宽度")
-	private Long appscreenwidth;
+	private int appscreenwidth;
 
 	@ApiModelProperty(value = "app界面高度")
-	private Long appscreenheight;
+	private int appscreenheight;
 
 	@ApiModelProperty(value = "屏幕分辨率")
-	private Long screendensitydpi;
+	private int screendensitydpi;
 
 	@ApiModelProperty(value = "屏幕大小")
-	private String screendensity;
+	private float screendensity;
 
 	@ApiModelProperty(value = "APP版本名")
 	private String appversionname;
 
 	@ApiModelProperty(value = "APP版本号")
-	private String appversioncode;
+	private int appversioncode;
 
 	@ApiModelProperty(value = "是否Root")
 	private Boolean isroot;
 
-	public String getUserid() {
+	public int getUserid() {
 		return userid;
 	}
 
-	public void setUserid(String userid) {
+	public void setUserid(int userid) {
 		this.userid = userid;
 	}
 
@@ -110,11 +110,11 @@ public class Rewrite_DeviceinfobeanDTO implements Serializable {
 		this.sdkversionname = sdkversionname;
 	}
 
-	public String getSdkversioncode() {
+	public int getSdkversioncode() {
 		return sdkversioncode;
 	}
 
-	public void setSdkversioncode(String sdkversioncode) {
+	public void setSdkversioncode(int sdkversioncode) {
 		this.sdkversioncode = sdkversioncode;
 	}
 
@@ -134,51 +134,51 @@ public class Rewrite_DeviceinfobeanDTO implements Serializable {
 		this.romversion = romversion;
 	}
 
-	public Long getScreenwidth() {
+	public int getScreenwidth() {
 		return screenwidth;
 	}
 
-	public void setScreenwidth(Long screenwidth) {
+	public void setScreenwidth(int screenwidth) {
 		this.screenwidth = screenwidth;
 	}
 
-	public Long getScreenheight() {
+	public int getScreenheight() {
 		return screenheight;
 	}
 
-	public void setScreenheight(Long screenheight) {
+	public void setScreenheight(int screenheight) {
 		this.screenheight = screenheight;
 	}
 
-	public Long getAppscreenwidth() {
+	public int getAppscreenwidth() {
 		return appscreenwidth;
 	}
 
-	public void setAppscreenwidth(Long appscreenwidth) {
+	public void setAppscreenwidth(int appscreenwidth) {
 		this.appscreenwidth = appscreenwidth;
 	}
 
-	public Long getAppscreenheight() {
+	public int getAppscreenheight() {
 		return appscreenheight;
 	}
 
-	public void setAppscreenheight(Long appscreenheight) {
+	public void setAppscreenheight(int appscreenheight) {
 		this.appscreenheight = appscreenheight;
 	}
 
-	public Long getScreendensitydpi() {
+	public int getScreendensitydpi() {
 		return screendensitydpi;
 	}
 
-	public void setScreendensitydpi(Long screendensitydpi) {
+	public void setScreendensitydpi(int screendensitydpi) {
 		this.screendensitydpi = screendensitydpi;
 	}
 
-	public String getScreendensity() {
+	public float getScreendensity() {
 		return screendensity;
 	}
 
-	public void setScreendensity(String screendensity) {
+	public void setScreendensity(float screendensity) {
 		this.screendensity = screendensity;
 	}
 
@@ -190,11 +190,11 @@ public class Rewrite_DeviceinfobeanDTO implements Serializable {
 		this.appversionname = appversionname;
 	}
 
-	public String getAppversioncode() {
+	public int getAppversioncode() {
 		return appversioncode;
 	}
 
-	public void setAppversioncode(String appversioncode) {
+	public void setAppversioncode(int appversioncode) {
 		this.appversioncode = appversioncode;
 	}
 

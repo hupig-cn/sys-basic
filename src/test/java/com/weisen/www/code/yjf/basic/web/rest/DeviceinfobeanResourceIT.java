@@ -35,13 +35,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class DeviceinfobeanResourceIT {
 
 	private static final String DEFAULT_PLATFORMANDROID = "AAAAAAAAAA";
-	private static final String UPDATED_PLATFORMANDROID = "BBBBBBBBBB";
 
 	private static final String DEFAULT_PLATFORMIOS = "AAAAAAAAAA";
-	private static final String UPDATED_PLATFORMIOS = "BBBBBBBBBB";
 
-	private static final String DEFAULT_USERID = "AAAAAAAAAA";
-	private static final String UPDATED_USERID = "BBBBBBBBBB";
+	private static final int DEFAULT_USERID = 1;
+	private static final int UPDATED_USERID = 1;
 
 	private static final String DEFAULT_PLATFORMNAME = "AAAAAAAAAA";
 	private static final String UPDATED_PLATFORMNAME = "BBBBBBBBBB";
@@ -58,8 +56,8 @@ public class DeviceinfobeanResourceIT {
 	private static final String DEFAULT_SDKVERSIONNAME = "AAAAAAAAAA";
 	private static final String UPDATED_SDKVERSIONNAME = "BBBBBBBBBB";
 
-	private static final String DEFAULT_SDKVERSIONCODE = "AAAAAAAAAA";
-	private static final String UPDATED_SDKVERSIONCODE = "BBBBBBBBBB";
+	private static final int DEFAULT_SDKVERSIONCODE = 1;
+	private static final int UPDATED_SDKVERSIONCODE = 1;
 
 	private static final String DEFAULT_ROMNAME = "AAAAAAAAAA";
 	private static final String UPDATED_ROMNAME = "BBBBBBBBBB";
@@ -67,29 +65,29 @@ public class DeviceinfobeanResourceIT {
 	private static final String DEFAULT_ROMVERSION = "AAAAAAAAAA";
 	private static final String UPDATED_ROMVERSION = "BBBBBBBBBB";
 
-	private static final Long DEFAULT_SCREENWIDTH = 1L;
-	private static final Long UPDATED_SCREENWIDTH = 2L;
+	private static final int DEFAULT_SCREENWIDTH = 1;
+	private static final int UPDATED_SCREENWIDTH = 1;
 
-	private static final Long DEFAULT_SCREENHEIGHT = 1L;
-	private static final Long UPDATED_SCREENHEIGHT = 2L;
+	private static final int DEFAULT_SCREENHEIGHT = 1;
+	private static final int UPDATED_SCREENHEIGHT = 1;
 
-	private static final Long DEFAULT_APPSCREENWIDTH = 1L;
-	private static final Long UPDATED_APPSCREENWIDTH = 2L;
+	private static final int DEFAULT_APPSCREENWIDTH = 1;
+	private static final int UPDATED_APPSCREENWIDTH = 2;
 
-	private static final Long DEFAULT_APPSCREENHEIGHT = 1L;
-	private static final Long UPDATED_APPSCREENHEIGHT = 2L;
+	private static final int DEFAULT_APPSCREENHEIGHT = 1;
+	private static final int UPDATED_APPSCREENHEIGHT = 2;
 
-	private static final Long DEFAULT_SCREENDENSITYDPI = 1L;
-	private static final Long UPDATED_SCREENDENSITYDPI = 2L;
+	private static final int DEFAULT_SCREENDENSITYDPI = 1;
+	private static final int UPDATED_SCREENDENSITYDPI = 2;
 
-	private static final String DEFAULT_SCREENDENSITY = "AAAAAAAAAA";
-	private static final String UPDATED_SCREENDENSITY = "BBBBBBBBBB";
+	private static final float DEFAULT_SCREENDENSITY = 1f;
+	private static final float UPDATED_SCREENDENSITY = 2f;
 
 	private static final String DEFAULT_APPVERSIONNAME = "AAAAAAAAAA";
 	private static final String UPDATED_APPVERSIONNAME = "BBBBBBBBBB";
 
-	private static final String DEFAULT_APPVERSIONCODE = "AAAAAAAAAA";
-	private static final String UPDATED_APPVERSIONCODE = "BBBBBBBBBB";
+	private static final int DEFAULT_APPVERSIONCODE = 1;
+	private static final int UPDATED_APPVERSIONCODE = 1;
 
 	private static final Boolean DEFAULT_ISROOT = false;
 	private static final Boolean UPDATED_ISROOT = true;
@@ -229,23 +227,23 @@ public class DeviceinfobeanResourceIT {
 				.andExpect(jsonPath("$.[*].id").value(hasItem(deviceinfobean.getId().intValue())))
 				.andExpect(jsonPath("$.[*].platformandroid").value(hasItem(DEFAULT_PLATFORMANDROID.toString())))
 				.andExpect(jsonPath("$.[*].platformios").value(hasItem(DEFAULT_PLATFORMIOS.toString())))
-				.andExpect(jsonPath("$.[*].userid").value(hasItem(DEFAULT_USERID.toString())))
+				.andExpect(jsonPath("$.[*].userid").value(hasItem(DEFAULT_USERID)))
 				.andExpect(jsonPath("$.[*].platformname").value(hasItem(DEFAULT_PLATFORMNAME.toString())))
 				.andExpect(jsonPath("$.[*].devicemanufacturer").value(hasItem(DEFAULT_DEVICEMANUFACTURER.toString())))
 				.andExpect(jsonPath("$.[*].devicemodel").value(hasItem(DEFAULT_DEVICEMODEL.toString())))
 				.andExpect(jsonPath("$.[*].deviceabis").value(hasItem(DEFAULT_DEVICEABIS.toString())))
 				.andExpect(jsonPath("$.[*].sdkversionname").value(hasItem(DEFAULT_SDKVERSIONNAME.toString())))
-				.andExpect(jsonPath("$.[*].sdkversioncode").value(hasItem(DEFAULT_SDKVERSIONCODE.toString())))
+				.andExpect(jsonPath("$.[*].sdkversioncode").value(hasItem(DEFAULT_SDKVERSIONCODE)))
 				.andExpect(jsonPath("$.[*].romname").value(hasItem(DEFAULT_ROMNAME.toString())))
 				.andExpect(jsonPath("$.[*].romversion").value(hasItem(DEFAULT_ROMVERSION.toString())))
-				.andExpect(jsonPath("$.[*].screenwidth").value(hasItem(DEFAULT_SCREENWIDTH.intValue())))
-				.andExpect(jsonPath("$.[*].screenheight").value(hasItem(DEFAULT_SCREENHEIGHT.intValue())))
-				.andExpect(jsonPath("$.[*].appscreenwidth").value(hasItem(DEFAULT_APPSCREENWIDTH.intValue())))
-				.andExpect(jsonPath("$.[*].appscreenheight").value(hasItem(DEFAULT_APPSCREENHEIGHT.intValue())))
-				.andExpect(jsonPath("$.[*].screendensitydpi").value(hasItem(DEFAULT_SCREENDENSITYDPI.intValue())))
-				.andExpect(jsonPath("$.[*].screendensity").value(hasItem(DEFAULT_SCREENDENSITY.toString())))
-				.andExpect(jsonPath("$.[*].appversionname").value(hasItem(DEFAULT_APPVERSIONNAME.toString())))
-				.andExpect(jsonPath("$.[*].appversioncode").value(hasItem(DEFAULT_APPVERSIONCODE.toString())))
+				.andExpect(jsonPath("$.[*].screenwidth").value(hasItem(DEFAULT_SCREENWIDTH)))
+				.andExpect(jsonPath("$.[*].screenheight").value(hasItem(DEFAULT_SCREENHEIGHT)))
+				.andExpect(jsonPath("$.[*].appscreenwidth").value(hasItem(DEFAULT_APPSCREENWIDTH)))
+				.andExpect(jsonPath("$.[*].appscreenheight").value(hasItem(DEFAULT_APPSCREENHEIGHT)))
+				.andExpect(jsonPath("$.[*].screendensitydpi").value(hasItem(DEFAULT_SCREENDENSITYDPI)))
+				.andExpect(jsonPath("$.[*].screendensity").value(hasItem(DEFAULT_SCREENDENSITY)))
+				.andExpect(jsonPath("$.[*].appversionname").value(hasItem(DEFAULT_APPVERSIONNAME)))
+				.andExpect(jsonPath("$.[*].appversioncode").value(hasItem(DEFAULT_APPVERSIONCODE)))
 				.andExpect(jsonPath("$.[*].isroot").value(hasItem(DEFAULT_ISROOT.booleanValue())));
 	}
 
@@ -261,23 +259,23 @@ public class DeviceinfobeanResourceIT {
 				.andExpect(jsonPath("$.id").value(deviceinfobean.getId().intValue()))
 				.andExpect(jsonPath("$.platformandroid").value(DEFAULT_PLATFORMANDROID.toString()))
 				.andExpect(jsonPath("$.platformios").value(DEFAULT_PLATFORMIOS.toString()))
-				.andExpect(jsonPath("$.userid").value(DEFAULT_USERID.toString()))
+				.andExpect(jsonPath("$.userid").value(DEFAULT_USERID))
 				.andExpect(jsonPath("$.platformname").value(DEFAULT_PLATFORMNAME.toString()))
 				.andExpect(jsonPath("$.devicemanufacturer").value(DEFAULT_DEVICEMANUFACTURER.toString()))
 				.andExpect(jsonPath("$.devicemodel").value(DEFAULT_DEVICEMODEL.toString()))
 				.andExpect(jsonPath("$.deviceabis").value(DEFAULT_DEVICEABIS.toString()))
 				.andExpect(jsonPath("$.sdkversionname").value(DEFAULT_SDKVERSIONNAME.toString()))
-				.andExpect(jsonPath("$.sdkversioncode").value(DEFAULT_SDKVERSIONCODE.toString()))
+				.andExpect(jsonPath("$.sdkversioncode").value(DEFAULT_SDKVERSIONCODE))
 				.andExpect(jsonPath("$.romname").value(DEFAULT_ROMNAME.toString()))
 				.andExpect(jsonPath("$.romversion").value(DEFAULT_ROMVERSION.toString()))
-				.andExpect(jsonPath("$.screenwidth").value(DEFAULT_SCREENWIDTH.intValue()))
-				.andExpect(jsonPath("$.screenheight").value(DEFAULT_SCREENHEIGHT.intValue()))
-				.andExpect(jsonPath("$.appscreenwidth").value(DEFAULT_APPSCREENWIDTH.intValue()))
-				.andExpect(jsonPath("$.appscreenheight").value(DEFAULT_APPSCREENHEIGHT.intValue()))
-				.andExpect(jsonPath("$.screendensitydpi").value(DEFAULT_SCREENDENSITYDPI.intValue()))
-				.andExpect(jsonPath("$.screendensity").value(DEFAULT_SCREENDENSITY.toString()))
+				.andExpect(jsonPath("$.screenwidth").value(DEFAULT_SCREENWIDTH))
+				.andExpect(jsonPath("$.screenheight").value(DEFAULT_SCREENHEIGHT))
+				.andExpect(jsonPath("$.appscreenwidth").value(DEFAULT_APPSCREENWIDTH))
+				.andExpect(jsonPath("$.appscreenheight").value(DEFAULT_APPSCREENHEIGHT))
+				.andExpect(jsonPath("$.screendensitydpi").value(DEFAULT_SCREENDENSITYDPI))
+				.andExpect(jsonPath("$.screendensity").value(DEFAULT_SCREENDENSITY))
 				.andExpect(jsonPath("$.appversionname").value(DEFAULT_APPVERSIONNAME.toString()))
-				.andExpect(jsonPath("$.appversioncode").value(DEFAULT_APPVERSIONCODE.toString()))
+				.andExpect(jsonPath("$.appversioncode").value(DEFAULT_APPVERSIONCODE))
 				.andExpect(jsonPath("$.isroot").value(DEFAULT_ISROOT.booleanValue()));
 	}
 
