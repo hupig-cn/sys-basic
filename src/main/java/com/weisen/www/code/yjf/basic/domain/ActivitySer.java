@@ -46,7 +46,10 @@ public class ActivitySer implements Serializable {
 
     @Column(name = "update_time")
     private String updateTime;
-
+    
+    @Column(name = "rule")
+    private Integer rule;
+    
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -133,9 +136,19 @@ public class ActivitySer implements Serializable {
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
+    
+    
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
-    @Override
+    public Integer getRule() {
+		return rule;
+	}
+
+	public void setRule(Integer rule) {
+		this.rule = rule;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

@@ -430,4 +430,39 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 		return Result.suc("查询成功", list, list.size());
 	}
 
-}
+	@Override
+	public Result ruleRead(Long uid) {
+		String result="";
+		ActivitySer activitySer = rewrite_ActivitySerRepository.findByUserId(uid.toString());
+		if(activitySer==null) {
+			ActivitySer act=new ActivitySer();
+			act.setUserId(uid.toString());		  		//用户id
+			act.setActivityAmo(new BigDecimal("0"));	//活动资金
+			act.setAvailableAmo(new BigDecimal("0"));	//可用资金
+			act.setCashWithdrawal(new BigDecimal("0")); //提现金额
+			act.setCreateTime(TimeUtil.getDate());		//创建时间
+			act.setUpdateTime(TimeUtil.getDate());		//修改时间
+			act.setRule(0);								//是否参加
+			rewrite_ActivitySerRepository.save(act);	//保存数据
+			result="新增成功";
+		}else {
+			ActivitySer ser =rewrite_ActivitySerRepository.findByUserIdAndRule(uid.toString(),1);
+			if(ser!=null) {
+				result="已阅读";
+			}else {
+				result="未阅读";
+			}
+		}
+		return Result.suc("查询成功",result);
+	}
+
+	@Override
+	public Result updaterule(Long userid) {
+		ActivitySer activitySer = rewrite_ActivitySerRepository.findByUserId(userid.toString());
+		activitySer.setRule(1);								//已参加 已阅读				
+		rewrite_ActivitySerRepository.save(activitySer);	//保存数据
+		return Result.suc("成功");
+	}
+	
+	
+}	
