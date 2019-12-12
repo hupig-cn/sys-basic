@@ -84,4 +84,9 @@
             <column name="logical_del" type="int" defaultValue="0"/>
         </addColumn>
     </changeSet>
+    <changeSet id="20191212091202-add_column" author="LuoJinShui">
+        <addColumn tableName="activity_con">
+            <column name="available" type="decimal(21,2)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
