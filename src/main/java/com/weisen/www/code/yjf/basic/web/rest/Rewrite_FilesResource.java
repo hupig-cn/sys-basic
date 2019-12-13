@@ -17,6 +17,7 @@ import java.util.UUID;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -245,25 +246,27 @@ public class Rewrite_FilesResource {
 		String originFilename = multipartFile.getOriginalFilename();
 		String suffix = originFilename.substring(originFilename.lastIndexOf('.'));
 		// 获取图片大小
-		long filesSize = multipartFile.getSize(); 
-		String uuidString = UUID.randomUUID().toString();
-		String target = filePathImage + uuidString + suffix;
+		long filesSize = multipartFile.getSize(); 							//文件字节
+		String uuidString = UUID.randomUUID().toString();					//UUid
+		String fileName = System.currentTimeMillis() + RandomStringUtils.randomAlphanumeric(6) + "." + suffix; //时间戳文件名
+		String target = filePathImage + fileName + suffix;				
+		
 		File destFile = new File(target);
 		// write file
-		multipartFile.transferTo(destFile);
-		int width = 0;
+		multipartFile.transferTo(destFile);									//存放
+		int width = 0;														
 		int height = 0;
 		File file = new File(target);
 		if (suffix.endsWith(".jpg") || suffix.endsWith(".jpeg") || suffix.endsWith(".png") || suffix.endsWith(".gif") || suffix.endsWith(".webp")) {
-			FileInputStream fis = new FileInputStream(file);
-			BufferedImage bufferedImg = ImageIO.read(fis);
-			width = bufferedImg.getWidth();
-			height = bufferedImg.getHeight();
+			FileInputStream fis = new FileInputStream(file);				
+			BufferedImage bufferedImg = ImageIO.read(fis);					
+			width = bufferedImg.getWidth();									//图片宽度
+			height = bufferedImg.getHeight();	 							//图片高度
 		}
 		// create in database
 		Files dataFileDTO = new Files();
 		dataFileDTO.setUserid("3");
-		dataFileDTO.setName(uuidString+suffix);
+		dataFileDTO.setName(fileName);
 		dataFileDTO.setUuid(uuidString);
 		dataFileDTO.setHeight(height);
 		dataFileDTO.setWidth(width);
