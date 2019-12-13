@@ -21,6 +21,7 @@ public interface Rewrite_UserorderRepository extends JpaRepository<Userorder, Lo
     int getOrderListCount(String userid,String ordercode,String orderstatus);
 
     //根据收款id查询订单
+    @Query(value = "select * from userorder where userid = ?1 and orderstatus = 2",nativeQuery = true)
     List<Userorder> findAllByPayee(String payeeId);
 
     List<Userorder> findAllByUserid(String userId);
