@@ -44,4 +44,6 @@ public interface Rewrite_FilesService {
     
     Result autoAddImage();
     
+    Result getFileCreateTime();
+    
 }

@@ -328,4 +328,19 @@ public class Rewrite_FilesResource {
 		return result;
 	}
 	
+	/**
+	 * 获取图片时间
+	 *
+	 * @author sxx
+	 * @date 2019-12-13 15:43:31
+	 */
+	@PostMapping("/gei/file/time")
+	@ApiOperation("获取图片时间")
+	public ResponseEntity<Result> getFileCreateTime() {
+		Result result = rewrite_FilesService.getFileCreateTime();
+		log.debug("访问地址: {},传入值: {},返回值: {}", "/gei/file/time", "无", result);
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+	}
+	
+	
 }
