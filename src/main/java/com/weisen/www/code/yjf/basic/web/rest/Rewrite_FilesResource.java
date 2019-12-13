@@ -248,7 +248,7 @@ public class Rewrite_FilesResource {
 		// 获取图片大小
 		long filesSize = multipartFile.getSize(); 							//文件字节
 		String uuidString = UUID.randomUUID().toString();					//UUid
-		String fileName = System.currentTimeMillis() + RandomStringUtils.randomAlphanumeric(6) + "." + suffix; //时间戳文件名
+		String fileName = System.currentTimeMillis() + RandomStringUtils.randomAlphanumeric(6) + suffix; //时间戳文件名
 		String target = filePathImage + fileName + suffix;				
 		
 		File destFile = new File(target);
