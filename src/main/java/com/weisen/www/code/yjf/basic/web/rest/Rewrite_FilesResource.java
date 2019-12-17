@@ -249,7 +249,7 @@ public class Rewrite_FilesResource {
 		long filesSize = multipartFile.getSize(); 							//文件字节
 		String uuidString = UUID.randomUUID().toString();					//UUid
 		String fileName = System.currentTimeMillis() + RandomStringUtils.randomAlphanumeric(6) + suffix; //时间戳文件名
-		String target = filePathImage + fileName + suffix;				
+		String target = filePathImage + fileName;				
 		
 		File destFile = new File(target);
 		// write file

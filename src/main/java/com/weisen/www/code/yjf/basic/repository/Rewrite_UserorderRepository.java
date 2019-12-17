@@ -44,6 +44,6 @@ public interface Rewrite_UserorderRepository extends JpaRepository<Userorder, Lo
     Userorder findUserorderById(Long id);
     
     //查找营业额
-    @Query(value = "select * from userorder where payee =?1 and paytime between ?2 and ?3", nativeQuery = true)
+    @Query(value = "select * from userorder where payee =?1 and orderstatus = 2 and paytime between ?2 and ?3", nativeQuery = true)
     List<Userorder> findByPayeeAndTime (String payee , String startTime, String endTime);
 }
