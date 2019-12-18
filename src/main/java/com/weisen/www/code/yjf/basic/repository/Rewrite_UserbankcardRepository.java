@@ -11,4 +11,7 @@ public interface Rewrite_UserbankcardRepository extends JpaRepository<Userbankca
 
 	// 查询用户的银行卡
 	List<Userbankcard> findAllByUserid(String userid);
+	
+	// 查找银行卡是否重复
+	Userbankcard findByBankcard(String bankcard);
 }

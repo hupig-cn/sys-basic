@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.weisen.www.code.yjf.basic.service.Rewrite_UserbankcardService;
 import com.weisen.www.code.yjf.basic.service.dto.UserbankcardDTO;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_UserCardDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 
 import io.github.jhipster.web.util.ResponseUtil;
@@ -78,6 +79,14 @@ public class Rewrite_UserbankcardResource {
 	public ResponseEntity<Result> createBankCard(@RequestBody UserbankcardDTO userbankcardDTO) {
 		log.debug("REST request to get createBankCard : {}", userbankcardDTO);
 		Result result = Rewrite_UserbankcardService.createBankCard(userbankcardDTO);
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+	}
+
+	@PostMapping("/createBankCard2")
+	@ApiOperation(value = "重写用户添加银行卡")
+	public ResponseEntity<Result> createBankCard2(@RequestBody Rewrite_UserCardDTO rewrite_UserCardDTO) {
+		log.debug("REST request to get createBankCard : {}", rewrite_UserCardDTO);
+		Result result = Rewrite_UserbankcardService.createBankCard2(rewrite_UserCardDTO);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
 
