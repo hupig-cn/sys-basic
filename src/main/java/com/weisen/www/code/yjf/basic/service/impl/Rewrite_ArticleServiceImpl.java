@@ -3,8 +3,10 @@ package com.weisen.www.code.yjf.basic.service.impl;
 import com.weisen.www.code.yjf.basic.service.ArticleService;
 import com.weisen.www.code.yjf.basic.service.Rewrite_ArticleService;
 import com.weisen.www.code.yjf.basic.domain.Article;
+import com.weisen.www.code.yjf.basic.domain.Userlinkuser;
 import com.weisen.www.code.yjf.basic.repository.ArticleRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_ArticleRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.service.dto.ArticleDTO;
 import com.weisen.www.code.yjf.basic.service.mapper.ArticleMapper;
 import com.weisen.www.code.yjf.basic.service.util.TimeUtil;
@@ -32,11 +34,14 @@ public class Rewrite_ArticleServiceImpl implements Rewrite_ArticleService {
     private final Logger log = LoggerFactory.getLogger(Rewrite_ArticleServiceImpl.class);
 
     private final Rewrite_ArticleRepository rewrite_ArticleRepository;
+    
+    private final Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository;
 
     private final ArticleMapper articleMapper;
 
-    public Rewrite_ArticleServiceImpl(Rewrite_ArticleRepository rewrite_ArticleRepository, ArticleMapper articleMapper) {
+    public Rewrite_ArticleServiceImpl(Rewrite_ArticleRepository rewrite_ArticleRepository, ArticleMapper articleMapper,Rewrite_UserlinkuserRepository rewrite_UserlinkuserRepository) {
         this.rewrite_ArticleRepository = rewrite_ArticleRepository;
+        this.rewrite_UserlinkuserRepository = rewrite_UserlinkuserRepository;
         this.articleMapper = articleMapper;
     }
 
@@ -47,9 +52,16 @@ public class Rewrite_ArticleServiceImpl implements Rewrite_ArticleService {
 	}
 
 	@Override
-	public Result finddeails(Long id) {
+	public Result finddeails(Long id,Long userid) {
 		Article data=rewrite_ArticleRepository.findById(id).get();
-		data.setAuthor(data.getAuthor()+1);
+		
+		Userlinkuser recid = rewrite_UserlinkuserRepository.findByUserId(userid);
+		if(recid.getRecommendid()==null||recid.getRecommendid()=="") {			//查看当前观看文章是否有推荐人			
+			recid.setRecommendid(data.getUserid().toString());					//没有就把此文章作者作为推荐人
+			rewrite_UserlinkuserRepository.save(recid);							//保存
+		}
+	
+		data.setAuthor(data.getAuthor()+1);										//点击一次点击数量加一
 		rewrite_ArticleRepository.save(data);
 		return Result.suc("获取成功",data);
 	}
