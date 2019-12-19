@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -29,19 +30,22 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 	private UserlocationRepository userlocationRepository;
 
 	private UserassetsRepository userassetsRepository;
+	
+	private Rewrite_ArticleRepository rewrite_ArticleRepository;
 
     @Autowired
     private SimpMessageSendingOperations simpMessageSendingOperations;
 	public Rewrite_CreateUserServiceImpl(LinkuserRepository linkuserRepository,
 			LinkaccountRepository linkaccountRepository, UserlinkuserRepository userlinkuserRepository,
 			UserlocationRepository userlocationRepository, UserassetsRepository userassetsRepository,
-			InformationRepository informationRepository) {
+			InformationRepository informationRepository, Rewrite_ArticleRepository rewrite_ArticleRepository) {
 		this.linkuserRepository = linkuserRepository;
 		this.linkaccountRepository = linkaccountRepository;
 		this.userlinkuserRepository = userlinkuserRepository;
 		this.userlocationRepository = userlocationRepository;
 		this.userassetsRepository = userassetsRepository;
 		this.informationRepository = informationRepository;
+		this.rewrite_ArticleRepository = rewrite_ArticleRepository;
 	}
 
 	/**
@@ -103,7 +107,14 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 	 * 该接口适用于分享链接后创建用户
 	 */
 	@Override
-	public String createUserByShareLink(String userid, String token, String accounttype,String referrer) {
+	public String createUserByShareLink(String userid, String token, String accounttype,String articleid) {
+		Optional<Article> opArticle = rewrite_ArticleRepository.findById(Long.valueOf(articleid));
+		String referrer = "";
+		if(opArticle.isPresent()) {
+			if(opArticle.get().getUserid() != null && opArticle.get().getUserid() > 0) {
+				referrer = opArticle.get().getUserid().toString();
+			}
+		}
 		String thisDate = DateUtils.getDateForNow();
 		Linkaccount linkaccount = new Linkaccount();
 		linkaccount.setUserid(userid);

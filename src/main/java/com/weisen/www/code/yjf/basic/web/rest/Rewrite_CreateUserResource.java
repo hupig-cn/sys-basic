@@ -68,7 +68,7 @@ public class Rewrite_CreateUserResource {
 	 */
 	@GetMapping("/public/user/createUserByShareLink")
 	@ApiOperation(value = "该接口适用于分享链接后创建用户")
-	public String createUserByShareLink(@RequestParam String userid, String token, String accounttype, String referrer) {
-		return createUserService.createUserByShareLink(userid, token, accounttype, referrer);
+	public String createUserByShareLink(@RequestParam String userid, String token, String accounttype, String articleid) {
+		return createUserService.createUserByShareLink(userid, token, accounttype, articleid);
 	}
 }

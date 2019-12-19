@@ -10,6 +10,6 @@ public interface Rewrite_CreateUserService {
 
 	String createUserByScanningMerchant(String userid, String token, String accounttype);
 
-	String createUserByShareLink(String userid, String token, String accounttype, String referrer);
+	String createUserByShareLink(String userid, String token, String accounttype, String articleid);
 
 }
