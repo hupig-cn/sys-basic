@@ -56,7 +56,7 @@ public class Rewrite_ArticleServiceImpl implements Rewrite_ArticleService {
 		Article data=rewrite_ArticleRepository.findById(id).get();
 		
 		Userlinkuser recid = rewrite_UserlinkuserRepository.findByUserId(userid);
-		if(recid.getRecommendid()==null||recid.getRecommendid()=="") {			//查看当前观看文章是否有推荐人			
+		if(recid.getRecommendid()==null||recid.getRecommendid().equals("")) {			//查看当前观看文章是否有推荐人			
 			recid.setRecommendid(data.getUserid().toString());					//没有就把此文章作者作为推荐人
 			rewrite_UserlinkuserRepository.save(recid);							//保存
 		}

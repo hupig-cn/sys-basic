@@ -71,8 +71,10 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 		information.setSenddate(thisDate);
 		information.setTitle("推荐成功");
 		information.setContent("推荐用户：" + phone + "成功，推荐时间：" + thisDate);
-		information.setState("未读");
+		information.setState("1");
 		information.setWeight("正常");
+		information.setCreatedate(thisDate);
+		information.setLogicdelete(false);
         Information save = informationRepository.save(information);// 发推荐消息
         if(CheckUtils.checkObj(save)){
             HashMap<String, Object> info = new HashMap<>();
@@ -134,8 +136,10 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 		information.setSenddate(thisDate);
 		information.setTitle("推荐成功");
 		information.setContent("通过分享链接推荐用户"+ userid +"成功，推荐时间：" + thisDate);
-		information.setState("未读");
+		information.setState("1");
 		information.setWeight("正常");
+		information.setCreatedate(thisDate);
+		information.setLogicdelete(false);
         Information save = informationRepository.save(information);// 发推荐消息
         if(CheckUtils.checkObj(save)){
             HashMap<String, Object> info = new HashMap<>();
