@@ -98,6 +98,42 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 		createBasicInfo(userid, "", "", thisDate);
 		return "创建成功";
 	}
+	
+	/**
+	 * 该接口适用于分享链接后创建用户
+	 */
+	@Override
+	public String createUserByShareLink(String userid, String token, String accounttype,String referrer) {
+		String thisDate = DateUtils.getDateForNow();
+		Linkaccount linkaccount = new Linkaccount();
+		linkaccount.setUserid(userid);
+		linkaccount.setAccounttype(accounttype);
+		linkaccount.setToken(token);
+		linkaccount.setCreator(userid);
+		linkaccount.setCreatedate(thisDate);
+		linkaccount.setModifier(userid);
+		linkaccount.setModifierdate(thisDate);
+		linkaccount.setOther(accounttype);
+		linkaccountRepository.save(linkaccount);// 创建账号绑定
+		createBasicInfo(userid, "", referrer, thisDate);
+		Information information = new Information();
+		information.setType(Constants.REGISTER_INFORMATION.toString());
+		information.setSenduserid("1");
+		information.setReaduserid(referrer);
+		information.setSenddate(thisDate);
+		information.setTitle("推荐成功");
+		information.setContent("通过分享链接推荐用户"+ userid +"成功，推荐时间：" + thisDate);
+		information.setState("未读");
+		information.setWeight("正常");
+        Information save = informationRepository.save(information);// 发推荐消息
+        if(CheckUtils.checkObj(save)){
+            HashMap<String, Object> info = new HashMap<>();
+            info.put("type",Constants.REGISTER_NUMBER.toString());
+            info.put("message",information.getContent());
+            simpMessageSendingOperations.convertAndSendToUser(information.getReaduserid(), "/message",info );
+        }
+        return "用户创建成功";
+	}
 
 	private void createBasicInfo(String userid, String phone, String merchantid, String thisDate) {
 		Linkuser linkuser = new Linkuser();
