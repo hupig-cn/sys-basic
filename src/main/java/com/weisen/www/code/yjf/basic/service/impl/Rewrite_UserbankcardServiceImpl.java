@@ -196,5 +196,4 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
 		rewrite_UserbankcardRepository.save(userbankcard);
 		return Result.suc("添加成功!");
 	}
-
 }
