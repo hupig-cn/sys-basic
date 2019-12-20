@@ -75,12 +75,7 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
 		List<Userbankcard> list = rewrite_UserbankcardRepository.findAllByUserid(userId.toString());
 		List<Rewrite_BankCardDTO> listbank = new ArrayList<>();
 
-		for (int i = 0; i < list.size(); i++) {
-			Userbankcard x = list.get(i);
-			if (x.getBankcard() == null || x.getBankcard().equals("") || x.getBankicon() == null
-					|| x.getBankicon().equals("") || x.getRealname() == null || x.getRealname().endsWith("")) {
-				continue;
-			}
+		list.forEach(x -> {
 			Rewrite_BankCardDTO rewrite_BankCardDTO = new Rewrite_BankCardDTO();
 
 			rewrite_BankCardDTO.setId(x.getId());
@@ -94,7 +89,7 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
 			rewrite_BankCardDTO.setPicId(usercard.getOther());
 			rewrite_BankCardDTO.setBankBackground(usercard.getBankBackground());
 			listbank.add(rewrite_BankCardDTO);
-		}
+		});
 
 		Linkuser Linkuser = rewrite_LinkuserRepository.findByUserid(userId.toString());
 		Rewrite_BackCardInfo rewrite_BackCardInfo = new Rewrite_BackCardInfo(listbank,

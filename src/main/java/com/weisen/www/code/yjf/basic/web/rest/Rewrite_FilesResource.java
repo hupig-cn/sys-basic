@@ -39,6 +39,7 @@ import com.weisen.www.code.yjf.basic.service.Rewrite_FilesService;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_FilesDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_submitBasicDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
+import com.weisen.www.code.yjf.basic.util.UserUtil;
 import com.weisen.www.code.yjf.basic.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -265,7 +266,7 @@ public class Rewrite_FilesResource {
 		}
 		// create in database
 		Files dataFileDTO = new Files();
-		dataFileDTO.setUserid("3");
+		dataFileDTO.setUserid(UserUtil.getCurrentUserId().toString());
 		dataFileDTO.setName(fileName);
 		dataFileDTO.setUuid(uuidString);
 		dataFileDTO.setHeight(height);

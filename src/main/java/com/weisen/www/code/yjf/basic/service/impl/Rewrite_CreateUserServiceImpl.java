@@ -70,7 +70,7 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 		information.setReaduserid(referrer);
 		information.setSenddate(thisDate);
 		information.setTitle("推荐成功");
-		information.setContent("推荐用户：" + phone + "成功，推荐时间：" + thisDate);
+		information.setContent("推荐用户：" + phone + "成功");
 		information.setState("1");
 		information.setWeight("正常");
 		information.setCreatedate(thisDate);
@@ -135,7 +135,7 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 		information.setReaduserid(referrer);
 		information.setSenddate(thisDate);
 		information.setTitle("推荐成功");
-		information.setContent("通过分享链接推荐用户"+ userid +"成功，推荐时间：" + thisDate);
+		information.setContent("通过分享链接推荐用户"+ userid +"成功");
 		information.setState("1");
 		information.setWeight("正常");
 		information.setCreatedate(thisDate);
