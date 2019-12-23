@@ -5,9 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -230,6 +233,52 @@ public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
 			}
 		}
 		return Result.suc("成功更新"+filesList.size()+"条数据");
+	}
+
+	/**
+	 * 获取图片时间
+	 * */
+	@Override
+	public Result getFileCreateTime() {
+		long time = 0L;
+		long doubleEvent = 1573432126000L;
+		long createTime = 1573432126000L;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+		//查找所有文件
+		List<Files> filesList = filesRepository.findAll();
+		for (Files files : filesList) {
+			//获取名称
+			String name = files.getName();
+
+			files.setId(files.getId());
+			String shopMallName = name.substring(5,6);
+			if (shopMallName.equals("-") || shopMallName=="-") {
+				doubleEvent = doubleEvent+1;
+				time = doubleEvent;
+				String createdate = sdf.format(new Date(time));
+				files.setCreateDate(""+createdate);
+			}else {
+				//截取前13位数字
+				String substringName = name.substring(0,13);
+				//这个位数是否是符号
+				String isSymbol = substringName.substring(8,9);
+				//如果是符号，则为uuid，不是时间戳
+				if (isSymbol.equals("-") || isSymbol=="-") {
+					createTime = createTime + 3000L;
+					time = createTime;
+					String createdate = sdf.format(new Date(time));
+					files.setCreateDate(""+createdate);
+				}else {
+					time = Long.parseLong(substringName);
+					String createdate = sdf.format(new Date(time));
+					files.setCreateDate(""+createdate);
+					
+				}
+			}
+
+			filesRepository.save(files);
+		}
+		return Result.suc("成功");
 	}
 
 

@@ -60,4 +60,15 @@ public class Rewrite_CreateUserResource {
 	public String createUserByScanningMerchant(@RequestParam String userid, String token, String accounttype) {
 		return createUserService.createUserByScanningMerchant(userid, token, accounttype);
 	}
+	
+	/**
+	 * 该接口适用于分享链接后创建用户
+	 * 
+	 * @return
+	 */
+	@GetMapping("/public/user/createUserByShareLink")
+	@ApiOperation(value = "该接口适用于分享链接后创建用户")
+	public String createUserByShareLink(@RequestParam String userid, String token, String accounttype, String articleid) {
+		return createUserService.createUserByShareLink(userid, token, accounttype, articleid);
+	}
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -29,19 +30,22 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 	private UserlocationRepository userlocationRepository;
 
 	private UserassetsRepository userassetsRepository;
+	
+	private Rewrite_ArticleRepository rewrite_ArticleRepository;
 
     @Autowired
     private SimpMessageSendingOperations simpMessageSendingOperations;
 	public Rewrite_CreateUserServiceImpl(LinkuserRepository linkuserRepository,
 			LinkaccountRepository linkaccountRepository, UserlinkuserRepository userlinkuserRepository,
 			UserlocationRepository userlocationRepository, UserassetsRepository userassetsRepository,
-			InformationRepository informationRepository) {
+			InformationRepository informationRepository, Rewrite_ArticleRepository rewrite_ArticleRepository) {
 		this.linkuserRepository = linkuserRepository;
 		this.linkaccountRepository = linkaccountRepository;
 		this.userlinkuserRepository = userlinkuserRepository;
 		this.userlocationRepository = userlocationRepository;
 		this.userassetsRepository = userassetsRepository;
 		this.informationRepository = informationRepository;
+		this.rewrite_ArticleRepository = rewrite_ArticleRepository;
 	}
 
 	/**
@@ -66,9 +70,11 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 		information.setReaduserid(referrer);
 		information.setSenddate(thisDate);
 		information.setTitle("推荐成功");
-		information.setContent("推荐用户：" + phone + "成功，推荐时间：" + thisDate);
-		information.setState("未读");
+		information.setContent("推荐用户：" + phone + "成功");
+		information.setState("1");
 		information.setWeight("正常");
+		information.setCreatedate(thisDate);
+		information.setLogicdelete(false);
         Information save = informationRepository.save(information);// 发推荐消息
         if(CheckUtils.checkObj(save)){
             HashMap<String, Object> info = new HashMap<>();
@@ -97,6 +103,51 @@ public class Rewrite_CreateUserServiceImpl implements Rewrite_CreateUserService 
 		linkaccountRepository.save(linkaccount);// 创建账号绑定
 		createBasicInfo(userid, "", "", thisDate);
 		return "创建成功";
+	}
+	
+	/**
+	 * 该接口适用于分享链接后创建用户
+	 */
+	@Override
+	public String createUserByShareLink(String userid, String token, String accounttype,String articleid) {
+		Optional<Article> opArticle = rewrite_ArticleRepository.findById(Long.valueOf(articleid));
+		String referrer = "";
+		if(opArticle.isPresent()) {
+			if(opArticle.get().getUserid() != null && opArticle.get().getUserid() > 0) {
+				referrer = opArticle.get().getUserid().toString();
+			}
+		}
+		String thisDate = DateUtils.getDateForNow();
+		Linkaccount linkaccount = new Linkaccount();
+		linkaccount.setUserid(userid);
+		linkaccount.setAccounttype(accounttype);
+		linkaccount.setToken(token);
+		linkaccount.setCreator(userid);
+		linkaccount.setCreatedate(thisDate);
+		linkaccount.setModifier(userid);
+		linkaccount.setModifierdate(thisDate);
+		linkaccount.setOther(accounttype);
+		linkaccountRepository.save(linkaccount);// 创建账号绑定
+		createBasicInfo(userid, "", referrer, thisDate);
+		Information information = new Information();
+		information.setType(Constants.REGISTER_INFORMATION.toString());
+		information.setSenduserid("1");
+		information.setReaduserid(referrer);
+		information.setSenddate(thisDate);
+		information.setTitle("推荐成功");
+		information.setContent("通过分享链接推荐用户"+ userid +"成功");
+		information.setState("1");
+		information.setWeight("正常");
+		information.setCreatedate(thisDate);
+		information.setLogicdelete(false);
+        Information save = informationRepository.save(information);// 发推荐消息
+        if(CheckUtils.checkObj(save)){
+            HashMap<String, Object> info = new HashMap<>();
+            info.put("type",Constants.REGISTER_NUMBER.toString());
+            info.put("message",information.getContent());
+            simpMessageSendingOperations.convertAndSendToUser(information.getReaduserid(), "/message",info );
+        }
+        return "用户创建成功";
 	}
 
 	private void createBasicInfo(String userid, String phone, String merchantid, String thisDate) {

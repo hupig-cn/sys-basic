@@ -46,8 +46,19 @@ public class Files implements Serializable {
 
     @Column(name = "file_content_type")
     private String fileContentType;
+    
+    @Column(name = "createdate")
+    private String createDate;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	// jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
     }

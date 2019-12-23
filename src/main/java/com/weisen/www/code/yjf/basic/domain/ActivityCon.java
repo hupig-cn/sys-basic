@@ -1,4 +1,5 @@
 package com.weisen.www.code.yjf.basic.domain;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Cache;
@@ -10,8 +11,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * The Employee entity.
- * 活动配置表
+ * The Employee entity. 活动配置表
  */
 @ApiModel(description = "The Employee entity. 活动配置表")
 @Entity
@@ -19,108 +19,117 @@ import java.math.BigDecimal;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class ActivityCon implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    /**
-     * The firstname ClassificationAttr.
-     */
-    @ApiModelProperty(value = "The firstname ClassificationAttr.")
-    @Column(name = "activity_name")
-    private String activityName;
+	/**
+	 * The firstname ClassificationAttr.
+	 */
+	@ApiModelProperty(value = "The firstname ClassificationAttr.")
+	@Column(name = "activity_name")
+	private String activityName;
 
-    @Column(name = "interest_rate", precision = 21, scale = 4)
-    private BigDecimal interestRate;
+	@Column(name = "interest_rate", precision = 21, scale = 4)
+	private BigDecimal interestRate;
 
-    @Column(name = "create_time")
-    private String createTime;
+	@Column(name = "create_time")
+	private String createTime;
 
-    @Column(name = "logical_del")
-    private int logicaldel;
+	@Column(name = "logical_del")
+	private int logicaldel;
 
-    public int getLogicaldel() {
-        return logicaldel;
-    }
+	@Column(name = "available", precision = 21, scale = 2)
+	private BigDecimal available;
 
-    public void setLogicaldel(int logicaldel) {
-        this.logicaldel = logicaldel;
-    }
+	public BigDecimal getAvailable() {
+		return available;
+	}
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
-        return id;
-    }
+	public void setAvailable(BigDecimal available) {
+		this.available = available;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public int getLogicaldel() {
+		return logicaldel;
+	}
 
-    public String getActivityName() {
-        return activityName;
-    }
+	public void setLogicaldel(int logicaldel) {
+		this.logicaldel = logicaldel;
+	}
 
-    public ActivityCon activityName(String activityName) {
-        this.activityName = activityName;
-        return this;
-    }
+	// jhipster-needle-entity-add-field - JHipster will add fields here, do not
+	// remove
+	public Long getId() {
+		return id;
+	}
 
-    public void setActivityName(String activityName) {
-        this.activityName = activityName;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public BigDecimal getInterestRate() {
-        return interestRate;
-    }
+	public String getActivityName() {
+		return activityName;
+	}
 
-    public ActivityCon interestRate(BigDecimal interestRate) {
-        this.interestRate = interestRate;
-        return this;
-    }
+	public ActivityCon activityName(String activityName) {
+		this.activityName = activityName;
+		return this;
+	}
 
-    public void setInterestRate(BigDecimal interestRate) {
-        this.interestRate = interestRate;
-    }
+	public void setActivityName(String activityName) {
+		this.activityName = activityName;
+	}
 
-    public String getCreateTime() {
-        return createTime;
-    }
+	public BigDecimal getInterestRate() {
+		return interestRate;
+	}
 
-    public ActivityCon createTime(String createTime) {
-        this.createTime = createTime;
-        return this;
-    }
+	public ActivityCon interestRate(BigDecimal interestRate) {
+		this.interestRate = interestRate;
+		return this;
+	}
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+	public void setInterestRate(BigDecimal interestRate) {
+		this.interestRate = interestRate;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof ActivityCon)) {
-            return false;
-        }
-        return id != null && id.equals(((ActivityCon) o).id);
-    }
+	public String getCreateTime() {
+		return createTime;
+	}
 
-    @Override
-    public int hashCode() {
-        return 31;
-    }
+	public ActivityCon createTime(String createTime) {
+		this.createTime = createTime;
+		return this;
+	}
 
-    @Override
-    public String toString() {
-        return "ActivityCon{" +
-            "id=" + getId() +
-            ", activityName='" + getActivityName() + "'" +
-            ", interestRate=" + getInterestRate() +
-            ", createTime='" + getCreateTime() + "'" +
-            "}";
-    }
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+	// setters here, do not remove
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof ActivityCon)) {
+			return false;
+		}
+		return id != null && id.equals(((ActivityCon) o).id);
+	}
+
+	@Override
+	public int hashCode() {
+		return 31;
+	}
+
+	@Override
+	public String toString() {
+		return "ActivityCon{" + "id=" + getId() + ", activityName='" + getActivityName() + "'" + ", interestRate="
+				+ getInterestRate() + ", createTime='" + getCreateTime() + "'" + "}";
+	}
 }

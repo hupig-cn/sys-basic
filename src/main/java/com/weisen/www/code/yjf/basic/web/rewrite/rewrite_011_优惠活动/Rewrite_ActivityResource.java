@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -94,5 +95,20 @@ public class Rewrite_ActivityResource {
 		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/lunbotu", "", result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
-
+	
+	@GetMapping("/public/user/rule")
+	@ApiOperation("规则阅读")
+	public ResponseEntity<Result> ruleRead(Long userid) {
+		Result result = rewrite_activityService.ruleRead(userid);
+		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/ruleRead", "", result);
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+	}
+	
+	@PostMapping("/public/user/updaterule")
+	@ApiOperation("修改已参加状态")
+	public ResponseEntity<Result> updaterule(Long userid) {
+		Result result = rewrite_activityService.updaterule(userid);
+		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/updaterule", "", result);
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+	}
 }

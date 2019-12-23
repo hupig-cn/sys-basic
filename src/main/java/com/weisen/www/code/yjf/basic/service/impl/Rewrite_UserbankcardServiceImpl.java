@@ -10,6 +10,7 @@ import com.weisen.www.code.yjf.basic.service.Rewrite_UserbankcardService;
 import com.weisen.www.code.yjf.basic.service.dto.UserbankcardDTO;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_BackCardInfo;
 import com.weisen.www.code.yjf.basic.service.dto.show_dto.Rewrite_BankCardDTO;
+import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_UserCardDTO;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
 
@@ -18,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Transactional
@@ -77,7 +80,7 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
 
 			rewrite_BankCardDTO.setId(x.getId());
 			rewrite_BankCardDTO.setBankname(x.getBanktype());
-			
+
 			rewrite_BankCardDTO
 					.setBanknum(x.getBankcard().substring(x.getBankcard().length() - 4, x.getBankcard().length()));
 			rewrite_BankCardDTO.setBankuser(x.getRealname());
@@ -138,7 +141,7 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
 		rewrite_UserbankcardRepository.deleteById(bankcardId);
 		return Result.suc("success");
 	}
-	
+
 	// 用户删除多个银行卡
 	@Override
 	public Result deleteBackCards(List<String> bankcardId) {
@@ -148,4 +151,49 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
 		return Result.suc("删除成功");
 	}
 
+	// 重写用户添加银行卡LuoJinShui
+	@Override
+	public Result createBankCard2(Rewrite_UserCardDTO rewrite_UserCardDTO) {
+		// 根据用户传过来的id查找相对应的银行卡信息
+		Usercard usercard = rewrite_UsercardRepository.findById2(rewrite_UserCardDTO.getId());
+		Userbankcard userBankCard = rewrite_UserbankcardRepository.findByBankcard(rewrite_UserCardDTO.getBankcard());
+		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(rewrite_UserCardDTO.getUserid());
+		Userbankcard userbankcard = new Userbankcard();
+		String regex = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(17[0,1,3,5,6,7,8])|(18[0-9])|(19[8|9])|(16[6]))\\d{8}$";
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(rewrite_UserCardDTO.getBankphone()); // registrant_phone ==== 电话号码字段
+		boolean isMatch = m.matches();
+		if (!isMatch) {
+			return Result.fail("银行预留手机号格式不正确!请重新输入!");
+		}
+		if (usercard == null) {
+			return Result.fail("没有该银行卡类型哦!请重新输入!");
+		}
+		if (userBankCard != null) {
+			return Result.fail("该银行卡号已存在!请重新输入!");
+		}
+		if (rewrite_UserCardDTO.getBankcard().length() < 15 || rewrite_UserCardDTO.getBankcard().length() > 19) {
+			return Result.fail("银行卡号格式不正确!请重新输入!");
+		}
+		if (rewrite_UserCardDTO.getRealname() == null || rewrite_UserCardDTO.getRealname().equals("")) {
+			return Result.fail("持卡人姓名不能为空哦!请输入!");
+		}
+		if (rewrite_UserCardDTO.getBankphone() == null || rewrite_UserCardDTO.getBankphone().equals("")) {
+			return Result.fail("银行预留手机号不能为空哦!请输入!");
+		}
+		if (linkuser == null) {
+			return Result.fail("当前用户不存在!请重新输入!");
+		}
+		userbankcard.setBankcard(rewrite_UserCardDTO.getBankcard());
+		userbankcard.setRealname(rewrite_UserCardDTO.getRealname());
+		userbankcard.setBankphone(rewrite_UserCardDTO.getBankphone());
+		// 把用户传过来的银行卡的LoGo保存
+		userbankcard.setBankicon(usercard.getLogo());
+		// 把用户传过来的银行卡的名字保存
+		userbankcard.setBanktype(usercard.getBankname());
+		userbankcard.setCreatedate(TimeUtil.getDate());
+		userbankcard.setUserid(rewrite_UserCardDTO.getUserid());
+		rewrite_UserbankcardRepository.save(userbankcard);
+		return Result.suc("添加成功!");
+	}
 }

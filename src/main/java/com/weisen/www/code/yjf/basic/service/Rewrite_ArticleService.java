@@ -13,7 +13,7 @@ public interface Rewrite_ArticleService {
 
 	Result findAll(Integer pageNmb,Integer page);
 	
-	Result finddeails(Long id);
+	Result finddeails(Long id,Long userid);
 	
 	Result createArticle(Long userid,String title,String imgurl,String content);
 	

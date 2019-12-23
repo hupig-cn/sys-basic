@@ -41,8 +41,8 @@ public class Rewrite_ArticleResource {
     
     @GetMapping("/public/findArticleByid")
     @ApiOperation(value = "根据文章id查询文章")
-    public ResponseEntity<Result> findArticleByid(@RequestParam("id") Long id) {
-    	Result result = rewrite_ArticleService.finddeails(id);
+    public ResponseEntity<Result> findArticleByid(@RequestParam("id") Long id,@RequestParam("userid")Long userid) {
+    	Result result = rewrite_ArticleService.finddeails(id,userid);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
     
