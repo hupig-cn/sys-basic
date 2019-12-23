@@ -36,8 +36,8 @@ public class Rewrite_rewriteoldportResouce {
 	//  Shui
 	@PostMapping("/user/verificationIdCard")
 	@ApiOperation("验证身份证")
-	public ResponseEntity<Result> verificationIdCard(String userid , String idcard,String name) {
-		Result result = rewrite_rewriteoldportService.verificationIdCard(userid,idcard,name);
+	public ResponseEntity<Result> verificationIdCard(String userid , String idcard, String name) {
+        Result result = rewrite_rewriteoldportService.verificationIdCard(userid,idcard,name);
 		logger.debug("访问成功:{},传入值:{},返回值:{}", "/user/verificationIdCard", userid+"，"+idcard, result);
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
