@@ -266,7 +266,7 @@ public class Rewrite_FilesResource {
 		}
 		// create in database
 		Files dataFileDTO = new Files();
-		dataFileDTO.setUserid(UserUtil.getCurrentUserId().toString());
+		dataFileDTO.setUserid("3");
 		dataFileDTO.setName(fileName);
 		dataFileDTO.setUuid(uuidString);
 		dataFileDTO.setHeight(height);
