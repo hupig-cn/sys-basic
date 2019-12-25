@@ -163,14 +163,8 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(rewrite_UserCardDTO.getBankphone()); // registrant_phone ==== 电话号码字段
 		boolean isMatch = m.matches();
-		if (!isMatch) {
-			return Result.fail("银行预留手机号格式不正确!请重新输入!");
-		}
 		if (usercard == null) {
 			return Result.fail("没有该银行卡类型哦!请重新输入!");
-		}
-		if (userBankCard != null) {
-			return Result.fail("该银行卡号已存在!请重新输入!");
 		}
 		if (rewrite_UserCardDTO.getBankcard().length() < 15 || rewrite_UserCardDTO.getBankcard().length() > 19) {
 			return Result.fail("银行卡号格式不正确!请重新输入!");
@@ -180,6 +174,16 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
 		}
 		if (rewrite_UserCardDTO.getBankphone() == null || rewrite_UserCardDTO.getBankphone().equals("")) {
 			return Result.fail("银行预留手机号不能为空哦!请输入!");
+		}
+		if (!isMatch) {
+			return Result.fail("银行预留手机号格式不正确!请重新输入!");
+		}
+		if (userBankCard != null) {
+			if (userBankCard.getRealname().equals(rewrite_UserCardDTO.getRealname())) {
+				return Result.fail("当前添加的银行卡已绑定!请进入银行卡列表查看!");
+			} else {
+				return Result.fail("该银行卡已被绑定!请重新输入!");
+			}
 		}
 		if (linkuser == null) {
 			return Result.fail("当前用户不存在!请重新输入!");
