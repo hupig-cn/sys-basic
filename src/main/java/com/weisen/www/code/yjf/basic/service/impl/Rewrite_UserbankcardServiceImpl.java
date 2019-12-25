@@ -158,7 +158,6 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
 		Usercard usercard = rewrite_UsercardRepository.findById2(rewrite_UserCardDTO.getId());
 		Userbankcard userBankCard = rewrite_UserbankcardRepository.findByBankcard(rewrite_UserCardDTO.getBankcard());
 		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(rewrite_UserCardDTO.getUserid());
-		Userbankcard userbankcard = new Userbankcard();
 		String regex = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(17[0,1,3,5,6,7,8])|(18[0-9])|(19[8|9])|(16[6]))\\d{8}$";
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(rewrite_UserCardDTO.getBankphone()); // registrant_phone ==== 电话号码字段
@@ -188,6 +187,7 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
 		if (linkuser == null) {
 			return Result.fail("当前用户不存在!请重新输入!");
 		}
+		Userbankcard userbankcard = new Userbankcard();
 		userbankcard.setBankcard(rewrite_UserCardDTO.getBankcard());
 		userbankcard.setRealname(rewrite_UserCardDTO.getRealname());
 		userbankcard.setBankphone(rewrite_UserCardDTO.getBankphone());
