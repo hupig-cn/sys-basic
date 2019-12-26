@@ -343,5 +343,65 @@ public class Rewrite_FilesResource {
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
 	
+	@PostMapping("/upload2")
+	@Timed
+	@ApiOperation(value = "文件上传")
+	public Result upload2(@RequestParam(name = "file") MultipartFile[] multipartFile) {
+		Result result = null;
+		List<Files> imageList = new ArrayList<>();
+		if (multipartFile != null && multipartFile.length > 0) {
+			for (MultipartFile file : multipartFile) {
+				if (file.getSize() > 10 * 1024 * 1024) {
+					return Result.fail("上传失败，文件大小不能超过10M");
+				}
+				try {
+					Files imgfiles = createFile2(file);
+					imageList.add(imgfiles);
+				} catch (IllegalStateException | IOException e) {
+					log.error(e.getMessage());
+				}
+			}
+			result = Result.suc("上传成功", imageList, imageList.size());
+		}
+		return result;
+	}
+	
+	private Files createFile2(MultipartFile multipartFile) throws IllegalStateException, IOException {
+		String originFilename = multipartFile.getOriginalFilename();
+		String suffix = originFilename.substring(originFilename.lastIndexOf('.'));
+		// 获取图片大小
+		long filesSize = multipartFile.getSize(); 							//文件字节
+		String uuidString = UUID.randomUUID().toString();					//UUid
+		String fileName = System.currentTimeMillis() + RandomStringUtils.randomAlphanumeric(6) + suffix; //时间戳文件名
+		String target = filePathImage + fileName;				
+		
+		File destFile = new File(target);
+		// write file
+		multipartFile.transferTo(destFile);									//存放
+		int width = 0;														
+		int height = 0;
+		File file = new File(target);
+		if (suffix.endsWith(".jpg") || suffix.endsWith(".jpeg") || suffix.endsWith(".png") || suffix.endsWith(".gif") || suffix.endsWith(".webp")) {
+			FileInputStream fis = new FileInputStream(file);				
+			BufferedImage bufferedImg = ImageIO.read(fis);					
+			width = bufferedImg.getWidth();									//图片宽度
+			height = bufferedImg.getHeight();	 							//图片高度
+		}
+		// create in database
+		Files dataFileDTO = new Files();
+		dataFileDTO.setUserid("3");
+		dataFileDTO.setName(fileName);
+		dataFileDTO.setUuid(uuidString);
+		dataFileDTO.setHeight(height);
+		dataFileDTO.setWidth(width);
+		dataFileDTO.setSize((int)filesSize);
+		dataFileDTO.setFile(filePathImage);
+		dataFileDTO.setFileContentType(getContentType(suffix));
+		Files files = filesRepository.save(dataFileDTO);
+		Files imgfiles = files;
+		imgfiles.setUrl(imagespath + files.getId());
+		filesRepository.save(imgfiles);
+		return imgfiles;
+	}
 	
 }
