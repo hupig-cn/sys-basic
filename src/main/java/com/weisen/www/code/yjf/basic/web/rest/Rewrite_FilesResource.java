@@ -38,6 +38,7 @@ import com.weisen.www.code.yjf.basic.repository.FilesRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_FilesService;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_FilesDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_submitBasicDTO;
+import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.UserUtil;
 import com.weisen.www.code.yjf.basic.web.rest.errors.BadRequestAlertException;
@@ -274,6 +275,7 @@ public class Rewrite_FilesResource {
 		dataFileDTO.setSize((int)filesSize);
 		dataFileDTO.setFile(filePathImage);
 		dataFileDTO.setFileContentType(getContentType(suffix));
+		dataFileDTO.setCreateDate(DateUtils.getDateForNow());
 		Files files = filesRepository.save(dataFileDTO);
 		Files imgfiles = files;
 		imgfiles.setUrl(imagespath + files.getId());
@@ -397,6 +399,7 @@ public class Rewrite_FilesResource {
 		dataFileDTO.setSize((int)filesSize);
 		dataFileDTO.setFile(filePathImage);
 		dataFileDTO.setFileContentType(getContentType(suffix));
+		dataFileDTO.setCreateDate(DateUtils.getDateForNow());
 		Files files = filesRepository.save(dataFileDTO);
 		Files imgfiles = files;
 		imgfiles.setUrl(imagespath + files.getId());
