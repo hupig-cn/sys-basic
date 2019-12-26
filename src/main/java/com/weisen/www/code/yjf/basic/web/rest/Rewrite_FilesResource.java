@@ -281,7 +281,7 @@ public class Rewrite_FilesResource {
 		dataFileDTO.setFile(filePathImage);
 		dataFileDTO.setFileContentType(getContentType(suffix));
 		dataFileDTO.setCreateDate(DateUtils.getDateForNow());
-		dataFile.setOriginname(originFilename);
+		dataFileDTO.setOriginname(originFilename);
 		Files files = filesRepository.save(dataFileDTO);
 		Files imgfiles = files;
 		imgfiles.setUrl(imagespath + files.getId());
