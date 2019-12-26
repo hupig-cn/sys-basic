@@ -76,9 +76,14 @@
             <column name="width" type="int"/>
         </addColumn>
     </changeSet>
-       <changeSet id="20191216071802-add_column" author="sxx">
+    <changeSet id="20191216071802-add_column" author="sxx">
         <addColumn tableName="files">
             <column name="createdate" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="20191226181802-add_column" author="jhipster">
+        <addColumn tableName="files">
+            <column name="originname" type="varchar(255)"/>
         </addColumn>
     </changeSet>
 

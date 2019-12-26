@@ -13,6 +13,14 @@ public class FilesDTO implements Serializable {
     private String userid;
 
     private String name;
+    
+    private String url;
+    
+    private String uuid;
+    
+    private Integer height;
+    
+    private Integer width;
 
     private Integer size;
 
@@ -20,56 +28,108 @@ public class FilesDTO implements Serializable {
 
     private String fileContentType;
 
+    private String createDate;
+    
+    private String originname;
+
 
     public Long getId() {
-        return id;
-    }
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getUserid() {
-        return userid;
-    }
+	public String getUserid() {
+		return userid;
+	}
 
-    public void setUserid(String userid) {
-        this.userid = userid;
-    }
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public Integer getSize() {
-        return size;
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    public void setSize(Integer size) {
-        this.size = size;
-    }
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
-    public String getFile() {
-        return file;
-    }
+	public String getUuid() {
+		return uuid;
+	}
 
-    public void setFile(String file) {
-        this.file = file;
-    }
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
 
-    public String getFileContentType() {
-        return fileContentType;
-    }
+	public Integer getHeight() {
+		return height;
+	}
 
-    public void setFileContentType(String fileContentType) {
-        this.fileContentType = fileContentType;
-    }
+	public void setHeight(Integer height) {
+		this.height = height;
+	}
 
-    @Override
+	public Integer getWidth() {
+		return width;
+	}
+
+	public void setWidth(Integer width) {
+		this.width = width;
+	}
+
+	public Integer getSize() {
+		return size;
+	}
+
+	public void setSize(Integer size) {
+		this.size = size;
+	}
+
+	public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
+	}
+
+	public String getFileContentType() {
+		return fileContentType;
+	}
+
+	public void setFileContentType(String fileContentType) {
+		this.fileContentType = fileContentType;
+	}
+
+	public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getOriginname() {
+		return originname;
+	}
+
+	public void setOriginname(String originname) {
+		this.originname = originname;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

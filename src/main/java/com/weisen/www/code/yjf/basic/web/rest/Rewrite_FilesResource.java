@@ -36,11 +36,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.weisen.www.code.yjf.basic.domain.Files;
 import com.weisen.www.code.yjf.basic.repository.FilesRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_FilesService;
+import com.weisen.www.code.yjf.basic.service.dto.FilesDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_FilesDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_submitBasicDTO;
+import com.weisen.www.code.yjf.basic.service.mapper.FilesMapper;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
-import com.weisen.www.code.yjf.basic.util.UserUtil;
 import com.weisen.www.code.yjf.basic.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -79,10 +80,14 @@ public class Rewrite_FilesResource {
     private String applicationName;
 
     private final Rewrite_FilesService rewrite_FilesService;
+    
+    private final FilesMapper filesMapper;
 
-    public Rewrite_FilesResource(Rewrite_FilesService rewrite_FilesService,FilesRepository filesRepository) {
+    public Rewrite_FilesResource(Rewrite_FilesService rewrite_FilesService,FilesRepository filesRepository,
+    		FilesMapper filesMapper) {
         this.rewrite_FilesService = rewrite_FilesService;
         this.filesRepository = filesRepository;
+        this.filesMapper = filesMapper;
     }
     
     @GetMapping("/public/getFiles/{id}")
@@ -276,6 +281,7 @@ public class Rewrite_FilesResource {
 		dataFileDTO.setFile(filePathImage);
 		dataFileDTO.setFileContentType(getContentType(suffix));
 		dataFileDTO.setCreateDate(DateUtils.getDateForNow());
+		dataFile.setOriginname(originFilename);
 		Files files = filesRepository.save(dataFileDTO);
 		Files imgfiles = files;
 		imgfiles.setUrl(imagespath + files.getId());
@@ -350,7 +356,7 @@ public class Rewrite_FilesResource {
 	@ApiOperation(value = "文件上传")
 	public Result upload2(@RequestParam(name = "file") MultipartFile[] multipartFile) {
 		Result result = null;
-		List<Files> imageList = new ArrayList<>();
+		List<FilesDTO> dtoList = new ArrayList<>();
 		if (multipartFile != null && multipartFile.length > 0) {
 			for (MultipartFile file : multipartFile) {
 				if (file.getSize() > 10 * 1024 * 1024) {
@@ -358,12 +364,14 @@ public class Rewrite_FilesResource {
 				}
 				try {
 					Files imgfiles = createFile2(file);
-					imageList.add(imgfiles);
+					FilesDTO dto = filesMapper.toDto(imgfiles);
+					dto.setFile(null);
+					dtoList.add(dto);
 				} catch (IllegalStateException | IOException e) {
 					log.error(e.getMessage());
 				}
 			}
-			result = Result.suc("上传成功", imageList, imageList.size());
+			result = Result.suc("上传成功", dtoList , dtoList.size());
 		}
 		return result;
 	}
@@ -390,17 +398,18 @@ public class Rewrite_FilesResource {
 			height = bufferedImg.getHeight();	 							//图片高度
 		}
 		// create in database
-		Files dataFileDTO = new Files();
-		dataFileDTO.setUserid("3");
-		dataFileDTO.setName(fileName);
-		dataFileDTO.setUuid(uuidString);
-		dataFileDTO.setHeight(height);
-		dataFileDTO.setWidth(width);
-		dataFileDTO.setSize((int)filesSize);
-		dataFileDTO.setFile(filePathImage);
-		dataFileDTO.setFileContentType(getContentType(suffix));
-		dataFileDTO.setCreateDate(DateUtils.getDateForNow());
-		Files files = filesRepository.save(dataFileDTO);
+		Files dataFile = new Files();
+		dataFile.setUserid("3");
+		dataFile.setName(fileName);
+		dataFile.setUuid(uuidString);
+		dataFile.setHeight(height);
+		dataFile.setWidth(width);
+		dataFile.setSize((int)filesSize);
+		dataFile.setFile(filePathImage);
+		dataFile.setFileContentType(getContentType(suffix));
+		dataFile.setCreateDate(DateUtils.getDateForNow());
+		dataFile.setOriginname(originFilename);
+		Files files = filesRepository.save(dataFile);
 		Files imgfiles = files;
 		imgfiles.setUrl(imagespath + files.getId());
 		filesRepository.save(imgfiles);
