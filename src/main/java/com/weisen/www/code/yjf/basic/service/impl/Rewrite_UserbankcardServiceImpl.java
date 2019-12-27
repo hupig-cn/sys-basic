@@ -165,13 +165,14 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
 		if (usercard == null) {
 			return Result.fail("没有该银行卡类型哦!请重新输入!");
 		}
-		if (rewrite_UserCardDTO.getBankcard().length() < 15 || rewrite_UserCardDTO.getBankcard().length() > 19) {
+		if (rewrite_UserCardDTO.getBankcard().trim().length() < 15
+				|| rewrite_UserCardDTO.getBankcard().trim().length() > 19) {
 			return Result.fail("银行卡号格式不正确!请重新输入!");
 		}
-		if (rewrite_UserCardDTO.getRealname() == null || rewrite_UserCardDTO.getRealname().equals("")) {
+		if (rewrite_UserCardDTO.getRealname().trim() == null || rewrite_UserCardDTO.getRealname().trim().equals("")) {
 			return Result.fail("持卡人姓名不能为空哦!请输入!");
 		}
-		if (rewrite_UserCardDTO.getBankphone() == null || rewrite_UserCardDTO.getBankphone().equals("")) {
+		if (rewrite_UserCardDTO.getBankphone().trim() == null || rewrite_UserCardDTO.getBankphone().trim().equals("")) {
 			return Result.fail("银行预留手机号不能为空哦!请输入!");
 		}
 		if (!isMatch) {
@@ -188,15 +189,15 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
 			return Result.fail("当前用户不存在!请重新输入!");
 		}
 		Userbankcard userbankcard = new Userbankcard();
-		userbankcard.setBankcard(rewrite_UserCardDTO.getBankcard());
-		userbankcard.setRealname(rewrite_UserCardDTO.getRealname());
-		userbankcard.setBankphone(rewrite_UserCardDTO.getBankphone());
+		userbankcard.setBankcard(rewrite_UserCardDTO.getBankcard().trim());
+		userbankcard.setRealname(rewrite_UserCardDTO.getRealname().trim());
+		userbankcard.setBankphone(rewrite_UserCardDTO.getBankphone().trim());
 		// 把用户传过来的银行卡的LoGo保存
 		userbankcard.setBankicon(usercard.getLogo());
 		// 把用户传过来的银行卡的名字保存
 		userbankcard.setBanktype(usercard.getBankname());
 		userbankcard.setCreatedate(TimeUtil.getDate());
-		userbankcard.setUserid(rewrite_UserCardDTO.getUserid());
+		userbankcard.setUserid(rewrite_UserCardDTO.getUserid().trim());
 		rewrite_UserbankcardRepository.save(userbankcard);
 		return Result.suc("添加成功!");
 	}
