@@ -49,8 +49,19 @@ public class Files implements Serializable {
     
     @Column(name = "createdate")
     private String createDate;
+    
+    @Column(name = "originname")
+    private String originname;
 
-    public String getCreateDate() {
+    public String getOriginname() {
+		return originname;
+	}
+
+	public void setOriginname(String originname) {
+		this.originname = originname;
+	}
+
+	public String getCreateDate() {
 		return createDate;
 	}
 

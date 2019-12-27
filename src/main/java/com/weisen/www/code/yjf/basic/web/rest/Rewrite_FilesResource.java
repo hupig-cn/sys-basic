@@ -36,10 +36,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.weisen.www.code.yjf.basic.domain.Files;
 import com.weisen.www.code.yjf.basic.repository.FilesRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_FilesService;
+import com.weisen.www.code.yjf.basic.service.dto.FilesDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_FilesDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_submitBasicDTO;
+import com.weisen.www.code.yjf.basic.service.mapper.FilesMapper;
+import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.Result;
-import com.weisen.www.code.yjf.basic.util.UserUtil;
 import com.weisen.www.code.yjf.basic.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -78,10 +80,14 @@ public class Rewrite_FilesResource {
     private String applicationName;
 
     private final Rewrite_FilesService rewrite_FilesService;
+    
+    private final FilesMapper filesMapper;
 
-    public Rewrite_FilesResource(Rewrite_FilesService rewrite_FilesService,FilesRepository filesRepository) {
+    public Rewrite_FilesResource(Rewrite_FilesService rewrite_FilesService,FilesRepository filesRepository,
+    		FilesMapper filesMapper) {
         this.rewrite_FilesService = rewrite_FilesService;
         this.filesRepository = filesRepository;
+        this.filesMapper = filesMapper;
     }
     
     @GetMapping("/public/getFiles/{id}")
@@ -274,6 +280,8 @@ public class Rewrite_FilesResource {
 		dataFileDTO.setSize((int)filesSize);
 		dataFileDTO.setFile(filePathImage);
 		dataFileDTO.setFileContentType(getContentType(suffix));
+		dataFileDTO.setCreateDate(DateUtils.getDateForNow());
+		dataFileDTO.setOriginname(originFilename);
 		Files files = filesRepository.save(dataFileDTO);
 		Files imgfiles = files;
 		imgfiles.setUrl(imagespath + files.getId());
@@ -343,5 +351,69 @@ public class Rewrite_FilesResource {
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
 	}
 	
+	@PostMapping("/upload2")
+	@Timed
+	@ApiOperation(value = "文件上传")
+	public Result upload2(@RequestParam(name = "file") MultipartFile[] multipartFile) {
+		Result result = null;
+		List<FilesDTO> dtoList = new ArrayList<>();
+		if (multipartFile != null && multipartFile.length > 0) {
+			for (MultipartFile file : multipartFile) {
+				if (file.getSize() > 10 * 1024 * 1024) {
+					return Result.fail("上传失败，文件大小不能超过10M");
+				}
+				try {
+					Files imgfiles = createFile2(file);
+					FilesDTO dto = filesMapper.toDto(imgfiles);
+					dto.setFile(null);
+					dtoList.add(dto);
+				} catch (IllegalStateException | IOException e) {
+					log.error(e.getMessage());
+				}
+			}
+			result = Result.suc("上传成功", dtoList , dtoList.size());
+		}
+		return result;
+	}
+	
+	private Files createFile2(MultipartFile multipartFile) throws IllegalStateException, IOException {
+		String originFilename = multipartFile.getOriginalFilename();
+		String suffix = originFilename.substring(originFilename.lastIndexOf('.'));
+		// 获取图片大小
+		long filesSize = multipartFile.getSize(); 							//文件字节
+		String uuidString = UUID.randomUUID().toString();					//UUid
+		String fileName = System.currentTimeMillis() + RandomStringUtils.randomAlphanumeric(6) + suffix; //时间戳文件名
+		String target = filePathImage + fileName;				
+		
+		File destFile = new File(target);
+		// write file
+		multipartFile.transferTo(destFile);									//存放
+		int width = 0;														
+		int height = 0;
+		File file = new File(target);
+		if (suffix.endsWith(".jpg") || suffix.endsWith(".jpeg") || suffix.endsWith(".png") || suffix.endsWith(".gif") || suffix.endsWith(".webp")) {
+			FileInputStream fis = new FileInputStream(file);				
+			BufferedImage bufferedImg = ImageIO.read(fis);					
+			width = bufferedImg.getWidth();									//图片宽度
+			height = bufferedImg.getHeight();	 							//图片高度
+		}
+		// create in database
+		Files dataFile = new Files();
+		dataFile.setUserid("3");
+		dataFile.setName(fileName);
+		dataFile.setUuid(uuidString);
+		dataFile.setHeight(height);
+		dataFile.setWidth(width);
+		dataFile.setSize((int)filesSize);
+		dataFile.setFile(filePathImage);
+		dataFile.setFileContentType(getContentType(suffix));
+		dataFile.setCreateDate(DateUtils.getDateForNow());
+		dataFile.setOriginname(originFilename);
+		Files files = filesRepository.save(dataFile);
+		Files imgfiles = files;
+		imgfiles.setUrl(imagespath + files.getId());
+		filesRepository.save(imgfiles);
+		return imgfiles;
+	}
 	
 }
