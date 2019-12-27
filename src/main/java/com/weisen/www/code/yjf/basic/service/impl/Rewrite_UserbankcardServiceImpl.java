@@ -179,7 +179,7 @@ public class Rewrite_UserbankcardServiceImpl implements Rewrite_UserbankcardServ
 			return Result.fail("银行预留手机号格式不正确!请重新输入!");
 		}
 		if (userBankCard != null) {
-			if (userBankCard.getRealname().equals(rewrite_UserCardDTO.getRealname())) {
+			if (userBankCard.getRealname().trim().equals(rewrite_UserCardDTO.getRealname().trim())) {
 				return Result.fail("当前添加的银行卡已绑定!请进入银行卡列表查看!");
 			} else {
 				return Result.fail("该银行卡已被绑定!请重新输入!");
