@@ -443,7 +443,7 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
         if (order != null) {
             String ac = RandomStringUtils.randomAlphanumeric(32);
             String subject = name;// 订单名称字段暂时没有，等待加入
-            String address = "http://localhost:8080/?result=1&order=" + order;
+            String address = "http://app.yuanscore.com/?result=1&order=" + order;
             return AlipayUtil.alipay(ac, subject, new BigDecimal(money), address);
         } else {
             return "订单生成错误";
