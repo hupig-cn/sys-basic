@@ -431,6 +431,25 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
         }
     }
 
+    public String merchantPayment2(String authCode, String money, String merchantid, Integer concession,
+                                  Integer rebate, String name, String order) {
+        String thisDate = DateUtils.getDateForNow();
+        AlipaySystemOauthTokenResponse userInfo = AlipayUtil.getUserInfo(authCode);
+        if (userInfo == null)
+            return "获取支付宝会员信息失败";
+        Linkaccount linkaccount = rewrite_LinkaccountRepository.findFirstByAccounttypeAndToken("支付宝", userInfo.getUserId());// 判断系统是否有这个支付宝
+        if (linkaccount == null)
+            return "获取支付宝会员信息失败";
+        if (order != null) {
+            String ac = RandomStringUtils.randomAlphanumeric(32);
+            String subject = name;// 订单名称字段暂时没有，等待加入
+            String address = "http://localhost:8080/?result=1&order=" + order;
+            return AlipayUtil.alipay(ac, subject, new BigDecimal(money), address);
+        } else {
+            return "订单生成错误";
+        }
+    }
+
     public Result merchantPaymentWeChat(String userid, String money, String merchantid, Integer concession,
                                         Integer rebate, String name) {
         String thisDate = DateUtils.getDateForNow();
