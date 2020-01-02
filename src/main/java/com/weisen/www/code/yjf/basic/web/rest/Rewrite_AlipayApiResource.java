@@ -78,6 +78,13 @@ public class Rewrite_AlipayApiResource {
 		return userorderService.merchantPayment(authCode, money, merchantid, concession, rebate, name);
 	}
 
+    @GetMapping("/public/merchantPayment2")
+    @ApiOperation(value = "根据金额生成随机订单,用于支付宝2")
+    public String merchantPayment2(@RequestParam String authCode, String money, String merchantid,
+                                  Integer concession, Integer rebate, String name, String order) {
+        return userorderService.merchantPayment2(authCode, money, merchantid, concession, rebate, name,order);
+    }
+
 	@GetMapping("/public/merchantPayment-yue")
 	@ApiOperation(value = "根据金额生成随机订单,用于余额")
 	public Long merchantPaymentYue(@RequestParam String userid, String money, String merchantid,
