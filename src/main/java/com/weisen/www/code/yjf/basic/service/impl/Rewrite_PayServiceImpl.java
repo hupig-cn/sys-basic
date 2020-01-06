@@ -1,8 +1,30 @@
 package com.weisen.www.code.yjf.basic.service.impl;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.weisen.www.code.yjf.basic.config.Constants;
-import com.weisen.www.code.yjf.basic.domain.*;
-import com.weisen.www.code.yjf.basic.repository.*;
+import com.weisen.www.code.yjf.basic.domain.ActivityCon;
+import com.weisen.www.code.yjf.basic.domain.ActivityPay;
+import com.weisen.www.code.yjf.basic.domain.ActivitySer;
+import com.weisen.www.code.yjf.basic.domain.Linkuser;
+import com.weisen.www.code.yjf.basic.domain.Receiptpay;
+import com.weisen.www.code.yjf.basic.domain.Userassets;
+import com.weisen.www.code.yjf.basic.domain.Userlinkuser;
+import com.weisen.www.code.yjf.basic.domain.Userorder;
+import com.weisen.www.code.yjf.basic.repository.ActivityConRepository;
+import com.weisen.www.code.yjf.basic.repository.ActivityPayRepository;
+import com.weisen.www.code.yjf.basic.repository.ActivitySerRepository;
+import com.weisen.www.code.yjf.basic.repository.ReceiptpayRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_000_UserassetsRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_000_UserorderRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_LinkuserRepository;
+import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_PayService;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_DistributionDTO;
 import com.weisen.www.code.yjf.basic.service.dto.submit_dto.Rewrite_PayDTO;
@@ -12,14 +34,6 @@ import com.weisen.www.code.yjf.basic.service.util.OrderConstant;
 import com.weisen.www.code.yjf.basic.service.util.ReceiptpayConstant;
 import com.weisen.www.code.yjf.basic.util.Result;
 import com.weisen.www.code.yjf.basic.util.TimeUtil;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -89,6 +103,9 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         double sum = userorderRepository.findOneSumById(rewrite_PayDTO.getOrderid());
         double price =userorderRepository.queryprice(rewrite_PayDTO.getOrderid());
         double num1 =userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
+        if(sum < 0 || num1 < 0) {
+        	return  Result.fail("订单异常");
+        }
         if(num1 * price!=sum) {
         	return  Result.fail("订单异常，请尝试单个购买");
         }
@@ -166,6 +183,13 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         if(null != userorders.getOther() && userorders.getOther().equals("1") && userlinkuser.isPartner() == true){
             return  Result.fail("用户已经是圆帅");
         }
+        
+        double sum = userorderRepository.findOneSumById(rewrite_PayDTO.getOrderid());
+        double num1 =userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
+        if(sum < 0 || num1 < 0) {
+        	return  Result.fail("订单异常");
+        }
+        
         List<Userorder> userorderss = userorderRepository.findByOrdercodes(userorders.getOrdercode());
         for (int i = 0; i < userorderss.size(); i++) {
             Userorder userorder = userorderss.get(i);
@@ -244,6 +268,9 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         double sum = userorderRepository.findOneSumById(rewrite_PayDTO.getOrderid());
         double price =userorderRepository.queryprice(rewrite_PayDTO.getOrderid());
         double num1 =userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
+        if(sum < 0 || num1 < 0) {
+        	return  Result.fail("订单异常");
+        }
         if(num1 * price!=sum) {
         	return  Result.fail("订单异常，请尝试单个购买");
         }
@@ -307,6 +334,11 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 
         if(userorders.getOther().equals("1")){
             return  Result.fail("开通圆帅不能使用此支付方式");
+        }
+        double sum = userorderRepository.findOneSumById(rewrite_PayDTO.getOrderid());
+        double num1 =userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
+        if(sum < 0 || num1 < 0) {
+        	return  Result.fail("订单异常");
         }
 
         List<Userorder> userorderss = userorderRepository.findByOrdercodes(userorders.getOrdercode());
@@ -378,6 +410,9 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         double sum = userorderRepository.findOneSumById(rewrite_PayDTO.getOrderid());
         double price =userorderRepository.queryprice(rewrite_PayDTO.getOrderid());
         double num1 =userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
+        if(sum < 0 || num1 < 0) {
+        	return  Result.fail("订单异常");
+        }
         if(num1 * price!=sum) {
         	return  Result.fail("订单异常，请尝试单个购买");
         }
