@@ -16,6 +16,7 @@ public interface Rewrite_000_UserorderRepository extends JpaRepository<Userorder
     @Query(value = "from Userorder where ordercode = ?1")
     List<Userorder> findByOrdercodes(String ordercode);
     
+    @Query(value = "select sum from Userorder where id = ?1" ,nativeQuery = true)
     double findOneSumById(Long order);
     
     @Query(value = "select price from shopmall.specifications where id=(SELECT specificationsid from shopmall.jhi_order where bigorder = ?1" ,nativeQuery = true)
