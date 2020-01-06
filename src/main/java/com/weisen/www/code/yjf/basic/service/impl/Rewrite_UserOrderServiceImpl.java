@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,19 +52,14 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     // 获取用户全部订单
     @Override
     public Result getOrderList(Rewrite_UserOrderPage rewrite_UserOrderPage) {
-        List<Userorder> userorderList = rewrite_UserorderRepository.getOrderList(rewrite_UserOrderPage.getUserid(),
+    	List<Map<String, Object>> userorderList = rewrite_UserorderRepository.getOrderList2(rewrite_UserOrderPage.getUserid(),
         		rewrite_UserOrderPage.getOrdercode(),
         		rewrite_UserOrderPage.getOrderstatus(),
         		rewrite_UserOrderPage.getPageNum() * rewrite_UserOrderPage.getPageSize(),
         		rewrite_UserOrderPage.getPageSize());
         int count = rewrite_UserorderRepository.getOrderListCount(rewrite_UserOrderPage.getUserid(),
         		rewrite_UserOrderPage.getOrdercode(),rewrite_UserOrderPage.getOrderstatus());
-        List<UserorderDTO> dtoList = userorderMapper.toDto(userorderList);
-        List<UserorderDTO> show = new ArrayList<>();
-        dtoList.forEach(x->{
-        	show.add(x);
-        });
-        return Result.suc("成功", show, count);
+        return Result.suc("成功", userorderList, count);
     }
     
     // 回填快递单号，改变发货状态（后台）
