@@ -102,13 +102,13 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         
 		double sum = userorderRepository.findOneSumById(rewrite_PayDTO.getOrderid());
 		if (sum < 0) {
-			return Result.fail("订单异常");
+			return Result.fail("订单异常，总金额为负数");
 		}
 		if (userorder.getOther() != null && !userorder.getOther().equals("")) {
 			double price = userorderRepository.queryprice(rewrite_PayDTO.getOrderid());
 			double num1 = userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
 			if (num1 < 0) {
-				return Result.fail("订单异常");
+				return Result.fail("订单异常，数量为负数");
 			}
 			if (num1 * price != sum) {
 				return Result.fail("订单异常，请尝试单个购买");
@@ -194,12 +194,12 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             Userorder userorder = userorderss.get(i);
             double sum = userorderRepository.findOneSumById(userorder.getId());
     		if (sum < 0) {
-    			return Result.fail("订单异常");
+    			return Result.fail("订单异常，总金额为负数");
     		}
     		if (userorders.getOther() != null && !userorders.getOther().equals("")) {
     			double num1 = userorderRepository.queryunm(userorder.getId());
     			if (num1 < 0) {
-    				return Result.fail("订单异常");
+    				return Result.fail("订单异常，数量为负数");
     			}
     		}
 
@@ -276,13 +276,13 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         
         double sum = userorderRepository.findOneSumById(rewrite_PayDTO.getOrderid());
 		if (sum < 0) {
-			return Result.fail("订单异常");
+			return Result.fail("订单异常，总金额为负数");
 		}
 		if (userorder.getOther() != null && !userorder.getOther().equals("")) {
 			double price = userorderRepository.queryprice(rewrite_PayDTO.getOrderid());
 			double num1 = userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
 			if (num1 < 0) {
-				return Result.fail("订单异常");
+				return Result.fail("订单异常，数量为负数");
 			}
 			if (num1 * price != sum) {
 				return Result.fail("订单异常，请尝试单个购买");
@@ -355,12 +355,12 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             Userorder userorder = userorderss.get(i);
             double sum = userorderRepository.findOneSumById(userorder.getId());
     		if (sum < 0) {
-    			return Result.fail("订单异常");
+    			return Result.fail("订单异常，总金额为负数");
     		}
     		if (userorders.getOther() != null && !userorders.getOther().equals("")) {
     			double num1 = userorderRepository.queryunm(userorder.getId());
     			if (num1 < 0) {
-    				return Result.fail("订单异常");
+    				return Result.fail("订单异常，数量为负数");
     			}
     		}
             // 我的资产
@@ -428,13 +428,13 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         
         double sum = userorderRepository.findOneSumById(rewrite_PayDTO.getOrderid());
 		if (sum < 0) {
-			return Result.fail("订单异常");
+			return Result.fail("订单异常，总金额为负数");
 		}
 		if (userorder.getOther() != null && !userorder.getOther().equals("")) {
 			double price = userorderRepository.queryprice(rewrite_PayDTO.getOrderid());
 			double num1 = userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
 			if (num1 < 0) {
-				return Result.fail("订单异常");
+				return Result.fail("订单异常，数量为负数");
 			}
 			if (num1 * price != sum) {
 				return Result.fail("订单异常，请尝试单个购买");
