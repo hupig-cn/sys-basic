@@ -18,7 +18,7 @@ public interface Rewrite_UserorderRepository extends JpaRepository<Userorder, Lo
     List<Userorder> getOrderList(String userid,String ordercode,String orderstatus,int pageNum,int pageSize);
     
 
-	@Query(value = "select a.ordercode,a.userid,c.model,c.specifications,c.price,b.num,a.sum,b.consignee,b.mobile,b.address,a.orderstatus,a.payway,a.paytime,a.express_no,a.express_company "
+	@Query(value = "select a.id,a.ordercode,a.userid,c.model,c.specifications,c.price,b.num,a.sum,b.consignee,b.mobile,b.address,a.orderstatus,a.payway,a.paytime,a.express_no,a.express_company "
 			+ "from userorder a left join shopmall.jhi_order b on b.bigorder = a.id "
 			+ "left join shopmall.specifications c on c.id = a.other "
 			+ "where (?1 is null or a.userid = ?1) and (?2 is null or a.ordercode = ?2) "
