@@ -104,7 +104,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 		if (sum < 0) {
 			return Result.fail("订单异常");
 		}
-		if (userorder.getOther() != null || !userorder.getOther().equals("")) {
+		if (userorder.getOther() != null && !userorder.getOther().equals("")) {
 			double price = userorderRepository.queryprice(rewrite_PayDTO.getOrderid());
 			double num1 = userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
 			if (num1 < 0) {
@@ -196,7 +196,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
     		if (sum < 0) {
     			return Result.fail("订单异常");
     		}
-    		if (userorders.getOther() != null || !userorders.getOther().equals("")) {
+    		if (userorders.getOther() != null && !userorders.getOther().equals("")) {
     			double num1 = userorderRepository.queryunm(userorder.getId());
     			if (num1 < 0) {
     				return Result.fail("订单异常");
@@ -278,7 +278,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 		if (sum < 0) {
 			return Result.fail("订单异常");
 		}
-		if (userorder.getOther() != null || !userorder.getOther().equals("")) {
+		if (userorder.getOther() != null && !userorder.getOther().equals("")) {
 			double price = userorderRepository.queryprice(rewrite_PayDTO.getOrderid());
 			double num1 = userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
 			if (num1 < 0) {
@@ -357,7 +357,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
     		if (sum < 0) {
     			return Result.fail("订单异常");
     		}
-    		if (userorders.getOther() != null || !userorders.getOther().equals("")) {
+    		if (userorders.getOther() != null && !userorders.getOther().equals("")) {
     			double num1 = userorderRepository.queryunm(userorder.getId());
     			if (num1 < 0) {
     				return Result.fail("订单异常");
@@ -430,7 +430,7 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
 		if (sum < 0) {
 			return Result.fail("订单异常");
 		}
-		if (userorder.getOther() != null || !userorder.getOther().equals("")) {
+		if (userorder.getOther() != null && !userorder.getOther().equals("")) {
 			double price = userorderRepository.queryprice(rewrite_PayDTO.getOrderid());
 			double num1 = userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
 			if (num1 < 0) {
