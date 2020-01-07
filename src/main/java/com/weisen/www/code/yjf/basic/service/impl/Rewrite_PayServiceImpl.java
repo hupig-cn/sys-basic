@@ -100,15 +100,20 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             return  Result.fail("用户已经是圆帅");
         }
         
-        double sum = userorderRepository.findOneSumById(rewrite_PayDTO.getOrderid());
-        double price =userorderRepository.queryprice(rewrite_PayDTO.getOrderid());
-        double num1 =userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
-        if(sum < 0 || num1 < 0) {
-        	return  Result.fail("订单异常");
-        }
-        if(num1 * price!=sum) {
-        	return  Result.fail("订单异常，请尝试单个购买");
-        }
+		double sum = userorderRepository.findOneSumById(rewrite_PayDTO.getOrderid());
+		if (sum < 0) {
+			return Result.fail("订单异常");
+		}
+		if (userorder.getOther() != null || !userorder.getOther().equals("")) {
+			double price = userorderRepository.queryprice(rewrite_PayDTO.getOrderid());
+			double num1 = userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
+			if (num1 < 0) {
+				return Result.fail("订单异常");
+			}
+			if (num1 * price != sum) {
+				return Result.fail("订单异常，请尝试单个购买");
+			}
+		}
 
         // 我的资产
         Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
@@ -184,15 +189,19 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
             return  Result.fail("用户已经是圆帅");
         }
         
-        double sum = userorderRepository.findOneSumById(rewrite_PayDTO.getOrderid());
-        double num1 =userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
-        if(sum < 0 || num1 < 0) {
-        	return  Result.fail("订单异常");
-        }
-        
         List<Userorder> userorderss = userorderRepository.findByOrdercodes(userorders.getOrdercode());
         for (int i = 0; i < userorderss.size(); i++) {
             Userorder userorder = userorderss.get(i);
+            double sum = userorderRepository.findOneSumById(userorder.getId());
+    		if (sum < 0) {
+    			return Result.fail("订单异常");
+    		}
+    		if (userorders.getOther() != null || !userorders.getOther().equals("")) {
+    			double num1 = userorderRepository.queryunm(userorder.getId());
+    			if (num1 < 0) {
+    				return Result.fail("订单异常");
+    			}
+    		}
 
             // 我的资产
             Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
@@ -266,14 +275,19 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         }
         
         double sum = userorderRepository.findOneSumById(rewrite_PayDTO.getOrderid());
-        double price =userorderRepository.queryprice(rewrite_PayDTO.getOrderid());
-        double num1 =userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
-        if(sum < 0 || num1 < 0) {
-        	return  Result.fail("订单异常");
-        }
-        if(num1 * price!=sum) {
-        	return  Result.fail("订单异常，请尝试单个购买");
-        }
+		if (sum < 0) {
+			return Result.fail("订单异常");
+		}
+		if (userorder.getOther() != null || !userorder.getOther().equals("")) {
+			double price = userorderRepository.queryprice(rewrite_PayDTO.getOrderid());
+			double num1 = userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
+			if (num1 < 0) {
+				return Result.fail("订单异常");
+			}
+			if (num1 * price != sum) {
+				return Result.fail("订单异常，请尝试单个购买");
+			}
+		}
         
         // 我的资产
         Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
@@ -335,15 +349,20 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         if(userorders.getOther().equals("1")){
             return  Result.fail("开通圆帅不能使用此支付方式");
         }
-        double sum = userorderRepository.findOneSumById(rewrite_PayDTO.getOrderid());
-        double num1 =userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
-        if(sum < 0 || num1 < 0) {
-        	return  Result.fail("订单异常");
-        }
 
         List<Userorder> userorderss = userorderRepository.findByOrdercodes(userorders.getOrdercode());
         for (int i = 0; i < userorderss.size(); i++) {
             Userorder userorder = userorderss.get(i);
+            double sum = userorderRepository.findOneSumById(userorder.getId());
+    		if (sum < 0) {
+    			return Result.fail("订单异常");
+    		}
+    		if (userorders.getOther() != null || !userorders.getOther().equals("")) {
+    			double num1 = userorderRepository.queryunm(userorder.getId());
+    			if (num1 < 0) {
+    				return Result.fail("订单异常");
+    			}
+    		}
             // 我的资产
             Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
             int num = userorder.getSum().compareTo(new BigDecimal(userassets.getIntegral()));
@@ -408,14 +427,19 @@ public class Rewrite_PayServiceImpl implements Rewrite_PayService {
         }
         
         double sum = userorderRepository.findOneSumById(rewrite_PayDTO.getOrderid());
-        double price =userorderRepository.queryprice(rewrite_PayDTO.getOrderid());
-        double num1 =userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
-        if(sum < 0 || num1 < 0) {
-        	return  Result.fail("订单异常");
-        }
-        if(num1 * price!=sum) {
-        	return  Result.fail("订单异常，请尝试单个购买");
-        }
+		if (sum < 0) {
+			return Result.fail("订单异常");
+		}
+		if (userorder.getOther() != null || !userorder.getOther().equals("")) {
+			double price = userorderRepository.queryprice(rewrite_PayDTO.getOrderid());
+			double num1 = userorderRepository.queryunm(rewrite_PayDTO.getOrderid());
+			if (num1 < 0) {
+				return Result.fail("订单异常");
+			}
+			if (num1 * price != sum) {
+				return Result.fail("订单异常，请尝试单个购买");
+			}
+		}
 
         // 我的资产
         Userassets userassets = userassetsRepository.findByUserId(userorder.getUserid());
