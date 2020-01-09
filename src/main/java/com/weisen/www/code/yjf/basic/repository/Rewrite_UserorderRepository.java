@@ -23,7 +23,7 @@ public interface Rewrite_UserorderRepository extends JpaRepository<Userorder, Lo
 			+ "left join shopmall.specifications c on c.id = a.other "
 			+ "where (?1 is null or a.userid = ?1) and (?2 is null or a.ordercode = ?2) "
 			+ "and (?3 is null or a.orderstatus = ?3) and (?4 IS NULL OR a.createdate > ?4) AND (?5 IS NULL OR a.createdate < ?5) "
-			+ "and a.other > 1 order by a.createdate DESC limit ?4,?5",nativeQuery = true)
+			+ "and a.other > 1 order by a.createdate DESC limit ?6,?7",nativeQuery = true)
 	List<Map<String,Object>> getOrderList2(String userid,String ordercode,String orderstatus,String createStartTime,String createEndTime,int pageNum,int pageSize);
 
 	// 分页查询订单列表
