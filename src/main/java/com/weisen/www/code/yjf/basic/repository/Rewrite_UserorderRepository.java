@@ -28,7 +28,7 @@ public interface Rewrite_UserorderRepository extends JpaRepository<Userorder, Lo
 
 	// 分页查询订单列表
     @Query(value = "select count(*) from userorder where (?1 is null or userid = ?1) and (?2 is null or ordercode = ?2) and (?3 is null or orderstatus = ?3) "
-    		+ "and (?4 IS NULL OR a.createdate > ?4) AND (?5 IS NULL OR a.createdate < ?5) and other > 1",nativeQuery = true)
+    		+ "and (?4 IS NULL OR createdate > ?4) AND (?5 IS NULL OR createdate < ?5) and other > 1",nativeQuery = true)
     int getOrderListCount(String userid,String ordercode,String orderstatus,String createStartTime,String createEndTime);
 
     //根据收款id查询订单
