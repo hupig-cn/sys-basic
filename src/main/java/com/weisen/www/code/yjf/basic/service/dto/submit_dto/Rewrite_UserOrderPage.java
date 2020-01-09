@@ -17,6 +17,12 @@ public class Rewrite_UserOrderPage implements Serializable {
 	
 	@ApiModelProperty(value="订单状态")
     private String orderstatus;
+	
+	@ApiModelProperty(value="订单创建时间")
+	private String createStartTime;
+	
+	@ApiModelProperty(value="订单创建时间")
+	private String createEndTime;
     
 	@ApiModelProperty(value="第几页")
     private Integer pageNum;
@@ -46,6 +52,22 @@ public class Rewrite_UserOrderPage implements Serializable {
 
 	public void setOrderstatus(String orderstatus) {
 		this.orderstatus = orderstatus;
+	}
+
+	public String getCreateStartTime() {
+		return createStartTime;
+	}
+
+	public void setCreateStartTime(String createStartTime) {
+		this.createStartTime = createStartTime;
+	}
+
+	public String getCreateEndTime() {
+		return createEndTime;
+	}
+
+	public void setCreateEndTime(String createEndTime) {
+		this.createEndTime = createEndTime;
 	}
 
 	public Integer getPageNum() {

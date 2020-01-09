@@ -55,10 +55,15 @@ public class Rewrite_UserOrderServiceImpl implements Rewrite_UserOrderService {
     	List<Map<String, Object>> userorderList = rewrite_UserorderRepository.getOrderList2(rewrite_UserOrderPage.getUserid(),
         		rewrite_UserOrderPage.getOrdercode(),
         		rewrite_UserOrderPage.getOrderstatus(),
+        		rewrite_UserOrderPage.getCreateStartTime(),
+        		rewrite_UserOrderPage.getCreateEndTime(),
         		rewrite_UserOrderPage.getPageNum() * rewrite_UserOrderPage.getPageSize(),
         		rewrite_UserOrderPage.getPageSize());
         int count = rewrite_UserorderRepository.getOrderListCount(rewrite_UserOrderPage.getUserid(),
-        		rewrite_UserOrderPage.getOrdercode(),rewrite_UserOrderPage.getOrderstatus());
+        		rewrite_UserOrderPage.getOrdercode(),
+        		rewrite_UserOrderPage.getOrderstatus(),
+        		rewrite_UserOrderPage.getCreateStartTime(),
+        		rewrite_UserOrderPage.getCreateEndTime());
         return Result.suc("成功", userorderList, count);
     }
     

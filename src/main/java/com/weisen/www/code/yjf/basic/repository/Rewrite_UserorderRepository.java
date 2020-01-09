@@ -22,12 +22,14 @@ public interface Rewrite_UserorderRepository extends JpaRepository<Userorder, Lo
 			+ "from userorder a left join shopmall.jhi_order b on b.bigorder = a.id "
 			+ "left join shopmall.specifications c on c.id = a.other "
 			+ "where (?1 is null or a.userid = ?1) and (?2 is null or a.ordercode = ?2) "
-			+ "and (?3 is null or a.orderstatus = ?3) and a.other > 1 order by a.createdate DESC limit ?4,?5",nativeQuery = true)
-	List<Map<String,Object>> getOrderList2(String userid,String ordercode,String orderstatus,int pageNum,int pageSize);
+			+ "and (?3 is null or a.orderstatus = ?3) and (?4 IS NULL OR a.createdate > ?4) AND (?5 IS NULL OR a.createdate < ?5) "
+			+ "and a.other > 1 order by a.createdate DESC limit ?4,?5",nativeQuery = true)
+	List<Map<String,Object>> getOrderList2(String userid,String ordercode,String orderstatus,String createStartTime,String createEndTime,int pageNum,int pageSize);
 
 	// 分页查询订单列表
-    @Query(value = "select count(*) from userorder where (?1 is null or userid = ?1) and (?2 is null or ordercode = ?2) and (?3 is null or orderstatus = ?3) and other > 1",nativeQuery = true)
-    int getOrderListCount(String userid,String ordercode,String orderstatus);
+    @Query(value = "select count(*) from userorder where (?1 is null or userid = ?1) and (?2 is null or ordercode = ?2) and (?3 is null or orderstatus = ?3) "
+    		+ "and (?4 IS NULL OR a.createdate > ?4) AND (?5 IS NULL OR a.createdate < ?5) and other > 1",nativeQuery = true)
+    int getOrderListCount(String userid,String ordercode,String orderstatus,String createStartTime,String createEndTime);
 
     //根据收款id查询订单
     @Query(value = "select * from userorder where payee = ?1 and orderstatus = 2",nativeQuery = true)
