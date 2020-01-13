@@ -28,9 +28,9 @@ public class ReceiptpayConstant {
 
     public static final String REDUCT_BALANCE = "13"; // 后台扣减余额(支出)
     
-    public static final String RECHARGE_INTEGRAL = "14"; // 后台充值余额(收入)
+    public static final String RECHARGE_INTEGRAL = "14"; // 后台充值积分(收入)
 
-    public static final String REDUCT_INTEGRAL = "15"; // 后台扣减余额(支出)
+    public static final String REDUCT_INTEGRAL = "15"; // 后台扣减积分(支出)
     
     public static final String INCOME = "2"; // 收入
 

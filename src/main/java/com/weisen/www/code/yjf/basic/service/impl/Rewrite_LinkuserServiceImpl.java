@@ -90,50 +90,12 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
 	public Result getMemberInfo(Rewrite_submitMemberDTO rewrite_submitMemberDTO) {
 		if(!CheckUtils.checkPageInfo(rewrite_submitMemberDTO.getPageNum(),rewrite_submitMemberDTO.getPageSize()))
 			return Result.fail("分页信息错误");
-		//		else {
-		//			List<Linkuser> linkuserList = rewrite_LinkuserRepository.findByPage(rewrite_submitMemberDTO.getPageNum() * rewrite_submitMemberDTO.getPageSize(), rewrite_submitMemberDTO.getPageSize());
-		//			List<Rewrite_findByUserAccountOrSomethingDTO> findByUserAccountOrSomethingDTO = new ArrayList<>();
-		//			for (Linkuser linkuser : linkuserList) {
-		//				Rewrite_findByUserAccountOrSomethingDTO findByUserAccountOrSomething = new Rewrite_findByUserAccountOrSomethingDTO();
-		//				String userid = linkuser.getUserid();
-		//				User jhiUser = userRepository.findJhiUserById(Long.parseLong(userid));
-		//
-		//				String firstName= jhiUser.getFirstName();
-		//				Instant lastModifiedDate = jhiUser.getLastModifiedDate();
-		//				String name = linkuser.getName();
-		//				String realName =  null;
-		//				if (name== null ||name.equals("")) {
-		//					realName = "已实名";
-		//				}else {
-		//					realName = "未实名";
-		//				}
-		//				String password = linkuser.getPaypassword();
-		//				String paypassword =  null;
-		//				if (password==null || password.equals("")) {
-		//					paypassword = "未设置";
-		//				} else {
-		//					paypassword = "已设置";
-		//				}
-		//				String createdate = linkuser.getCreatedate();
-		//				Userassets userassets = userassetsRepository.findByUserid(userid);
-		//				String balance = userassets.getBalance();
-		//				findByUserAccountOrSomething.setBalance(new BigDecimal(balance));
-		//				
-		//			}
-		//			List<Linkuser> findAll = rewrite_LinkuserRepository.findAll();
-		//			int size = findAll.size();
-		//			
-
-		//		}
-
 		List<Map<String, Object>> memberInfo = rewrite_LinkuserRepository.getMemberInfo(rewrite_submitMemberDTO.getUserName(), rewrite_submitMemberDTO.getRealName(),
 				rewrite_submitMemberDTO.getPageNum() * rewrite_submitMemberDTO.getPageSize(), rewrite_submitMemberDTO.getPageSize());
 		if(!CheckUtils.checkList(memberInfo))
 			return Result.suc("数据为空");
 		Integer memberInfoCount = rewrite_LinkuserRepository.getMemberInfoCount(rewrite_submitMemberDTO.getUserName(), rewrite_submitMemberDTO.getRealName());
 		return Result.suc("获取成功",memberInfo,memberInfoCount);
-//		return null;
-
 	}
 
 	//绑定支付宝或微信账号
