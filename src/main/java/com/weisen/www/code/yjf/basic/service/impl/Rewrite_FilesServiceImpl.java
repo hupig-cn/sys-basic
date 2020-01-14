@@ -105,14 +105,15 @@ public class Rewrite_FilesServiceImpl implements Rewrite_FilesService {
 	@Override
 	@Transactional(readOnly = true)
 	public Rewrite_FilesDTO findOne(Long id) {
-		Optional<FilesDTO> files = filesRepository.findById(id).map(filesMapper::toDto);
+		Files files = filesRepository.findByIds(id);
+		FilesDTO filesDTO =  filesMapper.toDto(files);
 		Rewrite_FilesDTO rewrite_FilesDTO = new Rewrite_FilesDTO();
-		rewrite_FilesDTO.setId(files.get().getId());
-		rewrite_FilesDTO.setFile(FileOperation.getFile(filePathImage + files.get().getName()));
-		rewrite_FilesDTO.setFileContentType(files.get().getFileContentType());
-		rewrite_FilesDTO.setUserid(files.get().getUserid());
-		rewrite_FilesDTO.setName(files.get().getName());
-		rewrite_FilesDTO.setTarget(files.get().getFile());
+		rewrite_FilesDTO.setId(filesDTO.getId());
+		rewrite_FilesDTO.setFile(FileOperation.getFile(filePathImage + filesDTO.getName()));
+		rewrite_FilesDTO.setFileContentType(filesDTO.getFileContentType());
+		rewrite_FilesDTO.setUserid(filesDTO.getUserid());
+		rewrite_FilesDTO.setName(filesDTO.getName());
+		rewrite_FilesDTO.setTarget(filesDTO.getFile());
 		return rewrite_FilesDTO;
 	}
 

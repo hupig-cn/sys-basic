@@ -20,4 +20,7 @@ public interface Rewrite_UserassetsService {
     
     Result deductYue (String mobile, String yue);
 	
+    Result rechangeIntegral (String mobile, String integral);
+    
+    Result deductIntegral (String mobile, String integral);
 }

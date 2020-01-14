@@ -129,7 +129,6 @@ public class Rewrite_ReceivingServiceImpl implements Rewrite_ReceivingService {
             if (receiving.isIsdefault() != rewrite_receivingDTO.getIsdefault()) {
                 if (rewrite_receivingDTO.isIsdefault()) {
                     Receiving byUserIdAndDefault = rewrite_receivingRepository.findByUserIdAndDefault(Long.valueOf(receiving.getUserid()));
-                    System.out.println(byUserIdAndDefault);
                 if (null != byUserIdAndDefault && byUserIdAndDefault.getId() != receiving.getId()) {
                     byUserIdAndDefault.setIsdefault(false);
                     rewrite_receivingRepository.saveAndFlush(byUserIdAndDefault);

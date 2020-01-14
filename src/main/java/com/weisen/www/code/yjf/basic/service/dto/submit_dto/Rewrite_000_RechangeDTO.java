@@ -5,6 +5,8 @@ public class Rewrite_000_RechangeDTO {
 	private String account;
 	
 	private String yue;
+	
+	private String integral;
 
 	public String getAccount() {
 		return account;
@@ -21,4 +23,13 @@ public class Rewrite_000_RechangeDTO {
 	public void setYue(String yue) {
 		this.yue = yue;
 	}
+
+	public String getIntegral() {
+		return integral;
+	}
+
+	public void setIntegral(String integral) {
+		this.integral = integral;
+	}
+	
 }

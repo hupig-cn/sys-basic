@@ -75,7 +75,7 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 	 */
 	@Override
 	public Result queryAmount(String userId, Integer pageNum, Integer pageSize) {
-		List<ActivityPay> userActivityPayList = rewrite_ActivityPayRepository.findByUserIdAndType(userId, 1, pageNum,
+		List<ActivityPay> userActivityPayList = rewrite_ActivityPayRepository.findByUserIdAndType(userId, 1, pageNum * pageSize,
 				pageSize);
 		String firstName = null;
 		String url = null;
@@ -158,7 +158,7 @@ public class Rewrite_ActivityServiceImpl implements Rewrite_ActivityService {
 			return Result.suc("暂无活动流水!");
 		}
 
-		return Result.suc("访问成功", actAmoDTOList);
+		return Result.suc("访问成功", actAmoDTOList, actAmoDTOList.size());
 	}
 
 	// 查询商家用户可用资金和活动资金 LuoJinShui

@@ -431,6 +431,39 @@ public class Rewrite_000_UserorderServiceImpl implements Rewrite_000_UserorderSe
         }
     }
 
+    public String merchantPayment2(String authCode, String money, String merchantid, Integer concession,
+                                  Integer rebate, String name, String order) {
+        String thisDate = DateUtils.getDateForNow();
+        AlipaySystemOauthTokenResponse userInfo = AlipayUtil.getUserInfo(authCode);
+        if (userInfo == null)
+            return "获取支付宝会员信息失败";
+        Linkaccount linkaccount = rewrite_LinkaccountRepository.findFirstByAccounttypeAndToken("支付宝", userInfo.getUserId());// 判断系统是否有这个支付宝
+        if (linkaccount == null)
+            return "获取支付宝会员信息失败";
+        if (order != null) {
+//            String ac = RandomStringUtils.randomAlphanumeric(32);
+            Userorder userorder = new Userorder();
+            userorder.setUserid(linkaccount.getUserid());
+            userorder.setSum(new BigDecimal(money));// 设置金额
+            userorder.setOrderstatus(Rewrite_Constant.ORDER_WAIT_PAY);// 设置待支付
+            userorder.setOrdercode(order);
+            userorder.setPayee(merchantid);
+            userorder.setPayway(OrderConstant.ALI_PAY);
+            userorder.setConcession(concession);
+            userorder.setRebate(rebate);
+            userorder.setCreator(linkaccount.getUserid());
+            userorder.setCreatedate(thisDate);
+            userorder.setModifier(linkaccount.getUserid());
+            userorder.setModifierdate(thisDate);
+            userorder = userorderRepository.save(userorder);
+            String subject = name;// 订单名称字段暂时没有，等待加入
+            String address = "http://app.yuanscore.com/?result=1&details=" + order;
+            return AlipayUtil.alipay(order, subject, new BigDecimal(money), address);
+        } else {
+            return "订单生成错误";
+        }
+    }
+
     public Result merchantPaymentWeChat(String userid, String money, String merchantid, Integer concession,
                                         Integer rebate, String name) {
         String thisDate = DateUtils.getDateForNow();

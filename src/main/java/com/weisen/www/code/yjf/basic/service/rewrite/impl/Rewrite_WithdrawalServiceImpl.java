@@ -168,7 +168,6 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 	 * @return
 	 */
 	public Result getWithdrawals(Integer pageNum, Integer pageSize, String type) {
-		System.out.println(pageNum + pageSize + "");
 		if (!CheckUtils.checkPageInfo(pageNum, pageSize))
 			return Result.fail("分页信息异常");
 		else {
