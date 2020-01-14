@@ -49,7 +49,7 @@ public class Rewrite_UserlinkuserResource {
     }
     
     @GetMapping("/getMyPartner2/{userid}")
-    @ApiOperation(value = "获取当前用户是否是合伙人")
+    @ApiOperation(value = "获取当前用户是否是合伙人2")
     public Result getMyPartner2(@PathVariable String userid) {
         log.debug("REST request to get Userlinkuser : {}", userid);
         return rewrite_UserlinkuserService.getMyPartner2(userid);
