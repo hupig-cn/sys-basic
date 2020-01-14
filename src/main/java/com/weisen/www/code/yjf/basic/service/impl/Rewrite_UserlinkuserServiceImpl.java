@@ -59,6 +59,16 @@ public class Rewrite_UserlinkuserServiceImpl implements Rewrite_UserlinkuserServ
 			return false;
 		}
 	}
+	
+	@Override
+	public Result getMyPartner2(String userid) {
+		Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userid);
+		if (userlinkuser != null && userlinkuser.isPartner()) {
+			return Result.suc("true");
+		}else {
+			return Result.suc("false");
+		}
+	}
 
 	// 分页查询用户的推荐人（时间 电话或token 做处理）
     @Override

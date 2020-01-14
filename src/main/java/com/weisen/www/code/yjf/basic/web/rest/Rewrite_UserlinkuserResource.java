@@ -47,7 +47,15 @@ public class Rewrite_UserlinkuserResource {
         log.debug("REST request to get Userlinkuser : {}", userid);
         return rewrite_UserlinkuserService.getMyPartner(userid);
     }
+    
+    @GetMapping("/getMyPartner2/{userid}")
+    @ApiOperation(value = "获取当前用户是否是合伙人")
+    public Result getMyPartner2(@PathVariable String userid) {
+        log.debug("REST request to get Userlinkuser : {}", userid);
+        return rewrite_UserlinkuserService.getMyPartner2(userid);
+    }
 
+    
     @GetMapping("/findAllByRecommendAndInfo")
     @ApiOperation(value = "分页查询用户的推荐人（时间 电话或token 做处理）")
     public Result findAllByRecommendAndInfo(@RequestParam String userid, int startPage, int pageSize) {
