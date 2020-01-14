@@ -19,6 +19,7 @@ import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlocationRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_AlipayService;
 import com.weisen.www.code.yjf.basic.util.AlipayUtil;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
+import com.weisen.www.code.yjf.basic.util.Result;
 
 @Service
 @Transactional
@@ -27,7 +28,7 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 	private final Rewrite_LinkaccountRepository rewrite_LinkaccountRepository;
 
 	private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
-	
+
 	private final Rewrite_UserlocationRepository rewrite_UserlocationRepository;
 
 	private final Rewrite_UserassetsRepository rewrite_UserassetsRepository;
@@ -90,25 +91,25 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 				}
 				Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(linkaccount.getUserid());
 				if (null != userlinkuser) {
-					recommendr = null == userlinkuser.getRecommendid()
-							|| "".equals(userlinkuser.getRecommendid())
-							?"1":userlinkuser.getRecommendid();
+					recommendr = null == userlinkuser.getRecommendid() || "".equals(userlinkuser.getRecommendid()) ? "1"
+							: userlinkuser.getRecommendid();
 					recommenddate = userlinkuser.getModifierdate();
 					rewrite_UserlinkuserRepository.delete(userlinkuser);// 拿出推荐人
 				}
 				Userlocation userlocation = rewrite_UserlocationRepository.findByUserid(linkuser.getUserid());
 				if (null != userlocation) {
-					rewrite_UserlocationRepository.delete(userlocation);//删除用户位置信息
+					rewrite_UserlocationRepository.delete(userlocation);// 删除用户位置信息
 				}
 				if (null != linkuser) {
-					rewrite_LinkuserRepository.delete(linkuser);//删除用户附加信息
+					rewrite_LinkuserRepository.delete(linkuser);// 删除用户附加信息
 				}
 			}
 			rewrite_LinkaccountRepository.delete(linkaccount);// 用完删除这个用户的支付宝账户
 		}
 		if (recommendr != null && !recommendr.equals("")) {
 			Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userid);
-			if (userlinkuser != null && userlinkuser.getRecommendid() != null && !"".equals(userlinkuser.getRecommendid()) && !"1".equals(userlinkuser.getRecommendid())) {// app有推荐人
+			if (userlinkuser != null && userlinkuser.getRecommendid() != null
+					&& !"".equals(userlinkuser.getRecommendid()) && !"1".equals(userlinkuser.getRecommendid())) {// app有推荐人
 				if (userlinkuser.getOther() != null && !"".equals(userlinkuser.getOther())) {
 					if (getToLong(userlinkuser.getModifierdate()) > getToLong(recommenddate)) {
 						userlinkuser.setRecommendid(recommendr);
@@ -116,14 +117,13 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 						userlinkuser.setOther("支付宝");
 					}
 				}
-			} else if (userlinkuser != null && 
-					(userlinkuser.getRecommendid() == null 
-					|| "".equals(userlinkuser.getRecommendid()) 
-					|| "1".equals(userlinkuser.getRecommendid()))
+			} else if (userlinkuser != null
+					&& (userlinkuser.getRecommendid() == null || "".equals(userlinkuser.getRecommendid())
+							|| "1".equals(userlinkuser.getRecommendid()))
 					&& getToLong(userlinkuser.getModifierdate()) > getToLong(recommenddate)) {// app没有推荐人，但是有数据
-					userlinkuser.setRecommendid(recommendr);
-					userlinkuser.setModifierdate(recommenddate);
-					userlinkuser.setOther("支付宝");
+				userlinkuser.setRecommendid(recommendr);
+				userlinkuser.setModifierdate(recommenddate);
+				userlinkuser.setOther("支付宝");
 			} else if (userlinkuser == null) {// 没有推荐人，并且没有数据
 				userlinkuser = new Userlinkuser();
 				userlinkuser.setUserid(userid);
@@ -168,6 +168,15 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 			return "已绑定";
 		}
 		return "未绑定";
+	}
+
+	@Override
+	public Result queryAlipay2(String userid) {
+		Linkaccount mylinkaccount = rewrite_LinkaccountRepository.findFirstByUseridAndAccounttype(userid, "支付宝");
+		if (mylinkaccount != null) {
+			return Result.suc("已绑定!");
+		}
+		return Result.fail("未绑定!");
 	}
 
 	@Override

@@ -51,6 +51,12 @@ public class Rewrite_AlipayApiResource {
 		return alipayService.queryAlipay(userid);
 	}
 
+	@GetMapping("/public/queryAlipay2")
+	@ApiOperation(value = "查询支付宝绑定状态2")
+	public Result queryAlipay2(@RequestParam String userid) {
+		return alipayService.queryAlipay2(userid);
+	}
+
 	@GetMapping("/public/queryAlipayUser")
 	@ApiOperation(value = "查询这个支付宝账户是否有用户")
 	public String queryAlipayUser(@RequestParam String authCode) {
@@ -73,22 +79,22 @@ public class Rewrite_AlipayApiResource {
 
 	@GetMapping("/public/merchantPayment")
 	@ApiOperation(value = "根据金额生成随机订单,用于支付宝")
-	public String merchantPayment(@RequestParam String authCode, String money, String merchantid,
-			Integer concession, Integer rebate, String name) {
+	public String merchantPayment(@RequestParam String authCode, String money, String merchantid, Integer concession,
+			Integer rebate, String name) {
 		return userorderService.merchantPayment(authCode, money, merchantid, concession, rebate, name);
 	}
 
 	@GetMapping("/public/merchantPayment-yue")
 	@ApiOperation(value = "根据金额生成随机订单,用于余额")
-	public Long merchantPaymentYue(@RequestParam String userid, String money, String merchantid,
-			Integer concession, Integer rebate) {
+	public Long merchantPaymentYue(@RequestParam String userid, String money, String merchantid, Integer concession,
+			Integer rebate) {
 		return userorderService.merchantPaymentYue(userid, money, merchantid, concession, rebate);
 	}
 
 	@GetMapping("/public/merchantPayment-coupon")
 	@ApiOperation(value = "根据金额生成随机订单,用于优惠券")
-	public Long merchantPaymentCoupon(@RequestParam String userid, String money, String merchantid,
-			Integer concession, Integer rebate) {
+	public Long merchantPaymentCoupon(@RequestParam String userid, String money, String merchantid, Integer concession,
+			Integer rebate) {
 		return userorderService.merchantPaymentCoupon(userid, money, merchantid, concession, rebate);
 	}
 
@@ -118,29 +124,28 @@ public class Rewrite_AlipayApiResource {
 	public void notifyMessage(HttpServletRequest request, HttpServletResponse response) {
 		log.debug("回调地址");
 		try {
-            userorderService.notifyMessage(request, response);
-        }catch (Exception e){
-		    e.printStackTrace();
-        }
+			userorderService.notifyMessage(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-    /**
-     * 支付异步回调
-     *
-     * @param request
-     * @param response
-     * @return`
-     */
-    @PostMapping("/public/notifys")
-    @ApiOperation(value = "异步地址")
-    public void notifyMessages(HttpServletRequest request, HttpServletResponse response) {
-        log.debug("回调地址");
-        try {
-            userorderService.notifyMessages(request, response);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+	/**
+	 * 支付异步回调
+	 *
+	 * @param request
+	 * @param response @return`
+	 */
+	@PostMapping("/public/notifys")
+	@ApiOperation(value = "异步地址")
+	public void notifyMessages(HttpServletRequest request, HttpServletResponse response) {
+		log.debug("回调地址");
+		try {
+			userorderService.notifyMessages(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * 支付同步回调

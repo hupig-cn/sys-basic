@@ -54,6 +54,12 @@ public class Rewrite_WeChatApiResource {
 	public String queryWeChat(@RequestParam String userid) {
 		return rewrite_WeChatService.queryWeChat(userid);
 	}
+	
+	@GetMapping("/public/queryWeChat2")
+	@ApiOperation(value = "查询微信绑定状态2")
+	public Result queryWeChat2(@RequestParam String userid) {
+		return rewrite_WeChatService.queryWeChat2(userid);
+	}
 
 	@GetMapping("/public/queryWeChatUser/{code}")
 	@ApiOperation(value = "查询这个微信账户是否有用户")
