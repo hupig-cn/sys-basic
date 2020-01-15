@@ -88,13 +88,23 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
 	 * @return
 	 */
 	public Result getMemberInfo(Rewrite_submitMemberDTO rewrite_submitMemberDTO) {
+		String userAccount = rewrite_submitMemberDTO.getUserName();
+		String userid = null;
+		if(userAccount!=null && !userAccount.equals("")) {
+			Linkuser linkuser = rewrite_LinkuserRepository.findByPhone(userAccount);
+			if (linkuser == null) {
+				userid = userAccount;
+			} else {
+				userid = linkuser.getUserid();
+			}
+		}
 		if(!CheckUtils.checkPageInfo(rewrite_submitMemberDTO.getPageNum(),rewrite_submitMemberDTO.getPageSize()))
 			return Result.fail("分页信息错误");
-		List<Map<String, Object>> memberInfo = rewrite_LinkuserRepository.getMemberInfo(rewrite_submitMemberDTO.getUserName(), rewrite_submitMemberDTO.getRealName(),
+		List<Map<String, Object>> memberInfo = rewrite_LinkuserRepository.getMemberInfo(userid, rewrite_submitMemberDTO.getRealName(),
 				rewrite_submitMemberDTO.getPageNum() * rewrite_submitMemberDTO.getPageSize(), rewrite_submitMemberDTO.getPageSize());
 		if(!CheckUtils.checkList(memberInfo))
 			return Result.suc("数据为空");
-		Integer memberInfoCount = rewrite_LinkuserRepository.getMemberInfoCount(rewrite_submitMemberDTO.getUserName(), rewrite_submitMemberDTO.getRealName());
+		Integer memberInfoCount = rewrite_LinkuserRepository.getMemberInfoCount(userid, rewrite_submitMemberDTO.getRealName());
 		return Result.suc("获取成功",memberInfo,memberInfoCount);
 	}
 
