@@ -20,6 +20,7 @@ import com.weisen.www.code.yjf.basic.service.Rewrite_WeChatService;
 import com.weisen.www.code.yjf.basic.service.util.TimeUtil;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.HttpRequest;
+import com.weisen.www.code.yjf.basic.util.Result;
 
 @Service
 @Transactional
@@ -28,7 +29,7 @@ public class Rewrite_WeChatServiceImpl implements Rewrite_WeChatService {
 	private final Rewrite_LinkaccountRepository rewrite_LinkaccountRepository;
 
 	private final Rewrite_LinkuserRepository rewrite_LinkuserRepository;
-	
+
 	private final Rewrite_UserlocationRepository rewrite_UserlocationRepository;
 
 	private final Rewrite_UserassetsRepository rewrite_UserassetsRepository;
@@ -49,12 +50,10 @@ public class Rewrite_WeChatServiceImpl implements Rewrite_WeChatService {
 
 	@Override
 	public String scaningWeChat(String userid, String code) {
-		String str =HttpRequest.sendGet("https://api.weixin.qq.com/sns/oauth2/access_token", 
-        		"appid=wx5450b0124166c23d&"
-        		+ "secret=8cd059133c5be21c0f570551361fbf9c&"
-        		+ "code=" + code
-        		+ "&grant_type=authorization_code");
-        String openid = JSON.parseObject(str).getString("openid");
+		String str = HttpRequest.sendGet("https://api.weixin.qq.com/sns/oauth2/access_token",
+				"appid=wx5450b0124166c23d&" + "secret=8cd059133c5be21c0f570551361fbf9c&" + "code=" + code
+						+ "&grant_type=authorization_code");
+		String openid = JSON.parseObject(str).getString("openid");
 		if (null == openid) {
 			return "获取微信会员信息失败";
 		}
@@ -96,25 +95,25 @@ public class Rewrite_WeChatServiceImpl implements Rewrite_WeChatService {
 				}
 				Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(linkaccount.getUserid());
 				if (null != userlinkuser) {
-					recommendr = null == userlinkuser.getRecommendid()
-							|| "".equals(userlinkuser.getRecommendid())
-							?"1":userlinkuser.getRecommendid();
+					recommendr = null == userlinkuser.getRecommendid() || "".equals(userlinkuser.getRecommendid()) ? "1"
+							: userlinkuser.getRecommendid();
 					recommenddate = userlinkuser.getModifierdate();
 					rewrite_UserlinkuserRepository.delete(userlinkuser);// 拿出推荐人
 				}
 				Userlocation userlocation = rewrite_UserlocationRepository.findByUserid(linkuser.getUserid());
 				if (null != userlocation) {
-					rewrite_UserlocationRepository.delete(userlocation);//删除用户位置信息
+					rewrite_UserlocationRepository.delete(userlocation);// 删除用户位置信息
 				}
 				if (null != linkuser) {
-					rewrite_LinkuserRepository.delete(linkuser);//删除用户附加信息
+					rewrite_LinkuserRepository.delete(linkuser);// 删除用户附加信息
 				}
 			}
 			rewrite_LinkaccountRepository.delete(linkaccount);// 用完删除这个用户的微信账户
 		}
 		if (recommendr != null && !recommendr.equals("")) {
 			Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(userid);
-			if (userlinkuser != null && userlinkuser.getRecommendid() != null && !"".equals(userlinkuser.getRecommendid()) && !"1".equals(userlinkuser.getRecommendid())) {// app有推荐人
+			if (userlinkuser != null && userlinkuser.getRecommendid() != null
+					&& !"".equals(userlinkuser.getRecommendid()) && !"1".equals(userlinkuser.getRecommendid())) {// app有推荐人
 				if (userlinkuser.getOther() != null && !"".equals(userlinkuser.getOther())) {
 					if (getToLong(userlinkuser.getModifierdate()) > getToLong(recommenddate)) {
 						userlinkuser.setRecommendid(recommendr);
@@ -122,14 +121,13 @@ public class Rewrite_WeChatServiceImpl implements Rewrite_WeChatService {
 						userlinkuser.setOther("微信");
 					}
 				}
-			} else if (userlinkuser != null && 
-					(userlinkuser.getRecommendid() == null 
-					|| "".equals(userlinkuser.getRecommendid()) 
-					|| "1".equals(userlinkuser.getRecommendid()))
+			} else if (userlinkuser != null
+					&& (userlinkuser.getRecommendid() == null || "".equals(userlinkuser.getRecommendid())
+							|| "1".equals(userlinkuser.getRecommendid()))
 					&& getToLong(userlinkuser.getModifierdate()) > getToLong(recommenddate)) {// app没有推荐人，但是有数据
-					userlinkuser.setRecommendid(recommendr);
-					userlinkuser.setModifierdate(recommenddate);
-					userlinkuser.setOther("微信");
+				userlinkuser.setRecommendid(recommendr);
+				userlinkuser.setModifierdate(recommenddate);
+				userlinkuser.setOther("微信");
 			} else if (userlinkuser == null) {// 没有推荐人，并且没有数据
 				userlinkuser = new Userlinkuser();
 				userlinkuser.setUserid(userid);
@@ -157,7 +155,7 @@ public class Rewrite_WeChatServiceImpl implements Rewrite_WeChatService {
 		rewrite_LinkaccountRepository.save(mylinkaccount);
 		return id;
 	}
-	
+
 	private long getToLong(String DateTime) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
@@ -177,13 +175,20 @@ public class Rewrite_WeChatServiceImpl implements Rewrite_WeChatService {
 	}
 
 	@Override
+	public Result queryWeChat2(String userid) {
+		Linkaccount mylinkaccount = rewrite_LinkaccountRepository.findFirstByUseridAndAccounttype(userid, "微信");
+		if (mylinkaccount != null) {
+			return Result.suc("已绑定!");
+		}
+		return Result.fail("未绑定!");
+	}
+
+	@Override
 	public String queryWeChatUser(String code) {
-		String str =HttpRequest.sendGet("https://api.weixin.qq.com/sns/oauth2/access_token", 
-        		"appid=wx5450b0124166c23d&"
-        		+ "secret=8cd059133c5be21c0f570551361fbf9c&"
-        		+ "code=" + code
-        		+ "&grant_type=authorization_code");
-        String openid = JSON.parseObject(str).getString("openid");
+		String str = HttpRequest.sendGet("https://api.weixin.qq.com/sns/oauth2/access_token",
+				"appid=wx5450b0124166c23d&" + "secret=8cd059133c5be21c0f570551361fbf9c&" + "code=" + code
+						+ "&grant_type=authorization_code");
+		String openid = JSON.parseObject(str).getString("openid");
 		if (null == openid) {
 			return "获取微信会员信息失败";
 		}
