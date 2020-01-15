@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,9 +43,8 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
 
 	private final Rewrite_UserassetsRepository userassetsRepository;
 
-	public Rewrite_LinkuserServiceImpl(Rewrite_LinkuserRepository rewrite_LinkuserRepository ,
-			Rewrite_UserRepository userRepository,
-			Rewrite_UserassetsRepository userassetsRepository) {
+	public Rewrite_LinkuserServiceImpl(Rewrite_LinkuserRepository rewrite_LinkuserRepository,
+			Rewrite_UserRepository userRepository, Rewrite_UserassetsRepository userassetsRepository) {
 		this.rewrite_LinkuserRepository = rewrite_LinkuserRepository;
 		this.userRepository = userRepository;
 		this.userassetsRepository = userassetsRepository;
@@ -52,6 +53,16 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
 	@Override
 	public String authentication(LinkuserDTO linkuserDTO) {
 		log.debug("Request to save Linkuser : {}", linkuserDTO);
+		String idCard = "^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$";
+		Pattern p = Pattern.compile(idCard);
+		Matcher m = p.matcher(linkuserDTO.getIdcard()); // registrant_phone ==== 电话号码字段
+		boolean isMatch = m.matches();
+		if (!isMatch) {
+			return "身份证格式不正确!请重新输入!";
+		}
+		if (linkuserDTO.getName().trim().equals("")) {
+			return "真实姓名不能为空!";
+		}
 		Linkuser linkuserI = rewrite_LinkuserRepository.findByIdcard(linkuserDTO.getIdcard());
 		if (linkuserI != null)
 			return "该身份证号码已被认证。";
@@ -84,38 +95,42 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
 
 	/**
 	 * 获取会员信息
+	 * 
 	 * @param rewrite_submitMemberDTO
 	 * @return
 	 */
 	public Result getMemberInfo(Rewrite_submitMemberDTO rewrite_submitMemberDTO) {
-		if(!CheckUtils.checkPageInfo(rewrite_submitMemberDTO.getPageNum(),rewrite_submitMemberDTO.getPageSize()))
+		if (!CheckUtils.checkPageInfo(rewrite_submitMemberDTO.getPageNum(), rewrite_submitMemberDTO.getPageSize()))
 			return Result.fail("分页信息错误");
-		List<Map<String, Object>> memberInfo = rewrite_LinkuserRepository.getMemberInfo(rewrite_submitMemberDTO.getUserName(), rewrite_submitMemberDTO.getRealName(),
-				rewrite_submitMemberDTO.getPageNum() * rewrite_submitMemberDTO.getPageSize(), rewrite_submitMemberDTO.getPageSize());
-		if(!CheckUtils.checkList(memberInfo))
+		List<Map<String, Object>> memberInfo = rewrite_LinkuserRepository.getMemberInfo(
+				rewrite_submitMemberDTO.getUserName(), rewrite_submitMemberDTO.getRealName(),
+				rewrite_submitMemberDTO.getPageNum() * rewrite_submitMemberDTO.getPageSize(),
+				rewrite_submitMemberDTO.getPageSize());
+		if (!CheckUtils.checkList(memberInfo))
 			return Result.suc("数据为空");
-		Integer memberInfoCount = rewrite_LinkuserRepository.getMemberInfoCount(rewrite_submitMemberDTO.getUserName(), rewrite_submitMemberDTO.getRealName());
-		return Result.suc("获取成功",memberInfo,memberInfoCount);
+		Integer memberInfoCount = rewrite_LinkuserRepository.getMemberInfoCount(rewrite_submitMemberDTO.getUserName(),
+				rewrite_submitMemberDTO.getRealName());
+		return Result.suc("获取成功", memberInfo, memberInfoCount);
 	}
 
-	//绑定支付宝或微信账号
+	// 绑定支付宝或微信账号
 	@Override
 	public Result bindALiPayOrWeChat(Rewrite_BIndAliWechat rewrite_BIndAliWechat) {
 
 		Linkuser linkuser = rewrite_LinkuserRepository.findByUserid(rewrite_BIndAliWechat.getUserid());
 
-		if(rewrite_BIndAliWechat.getAlipay() != null){
+		if (rewrite_BIndAliWechat.getAlipay() != null) {
 			linkuser.setAlipay(rewrite_BIndAliWechat.getAlipay());
 		}
-		if(rewrite_BIndAliWechat.getWechat() != null){
+		if (rewrite_BIndAliWechat.getWechat() != null) {
 			linkuser.setWechat(rewrite_BIndAliWechat.getWechat());
 		}
 
-		if(rewrite_BIndAliWechat.getAlipayName() != null){
+		if (rewrite_BIndAliWechat.getAlipayName() != null) {
 			linkuser.setAlipayname(rewrite_BIndAliWechat.getAlipayName());
 		}
 
-		if(rewrite_BIndAliWechat.getWechatName() != null){
+		if (rewrite_BIndAliWechat.getWechatName() != null) {
 			linkuser.setWechatname(rewrite_BIndAliWechat.getWechatName());
 		}
 		rewrite_LinkuserRepository.saveAndFlush(linkuser);
@@ -127,19 +142,17 @@ public class Rewrite_LinkuserServiceImpl implements Rewrite_LinkuserService {
 	@Override
 	public Result findAllUserList(int pageIndex, int pageSize) {
 
-
-
 		return null;
 	}
-	
-	//删除支付宝或微信消息
+
+	// 删除支付宝或微信消息
 	@Override
-	public Result deleteALiPayorWeChat(String userid,int type) {
+	public Result deleteALiPayorWeChat(String userid, int type) {
 		Linkuser user = rewrite_LinkuserRepository.findByUserid(userid);
-		if (type==1) {
+		if (type == 1) {
 			user.setAlipay(null);
 			user.setAlipayname(null);
-		}else if(type==2) {
+		} else if (type == 2) {
 			user.setWechat(null);
 			user.setWechatname(null);
 		}
