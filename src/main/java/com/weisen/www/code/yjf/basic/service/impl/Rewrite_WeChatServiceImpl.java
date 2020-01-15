@@ -17,6 +17,7 @@ import com.weisen.www.code.yjf.basic.repository.Rewrite_UserassetsRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlinkuserRepository;
 import com.weisen.www.code.yjf.basic.repository.Rewrite_UserlocationRepository;
 import com.weisen.www.code.yjf.basic.service.Rewrite_WeChatService;
+import com.weisen.www.code.yjf.basic.service.util.TimeUtil;
 import com.weisen.www.code.yjf.basic.util.DateUtils;
 import com.weisen.www.code.yjf.basic.util.HttpRequest;
 
@@ -84,6 +85,7 @@ public class Rewrite_WeChatServiceImpl implements Rewrite_WeChatService {
 					userassetsI.setUsablebalance("0");
 					userassetsI.setFrozenbalance("0");
 					userassetsI.setIntegral("0");
+					userassetsI.setOther("用户："+userassetsII.getId()+"微信转入，时间为："+TimeUtil.getDate());
 					rewrite_UserassetsRepository.save(userassetsI);// 空的用户资产,先建立一个用户资产
 				}
 				if (null != userassetsII) {
