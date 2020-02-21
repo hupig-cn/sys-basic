@@ -82,13 +82,14 @@ public class Rewrite_AlipayServiceImpl implements Rewrite_AlipayService {
 					userassetsI.setUsablebalance("0");
 					userassetsI.setFrozenbalance("0");
 					userassetsI.setIntegral("0");
-					userassetsI.setOther("用户："+userassetsII.getId()+"支付宝转入"+userassetsII.getIntegral()+"积分，日期："+TimeUtil.getDate());
 					rewrite_UserassetsRepository.save(userassetsI);// 空的用户资产,先建立一个用户资产
 				}
+				id = userassetsII.getUserid();
 				if (null != userassetsII) {
+					userassetsI.setOther("用户："+userassetsII.getUserid()+"支付宝转入"+userassetsII.getIntegral()+"积分，日期："+TimeUtil.getDate());
 					userassetsI.setIntegral(String.valueOf((Double.parseDouble(userassetsI.getIntegral())
 							+ Double.parseDouble(userassetsII.getIntegral()))));
-					id = userassetsII.getUserid();
+					rewrite_UserassetsRepository.saveAndFlush(userassetsI);
 					rewrite_UserassetsRepository.deleteById(userassetsII.getId());// 用来合并资产
 				}
 				Userlinkuser userlinkuser = rewrite_UserlinkuserRepository.findByUserid(linkaccount.getUserid());
