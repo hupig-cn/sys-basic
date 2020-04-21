@@ -52,6 +52,8 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 	private final Rewrite_UserbankcardRepository rewrite_UserbankcardRepository;
 
 	private final Rewrite_WithdrawaldetailsRepository rewrite_WithdrawaldetailsRepository;
+	
+	private final ActivityConRepository activityConRepository;
 
 	public Rewrite_WithdrawalServiceImpl(Rewrite_WithdrawalRepository rewrite_withdrawalRepository,
 			Rewrite_WithdrawalMapper rewrite_withdrawalMapper,
@@ -60,7 +62,8 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 			Rewrite_UserassetsRepository rewrite_UserassetsRepository,
 			Rewrite_UserbankcardRepository rewrite_UserbankcardRepository,
 			Rewrite_WithdrawaldetailsRepository rewrite_WithdrawaldetailsRepository, WithdrawalMapper withdrawalMapper,
-			Rewrite_LinkuserRepository rewrite_LinkuserRepository) {
+			Rewrite_LinkuserRepository rewrite_LinkuserRepository,
+			ActivityConRepository activityConRepository) {
 		this.rewrite_withdrawalRepository = rewrite_withdrawalRepository;
 		this.rewrite_withdrawalMapper = rewrite_withdrawalMapper;
 		this.rewrite_ReceiptpayRepository = rewrite_ReceiptpayRepository;
@@ -70,6 +73,7 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 		this.rewrite_WithdrawaldetailsRepository = rewrite_WithdrawaldetailsRepository;
 		this.withdrawalMapper = withdrawalMapper;
 		this.rewrite_LinkuserRepository = rewrite_LinkuserRepository;
+		this.activityConRepository = activityConRepository;
 	}
 
 	/**
@@ -131,8 +135,9 @@ public class Rewrite_WithdrawalServiceImpl implements Rewrite_WithdrawalService 
 		rewrite_WithdrawaldetailsRepository.save(withdrawaldetails);
 
 //        String result =
-		SendCode.issue("13794340607", "用户注册", "0000");
-
+//		SendCode.issue("13794340607", "用户注册", "0000");
+		ActivityCon config = activityConRepository.findActivityConByActivityNameAndLogicalDel("提现通知");
+		SendCode.issue(config.getCreateTime(), "用户注册", "0000");
 		return Result.suc("提交成功");
 	}
 
