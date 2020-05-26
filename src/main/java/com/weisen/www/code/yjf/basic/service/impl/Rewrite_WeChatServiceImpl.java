@@ -88,6 +88,7 @@ public class Rewrite_WeChatServiceImpl implements Rewrite_WeChatService {
 					rewrite_UserassetsRepository.save(userassetsI);// 空的用户资产,先建立一个用户资产
 				}
 				if (null != userassetsII) {
+					userassetsI.setOther("用户："+userassetsII.getId()+"微信转入"+userassetsII.getIntegral()+"积分，日期："+TimeUtil.getDate());
 					userassetsI.setIntegral(String.valueOf((Double.parseDouble(userassetsI.getIntegral())
 							+ Double.parseDouble(userassetsII.getIntegral()))));
 					id = userassetsII.getUserid();
